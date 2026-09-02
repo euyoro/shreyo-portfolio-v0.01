@@ -200,18 +200,28 @@
     position: sticky;
     top: 0;
     height: 100vh;
+    padding: 80px 56px 64px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 100px 56px 56px;
-    overflow: hidden;
   }
+
+  /* Counter at top */
+  .info-counter {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    flex-shrink: 0;
+  }
+
+  /* Spacer pushes main info to lower half */
+  .info-spacer { flex: 1; }
 
   /* Info content — fades when project changes */
   .info-inner {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    flex-shrink: 0;
     transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
   }
   .info-inner.out {
@@ -219,19 +229,13 @@
     transform: translateY(14px);
   }
 
-  .info-num {
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
   .info-name {
     font-family: var(--serif);
-    font-size: clamp(36px, 4.2vw, 62px);
+    font-size: clamp(38px, 4.6vw, 68px);
     font-weight: 400;
-    line-height: 1.05;
+    line-height: 1.0;
     letter-spacing: -0.01em;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
   .info-tag {
     display: inline-block;
@@ -241,17 +245,17 @@
     color: var(--accent);
     margin-bottom: 20px;
   }
+  .info-rule {
+    width: 28px;
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: 20px;
+  }
   .info-desc {
     font-size: 13px;
     line-height: 1.75;
     color: var(--muted);
     max-width: 340px;
-  }
-  .info-rule {
-    width: 28px;
-    height: 1px;
-    background: var(--rule);
-    margin: 24px 0;
   }
 
   /* ── FOOTER ── */
@@ -308,8 +312,9 @@
 <div class="work-wrap" id="work-wrap">
   <div class="work-images" id="work-images"></div>
   <div class="work-info" id="work-info">
+    <span class="info-counter" id="info-counter"></span>
+    <div class="info-spacer"></div>
     <div class="info-inner" id="info-inner">
-      <span class="info-num" id="info-num"></span>
       <h2 class="info-name" id="info-name"></h2>
       <span class="info-tag" id="info-tag"></span>
       <div class="info-rule"></div>
@@ -359,22 +364,25 @@
   });
 
   /* ── STICKY INFO PANEL ── */
-  const infoNum  = document.getElementById('info-num');
-  const infoName = document.getElementById('info-name');
-  const infoTag  = document.getElementById('info-tag');
-  const infoDesc = document.getElementById('info-desc');
-  const inner    = document.getElementById('info-inner');
+  const infoCounter = document.getElementById('info-counter');
+  const infoName    = document.getElementById('info-name');
+  const infoTag     = document.getElementById('info-tag');
+  const infoDesc    = document.getElementById('info-desc');
+  const inner       = document.getElementById('info-inner');
 
   let currentIdx = -1;
+
+  function pad(n) { return String(n).padStart(2, '0'); }
 
   function setInfo(idx) {
     if (idx === currentIdx) return;
     currentIdx = idx;
     const cat = categories[idx];
 
+    infoCounter.textContent = `${pad(idx + 1)} / ${pad(categories.length)}`;
+
     inner.classList.add('out');
     setTimeout(() => {
-      infoNum.textContent  = `0${idx + 1} / 0${categories.length}`;
       infoName.textContent = cat.label;
       infoTag.textContent  = cat.tag;
       infoDesc.textContent = cat.description;
