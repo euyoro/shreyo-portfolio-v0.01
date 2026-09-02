@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shreyo Debnath — Work</title>
+<meta name="description" content="Selected work by Shreyo Debnath, product designer.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap">
+<link rel="stylesheet" href="assets/fonts/hkgrotesk.css">
+
+<!-- ═══════════════════════════════════════════════════════════
+     DATA BLOCK — the only thing you ever edit.
+     Add a "hero" path per category — this is the large image shown
+     in the editorial view. Everything else stays the same as shots.html.
+     ═══════════════════════════════════════════════════════════ -->
+<script type="application/json" id="shots-data">
+{
+  "designer": {
+    "name": "Shreyo Debnath",
+    "role": "Product Designer",
+    "tagline": "I design\nproducts.\nI build\ntools.",
+    "year": "2026",
+    "links": [
+      { "label": "Portfolio", "href": "index.html",                              "external": false },
+      { "label": "LinkedIn",  "href": "https://linkedin.com/in/shreyo-debnath", "external": true  },
+      { "label": "Behance",   "href": "https://behance.net/euyoro",             "external": true  },
+      { "label": "Email",     "href": "mailto:shreyoisonline@gmail.com",         "external": false }
+    ]
+  },
+  "categories": [
+    {
+      "id": "identity-protection",
+      "label": "Identity Protection",
+      "tag": "Proposed",
+      "description": "Competitor research to a three-tier subscription line. Pitched to the exec team with pricing, go-to-market, and a full design handoff.",
+      "hero": "assets/shots/idp-sell-v2.png",
+      "items": [
+        { "type": "image", "src": "assets/shots/idp-sell-v1.png",        "alt": "Sell screen v1",  "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/idp-sell-v2.png",        "alt": "Sell screen v2",  "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/idp-sell-v3.png",        "alt": "Sell screen v3",  "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/idp-dashboard.png",      "alt": "Dashboard",       "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/idp-report.png",         "alt": "Report",          "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/idp-dispute-center.png", "alt": "Dispute centre",  "mockup": "phone" }
+      ]
+    },
+    {
+      "id": "rent-reporting",
+      "label": "Rent Reporting",
+      "tag": "Shipped",
+      "description": "End-to-end funnel design. Rent payments reported to two credit bureaus, live to customers in March.",
+      "hero": "assets/shots/rent-portal.png",
+      "items": [
+        { "type": "image", "src": "assets/shots/rent-portal.png",  "alt": "Portal",  "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/rent-board.png",   "alt": "Board",   "mockup": "phone" },
+        { "type": "image", "src": "assets/shots/rent-account.png", "alt": "Account", "mockup": "phone" }
+      ]
+    },
+    {
+      "id": "competitor-hub",
+      "label": "Competitor Hub",
+      "tag": "Built",
+      "description": "Full-stack competitive intelligence tool. Designed it, coded it, deployed it. Postgres, S3, EC2.",
+      "hero": "assets/shots/atlas-home.jpg",
+      "items": [
+        { "type": "image", "src": "assets/shots/atlas-home.jpg",        "alt": "Home",             "mockup": "desktop" },
+        { "type": "image", "src": "assets/shots/atlas-app.jpg",         "alt": "App view",         "mockup": "desktop" },
+        { "type": "video", "src": "assets/video/atlas.mp4", "poster": "assets/video/atlas-poster.jpg", "loop": true, "mockup": "desktop" }
+      ]
+    },
+    {
+      "id": "bright-blueprint",
+      "label": "Bright Blueprint",
+      "tag": "System",
+      "description": "Design system rewritten until an AI agent could build with it. Accuracy went from ~15% to ~75%.",
+      "hero": "assets/shots/blueprint-monet.png",
+      "items": [
+        { "type": "image", "src": "assets/shots/blueprint-monet.png", "alt": "Monet output", "mockup": "desktop" }
+      ]
+    },
+    {
+      "id": "sauron-naming",
+      "label": "Sauron & Bright Naming",
+      "tag": "Plugins",
+      "description": "Two Figma plugins. One names screens in bulk. The other reviews a file against the design system before a human has to.",
+      "hero": "assets/shots/sauron-ui.png",
+      "items": [
+        { "type": "image", "src": "assets/shots/sauron-ui.png", "alt": "Plugin UI",   "mockup": "desktop" },
+        { "type": "video", "src": "assets/video/sauron.mp4", "poster": "assets/video/sauron-poster.jpg", "loop": true, "mockup": "desktop" }
+      ]
+    }
+  ]
+}
+</script>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --bg:      #F6F3EF;
+    --text:    #100E0C;
+    --muted:   #9A9390;
+    --accent:  #BF2A20;
+    --rule:    rgba(16,14,12,0.1);
+    --serif:   'Cormorant Garamond', Georgia, serif;
+    --sans:    'HK Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --ease:    cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .hdr {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 22px 48px;
+    pointer-events: none;
+  }
+  .hdr > * { pointer-events: auto; }
+
+  .hdr-logo {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .hdr-logo em {
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .hdr-nav {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .hdr-nav a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .hdr-nav a:hover { color: var(--text); }
+
+  /* ── INTRO ── */
+  .intro {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 100px 48px 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .intro-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .intro-count {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .intro-bottom {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 40px;
+  }
+  .intro-tagline {
+    font-family: var(--serif);
+    font-size: clamp(56px, 8.5vw, 120px);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+  }
+  .intro-tagline em { font-style: italic; }
+  .intro-sub {
+    max-width: 260px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+    padding-bottom: 8px;
+  }
+
+  /* ── PROJECTS ── */
+  .project {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 58fr 42fr;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Image side */
+  .project-img-wrap {
+    overflow: hidden;
+    position: relative;
+    cursor: crosshair;
+  }
+  /* curtain — reveals on .revealed */
+  .project-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    transform-origin: top;
+    transform: scaleY(1);
+    transition: transform 1.1s var(--ease);
+    z-index: 1;
+  }
+  .project.revealed .project-img-wrap::after {
+    transform: scaleY(0);
+  }
+  .project-img-wrap img,
+  .project-img-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transform: scale(1.06);
+    transition: transform 1.2s var(--ease);
+  }
+  .project.revealed .project-img-wrap img,
+  .project.revealed .project-img-wrap video {
+    transform: scale(1);
+  }
+  .project-img-wrap:hover img,
+  .project-img-wrap:hover video {
+    transform: scale(1.03);
+    transition: transform 6s linear;
+  }
+
+  /* Info side */
+  .project-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 56px 56px;
+    border-left: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .project-num {
+    position: absolute;
+    top: 28px; left: 56px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s 0.1s, transform 0.5s 0.1s;
+  }
+  .project.revealed .project-num { opacity: 1; transform: translateY(0); }
+
+  .project-name {
+    font-family: var(--serif);
+    font-size: clamp(38px, 4.8vw, 68px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 18px;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.65s 0.3s, transform 0.65s 0.3s;
+  }
+  .project.revealed .project-name { opacity: 1; transform: translateY(0); }
+
+  .project-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 22px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s 0.5s, transform 0.5s 0.5s;
+  }
+  .project.revealed .project-tag { opacity: 1; transform: translateY(0); }
+
+  .project-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 380px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s 0.65s, transform 0.5s 0.65s;
+  }
+  .project.revealed .project-desc { opacity: 1; transform: translateY(0); }
+
+  .project-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--rule);
+    margin: 28px 0;
+    opacity: 0;
+    transition: opacity 0.4s 0.75s;
+  }
+  .project.revealed .project-rule { opacity: 1; }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 44px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-links {
+    display: flex;
+    gap: 32px;
+  }
+  .footer-links a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy {
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .hdr { padding: 18px 24px; }
+    .intro { padding: 90px 24px 44px; }
+    .project { grid-template-columns: 1fr; }
+    .project-img-wrap { min-height: 60vw; }
+    .project-info { padding: 32px 24px 44px; border-left: none; border-top: 1px solid var(--rule); }
+    .project-num { left: 24px; }
+    .footer { padding: 32px 24px; }
+  }
+  @media (max-width: 540px) {
+    .hdr-nav { gap: 20px; }
+    .intro-bottom { flex-direction: column; align-items: flex-start; }
+    .intro-tagline { font-size: 48px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-img-wrap::after,
+    .project-img-wrap img,
+    .project-img-wrap video,
+    .project-num, .project-name,
+    .project-tag, .project-desc,
+    .project-rule { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hdr" id="hdr"></header>
+<section class="intro" id="intro"></section>
+<main id="work"></main>
+<footer class="footer" id="footer"></footer>
+
+<script>
+(function () {
+  const data = JSON.parse(document.getElementById('shots-data').textContent);
+  const { designer, categories } = data;
+
+  /* ── HEADER ── */
+  const hdr = document.getElementById('hdr');
+  hdr.innerHTML = `
+    <a class="hdr-logo" href="index.html">Shreyo <em>Debnath</em></a>
+    <ul class="hdr-nav">
+      ${designer.links.map(l =>
+        `<li><a href="${l.href}"${l.external ? ' target="_blank" rel="noopener"' : ''}>${l.label}</a></li>`
+      ).join('')}
+    </ul>`;
+
+  /* ── INTRO ── */
+  const intro = document.getElementById('intro');
+  intro.innerHTML = `
+    <div class="intro-top">
+      <span class="intro-count">(${categories.length.toString().padStart(2,'0')}) Selected Works</span>
+    </div>
+    <div class="intro-bottom">
+      <h1 class="intro-tagline">I design<br><em>products.</em><br>I build<br><em>tools.</em></h1>
+      <p class="intro-sub">Product designer with a bias for shipping. I work end-to-end&nbsp;— from research to deployed product.</p>
+    </div>`;
+
+  /* ── PROJECTS ── */
+  const work = document.getElementById('work');
+
+  categories.forEach((cat, i) => {
+    const sec = document.createElement('section');
+    sec.className = 'project';
+    sec.dataset.id = cat.id;
+
+    const heroSrc  = cat.hero || cat.items[0]?.src || '';
+    const heroType = cat.items.find(it => it.src === heroSrc)?.type || 'image';
+
+    const mediaHTML = heroType === 'video'
+      ? `<video src="${heroSrc}" autoplay muted loop playsinline></video>`
+      : `<img src="${heroSrc}" alt="${cat.label}">`;
+
+    sec.innerHTML = `
+      <div class="project-img-wrap">${mediaHTML}</div>
+      <div class="project-info">
+        <span class="project-num">0${i + 1}</span>
+        <h2 class="project-name">${cat.label}</h2>
+        <span class="project-tag">${cat.tag}</span>
+        <p class="project-desc">${cat.description}</p>
+        <div class="project-rule"></div>
+      </div>`;
+
+    work.appendChild(sec);
+  });
+
+  /* ── FOOTER ── */
+  const footer = document.getElementById('footer');
+  footer.innerHTML = `
+    <div class="footer-links">
+      ${designer.links.map(l =>
+        `<a href="${l.href}"${l.external ? ' target="_blank" rel="noopener"' : ''}>${l.label}</a>`
+      ).join('')}
+    </div>
+    <span class="footer-copy">SD©${new Date().getFullYear()}</span>`;
+
+  /* ── REVEAL OBSERVER ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('revealed');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.project').forEach(s => obs.observe(s));
+
+})();
+</script>
+</body>
+</html>
