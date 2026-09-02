@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shreyo Debnath — Shots</title>
+<meta name="description" content="Selected work by Shreyo Debnath, product designer.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/hkgrotesk.css">
+<script>try{var t=localStorage.getItem('theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DATA BLOCK — edit this to update the page.
+     To add work: drop image into assets/shots/, add an entry here, push.
+     ═══════════════════════════════════════════════════════════ -->
+<script type="application/json" id="shots-data">
+{
+  "designer": {
+    "name": "Shreyo Debnath",
+    "role": "Product Designer",
+    "tagline": "I design products.\nI build tools.",
+    "links": [
+      { "label": "Portfolio", "href": "index.html", "external": false },
+      { "label": "LinkedIn",  "href": "https://linkedin.com/in/shreyo-debnath", "external": true },
+      { "label": "Behance",   "href": "https://behance.net/euyoro", "external": true },
+      { "label": "Email",     "href": "mailto:shreyoisonline@gmail.com", "external": false }
+    ]
+  },
+  "categories": [
+    {
+      "id": "identity-protection",
+      "label": "Identity Protection",
+      "tag": "Proposed",
+      "description": "Competitor research to a three-tier subscription line. Pitched to the exec team with pricing, go-to-market, and a full design handoff.",
+      "columns": 3,
+      "items": [
+        { "type": "image", "src": "assets/shots/idp-sell-v1.png",       "alt": "Sell screen v1" },
+        { "type": "image", "src": "assets/shots/idp-sell-v2.png",       "alt": "Sell screen v2" },
+        { "type": "image", "src": "assets/shots/idp-sell-v3.png",       "alt": "Sell screen v3" },
+        { "type": "image", "src": "assets/shots/idp-walk-1.png",        "alt": "Onboarding 1" },
+        { "type": "image", "src": "assets/shots/idp-walk-2.png",        "alt": "Onboarding 2" },
+        { "type": "image", "src": "assets/shots/idp-walk-3.png",        "alt": "Onboarding 3" },
+        { "type": "image", "src": "assets/shots/idp-dashboard.png",     "alt": "Dashboard" },
+        { "type": "image", "src": "assets/shots/idp-report.png",        "alt": "Report" },
+        { "type": "image", "src": "assets/shots/idp-flow.png",          "alt": "Flow" },
+        { "type": "image", "src": "assets/shots/idp-dispute-center.png","alt": "Dispute centre" },
+        { "type": "image", "src": "assets/shots/idp-dispute-detail.png","alt": "Dispute detail" },
+        { "type": "image", "src": "assets/shots/idp-dispute-explain.png","alt": "Dispute explain" },
+        { "type": "image", "src": "assets/shots/idp-faq.png",           "alt": "FAQ" }
+      ]
+    },
+    {
+      "id": "rent-reporting",
+      "label": "Rent Reporting",
+      "tag": "Shipped",
+      "description": "End-to-end funnel design. Rent payments reported to two credit bureaus, live to customers in March.",
+      "columns": 2,
+      "items": [
+        { "type": "image", "src": "assets/shots/rent-portal.png",  "alt": "Portal" },
+        { "type": "image", "src": "assets/shots/rent-board.png",   "alt": "Board" },
+        { "type": "image", "src": "assets/shots/rent-verify.png",  "alt": "Verify" },
+        { "type": "image", "src": "assets/shots/rent-account.png", "alt": "Account" },
+        { "type": "image", "src": "assets/shots/rent-confirm.png", "alt": "Confirm" }
+      ]
+    },
+    {
+      "id": "competitor-hub",
+      "label": "Competitor Hub",
+      "tag": "Built",
+      "description": "Full-stack competitive intelligence tool. Designed it, coded it, deployed it. Postgres, S3, EC2.",
+      "columns": 2,
+      "items": [
+        { "type": "image", "src": "assets/shots/atlas-home.jpg",        "alt": "Home" },
+        { "type": "image", "src": "assets/shots/atlas-app.jpg",         "alt": "App view" },
+        { "type": "image", "src": "assets/shots/atlas-inspiration.jpg", "alt": "Inspiration view" },
+        { "type": "video", "src": "assets/video/atlas.mp4", "poster": "assets/video/atlas-poster.jpg", "loop": true, "alt": "Demo" }
+      ]
+    },
+    {
+      "id": "bright-blueprint",
+      "label": "Bright Blueprint",
+      "tag": "System",
+      "description": "Design system rewritten until an AI agent could build with it. Accuracy went from ~15% to ~75%.",
+      "columns": 2,
+      "items": [
+        { "type": "image", "src": "assets/shots/blueprint-monet.png", "alt": "Monet output" }
+      ]
+    },
+    {
+      "id": "sauron-naming",
+      "label": "Sauron & Bright Naming",
+      "tag": "Plugins",
+      "description": "Two Figma plugins. One names screens in bulk. The other reviews a file against the design system before a human has to.",
+      "columns": 2,
+      "items": [
+        { "type": "image", "src": "assets/shots/sauron-ui.png", "alt": "Plugin UI" },
+        { "type": "video", "src": "assets/video/sauron.mp4", "poster": "assets/video/sauron-poster.jpg", "loop": true, "alt": "Plugin demo" }
+      ]
+    }
+  ]
+}
+</script>
+<!-- ═══════════════════════════════════════════════════════════ -->
+
+<style>
+  /* ── TOKENS ── */
+  :root {
+    --bg:      #080810;
+    --text:    #e4e4f0;
+    --muted:   #42425a;
+    --subtle:  #1c1c2e;
+    --accent:  #F53640;
+    --rule:    rgba(255,255,255,0.06);
+    --panel-w: 260px;
+    --trans:   0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg:     #F5F5FA;
+      --text:   #0e0e1a;
+      --muted:  #9898b4;
+      --subtle: #EAEAF2;
+      --accent: #C81019;
+      --rule:   rgba(0,0,0,0.07);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg:     #F5F5FA;
+    --text:   #0e0e1a;
+    --muted:  #9898b4;
+    --subtle: #EAEAF2;
+    --accent: #C81019;
+    --rule:   rgba(0,0,0,0.07);
+  }
+  :root[data-theme="dark"] {
+    --bg:     #080810;
+    --text:   #e4e4f0;
+    --muted:  #42425a;
+    --subtle: #1c1c2e;
+    --accent: #F53640;
+    --rule:   rgba(255,255,255,0.06);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  /* ── LEFT PANEL ── */
+  .panel {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--panel-w);
+    height: 100vh;
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    padding: 44px 36px;
+    z-index: 20;
+    background: var(--bg);
+  }
+
+  .p-top { flex: 1; }
+
+  .p-name {
+    font-family: 'HK Grotesk', -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+
+  .p-role {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  /* Adaptive block — transitions when category changes */
+  .p-adaptive {
+    position: relative;
+    min-height: 80px;
+  }
+
+  .p-state {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity var(--trans), transform var(--trans);
+    pointer-events: none;
+  }
+
+  .p-state.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .p-cat-label {
+    font-family: 'HK Grotesk', -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .p-tag {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-family: 'SF Mono', 'Consolas', monospace;
+  }
+
+  .p-desc {
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  /* Tagline shown when no category is active */
+  .p-tagline {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+    white-space: pre-line;
+  }
+
+  .p-bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .p-link {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .p-link::after { content: '↗'; opacity: 0.4; font-size: 10px; }
+  .p-link:hover  { color: var(--accent); }
+  .p-link:hover::after { opacity: 1; }
+
+  .theme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted);
+    padding: 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    transition: color 0.15s;
+  }
+  .theme-btn:hover { color: var(--text); }
+  .theme-btn svg { width: 11px; height: 11px; opacity: 0.5; }
+
+  /* sun/moon visibility */
+  [data-theme="dark"]  .i-sun { display: block; }
+  [data-theme="dark"]  .i-moon { display: none; }
+  [data-theme="light"] .i-sun { display: none; }
+  [data-theme="light"] .i-moon { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .i-sun  { display: block; }
+    :root:not([data-theme]) .i-moon { display: none; }
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .i-sun  { display: none; }
+    :root:not([data-theme]) .i-moon { display: block; }
+  }
+
+  /* ── RIGHT SCROLL AREA ── */
+  .shots {
+    margin-left: var(--panel-w);
+    flex: 1;
+    padding: 44px 28px 100px;
+    min-width: 0;
+  }
+
+  /* ── CATEGORY SECTION ── */
+  .cat {
+    margin-bottom: 64px;
+  }
+
+  .cat-rule {
+    height: 1px;
+    background: var(--rule);
+    margin-bottom: 16px;
+  }
+
+  /* ── IMAGE GRID (CSS masonry via columns) ── */
+  .grid {
+    columns: 2;
+    column-gap: 8px;
+  }
+  .grid.col-3 { columns: 3; }
+
+  .grid-item {
+    break-inside: avoid;
+    margin-bottom: 8px;
+    display: block;
+    width: 100%;
+  }
+
+  .grid-item img,
+  .grid-item video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .grid-item video { background: var(--subtle); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    :root { --panel-w: 0px; }
+
+    .panel {
+      position: static;
+      width: 100%;
+      height: auto;
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 28px 24px;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .p-top { margin-bottom: 0; flex: none; }
+    .p-adaptive { display: none; }
+    .p-bottom {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 14px 20px;
+      border-top: none;
+      padding-top: 0;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    .shots { margin-left: 0; padding: 24px 16px 60px; }
+    .grid.col-3 { columns: 2; }
+  }
+
+  @media (max-width: 520px) {
+    .grid, .grid.col-3 { columns: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .p-state { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="panel" id="panel"><!-- built by JS --></aside>
+<main class="shots" id="shots"><!-- built by JS --></main>
+
+<script>
+(function () {
+  const raw  = document.getElementById('shots-data').textContent;
+  const data = JSON.parse(raw);
+  const { designer, categories } = data;
+
+  /* ── BUILD LEFT PANEL ── */
+  const panel = document.getElementById('panel');
+
+  // Top: name + role
+  const top = document.createElement('div');
+  top.className = 'p-top';
+  top.innerHTML = `
+    <div class="p-name">${designer.name}</div>
+    <div class="p-role">${designer.role}</div>
+    <div class="p-adaptive" id="adaptive">
+      <div class="p-state active" data-id="__intro">
+        <p class="p-tagline">${designer.tagline}</p>
+      </div>
+      ${categories.map(c => `
+        <div class="p-state" data-id="${c.id}">
+          <div class="p-cat-label">
+            ${c.label}
+            <span class="p-tag">${c.tag}</span>
+          </div>
+          <p class="p-desc">${c.description}</p>
+        </div>
+      `).join('')}
+    </div>
+  `;
+  panel.appendChild(top);
+
+  // Bottom: links + theme
+  const bottom = document.createElement('div');
+  bottom.className = 'p-bottom';
+  designer.links.forEach(l => {
+    const a = document.createElement('a');
+    a.className = 'p-link';
+    a.textContent = l.label;
+    a.href = l.href;
+    if (l.external) { a.target = '_blank'; a.rel = 'noopener'; }
+    bottom.appendChild(a);
+  });
+
+  const themeBtn = document.createElement('button');
+  themeBtn.className = 'theme-btn';
+  themeBtn.type = 'button';
+  themeBtn.setAttribute('aria-label', 'Toggle theme');
+  themeBtn.innerHTML = `
+    <span>Theme</span>
+    <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+  `;
+  themeBtn.addEventListener('click', () => {
+    const cur  = document.documentElement.getAttribute('data-theme');
+    const dark = cur === 'dark' || (!cur && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    const next = dark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e) {}
+  });
+  bottom.appendChild(themeBtn);
+  panel.appendChild(bottom);
+
+  /* ── BUILD RIGHT GRID ── */
+  const shots = document.getElementById('shots');
+  categories.forEach(cat => {
+    const sec = document.createElement('section');
+    sec.className = 'cat';
+    sec.dataset.id = cat.id;
+
+    const rule = document.createElement('div');
+    rule.className = 'cat-rule';
+    sec.appendChild(rule);
+
+    const grid = document.createElement('div');
+    grid.className = cat.columns === 3 ? 'grid col-3' : 'grid';
+
+    cat.items.forEach(item => {
+      const cell = document.createElement('div');
+      cell.className = 'grid-item';
+
+      if (item.type === 'video') {
+        const v = document.createElement('video');
+        v.src    = item.src;
+        v.poster = item.poster || '';
+        v.setAttribute('aria-label', item.alt || '');
+        v.muted    = true;
+        v.playsInline = true;
+        if (item.loop) v.loop = true;
+        // autoplay via IntersectionObserver (respects reduced-motion)
+        v.dataset.autoplay = '1';
+        v.setAttribute('controls', '');
+        cell.appendChild(v);
+      } else {
+        const img  = document.createElement('img');
+        img.src    = item.src;
+        img.alt    = item.alt || '';
+        img.loading = 'lazy';
+        cell.appendChild(img);
+      }
+
+      grid.appendChild(cell);
+    });
+
+    sec.appendChild(grid);
+    shots.appendChild(sec);
+  });
+
+  /* ── ADAPTIVE LEFT PANEL: IntersectionObserver ── */
+  const states  = document.querySelectorAll('.p-state');
+  const sections = document.querySelectorAll('.cat[data-id]');
+
+  function setActive(id) {
+    states.forEach(s => {
+      s.classList.toggle('active', s.dataset.id === id);
+    });
+  }
+
+  // Show intro state when above all sections
+  const introObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) setActive('__intro');
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -90% 0px' });
+
+  // A tiny sentinel at the very top of the shots area
+  const sentinel = document.createElement('div');
+  sentinel.style.cssText = 'height:1px;width:1px;position:absolute;top:0;left:0;pointer-events:none;';
+  shots.prepend(sentinel);
+  introObs.observe(sentinel);
+
+  const catObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) setActive(e.target.dataset.id);
+    });
+  }, {
+    threshold: 0,
+    rootMargin: '-20% 0px -60% 0px'
+  });
+
+  sections.forEach(s => catObs.observe(s));
+
+  /* ── VIDEO AUTOPLAY via IntersectionObserver ── */
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const videoObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const v = e.target;
+      if (reducedMotion) {
+        v.removeAttribute('autoplay');
+        return;
+      }
+      v.removeAttribute('controls');
+      if (e.isIntersecting) {
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('video[data-autoplay]').forEach(v => videoObs.observe(v));
+})();
+</script>
+</body>
+</html>
