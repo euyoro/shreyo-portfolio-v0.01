@@ -72,10 +72,10 @@
       "description": "Full-stack competitive intelligence tool. Designed it, coded it, deployed it. Postgres, S3, EC2.",
       "columns": 2,
       "items": [
-        { "type": "image", "src": "assets/shots/atlas-home.jpg",        "alt": "Home" },
-        { "type": "image", "src": "assets/shots/atlas-app.jpg",         "alt": "App view" },
-        { "type": "image", "src": "assets/shots/atlas-inspiration.jpg", "alt": "Inspiration view" },
-        { "type": "video", "src": "assets/video/atlas.mp4", "poster": "assets/video/atlas-poster.jpg", "loop": true, "alt": "Demo" }
+        { "type": "image", "src": "assets/shots/atlas-home.jpg",        "alt": "Home",             "mockup": "desktop" },
+        { "type": "image", "src": "assets/shots/atlas-app.jpg",         "alt": "App view",         "mockup": "desktop" },
+        { "type": "image", "src": "assets/shots/atlas-inspiration.jpg", "alt": "Inspiration view", "mockup": "desktop" },
+        { "type": "video", "src": "assets/video/atlas.mp4", "poster": "assets/video/atlas-poster.jpg", "loop": true, "alt": "Demo", "mockup": "desktop" }
       ]
     },
     {
@@ -85,7 +85,7 @@
       "description": "Design system rewritten until an AI agent could build with it. Accuracy went from ~15% to ~75%.",
       "columns": 2,
       "items": [
-        { "type": "image", "src": "assets/shots/blueprint-monet.png", "alt": "Monet output" }
+        { "type": "image", "src": "assets/shots/blueprint-monet.png", "alt": "Monet output", "mockup": "desktop" }
       ]
     },
     {
@@ -95,8 +95,8 @@
       "description": "Two Figma plugins. One names screens in bulk. The other reviews a file against the design system before a human has to.",
       "columns": 2,
       "items": [
-        { "type": "image", "src": "assets/shots/sauron-ui.png", "alt": "Plugin UI" },
-        { "type": "video", "src": "assets/video/sauron.mp4", "poster": "assets/video/sauron-poster.jpg", "loop": true, "alt": "Plugin demo" }
+        { "type": "image", "src": "assets/shots/sauron-ui.png", "alt": "Plugin UI",   "mockup": "desktop" },
+        { "type": "video", "src": "assets/video/sauron.mp4", "poster": "assets/video/sauron-poster.jpg", "loop": true, "alt": "Plugin demo", "mockup": "desktop" }
       ]
     }
   ]
@@ -346,26 +346,81 @@
   /* ── PHONE MOCKUP ── */
   .mockup-phone {
     background: var(--frame-bg);
-    border-radius: 36px;
-    border: 6px solid var(--frame-border);
-    padding: 14px 7px 10px;
+    border-radius: 44px;
+    border: 8px solid var(--frame-border);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(255,255,255,0.04);
+    padding: 52px 10px 22px;
     position: relative;
+    max-width: 210px;
+    width: 100%;
+    margin: 0 auto;
   }
-  /* dynamic island pill */
+  /* dynamic island */
   .mockup-phone::before {
     content: '';
-    display: block;
-    width: 52px;
-    height: 7px;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 86px;
+    height: 26px;
     background: var(--frame-island);
-    border-radius: 4px;
-    margin: 0 auto 10px;
-    opacity: 0.7;
+    border-radius: 14px;
+  }
+  /* home indicator */
+  .mockup-phone::after {
+    content: '';
+    display: block;
+    width: 72px;
+    height: 4px;
+    background: var(--frame-border);
+    border-radius: 2px;
+    margin: 10px auto 0;
+    opacity: 0.55;
   }
   .mockup-phone img {
-    border-radius: 20px;
+    border-radius: 14px;
     width: 100%;
     display: block;
+  }
+
+  /* ── DESKTOP MOCKUP ── */
+  .mockup-desktop {
+    background: var(--frame-bg);
+    border-radius: 10px;
+    border: 1.5px solid var(--frame-border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+  .mockup-desktop-bar {
+    display: flex;
+    align-items: center;
+    padding: 9px 12px;
+    gap: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mockup-desktop-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .mockup-desktop-dot:nth-child(1) { background: #FF5F57; }
+  .mockup-desktop-dot:nth-child(2) { background: #FFBD2E; }
+  .mockup-desktop-dot:nth-child(3) { background: #28C840; }
+  .mockup-desktop-url {
+    flex: 1;
+    height: 18px;
+    background: var(--subtle);
+    border-radius: 4px;
+    margin-left: 8px;
+    opacity: 0.6;
+  }
+  .mockup-desktop img,
+  .mockup-desktop video {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   /* ── RESPONSIVE ── */
@@ -497,6 +552,24 @@
       const cell = document.createElement('div');
       cell.className = 'grid-item';
 
+      function makeDesktopFrame(inner) {
+        const wrap = document.createElement('div');
+        wrap.className = 'mockup-desktop';
+        const bar = document.createElement('div');
+        bar.className = 'mockup-desktop-bar';
+        [0,1,2].forEach(() => {
+          const d = document.createElement('div');
+          d.className = 'mockup-desktop-dot';
+          bar.appendChild(d);
+        });
+        const url = document.createElement('div');
+        url.className = 'mockup-desktop-url';
+        bar.appendChild(url);
+        wrap.appendChild(bar);
+        wrap.appendChild(inner);
+        return wrap;
+      }
+
       if (item.type === 'video') {
         const v = document.createElement('video');
         v.src = item.src;
@@ -507,7 +580,11 @@
         if (item.loop) v.loop = true;
         v.dataset.autoplay = '1';
         v.setAttribute('controls', '');
-        cell.appendChild(v);
+        if (item.mockup === 'desktop') {
+          cell.appendChild(makeDesktopFrame(v));
+        } else {
+          cell.appendChild(v);
+        }
       } else {
         const img = document.createElement('img');
         img.src = item.src;
@@ -519,6 +596,8 @@
           frame.className = 'mockup-phone';
           frame.appendChild(img);
           cell.appendChild(frame);
+        } else if (item.mockup === 'desktop') {
+          cell.appendChild(makeDesktopFrame(img));
         } else {
           cell.appendChild(img);
         }
