@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rent Reporting, Shreyo Debnath</title>
+<meta name="description" content="Bright's rent reporting funnel, rebuilt for two credit bureaus. Owned from flow mapping through visual QA and release sign-off.">
+<meta property="og:title" content="Rent Reporting, Shreyo Debnath">
+<meta property="og:description" content="Bright's rent reporting funnel, rebuilt for two credit bureaus. Owned from flow mapping through visual QA and release sign-off.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Shreyo Debnath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rent Reporting, Shreyo Debnath">
+<meta name="twitter:description" content="Bright's rent reporting funnel, rebuilt for two credit bureaus. Owned from flow mapping through visual QA and release sign-off.">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Shreyo Debnath, Product Designer. I design financial products. I also build them.">
+<meta name="twitter:image" content="assets/og.png">
+<meta name="theme-color" content="#080810" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F5F5FA" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/hkgrotesk.css">
+<link rel="stylesheet" href="assets/styles.css">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <a class="nav-back" href="index.html">Index</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:shreyoisonline@gmail.com">Email</a></li>
+      <li><a href="https://linkedin.com/in/shreyo-debnath" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <button class="theme-btn" type="button" aria-label="Toggle colour theme">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <header class="header">
+    <span class="h-eyebrow">Case Study / 2026</span>
+    <h1 class="h-title">Rent reporting for two bureaus, and the three weeks it took to agree what to build.</h1>
+    <p class="h-lede">Bright's rent reporting funnel, rebuilt to carry a second credit bureau. I owned the flow, the edge cases, the disclosures, the visual QA and the release sign-off. I wrote the post-mortem in December, the week design closed and three months before the thing shipped.</p>
+  </header>
+
+  <div class="meta">
+    <div class="meta-cell">
+      <div class="meta-k">Role</div>
+      <div class="meta-v">Design owner, kickoff to sign-off</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Timeline</div>
+      <div class="meta-v">Dec 2025 to Mar 2026</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Surface</div>
+      <div class="meta-v">Bright app, iOS and Android</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Shipped</div>
+      <div class="meta-v">11 Mar 2026, phased from 5%</div>
+    </div>
+  </div>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">01</span> / The product</span>
+    <h2 class="s-h">The biggest payment most people make counts for nothing on their credit file.</h2>
+    <div class="read">
+      <p class="body-p">Rent is the largest recurring cheque in most household budgets, and unless somebody reports it to a credit bureau it does nothing for the payer's credit history. Bright's rent reporting funnel exists to close that gap: find the rent payment inside a user's linked transactions, get it confirmed, and report it.</p>
+      <p class="body-p">V3 is the version I owned. The job was to take a flow built for one bureau, TransUnion, and make it carry <em>two</em>, with a second bureau added alongside. Two bureaus that want different fields and report on different logic, behind one funnel that has to stay simple enough for someone to finish in a sitting.</p>
+    </div>
+
+    <figure class="figure">
+      <img src="assets/shots/rent-board.png" width="1600" height="1354" alt="A Figma board titled Opted In, Application to Start, showing the full rent reporting funnel wired together with branches and annotations." loading="eager" decoding="async">
+      <figcaption class="figure-cap"><strong>The whole funnel on one board.</strong> Opt-in through account verification, portal selection, disclosures and confirmation, with the edge-case branches hanging off the side: abandoned mid-flow, second-bureau error, opted in during onboarding versus after it. Mapping it flat like this is the thing I argue in the retro below should have happened before a single screen was drawn.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">02</span> / The retro</span>
+    <h2 class="s-h">Three weeks of work. Done properly, four to six days.</h2>
+    <div class="read">
+      <p class="body-p">On 23 December I sent my design lead a post-mortem nobody had asked for. The funnel had gone back to the drawing board repeatedly and I wanted the reasons written down while they were still fresh.</p>
+      <p class="body-p">Six things had changed underneath the design after they were settled. Four of them:</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div>
+          <div class="step-h">A scoping answer that reversed</div>
+          <p class="step-p">The first conversation established that no password or username would be required. That turned out not to be true, after the flow had been built around it.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Bureau transition logic aligned three times</div>
+          <p class="step-p">Agreed on three occasions with three different logics, each implying different required fields. The edge cases were never flow-mapped, so every round was rediscovery.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Settled options, unsettled</div>
+          <p class="step-p">Whether to offer "Other", "I don't have a portal" or a skip was aligned, then reverted to an older version in a late review. That bandwidth was written off.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Banners designed against input too thin to use</div>
+          <p class="step-p">The requirements were not usable as given. I designed against them anyway instead of stopping to ask for better ones, and they were removed. That one is mine.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull">If it had been clearly flow mapped, with all edge cases and backend logic written in the PRD beforehand and copy discussed prior, the project would have taken not more than four to six days.
+      <span class="attrib">From the retro I sent design leadership / 23 Dec 2025</span>
+    </div>
+
+    <p class="body-p read">Not all three weeks are product's to answer for. My own leave was among the blockers, and the flow map that would have caught most of the six was a design deliverable nobody but me was going to produce. I wrote the retro so I could <u>understand when and how to push back on product's decisions</u>. Knowing which conversations were worth stopping for is the part I kept.</p>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">03</span> / The flow</span>
+    <h2 class="s-h">Find the payment, confirm it, report it.</h2>
+    <div class="read">
+      <p class="body-p">The funnel has to do something slightly awkward: work out which of a user's transactions is rent, and then get them to vouch for it. Everything else is in service of that. Pick the account rent goes out from, wait while transactions are pulled, confirm the right payment, name the portal if there is one.</p>
+    </div>
+
+    <div class="screens">
+      <figure>
+        <img src="assets/shots/rent-account.png" width="375" height="812" alt="Screen asking the user to select the account they pay rent from, listing checking accounts and credit cards." loading="lazy" decoding="async">
+        <figcaption class="screen-cap">01 / select source account</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/shots/rent-verify.png" width="375" height="812" alt="A staged loading screen showing verifying your account, fetching transactions, finding your rent payment, wrapping everything up." loading="lazy" decoding="async">
+        <figcaption class="screen-cap">02 / staged verification</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/shots/rent-confirm.png" width="375" height="812" alt="Confirm Rent Payments screen listing recent transactions with selection controls and an I dont recognise this payment link." loading="lazy" decoding="async">
+        <figcaption class="screen-cap">03 / confirm the payment</figcaption>
+      </figure>
+      <figure>
+        <img src="assets/shots/rent-portal.png" width="375" height="812" alt="Select your Rent portal sheet, offering Rent Cafe or Others with an optional free text field for the portal name." loading="lazy" decoding="async">
+        <figcaption class="screen-cap">04 / portal, incl. "Others"</figcaption>
+      </figure>
+    </div>
+    <p class="figure-cap"><strong>Two screens carry the arguments.</strong> The staged loader in 02 sets an expectation across four steps instead of showing one indeterminate spinner. The "Others" option with a free-text portal name in 04 is the decision from the retro above: aligned, reverted, reinstated.</p>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">04</span> / Sign-off</span>
+    <h2 class="s-h">Forty issues on the last day, and the argument that followed.</h2>
+    <div class="read">
+      <p class="body-p">Design visual QA ran on release day and logged forty issues into Figma, which drew a fair question from the senior stakeholder: why is this happening on the last day? The honest answer is that design received the built screens at around one that afternoon.</p>
+      <p class="body-p">I signed off the next morning with three issues explicitly unresolved and accepted rather than quietly dropped: a missing back button on two screens, a static loader standing in for the Lottie version, and a missing gradient shadow on a scrolled modal. Writing down what you are shipping broken is the part of a sign-off that actually costs something.</p>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n">40</div>
+        <div class="stat-k">Design VQA issues logged, one pass</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">7 of 9</div>
+        <div class="stat-k">QA issues closed at sign-off</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">3</div>
+        <div class="stat-k">Known issues accepted on the record</div>
+      </div>
+    </div>
+
+    <p class="body-p read">One open item was agreed as a non-blocker: opting into rent from the dashboard and then searching "Rent" in the AI tab re-surfaced the entry screen and looped the user. Product signed off alongside, with the rollout plan stated plainly — five percent for the first few days, then scale.</p>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">05</span> / After release</span>
+    <h2 class="s-h">It reached fifteen percent, and stayed there.</h2>
+    <div class="read">
+      <p class="body-p">The split moved from five percent at launch to fifteen percent by 26 March. When I checked again on 25 June it was still fifteen percent, with the old flow carrying the other eighty-five. Whether that is deliberate caution or a stalled rollout is a question I am still asking, and I would rather write that here than round it up into an impact number.</p>
+      <p class="body-p muted">I do not have conversion or credit-outcome numbers for this funnel. The design team is not routinely given them, which is itself one of the blockers I have raised internally.</p>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">06</span> / What I took away</span>
+    <h2 class="s-h">Flow mapping is not a deliverable, it is the argument.</h2>
+    <div class="read">
+      <p class="body-p">Every one of the six delays came from the same root: a decision that felt settled in conversation but was never written down against a branch of the flow. A mapped flow with the edge cases on it is not a nicer version of a screen list. It is the artefact that makes people notice they disagree, early, when disagreeing is cheap.</p>
+      <p class="body-p">The second thing is about ownership. I did the visual QA, held the sign-off, logged the three defects I was accepting, and then tracked the thing for four months afterwards. None of that is drawing screens, and all of it is the job.</p>
+    </div>
+  </section>
+
+  <a class="nextup" href="work-identity-protection.html">
+    <div class="nextup-l">
+      <span class="s-eyebrow bracket">Next case study</span>
+      <div class="nextup-title">Identity Protection</div>
+    </div>
+    <div class="nextup-arrow">↗</div>
+  </a>
+
+</main>
+
+<footer>
+  <div class="f-mark">Shreyo</div>
+  <div class="f-links">
+    <a href="index.html">Index</a>
+    <a href="about.html">About</a>
+    <a href="https://behance.net/euyoro" target="_blank" rel="noopener">Behance</a>
+    <a href="mailto:shreyoisonline@gmail.com">Email</a>
+    <div class="f-sig">{ শ্রেয়ো দেবনাথ }</div>
+    <div class="f-copy">2026 Shreyo Debnath</div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

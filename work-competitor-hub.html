@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Competitor Hub, Shreyo Debnath</title>
+<meta name="description" content="How I designed, coded, and shipped a full-stack competitive intelligence tool to production at Bright Money.">
+<meta property="og:title" content="Competitor Hub, Shreyo Debnath">
+<meta property="og:description" content="How I designed, coded, and shipped a full-stack competitive intelligence tool to production at Bright Money.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Shreyo Debnath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Competitor Hub, Shreyo Debnath">
+<meta name="twitter:description" content="How I designed, coded, and shipped a full-stack competitive intelligence tool to production at Bright Money.">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Shreyo Debnath, Product Designer. I design financial products. I also build them.">
+<meta name="twitter:image" content="assets/og.png">
+<meta name="theme-color" content="#080810" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F5F5FA" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/hkgrotesk.css">
+<link rel="stylesheet" href="assets/styles.css">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <a class="nav-back" href="index.html">Index</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:shreyoisonline@gmail.com">Email</a></li>
+      <li><a href="https://linkedin.com/in/shreyo-debnath" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <button class="theme-btn" type="button" aria-label="Toggle colour theme">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <header class="header">
+    <span class="h-eyebrow">Case Study / 2026</span>
+    <h1 class="h-title">Competitor Hub: the tool I designed, then decided to build.</h1>
+    <p class="h-lede">A full-stack competitive intelligence platform for Bright Money. Screens from every rival fintech, indexed by flow, pattern and screen type, on real infrastructure three days after I opened the repo.</p>
+  </header>
+
+  <div class="meta">
+    <div class="meta-cell">
+      <div class="meta-k">Role</div>
+      <div class="meta-v">Design and build, end to end</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Timeline</div>
+      <div class="meta-v">June 2026, deployed on day three</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Stack</div>
+      <div class="meta-v">Next.js, Express, Postgres (RDS), S3, EC2</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Deployed</div>
+      <div class="meta-v">Internal subdomain, Bright network<br><span class="meta-note">Not publicly reachable — happy to walk through it live</span></div>
+    </div>
+  </div>
+
+  <div class="hero shot">
+    <img src="assets/shots/atlas-home.jpg" width="2000" height="1250" alt="The Competitor Hub home screen: a row of tracked competitor apps across the top, a dated New in site feed below, and a persistent search bar." loading="eager" decoding="async">
+  </div>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">01</span> / The problem</span>
+    <h2 class="s-h">Our competitive research was living in ten different places.</h2>
+    <div class="read">
+      <p class="body-p">Every quarter, someone on the Bright design team would open Figma and start dragging screenshots. From Mobbin, from personal phones, from a Slack thread, from a folder titled "cleo new onboarding v3 FINAL". By the time a scan finished, the board had grown past the point where anyone could find the one screen they needed for a meeting in an hour.</p>
+      <p class="body-p muted">The information existed. Locating it did not.</p>
+      <p class="body-p">Every artifact was orphaned the moment the quarter ended, and the next scan started from zero. A PM would ask "what does Dave do here" and we would answer with a guess, or with a fifteen-minute dig through last quarter's board.</p>
+    </div>
+
+    <div class="pull">A single searchable place, tagged by flow and pattern rather than by company, that outlives any one quarter's research.</div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">02</span> / The bet</span>
+    <h2 class="s-h">I could design the tool, or I could build it. I did both.</h2>
+    <div class="read">
+      <p class="body-p">I had spent the last year using Claude Code as if it were a second designer. Small internal tools, Figma plugins, a scraper here and there. This felt like the moment to stop treating that skill as a hobby.</p>
+      <p class="body-p">The scope was honest. Not a startup. Not a product. A tool for our design and product team, with a clean URL, that felt like a real product because pretending it was one would raise the standard.</p>
+    </div>
+
+    <div class="stack">
+      <span class="chip mono on">Claude Code</span>
+      <span class="chip mono on">Next.js, React</span>
+      <span class="chip mono on">Express, TypeScript</span>
+      <span class="chip mono on">PostgreSQL</span>
+      <span class="chip mono on">Amazon S3</span>
+      <span class="chip mono on">EC2, Nginx</span>
+      <span class="chip mono">Figma API</span>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">03</span> / The system</span>
+    <h2 class="s-h">Competitors, flows, screens. In that order.</h2>
+    <div class="read">
+      <p class="body-p">The data model came before any pixel. Screens without flows are a Dropbox folder. Flows without competitors are a mood board. The three-level hierarchy is what turns a pile of screenshots into a thing you can navigate by question, which is <em>"how does Cleo handle overdraft protection"</em>, not <em>"screen 47 of 212"</em>.</p>
+    </div>
+
+    <div class="diagram" aria-hidden="true">
+      <div class="diagram-row">
+        <div class="node">
+          <div class="node-k">Level 1</div>
+          <div class="node-v">competitors</div>
+        </div>
+        <div class="node">
+          <div class="node-k">Level 2</div>
+          <div class="node-v">flows</div>
+        </div>
+        <div class="node accent">
+          <div class="node-k">Level 3</div>
+          <div class="node-v">screens</div>
+        </div>
+        <div class="node">
+          <div class="node-k">Metadata</div>
+          <div class="node-v">tags[]</div>
+        </div>
+      </div>
+      <div class="diagram-caption">postgres schema, one to many, top to bottom</div>
+    </div>
+
+    <p class="body-p read">Each screen carries Mobbin-style metadata — screen type, UI patterns, elements present — which turns search from a filename hunt into a query. Show me every empty state across every credit-builder flow. Show me every place a competitor asks for an SSN.</p>
+
+    <figure class="figure">
+      <img src="assets/shots/atlas-app.jpg" width="2000" height="1250" alt="A competitor detail page in Competitor Hub, showing the app summary and metadata above a grid of captured screens." loading="lazy" decoding="async">
+      <figcaption class="figure-cap"><strong>One competitor, opened up.</strong> App and metadata at the top, flow and screen counts beside it, every captured screen below. All Screens and Flows are the same data read two ways.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">04</span> / The pipeline</span>
+    <h2 class="s-h">A two-step pipeline: package first, then upload.</h2>
+    <p class="body-p read">The single most important architectural call was separating tagging from uploading. Tagging is judgment. Uploading is plumbing. Mixing them means one bad tag corrupts a batch of hundreds of screens on live infra. Splitting them means judgment happens in a JSON file you can review, revise, or throw away.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div>
+          <div class="step-h">Packager reads the raw ZIP of screens</div>
+          <p class="step-p">Views every screenshot, derives flow order from FigJam coordinates on the research board, and writes a package JSON. All names, order and taxonomy live in that one file.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Uploader validates, then ingests</div>
+          <p class="step-p">Takes the package JSON, runs a dry-run preview, then uploads images to S3 and populates the Postgres tables on RDS. The uploader never authors metadata. It only trusts the package.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Backfill fills the human layer</div>
+          <p class="step-p">Logo, description, category, availability, and the other things the uploader skips get filled in after. This is the part where the tool starts feeling like a product instead of a database.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="snippet" aria-hidden="true"><span class="k">packager</span>  <span class="t">→</span>  {competitor}_package.json
+<span class="k">uploader</span>  <span class="t">→</span>  s3://&lt;screens-bucket&gt;
+          <span class="t">→</span>  postgres: competitors, flows, screens
+<span class="k">backfill</span>  <span class="t">→</span>  logo, description, category, availability</div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">05</span> / The craft</span>
+    <h2 class="s-h">Small decisions that stopped it feeling like an internal tool.</h2>
+
+    <div class="split">
+      <div class="split-card">
+        <span class="split-tag">Default state</span>
+        <p class="split-t">Grid of competitor cards. Logo, count of flows, count of screens. Cold and legible.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Small move</span>
+        <p class="split-t">Card hover surfaces the last update date and the most-referenced flow. One extra second of information for zero extra clicks.</p>
+      </div>
+
+      <div class="split-card">
+        <span class="split-tag">Default state</span>
+        <p class="split-t">Screen viewer showed one image with tags listed underneath it.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Small move</span>
+        <p class="split-t">Split view. Screen on the left. Tags, flow position, and neighbouring screens on the right. Keyboard arrows scrub the flow. It stopped feeling like a gallery and started feeling like a study surface.</p>
+      </div>
+
+      <div class="split-card">
+        <span class="split-tag">Default state</span>
+        <p class="split-t">Search returned a flat list of screens.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Small move</span>
+        <p class="split-t">Search grouped by competitor, with a sticky filter bar for screen type and pattern. Faceted, not flat. This is the query the team runs.</p>
+      </div>
+    </div>
+
+    <!-- Click to play, not a loop: it has a soundtrack and runs 38 seconds.
+         No `data-loop`, so app.js leaves it alone and `controls` stands. -->
+    <div class="vidfig">
+      <video controls preload="metadata" playsinline
+             poster="assets/video/atlas-poster.jpg" width="960" height="540"
+             aria-label="The Competitor Hub launch film: the home grid of tracked apps, a competitor opened to its screen wall, a single screen opened into the split viewer with its flow position and tags, and the search bar filtering across the whole index.">
+        <source src="assets/video/atlas.webm" type="video/webm">
+        <source src="assets/video/atlas.mp4" type="video/mp4">
+      </video>
+      <p class="vid-note"><span>38s, has sound</span><span>the film I cut to launch it internally</span></p>
+    </div>
+    <p class="figure-cap"><strong>The moves above, in motion.</strong> Scrubbing a flow and the split viewer are the two things a screenshot cannot argue for, so this is the honest way to show them. Every app in it is a competitor's public product.</p>
+
+    <figure class="figure">
+      <img src="assets/shots/atlas-inspiration.jpg" width="2000" height="1250" alt="The Inspiration section of Competitor Hub, showing a featured carousel above a dated, filterable grid of product patterns." loading="lazy" decoding="async">
+      <figcaption class="figure-cap"><strong>Inspiration, the half that is not competitors.</strong> Fintech is a narrow place to look for ideas, so this surface collects patterns from outside it, dated and filterable by web or mobile. Same data model underneath. Different question being asked of it.</figcaption>
+    </figure>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">06</span> / Ship</span>
+    <h2 class="s-h">Real infra means real deploy pain, then real deploy rituals.</h2>
+    <div class="read">
+      <p class="body-p">The EC2 box could not <code>git pull</code>. Deploying meant rsync over SSH, migrations against RDS, verify, rollback ready. The first deploy took hours and taught me every mistake worth learning; the one after took minutes. Eventually it was a single command that ships the site and rolls itself back if the health check flatlines.</p>
+      <p class="body-p muted">This is the part nobody tells you about vibe-coding. Making something exist is one problem. Keeping it alive is a different one.</p>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">07</span> / Outcome</span>
+    <h2 class="s-h">What changed after we shipped it.</h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n">3 days</div>
+        <div class="stat-k">From an empty repo to a deployed production stack</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">10</div>
+        <div class="stat-k">Competitors indexed for the Q2 2026 cycle</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">7 weeks</div>
+        <div class="stat-k">Of shipping after launch, which is the more honest number</div>
+      </div>
+    </div>
+
+    <div class="read">
+      <p class="body-p">The three-day number is the one people react to, and it is the least interesting of the three. The seven weeks after it bought an ads library, on-demand vision analysis of competitor screens, and a taxonomy that survived a full quarterly cycle. Three days is a demo. Seven weeks is a tool.</p>
+      <p class="body-p">The Q2 2026 cycle ended with an upload rather than a Figma dump, which is a first. What I do not have is adoption data, or proof it survives a quarter I am not personally driving. The honest claim is that it holds a real cycle and is faster to search than the Slack archive it replaces.</p>
+      <p class="body-p">I could have written a Notion doc, handed it to engineering, and waited a quarter.</p>
+      <p class="body-p muted">I do not think every designer needs to code. I do think the ones who can will keep building the tools their own team needs, because they understand the brief and nobody else is going to prioritise it.</p>
+    </div>
+
+    <div class="pull">Tag discipline is a taxonomy problem long before it is a UI problem. I only found that out by having to store the tags myself.</div>
+  </section>
+
+  <a class="nextup" href="work-rent-funnel.html">
+    <div class="nextup-l">
+      <span class="s-eyebrow bracket">Next case study</span>
+      <div class="nextup-title">Rent Reporting</div>
+    </div>
+    <div class="nextup-arrow">↗</div>
+  </a>
+
+</main>
+
+<footer>
+  <div class="f-mark">Shreyo</div>
+  <div class="f-links">
+    <a href="index.html">Index</a>
+    <a href="about.html">About</a>
+    <a href="https://behance.net/euyoro" target="_blank" rel="noopener">Behance</a>
+    <a href="mailto:shreyoisonline@gmail.com">Email</a>
+    <div class="f-sig">{ শ্রেয়ো দেবনাথ }</div>
+    <div class="f-copy">2026 Shreyo Debnath</div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

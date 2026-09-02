@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bright Blueprint, Shreyo Debnath</title>
+<meta name="description" content="Bright Blueprint: a wireframing system for Bright Money written to be read by an AI agent. A PRD goes in, on-system screens come out. Design-system accuracy went from 10-20% to 70-80% in a fortnight of training.">
+<meta property="og:title" content="Bright Blueprint, Shreyo Debnath">
+<meta property="og:description" content="Bright Blueprint: a wireframing system for Bright Money written to be read by an AI agent. A PRD goes in, on-system screens come out. Design-system accuracy went from 10-20% to 70-80% in a fortnight of training.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Shreyo Debnath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bright Blueprint, Shreyo Debnath">
+<meta name="twitter:description" content="Bright Blueprint: a wireframing system for Bright Money written to be read by an AI agent. A PRD goes in, on-system screens come out. Design-system accuracy went from 10-20% to 70-80% in a fortnight of training.">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Shreyo Debnath, Product Designer. I design financial products. I also build them.">
+<meta name="twitter:image" content="assets/og.png">
+<meta name="theme-color" content="#080810" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F5F5FA" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/fonts/hkgrotesk.css">
+<link rel="stylesheet" href="assets/styles.css">
+<script>
+  try {
+    var t = localStorage.getItem('theme');
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  } catch (e) {}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<nav class="nav">
+  <a class="nav-back" href="index.html">Index</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="mailto:shreyoisonline@gmail.com">Email</a></li>
+      <li><a href="https://linkedin.com/in/shreyo-debnath" target="_blank" rel="noopener">LinkedIn</a></li>
+    </ul>
+    <button class="theme-btn" type="button" aria-label="Toggle colour theme">
+      <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main class="wrap" id="main">
+
+  <header class="header">
+    <span class="h-eyebrow">Case Study / 2026</span>
+    <h1 class="h-title">Bright Blueprint: writing our design system down until a machine could use it.</h1>
+    <p class="h-lede">A PRD goes in, on-system wireframes come out. I rewrote Bright's design system as seven reference files an agent is required to read before it draws anything. Accuracy went from ten or twenty per cent to seventy or eighty in a fortnight.</p>
+  </header>
+
+  <div class="meta">
+    <div class="meta-cell">
+      <div class="meta-k">Role</div>
+      <div class="meta-v">Built it solo, wrote every reference file</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Timeline</div>
+      <div class="meta-v">Feb to May 2026, shipped at V3.0</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Runs on</div>
+      <div class="meta-v">Claude chat, on purpose</div>
+    </div>
+    <div class="meta-cell">
+      <div class="meta-k">Status</div>
+      <div class="meta-v">In use, codenamed, handed on</div>
+    </div>
+  </div>
+
+  <div class="hero" aria-hidden="true">
+    <div class="hero-grid">
+      <div class="hero-card wide"></div>
+      <div class="hero-card tall"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card accent"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card wide"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card accent tall"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card wide"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card"></div>
+      <div class="hero-card"></div>
+    </div>
+  </div>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">01</span> / The problem</span>
+    <h2 class="s-h">The system had every answer. Nobody could recall all of it on a Tuesday.</h2>
+    <div class="read">
+      <p class="body-p">A PRD lands, wireframes are needed in two days, and almost every screen in it already has an answer somewhere in Bright's design system. Somewhere means a Figma file with thousands of nodes, 335 icons, and a layer of convention that lives in people's heads.</p>
+      <p class="body-p">So you wireframe from memory. Memory is fast. Memory is not 16px from the screen edge every time, on every screen, for six months.</p>
+      <p class="body-p muted">A radio with the wrong border grey. A 20px gap where the scale goes 16 or 24. Individually invisible. Across a flow, it stops looking like it came out of the same file.</p>
+    </div>
+
+    <div class="pull">Nothing was broken. Everything was slightly off, and slightly off compounds.</div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">02</span> / The insight</span>
+    <h2 class="s-h">A design system a person reads and one a model reads are not the same artifact.</h2>
+    <div class="read">
+      <p class="body-p">I already had a documented design system, and it was good documentation. It was also unusable by an agent, because it was written for someone who could look at a screen and know when something felt wrong.</p>
+      <p class="body-p">A designer hits a gap in the docs and fills it with judgment. A model fills it with something <em>plausible</em>. Plausible is worse than blank, because plausible ships.</p>
+    </div>
+
+    <div class="split">
+      <div class="split-card">
+        <span class="split-tag">Written for a person</span>
+        <p class="split-t">A Figma page called Spacing. You read it once, absorb the rhythm, stop looking.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Written for an agent</span>
+        <p class="split-t">Nine tokens on a 4px grid, four tiers, and a decision tree that terminates in exactly one variable name.</p>
+      </div>
+
+      <div class="split-card">
+        <span class="split-tag">Written for a person</span>
+        <p class="split-t">An icon library you browse and drag from. Finding the right one is a two minute job you do by eye.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Written for an agent</span>
+        <p class="split-t">All 335 paths inlined in one file, plus a rule: an icon not in that file does not exist.</p>
+      </div>
+
+      <div class="split-card">
+        <span class="split-tag">Written for a person</span>
+        <p class="split-t">Conventions you pick up from design review and from having been here a while.</p>
+      </div>
+      <div class="split-card after">
+        <span class="split-tag">Written for an agent</span>
+        <p class="split-t">The same conventions as hard rules, in files it must read before writing a line of markup.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">03</span> / The architecture</span>
+    <h2 class="s-h">Seven files, split by the question each one answers.</h2>
+    <div class="read">
+      <p class="body-p">The split is by the moment in the build where you need it, not by topic. Icons are the division I like most: <code>icons.md</code> holds the rules and fits on a page, <code>icon-paths.md</code> holds 2,500 lines of raw geometry. Rules that must be read and data that must be looked up are different kinds of file. Merge them and the rule drowns in the data.</p>
+    </div>
+
+    <div class="snippet" aria-hidden="true"><span class="k">base.css</span>             <span class="t">→</span>  every token, no other value is legal
+<span class="k">components.md</span>        <span class="t">→</span>  component specs, verified against Figma
+<span class="k">screen-templates.md</span>  <span class="t">→</span>  screen shells, each anchored to a node
+<span class="k">typography.md</span>        <span class="t">→</span>  which token plays which role, and why
+<span class="k">icons.md</span>             <span class="t">→</span>  the icon rules
+<span class="k">icon-paths.md</span>        <span class="t">→</span>  335 paths, pure lookup
+<span class="k">spacing.md</span>           <span class="t">→</span>  which gap, four tiers, decision tree</div>
+
+    <div class="read">
+      <p class="body-p">Every screen maps to one of thirteen canonical types, and to fifteen names, because different teams call the same screen different things. The system records the aliases instead of correcting anyone.</p>
+      <p class="body-p muted">Each shell carries the Figma node it was measured from. When the skill and Figma disagree, there is a node ID to go argue with.</p>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">04</span> / The rules</span>
+    <h2 class="s-h">Every rule that matters is a prohibition.</h2>
+    <p class="body-p read">Positive instructions get followed loosely. Prohibitions get followed exactly. Each of these exists because I watched the failure happen first.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div>
+          <div class="step-h">Read all seven before writing a line</div>
+          <p class="step-p">Not "consult as needed". Skipping one produces output that is confidently wrong and hard to spot, because the rest of the screen looks correct.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Never hardcode a value that exists as a token</div>
+          <p class="step-p">No literal hex, no literal pixel gap. If a value is not on the 4px scale it is not a spacing decision, it is a mistake.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Never use a filler icon</div>
+          <p class="step-p">No Feather, no Material, ever. The most tempting shortcut and the one that instantly makes a wireframe read as not ours.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div>
+          <div class="step-h">Classify the screen before you draw it</div>
+          <p class="step-p">Type first, shell second, content third. An unclassified screen is a screen someone is about to invent a layout for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">05</span> / The pipeline</span>
+    <h2 class="s-h">A PRD goes in. The judgment and the drawing stay in separate hands.</h2>
+    <div class="read">
+      <p class="body-p">The planning skill reads the PRD, maps branches, inventories the edge cases nobody writes down, and flags compliance risk. Then it produces the one artifact that matters: a table of every screen the feature needs, each assigned a type. Everything before that table is judgment. Everything after it is execution.</p>
+      <p class="body-p muted">The planner is forbidden from drawing. The builder is forbidden from deciding.</p>
+    </div>
+
+    <div class="snippet" aria-hidden="true"><span class="k">read</span>      <span class="t">→</span>  PRD, routed through the right file reader
+<span class="k">plan</span>      <span class="t">→</span>  flows, branches, edge cases, compliance flags
+<span class="k">classify</span>  <span class="t">→</span>  every screen gets exactly one type
+<span class="k">build</span>     <span class="t">→</span>  self-contained HTML, 375 × 812</div>
+
+    <p class="body-p read">Compliance sits in the planner's working memory rather than in a review at the end. Bright is a US fintech: "debt free" is out because Bright extends credit, and a specific saving claim requires a disclaimer. These were my review notes. Now they arrive before the screen exists.</p>
+
+    <div class="screens solo">
+      <figure>
+        <img src="assets/shots/blueprint-monet.png" width="375" height="812" alt="A Bright paywall screen: a pale gold header, three feature cards, a price card with a limited-time ribbon and a sixty per cent discount tag reducing $12.99 to $4.99 a month, a checkbox row adding identity protection for $2.99 a month, a testimonial, then a disclosure block and a Start Saving Now button." loading="lazy" decoding="async">
+        <figcaption class="screen-cap">monet shell, rendered from the skill's own files</figcaption>
+      </figure>
+    </div>
+    <p class="figure-cap"><strong>Template eight, rendered off the real files.</strong> Only the copy and the numbers move; everything else is fixed structure. The placeholder glyphs in the feature cards are not Bright icons — exactly the failure the icon rule exists to catch.</p>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">06</span> / What it changed</span>
+    <h2 class="s-h">Ten to twenty per cent accurate, to seventy or eighty, in a fortnight.</h2>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-n">10–20 → 70–80%</div>
+        <div class="stat-k">Design-system accuracy, before training and after two weeks</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">7 → 3.5 days</div>
+        <div class="stat-k">Hi-fi design, Q4 2025 baseline against May 2026</div>
+      </div>
+      <div class="stat">
+        <div class="stat-n">2–5 min</div>
+        <div class="stat-k">Credit One Application at v2.9. Twelve screens, five to seven days by hand</div>
+      </div>
+    </div>
+
+    <div class="read">
+      <p class="body-p">February's first version was bad in an instructive way: right shapes, wrong nearly everything else. Two weeks of writing the reference files properly closed the gap, and almost all of that closing was done by editing documents rather than by anything clever.</p>
+      <p class="body-p">The minutes figure needs its qualifier, and I put the qualifier in the deck myself: the output is good up to alignment and not beyond it. It is a real first pass a PM can react to on the same call. It is not a finished screen.</p>
+      <p class="body-p muted">Every number here is mine, scored against Bright's own token set and estimated against a Q4 2025 baseline. Nobody audited them. Treat the direction as right rather than the decimals.</p>
+    </div>
+  </section>
+
+  <section class="chunk reveal">
+    <span class="s-eyebrow"><span class="s-n">07</span> / What I learned</span>
+    <h2 class="s-h">Writing it for a machine is what showed me what I had wrong.</h2>
+    <div class="read">
+      <p class="body-p">I went in expecting a documentation exercise. Instead, every ambiguity I had been quietly resolving by eye had to be resolved on paper, and some of them resolved against me.</p>
+      <p class="body-p">Five selection-control values in my own reference files were wrong — radio borders, checkbox fill, switch on state — all drifted toward the brand green when the system uses near black. Nobody had caught it, because a designer looking at a radio button reads "selected" and moves on. An agent asked which token, and the token was wrong.</p>
+      <p class="body-p">In May, design leadership made the project company nomenclature and the deck went to executives. A week later I handed iteration to a colleague and stepped off. A tool only its author can maintain has one point of failure.</p>
+    </div>
+
+    <div class="wip">
+      <span class="wip-dot" aria-hidden="true"></span>
+      <p class="wip-t"><strong>The reference files and the deck are Bright's.</strong> The screen above is rendered from the real skill, but the design system it encodes is not mine to publish. Happy to walk the structure and do a live PRD to wireframe run, <a href="mailto:shreyoisonline@gmail.com" style="color:var(--accent)">get in touch</a>.</p>
+    </div>
+
+    <div class="pull">A design system nobody can hold in their head is one that only exists on the days people remember it.</div>
+  </section>
+
+  <a class="nextup" href="work-screen-naming-plugin.html">
+    <div class="nextup-l">
+      <span class="s-eyebrow bracket">Next case study</span>
+      <div class="nextup-title">Sauron &amp; Bright Naming</div>
+    </div>
+    <div class="nextup-arrow">↗</div>
+  </a>
+
+</main>
+
+<footer>
+  <div class="f-mark">Shreyo</div>
+  <div class="f-links">
+    <a href="index.html">Index</a>
+    <a href="about.html">About</a>
+    <a href="https://behance.net/euyoro" target="_blank" rel="noopener">Behance</a>
+    <a href="mailto:shreyoisonline@gmail.com">Email</a>
+    <div class="f-sig">{ শ্রেয়ো দেবনাথ }</div>
+    <div class="f-copy">2026 Shreyo Debnath</div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
