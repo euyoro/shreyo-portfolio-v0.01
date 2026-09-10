@@ -1,0 +1,526 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Atlas — Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #9d9d99;
+    --dim: #6b6b68;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2e7d32;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* QUERY CARDS */
+  .query-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .query-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px 18px;
+  }
+
+  .query-label {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .query-card p {
+    font-size: 0.83rem;
+    color: var(--dim);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ARCHITECTURE STEPS */
+  .arch-steps {
+    margin: 28px 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .arch-step {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+
+  .arch-step-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 2px;
+  }
+
+  .arch-step p {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* CODE BLOCK */
+  .code-block {
+    background: var(--chosen-bg);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    font-size: 0.8rem;
+    color: rgba(240,240,238,0.7);
+    line-height: 1.8;
+  }
+
+  .code-block .cmd { color: #f0f0ee; }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p { font-size: 0.85rem; color: var(--muted); }
+  .cta a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .query-cards, .failure-cards, .arch-steps { page-break-inside: avoid; }
+  }
+
+  @page { margin: 20mm 18mm; size: A4; }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Bright Atlas</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Product Designer — product definition, AI pipeline, build, deployment</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">3.5 months · 2 weeks theorizing, 2 weeks execution</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Stack</span>
+    <span class="meta-value">Claude · Next.js · AWS S3 / RDS / EC2 · GitHub</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">Design Director · Sr. Designer · Fellow Designer · Frontend Engineer</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Live at competitor-hub.brightmoney.co</span>
+    <span class="status-tag">Shipped</span>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<h2>Problem</h2>
+<h3>Our competitor research was trapped inside Figma.</h3>
+
+<p>The apps we compete with aren't on Mobbin or AppShots. They're fintech products that require accounts, onboarding, and real bank connections to get to the interesting screens. The only way to study them is to have someone actually use them and screenshot what they see.</p>
+
+<p>We had done that. Freelance researchers logging into Chime, Acorns, SoFi, and thirty other apps, capturing flows, pasting screenshots into Figma boards. Hundreds of screens. Properly gathered. Completely inaccessible.</p>
+
+<p>Execs and PMs who needed competitive references had to ask designers. Designers had to hunt through boards. The boards had no search. A PM asking "how does Chime handle payroll?" got a Slack message and a wait.</p>
+
+<p>The problem wasn't that we lacked research. It was that we had no way to surface it.</p>
+
+<hr class="section-rule">
+
+<!-- WHAT WE NEEDED -->
+<h2>Goal</h2>
+<h3>What we needed</h3>
+
+<p>One secure, private, searchable product. Three types of queries it had to answer.</p>
+
+<div class="query-cards">
+  <div class="query-card">
+    <span class="query-label">Designer</span>
+    <p>How does Acorns show a payroll screen? What does Chime's disclosure copy look like on that flow?</p>
+  </div>
+  <div class="query-card">
+    <span class="query-label">PM</span>
+    <p>What pricing structure does Experian show? What does their onboarding look like in week two?</p>
+  </div>
+  <div class="query-card">
+    <span class="query-label">Exec</span>
+    <p>What is their full credit-building flow? How do they pitch the upgrade?</p>
+  </div>
+</div>
+
+<p>No public tool could do this. Building on top of AppShots or Mobbin wasn't an option. We had to build something ourselves.</p>
+
+<hr class="section-rule">
+
+<!-- THEORIZING -->
+<h2>Approach</h2>
+<h3>Two weeks of theorizing</h3>
+
+<p>I spent the first two weeks not building. Figuring out if this was even possible, and how.</p>
+
+<p>The research data existed as raw images. The question was: how do you make thousands of screenshots searchable? You can't search pixels. You need metadata. Tags, flow labels, feature categories, and text extracted from the screens.</p>
+
+<p>The answer was Claude. Teach it to look at a screenshot and mark it: what flow is this? What feature? What copy is visible? What bureau or partner is mentioned? Feed every image through that pipeline and you get a tagged, structured dataset out the other side.</p>
+
+<p>Once the data was structured, the infrastructure followed.</p>
+
+<div class="arch-steps">
+  <div class="arch-step">
+    <span class="arch-step-label">Images</span>
+    <p>AWS S3 stores every competitor screenshot. Private bucket, VPN-gated. Images never leave Bright's infrastructure.</p>
+  </div>
+  <div class="arch-step">
+    <span class="arch-step-label">Data</span>
+    <p>AWS RDS stores all metadata: flow tags, feature labels, copy extracted by Claude, ratings, product offerings, category, bureau mentions.</p>
+  </div>
+  <div class="arch-step">
+    <span class="arch-step-label">App</span>
+    <p>Next.js app with its own frontend and backend logic. Queries RDS, serves S3 images. Runs on EC2 inside a private VPC. Bright VPN required to access.</p>
+  </div>
+  <div class="arch-step">
+    <span class="arch-step-label">Search</span>
+    <p>Query the metadata, get the images. A designer types "payroll screen" and gets every app's payroll screen side by side.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- EXECUTION -->
+<h2>Build</h2>
+<h3>Two weeks of execution</h3>
+
+<p>The architecture was clear. We built it. V1 went live in four weeks from the first conversation.</p>
+
+<p>After V1, three more releases. V2 added bug fixes, eight new apps, and an AI Inspiration tab. V3 made Atlas queryable from Claude Code directly, published as an MCP plugin. Two install commands and Claude could search Atlas, read competitor screenshots, and pull pricing and legal copy off the screens rather than guessing.</p>
+
+<div class="code-block">
+  <span class="cmd">claude plugin marketplace add BrightMoney-AI/bright-competitor-hub</span><br>
+  <span class="cmd">claude plugin install atlas@bright-design</span>
+</div>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Atlas Home</span></div>
+  <div class="screen-item"><span>App Detail View</span></div>
+  <div class="screen-item"><span>Search Results</span></div>
+  <div class="screen-item"><span>AI Inspiration Tab</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- CRASH -->
+<h2>Process</h2>
+<h3>The crash and what it taught me</h3>
+
+<p>Three weeks after launch, the site went down. The Next.js app used API gateway keys to access images on S3. Those keys were stored in the setup guide I had shared with the team so everyone could run it locally. DevOps flagged the keys in the repo. We rotated them. The rotation broke the app because there was no fallback.</p>
+
+<p>I had shipped a convenience without thinking about what happens when the credentials inside it get cycled. Fixed it with engineering and built a proper fallback. The lesson: any credential in a shared file is a dependency. When it changes, everything downstream breaks.</p>
+
+<div class="failure-cards">
+  <div class="failure-card">
+    <div class="failure-title">"Credentials in the setup guide" <span class="failure-mine">— mine</span></div>
+    <p class="failure-body">I put API keys in a tutorial.md and shared it with the team. Convenient. Until DevOps rotated them and the site went down. Environment variables from day one, not a markdown file with keys in it.</p>
+  </div>
+  <div class="failure-card">
+    <div class="failure-title">"Tagging quality determines search quality"</div>
+    <p class="failure-body">The search is only as good as how well Claude classified the images. Some early tags were too broad. I'd invest more time in the tagging model upfront before ingesting at scale.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>What shipped</h3>
+
+<p>A private, secure competitor intelligence product used by designers, PMs, and execs at Bright. 30+ competitor apps. Searchable by flow, feature, screen type, copy, and pricing. Queryable from Claude Code via MCP. Updated weekly.</p>
+
+<p>The research that was trapped in Figma boards is now findable in under ten seconds.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I'd do differently</h3>
+
+<ul class="reflection-list">
+  <li>Environment variables from day one, not a markdown file with keys. Security layer before convenience layer, always.</li>
+  <li>Invest more in the tagging model upfront. The AI classification is what makes everything searchable. Every hour spent improving it at ingestion saves ten in post-hoc cleanup.</li>
+  <li>The 2-week theorize, 2-week build structure was right for something this undefined. Don't touch the keyboard until you know what you're building.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Product Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

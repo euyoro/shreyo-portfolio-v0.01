@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sauron — Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #9d9d99;
+    --dim: #6b6b68;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2e7d32;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* CHECK LIST */
+  .check-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 28px;
+  }
+
+  .check-list li {
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.6;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: baseline;
+  }
+
+  .check-list li:first-child { border-top: 1px solid var(--border); }
+
+  .check-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* SECTION CARDS — 2-col */
+  .section-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .section-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .section-card-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .section-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .section-card ul li {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.65;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-card ul li:last-child { border-bottom: none; }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 140px; }
+    h2, h3 { page-break-after: avoid; }
+    .section-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Sauron</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Product Designer, sole builder and owner</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">Mar 2026 → May 2026 · 10 weeks</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma Plugin API · Claude</span>
+  </div>
+  <div class="meta-item" style="grid-column: 2 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Published to Figma Community</span>
+    <span class="status-tag">Live</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>Peer review catches the experience. It misses the details.</h3>
+
+<p>When a designer reviews another designer's work, they're looking at the flow. The hierarchy. Whether the screen makes sense. They're not stopping to check if every CTA uses the right hex value. They're not reading every word to find the one that says "utilize" instead of "use." They're not measuring every padding value to confirm it's on the 4px rhythm.</p>
+
+<p>This is what slips through. Not the obvious things. The small ones. A compliance word in body copy. A colour that's close but pulled from the wrong token. A spacing value that's 10px instead of 8px. These aren't caught in peer review because peer review isn't designed to catch them.</p>
+
+<p>They get caught in dev. Or in a VQA pass that runs days later. Or they ship.</p>
+
+<p>Sauron is the check that happens before any of that.</p>
+
+<hr class="section-rule">
+
+<!-- WHAT IT DOES -->
+<h2>Solution</h2>
+<h3>What it checks</h3>
+
+<p>A Figma plugin acting as an automated peer reviewer. Two modes, two moments in the design process.</p>
+
+<div class="section-cards">
+  <div class="section-card">
+    <span class="section-card-tag">Before Dev — Design Hygiene</span>
+    <ul>
+      <li>Copy compliance against prohibited words sheet</li>
+      <li>US English — flags British spellings and grammar</li>
+      <li>Colour audit against design system tokens</li>
+      <li>Spacing rhythm — flags values breaking the 4/6px grid</li>
+      <li>Component check — unlinked elements that should be system components</li>
+    </ul>
+  </div>
+  <div class="section-card">
+    <span class="section-card-tag">After Dev — Visual QA</span>
+    <ul>
+      <li>Compares built product against the design file</li>
+      <li>Copy drift between design and implementation</li>
+      <li>Spacing and colour deviation</li>
+      <li>Illustration and asset drift</li>
+    </ul>
+  </div>
+</div>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Plugin UI — Results Panel</span></div>
+  <div class="screen-item"><span>Prohibited Words Flag</span></div>
+  <div class="screen-item"><span>Colour Audit</span></div>
+  <div class="screen-item"><span>Spacing Audit</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- HOW IT STARTED -->
+<h2>Process</h2>
+<h3>How it started</h3>
+
+<p>Joe's AI Product Design Workflow list in March 2026. Two items assigned to me: Visual QA and American Spelling Check. The brief was a line item. No spec, no prior tool, no reference.</p>
+
+<p>I built it solo. The plugin runs directly inside Figma, reads the selected frames, and checks them against the rules. The prohibited words list and compliance terms pull from an external sheet. Colours check against the design system token library. Spacing flags anything not divisible by 4.</p>
+
+<p>Nine weeks from a line item to a published plugin.</p>
+
+<hr class="section-rule">
+
+<!-- LAUNCH -->
+<h2>Outcome</h2>
+<h3>The launch</h3>
+
+<p>Announced to the team on May 14. Published to the Figma Community on May 19, alongside the Screen Namer plugin. Two tools, same day. Both built solo.</p>
+
+<div class="pull-quote">
+  <blockquote>"Very cool. Very contra vibe."</blockquote>
+  <cite>Design Director</cite>
+</div>
+
+<p>Before Sauron, compliance copy issues and colour drift were caught in VQA or not at all. Designers were responsible for running their own hygiene checks against a list they had to find and read manually.</p>
+
+<p>After Sauron, the check is one click inside Figma. It runs before the file moves to PD. It's the last gate before handoff.</p>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Product Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,2660 @@
+﻿<script>document.documentElement.setAttribute('data-theme','light');</script>
+<title>Portfolio V2 — Shreyo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
+
+<style>
+  :root {
+    /* Lazim-derived warm neutral system */
+    --bg:         #fbfbfa;
+    --surface:    #ffffff;
+    --border:     rgba(19,19,19,0.09);
+    --text:       #131313;
+    --muted:      #9d9d99;
+    --dim:        #6b6b68;
+    --accent:     #C01828;
+    --accent-dim: rgba(192,24,40,0.06);
+    --nav-bg:     rgba(251,251,250,0.90);
+    /* Heatmap — warm neutral ramp */
+    --h0: #e8e8e5; --h1: #c4c4c0; --h2: #9d9d99; --h3: #6b6b68; --h4: #2e2e2b;
+    /* Fonts */
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --gutter:     clamp(24px, 5vw, 64px);
+    --max:        1100px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+      --text: #f0f0ee; --muted: #6b6b68; --dim: #4a4a47;
+      --accent: #E03040; --accent-dim: rgba(224,48,64,0.10);
+      --nav-bg: rgba(14,14,13,0.88);
+      --h0: #222220; --h1: #353532; --h2: #4a4a47; --h3: #6b6b68; --h4: #9d9d99;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+    --text: #f0f0ee; --muted: #6b6b68; --dim: #4a4a47;
+    --accent: #E03040; --accent-dim: rgba(224,48,64,0.10);
+    --nav-bg: rgba(14,14,13,0.88);
+    --h0: #222220; --h1: #353532; --h2: #4a4a47; --h3: #6b6b68; --h4: #9d9d99;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--text); font-family: var(--ff); -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; overflow-x: hidden; background: var(--bg); }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Page stage — objects are absolute children of this ── */
+  .page-stage { position: relative; }
+
+  /* ── Floating objects ── */
+  @keyframes bob {
+    0%,100% { transform: translateY(0px) rotate(var(--r,0deg)); }
+    50%      { transform: translateY(-10px) rotate(calc(var(--r,0deg) + 3deg)); }
+  }
+
+  .fobj {
+    position: absolute;
+    z-index: 5;
+    pointer-events: auto;
+  }
+
+  .fobj-img {
+    display: block;
+    user-select: none;
+    filter: drop-shadow(0px 10px 24px rgba(0,0,0,0.13));
+    cursor: default;
+    animation: bob var(--dur, 5s) ease-in-out infinite var(--delay, 0s);
+    transition: filter 0.2s;
+    font-size: var(--sz, 100px);
+    line-height: 1;
+  }
+  .fobj:hover .fobj-img {
+    animation-play-state: paused;
+    filter: drop-shadow(0px 18px 32px rgba(0,0,0,0.20));
+  }
+  .fobj-img img {
+    width: var(--sz, 96px);
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+
+  /* Tooltip */
+  .fobj-tip {
+    position: absolute;
+    top: 50%; transform: translateY(-50%) translateX(8px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 13px 16px;
+    width: 200px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+  }
+  .fobj:hover .fobj-tip { opacity: 1; }
+
+  /* Left-side objects: tooltip pops inward to the right */
+  .fobj.tip-right .fobj-tip { left: calc(100% + 14px); transform: translateY(-50%) translateX(8px); }
+  .fobj:hover.tip-right .fobj-tip { transform: translateY(-50%) translateX(0); }
+
+  /* Right-side objects: tooltip pops inward to the left */
+  .fobj.tip-left .fobj-tip { right: calc(100% + 14px); left: auto; transform: translateY(-50%) translateX(-8px); }
+  .fobj:hover.tip-left .fobj-tip { transform: translateY(-50%) translateX(0); }
+
+  .tip-label {
+    font-family: var(--ff-mono); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px; display: block;
+  }
+  .tip-text { font-size: 13px; color: var(--text); line-height: 1.58; letter-spacing: -0.008em; }
+
+  /* Hide below the point where there's no room */
+  @media (max-width: 1100px) { .fobj { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .fobj-img { animation: none !important; } }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 52px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    background: var(--nav-bg);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  /* Wordmark — left side */
+  .nav-wordmark {
+    display: flex; align-items: baseline; gap: 0;
+    text-decoration: none; cursor: default;
+  }
+  .nav-word-a {
+    font-family: var(--ff-display); font-style: italic;
+    font-size: 19px; font-weight: 400;
+    color: var(--text); letter-spacing: -0.015em;
+  }
+  .nav-word-sep {
+    font-family: var(--ff); font-size: 14px;
+    color: var(--muted); margin: 0 5px;
+  }
+  .nav-word-b {
+    font-family: var(--ff); font-size: 14px; font-weight: 400;
+    color: var(--text); letter-spacing: -0.01em;
+    transition: opacity 0.14s ease;
+    cursor: default;
+  }
+  /* Right controls */
+  .nav-right {
+    display: flex; align-items: center; gap: 18px;
+  }
+  /* Menu button */
+  .nav-menu-wrap { position: relative; }
+  .nav-menu-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff); font-size: 13.5px; font-weight: 400;
+    color: var(--dim); letter-spacing: -0.01em;
+    padding: 4px 9px; border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-menu-btn.active {
+    background: var(--text); color: var(--bg);
+  }
+  /* Dropdown — drops directly below Menu, right-aligned, no card */
+  .nav-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: none;
+    border: none; border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 1px;
+    opacity: 0; pointer-events: none;
+    transform: translateY(-5px);
+    transition: opacity 0.18s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 60;
+  }
+  .nav-dropdown.open {
+    opacity: 1; pointer-events: auto; transform: translateY(0);
+  }
+  .nav-drop-link {
+    display: block; padding: 3px 9px;
+    font-family: var(--ff); font-size: 13.5px; font-weight: 400;
+    color: var(--dim);
+    text-decoration: none; letter-spacing: -0.01em;
+    border-radius: 6px;
+    white-space: nowrap; text-align: right;
+    opacity: 0; transform: translateY(-5px);
+    transition: color 0.14s, opacity 0.18s ease, transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-dropdown.open .nav-drop-link { opacity: 1; transform: translateY(0); }
+  .nav-dropdown.open .nav-drop-link:nth-child(1) { transition-delay: 0.04s; }
+  .nav-dropdown.open .nav-drop-link:nth-child(2) { transition-delay: 0.09s; }
+  .nav-dropdown.open .nav-drop-link:nth-child(3) { transition-delay: 0.14s; }
+  .nav-dropdown.open .nav-drop-link:nth-child(4) { transition-delay: 0.19s; }
+  .nav-drop-link:hover { color: var(--text); }
+  .nav-drop-fun {
+    font-size: 12px; color: var(--muted);
+    border-top: 1px solid var(--border);
+    margin-top: 5px; padding-top: 8px;
+    padding-left: 9px;
+  }
+  .nav-drop-fun:hover { color: var(--dim); }
+  /* Theme toggle */
+  .nav-theme-btn {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff); font-size: 13px; font-weight: 400;
+    color: var(--dim); letter-spacing: -0.01em;
+    padding: 0; transition: color 0.18s;
+  }
+  .nav-theme-btn:hover { color: var(--text); }
+  /* CTA */
+  .nav-cta {
+    font-family: var(--ff); font-size: 13px; font-weight: 500;
+    color: var(--bg); background: var(--text);
+    padding: 6px 14px; border-radius: 100px;
+    letter-spacing: -0.01em; text-decoration: none;
+    transition: opacity 0.18s;
+  }
+  .nav-cta:hover { opacity: 0.78; }
+
+  /* ── Layout ── */
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); position: relative; z-index: 10; }
+  .divider { border: none; border-top: 1px solid var(--border); }
+
+  /* ── Hero ── */
+  .hero { padding-top: 116px; padding-bottom: 80px; }
+  .hero-grid { display: grid; grid-template-columns: 268px 1fr; gap: 72px; align-items: start; }
+  .hero-left { display: flex; flex-direction: column; gap: 22px; }
+  .hero-ident { display: flex; flex-direction: column; gap: 2px; }
+  .hero-name { font-family: var(--ff); font-size: clamp(15px,1.6vw,18px); font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); }
+  .hero-role { font-family: var(--ff); font-size: clamp(14px,1.4vw,16px); font-weight: 400; letter-spacing: -0.01em; color: var(--muted); }
+  .portrait { width: 100%; aspect-ratio: 3/3.6; border-radius: 8px; overflow: hidden; position: relative; background: linear-gradient(145deg,#c9a08a 0%,#e8b89a 38%,#d4907a 72%,#b87060 100%); }
+  .portrait::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 40% 25%,rgba(255,255,255,0.10) 0%,transparent 60%); }
+  .portrait-hint { position:absolute; inset:0; display:flex; align-items:flex-end; padding:14px 16px; font-family:var(--ff-mono); font-size:9px; letter-spacing:0.12em; color:rgba(255,255,255,0.28); text-transform:uppercase; }
+  .hero-right { display: flex; flex-direction: column; padding-top: 0; }
+  .hero-intro-line { font-family: var(--ff); font-size: clamp(36px,6vw,80px); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 32px; }
+  .hero-intro-line strong { font-weight: 700; }
+  .hero-cycle-wrap { display: inline-block; overflow: hidden; height: 1.05em; vertical-align: bottom; }
+  .hero-cycle { display: inline-block; }
+  .hero-body { display: flex; flex-direction: column; gap: 16px; }
+  .hero-hl { color: var(--dim); font-style: normal; }
+  /* Body copy: muted by default, <em> switches color not weight — Lazim's trick */
+  .hero-p { font-family: var(--ff); font-size: 17px; color: var(--muted); line-height: 1.65; letter-spacing: -0.02em; max-width: 50ch; }
+  .hero-p em { font-style: normal; color: var(--text); }
+
+  /* ── Section head ── */
+  .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
+  .section-title { font-family: var(--ff); font-size: 13px; font-weight: 500; letter-spacing: -0.01em; color: var(--text); }
+  h2.section-title { font-size: clamp(36px,6vw,80px); font-weight: 700; letter-spacing: -0.05em; line-height: 1; margin: 0; }
+  .section-meta { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.06em; color: var(--dim); text-transform: uppercase; }
+
+  /* ── Activity ── */
+  .activity { padding: 40px 0 60px; }
+  .heatmap-grid { display: grid; grid-template-columns: 24px 1fr; gap: 0 6px; width: 100%; }
+  .day-col { display: flex; flex-direction: column; padding-top: 18px; gap: 0; }
+  .day-lbl { font-family: var(--ff-mono); font-size: 8.5px; letter-spacing: 0.03em; color: var(--dim); line-height: 1; display: flex; align-items: center; flex: 1; }
+  .day-lbl.hide { visibility: hidden; }
+  .calendar-col { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .month-row { display: grid; grid-template-columns: repeat(53,1fr); gap: 3px; margin-bottom: 3px; height: 15px; }
+  .month-lbl { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.04em; color: var(--muted); grid-column: span 1; white-space: nowrap; align-self: end; }
+  .cell-row { display: grid; grid-template-columns: repeat(53,1fr); gap: 3px; }
+  .hm-cell { aspect-ratio: 1; border-radius: 2px; background: var(--h0); cursor: default; transition: opacity 0.1s; min-width: 0; }
+  .hm-cell:hover { opacity: 0.65; }
+  .hm-cell[data-v="1"] { background: var(--h1); }
+  .hm-cell[data-v="2"] { background: var(--h2); }
+  .hm-cell[data-v="3"] { background: var(--h3); }
+  .hm-cell[data-v="4"] { background: var(--h4); }
+  .hm-tooltip { position: fixed; pointer-events: none; z-index: 100; background: var(--surface); border: 1px solid var(--border); border-radius: 5px; padding: 5px 9px; font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.01em; color: var(--text); white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.10); opacity: 0; transition: opacity 0.1s; }
+  .hm-tooltip.show { opacity: 1; }
+  .activity-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+  .activity-count-wrap { display: flex; align-items: baseline; gap: 5px; }
+  .activity-count { font-family: var(--ff-mono); font-size: 12.5px; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .activity-count-lbl { font-family: var(--ff-mono); font-size: 10.5px; color: var(--muted); }
+  .legend { display: flex; align-items: center; gap: 5px; }
+  .legend-lbl { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.04em; color: var(--dim); }
+  .legend-cells { display: flex; gap: 3px; }
+  .legend-cell { width: 9px; height: 9px; border-radius: 2px; }
+  .legend-cell:nth-child(1) { background: var(--h0); }
+  .legend-cell:nth-child(2) { background: var(--h1); }
+  .legend-cell:nth-child(3) { background: var(--h2); }
+  .legend-cell:nth-child(4) { background: var(--h3); }
+  .legend-cell:nth-child(5) { background: var(--h4); }
+
+  /* ── Experience ── */
+  .exp-section { padding: 40px 0 80px; }
+  .exp-toggle { display: inline-flex; align-items: center; gap: 5px; font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.05em; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0; transition: color 0.18s; text-transform: uppercase; }
+  .exp-toggle:hover { color: var(--text); }
+  .exp-scrubber { position: relative; margin-bottom: 24px; padding: 4px 0; }
+  .scrubber-track { position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: var(--border); transform: translateY(-50%); }
+  .scrubber-dots { position: relative; display: flex; justify-content: space-between; align-items: center; }
+  .scrubber-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); border: 1px solid var(--border); flex-shrink: 0; z-index: 1; }
+  .scrubber-dot.now { background: var(--text); border-color: var(--text); width: 8px; height: 8px; }
+
+  /* Company logo badges */
+  .co-logo {
+    display: grid; place-items: center; flex-shrink: 0; overflow: hidden;
+  }
+  .co-logo.sm { width: 26px; height: 26px; border-radius: 7px; }
+  .co-logo.md { width: 34px; height: 34px; border-radius: 8px; margin-top: 2px; }
+  .co-logo img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 2px; }
+  .logo-bm { background: #fff; border: 1px solid #e8e8e6; }
+  .logo-nc { background: #000; }
+  .logo-ph { background: #fff; border: 1px solid #e8e8e6; }
+  .logo-tg { background: #111; }
+  .logo-io { background: #fff; border: 1px solid #e8e8e6; }
+  .logo-cs { background: #fff; border: 1px solid #e8e8e6; }
+
+  /* Pills — collapse to 0 height when hidden */
+  .exp-pills {
+    display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
+    overflow: hidden;
+    max-height: 160px;
+    opacity: 1;
+    transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease, margin-bottom 0.38s ease;
+    margin-bottom: 0;
+  }
+  .exp-pills.hidden { max-height: 0; opacity: 0; pointer-events: none; margin-bottom: -8px; }
+
+  .exp-pill {
+    display: flex; flex-direction: column; gap: 6px;
+    border: 1px solid transparent; border-radius: 10px;
+    padding: 10px 12px; margin: -10px -12px;
+    transition: border-color 0.22s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+    will-change: transform;
+  }
+  .exp-pill:hover { border-color: var(--border); transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+  .pill-top { display: flex; align-items: center; gap: 9px; }
+  .pill-name { font-family: var(--ff); font-size: 13px; font-weight: 400; letter-spacing: -0.01em; color: var(--text); line-height: 1.2; }
+  .pill-date { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.02em; color: var(--dim); padding-left: 35px; }
+
+  /* List — slides open below the now-collapsed pills */
+  .exp-list {
+    display: grid; grid-template-rows: 0fr; overflow: hidden;
+    transition: grid-template-rows 0.42s cubic-bezier(0.4,0,0.2,1);
+  }
+  .exp-list.open { grid-template-rows: 1fr; }
+  .exp-list-inner { min-height: 0; display: flex; flex-direction: column; }
+
+  .exp-item { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 22px 0; border-top: 1px solid var(--border); }
+  .exp-item:first-child { border-top: none; }
+
+  /* Interactive scrubber */
+  .scrubber-dot { cursor: default; transition: background 0.18s, transform 0.18s; }
+  .exp-list.open ~ * .scrubber-dot,
+  .exp-section.expanded .scrubber-dot { cursor: pointer; }
+  .scrubber-dot.active-dot { background: var(--text); border-color: var(--text); transform: scale(1.4); }
+  .scrubber-tip {
+    position: absolute; bottom: calc(100% + 10px);
+    background: var(--text); color: var(--bg);
+    font-family: var(--ff); font-size: 11px; line-height: 1.4;
+    padding: 7px 11px; border-radius: 8px;
+    white-space: nowrap; pointer-events: none;
+    opacity: 0; transform: translateY(4px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    z-index: 20;
+  }
+  .scrubber-tip.show { opacity: 1; transform: translateY(0); }
+  .scrubber-tip strong { display: block; font-weight: 600; }
+  .scrubber-tip span { color: rgba(255,255,255,0.6); font-size: 10px; }
+  .exp-body { display: flex; flex-direction: column; gap: 4px; }
+  .exp-row1 { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .exp-company { font-family: var(--ff-display); font-style: italic; font-size: 17px; font-weight: 400; letter-spacing: -0.01em; color: var(--text); }
+  .exp-when { font-family: var(--ff-mono); font-size: 10.5px; letter-spacing: 0.02em; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+  .exp-role { font-family: var(--ff); font-size: 13px; color: var(--muted); letter-spacing: -0.01em; margin-bottom: 12px; }
+  .exp-bullets { display: flex; flex-direction: column; gap: 8px; list-style: none; }
+  .exp-bullets li { font-family: var(--ff); font-size: 14px; color: var(--muted); line-height: 1.62; letter-spacing: -0.015em; padding-left: 14px; position: relative; }
+  .exp-bullets li::before { content: "·"; position: absolute; left: 0; color: var(--dim); font-size: 18px; line-height: 1.1; }
+
+  /* ── Awards Section ── */
+  .awards-section { padding: 80px 0 120px; position: relative; }
+  .awards-heading { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 72px; }
+  .awards-amp { font-family: var(--ff); font-size: clamp(36px, 6vw, 80px); font-weight: 700; line-height: 0.85; color: var(--text); letter-spacing: -0.05em; padding-top: 0.08em; flex-shrink: 0; }
+  .awards-title-block { display: flex; flex-direction: column; line-height: 0.88; }
+  .awards-title-line { font-family: var(--ff); font-size: clamp(36px, 6vw, 80px); font-weight: 700; letter-spacing: -0.05em; color: var(--text); }
+  .awards-title-line:last-child { margin-left: 1.1em; }
+  .awards-table { border-top: 1px solid var(--border); }
+  .award-row {
+    display: grid; grid-template-columns: 64px 1fr 1fr 1fr;
+    align-items: center; gap: 16px; padding: 18px 0;
+    border-bottom: 1px solid var(--border); cursor: default;
+    transition: background 0.14s ease;
+  }
+  .award-row:hover { background: color-mix(in srgb, var(--text) 4%, transparent); }
+  .award-year { font-family: var(--ff-mono); font-size: 11px; letter-spacing: 0.06em; color: var(--muted); }
+  .award-project { font-family: var(--ff); font-size: 15px; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
+  .award-body { font-family: var(--ff); font-size: 14px; color: var(--text); letter-spacing: -0.01em; }
+  .award-type { font-family: var(--ff); font-size: 14px; color: var(--muted); letter-spacing: -0.01em; }
+  /* Hover card — image only */
+  .award-hover-card {
+    position: fixed; pointer-events: none; z-index: 200;
+    width: 280px; border-radius: 6px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.10);
+    opacity: 0;
+    transform: rotate(-1.5deg) scale(0.92);
+    transition: opacity 0.22s cubic-bezier(0.22,1,0.36,1), transform 0.22s cubic-bezier(0.22,1,0.36,1);
+    will-change: transform, opacity;
+  }
+  .award-hover-card.show {
+    opacity: 1;
+    transform: rotate(1deg) scale(1);
+  }
+  .ahc-img { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; }
+  .ahc-img.no-img { display: none; }
+  .award-row.has-link { cursor: pointer; }
+  .award-row.has-link:hover .award-project { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* ── Scroll appear ── */
+  .appear {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, filter 0.7s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .appear.in {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .appear { opacity: 1; filter: none; transform: none; transition: none; }
+  }
+
+  @media (max-width: 760px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+    .portrait { aspect-ratio: 4/3; }
+    .exp-pills { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .exp-pills { grid-template-columns: 1fr; }
+    .heatmap-grid { grid-template-columns: 0 1fr; }
+    .day-col { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hm-cell, .hm-tooltip { transition: none; }
+  }
+
+  /* ── Selected Works ── */
+  .works-section {
+    padding: 80px 0 100px;
+    background-color: var(--bg);
+    background-image: radial-gradient(circle, rgba(19,19,19,0.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+    /* section sits outside the inner wrap so dots go edge-to-edge */
+  }
+  .works-header {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+  .works-eyebrow {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+    display: block; margin-bottom: 12px;
+  }
+  .works-title {
+    font-family: var(--ff); font-style: normal;
+    font-size: clamp(36px, 6vw, 80px); font-weight: 700;
+    letter-spacing: -0.05em; color: var(--text);
+    cursor: default;
+  }
+  .works-title-line { display: block; }
+  .works-title-indent { margin-left: 1.1em; }
+  .wt-layout { display: flex; align-items: flex-start; justify-content: center; }
+  .wt-prefix { flex-shrink: 0; }
+  .wt-stack { display: flex; flex-direction: column; line-height: 0.92; }
+  .wt-swap { position: relative; display: inline-block; }
+  .wt-word { display: inline-block; }
+  .wt-stories { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; pointer-events: none; }
+  .wt-strike {
+    position: absolute; left: -3px; top: 50%;
+    transform: translateY(-55%);
+    height: 0.26em; width: 0;
+    background: #FFE34D;
+    border-radius: 3px;
+    mix-blend-mode: multiply;
+    pointer-events: none; z-index: 2;
+  }
+  .works-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .work-card:last-child { grid-column: 1 / -1; }
+  .works-divider {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 32px 0 12px;
+  }
+  .works-divider span {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .work-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+    will-change: transform;
+    transition:
+      border-color 0.22s ease,
+      box-shadow 0.22s ease,
+      transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .work-card:hover {
+    border-color: rgba(19,19,19,0.16);
+    box-shadow: 0 14px 44px rgba(0,0,0,0.09);
+    transform: translateY(-5px);
+  }
+
+  /* Image area */
+  .work-img {
+    width: 100%; aspect-ratio: 16/9;
+    position: relative; overflow: hidden;
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+  /* Full-width last card gets wider aspect */
+  .work-card:last-child .work-img { aspect-ratio: 32/9; }
+
+  /* Placeholder visuals — colored gradient fields */
+  .work-img-fill {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .work-img-label {
+    font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(19,19,19,0.22);
+    position: absolute; bottom: 14px; left: 18px;
+  }
+  /* Fake UI chrome hints */
+  .work-chrome {
+    position: absolute; inset: 24px;
+    border: 1px solid rgba(255,255,255,0.45);
+    border-radius: 10px;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .work-chrome::before {
+    content: '';
+    display: block; height: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.35);
+  }
+
+  /* Body */
+  .work-body {
+    padding: 16px 20px 20px;
+    display: flex; flex-direction: column; gap: 5px;
+    flex: 1;
+  }
+  .work-title-row {
+    font-family: var(--ff); font-size: 15px; letter-spacing: -0.01em;
+    line-height: 1.3; color: var(--text);
+  }
+  .work-project { font-weight: 600; }
+  .work-sep { color: var(--muted); font-weight: 400; margin: 0 5px; }
+  .work-cat { color: var(--dim); font-weight: 400; }
+  .work-sub {
+    font-family: var(--ff); font-size: 14px;
+    color: var(--dim); letter-spacing: -0.01em; line-height: 1.45;
+  }
+
+  /* Custom cursor — GIF follower on card hover */
+  .work-cursor {
+    position: fixed; z-index: 200; pointer-events: none;
+    width: 48px; height: 48px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    transform: translate(-50%, -50%);
+  }
+  .work-cursor img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .work-card:hover { cursor: none; }
+
+  @media (max-width: 760px) {
+    .works-grid { grid-template-columns: 1fr; }
+    .work-card:last-child { grid-column: 1; }
+    .work-card:last-child .work-img { aspect-ratio: 16/9; }
+  }
+
+  /* ── Extras / Collage ── */
+  .extras-section {
+    padding: 80px 0 120px;
+    background: var(--bg);
+  }
+  .extras-header {
+    text-align: center; margin-bottom: 56px;
+  }
+  .extras-title {
+    font-family: var(--ff); font-style: normal;
+    font-size: clamp(36px, 6vw, 80px); font-weight: 700;
+    color: var(--text); letter-spacing: -0.05em; line-height: 1; display: block;
+    margin-bottom: 10px;
+  }
+  .extras-sub {
+    font-family: var(--ff); font-size: 15px;
+    color: var(--muted); letter-spacing: -0.01em;
+  }
+  .extras-collage {
+    position: relative; height: 640px;
+    max-width: 1060px; margin: 0 auto;
+    /* allow cards to bleed slightly */
+    overflow: visible;
+  }
+  .extra-card {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    overflow: hidden;
+    cursor: grab;
+    user-select: none;
+    will-change: transform;
+    transition: box-shadow 0.25s ease;
+  }
+  .extra-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.13); z-index: 10; }
+  .extra-card:active { cursor: grabbing; }
+  .extra-card.dragging { box-shadow: 0 20px 60px rgba(0,0,0,0.18); z-index: 20; transition: none; }
+
+  /* Card inner content types */
+  .ec-fill {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: flex-end; padding: 14px 16px;
+    position: relative;
+  }
+  .ec-emoji { font-size: 28px; position: absolute; top: 14px; left: 16px; }
+  .ec-label {
+    font-family: var(--ff-mono); font-size: 8.5px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.35; margin-bottom: 4px;
+  }
+  .ec-text {
+    font-family: var(--ff); font-size: 13px;
+    font-weight: 500; line-height: 1.35; letter-spacing: -0.01em;
+  }
+  .ec-text.light { color: rgba(255,255,255,0.90); }
+  .ec-text.dark  { color: rgba(19,19,19,0.85); }
+  .ec-label.light { color: rgba(255,255,255,0.6); }
+  .ec-label.dark  { color: rgba(19,19,19,0.5); }
+
+  /* Music player card */
+  .ec-music {
+    padding: 12px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .ec-music-thumb {
+    width: 40px; height: 40px; border-radius: 6px;
+    background: linear-gradient(135deg,#f7b733,#fc4a1a);
+    flex-shrink: 0; display: grid; place-items: center;
+    font-size: 18px;
+  }
+  .ec-music-info { flex: 1; min-width: 0; }
+  .ec-music-title {
+    font-family: var(--ff); font-size: 12.5px; font-weight: 500;
+    color: var(--text); letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ec-music-artist {
+    font-family: var(--ff); font-size: 11px;
+    color: var(--muted); letter-spacing: -0.01em;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ec-music-play {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--text); border: none; cursor: pointer;
+    display: grid; place-items: center; flex-shrink: 0;
+    color: var(--bg); font-size: 10px; padding-left: 2px;
+    transition: transform 0.15s;
+  }
+  .ec-music-play:hover { transform: scale(1.1); }
+  .ec-music-bar {
+    width: 100%; height: 2px; background: var(--border);
+    border-radius: 2px; margin-top: 10px; position: relative;
+  }
+  .ec-music-fill {
+    width: 30%; height: 100%; background: var(--text);
+    border-radius: 2px;
+  }
+  .ec-music-time {
+    font-family: var(--ff-mono); font-size: 9px;
+    color: var(--muted); letter-spacing: 0.04em;
+    display: flex; justify-content: space-between; margin-top: 4px;
+  }
+
+  @media (max-width: 760px) {
+    .extras-collage { height: auto; overflow: hidden; display: flex; flex-direction: column; gap: 14px; }
+    .extra-card { position: static !important; transform: none !important; width: 100% !important; height: auto !important; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .extra-card { transition: none; }
+  }
+
+  /* ── About Overlay ── */
+  .about-overlay {
+    position: fixed; inset: 0; z-index: 81;
+    background: var(--bg);
+    transform: translateY(100%);
+    transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+    display: flex; overflow: hidden;
+  }
+  .about-overlay.open { transform: translateY(0); }
+  .about-left {
+    flex: 0 0 54%; height: 100%;
+    display: flex; flex-direction: column;
+    padding: 36px 72px 64px;
+    border-right: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .about-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff); font-size: 13px; color: var(--muted);
+    padding: 0; letter-spacing: -0.01em;
+    transition: color 0.18s; flex-shrink: 0; margin-bottom: 48px;
+  }
+  .about-back:hover { color: var(--text); }
+  .about-content {
+    flex: 1; display: flex; flex-direction: column;
+    overflow-y: auto; min-height: 0;
+    scrollbar-width: none;
+  }
+  .about-content::-webkit-scrollbar { display: none; }
+  .about-heading {
+    font-family: var(--ff); font-size: clamp(38px, 4.6vw, 66px);
+    font-weight: 600; letter-spacing: -0.035em;
+    line-height: 1.04; color: var(--text);
+    margin-bottom: 32px; flex-shrink: 0;
+    text-wrap: balance;
+  }
+  .about-bio {
+    display: flex; flex-direction: column; gap: 16px;
+    margin-bottom: auto; flex-shrink: 0;
+  }
+  .about-bio p {
+    font-family: var(--ff); font-size: 15px;
+    color: var(--muted); line-height: 1.72; letter-spacing: -0.01em;
+    max-width: 52ch;
+  }
+  .about-skills-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 28px; margin-top: 52px; flex-shrink: 0;
+  }
+  .about-skills-label {
+    font-family: var(--ff-mono); font-size: 9.5px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--muted); display: block; margin-bottom: 14px;
+  }
+  .about-skills-list {
+    list-style: none; display: flex; flex-direction: column; gap: 7px;
+  }
+  .about-skills-list li {
+    font-family: var(--ff); font-size: 13.5px;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .about-photo {
+    flex: 1; height: 100%;
+    background: linear-gradient(145deg,#c9a08a 0%,#e8b89a 38%,#d4907a 72%,#b87060 100%);
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end; padding: 22px 28px;
+  }
+  .about-photo-hint {
+    font-family: var(--ff-mono); font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: rgba(255,255,255,0.28);
+  }
+
+  /* ── About accolades ── */
+  .about-accolades { margin-top: 4px; padding-bottom: 40px; }
+  .accolade-list { display: flex; flex-direction: column; gap: 16px; }
+  .accolade-item { display: flex; flex-direction: column; gap: 3px; }
+  .accolade-name { font-family: var(--ff); font-size: 13px; font-weight: 500; color: var(--text); letter-spacing: -0.01em; }
+  .accolade-detail { font-family: var(--ff); font-size: 12px; color: var(--muted); letter-spacing: -0.01em; line-height: 1.5; }
+
+  /* ── About journey timeline ── */
+  .about-journey {
+    margin: 36px 0 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--border);
+  }
+  .about-journey-label {
+    font-family: var(--ff-mono); font-size: 9.5px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--dim); margin-bottom: 20px; display: block;
+  }
+  .journey-list {
+    display: flex; flex-direction: column;
+    position: relative; padding-left: 20px;
+  }
+  .journey-list::before {
+    content: ''; position: absolute; left: 5px; top: 6px; bottom: 6px;
+    width: 1px; background: var(--border);
+  }
+  .journey-item {
+    position: relative; padding-bottom: 20px; display: flex; flex-direction: column; gap: 2px;
+  }
+  .journey-item:last-child { padding-bottom: 0; }
+  .journey-item::before {
+    content: ''; position: absolute; left: -16px; top: 6px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--border); border: 1.5px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  .journey-item.now::before { background: var(--text); box-shadow: 0 0 0 1px var(--text); }
+  .journey-company {
+    font-family: var(--ff); font-size: 13px; font-weight: 500;
+    color: var(--text); letter-spacing: -0.01em; line-height: 1.3;
+  }
+  .journey-meta {
+    font-family: var(--ff-mono); font-size: 10px; color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .about-quote {
+    margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border);
+    font-family: var(--ff-display); font-style: italic;
+    font-size: 16px; line-height: 1.5; letter-spacing: -0.01em;
+    color: var(--muted);
+  }
+  @media (max-width: 760px) {
+    .about-overlay { flex-direction: column; }
+    .about-left { flex: 0 0 auto; height: auto; overflow-y: auto; padding: 28px 24px 40px; border-right: none; border-bottom: 1px solid var(--border); }
+    .about-photo { min-height: 260px; flex: 0 0 auto; }
+  }
+
+  /* ── Case Study Overlay ── */
+  /* ── Case Study Overlay ── */
+  .cs-overlay {
+    position: fixed; inset: 0; z-index: 80;
+    background: var(--bg);
+    transform: translateY(100%);
+    transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .cs-overlay.open { transform: translateY(0); }
+
+  /* Non-scrolling top: topbar + carousel */
+  .cs-top {
+    flex: 0 0 50vh;
+    display: flex; flex-direction: column;
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .cs-topbar {
+    flex-shrink: 0;
+    display: flex; align-items: center;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .cs-back {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff); font-size: 13px; color: var(--muted);
+    padding: 0; letter-spacing: -0.01em;
+    transition: color 0.18s;
+  }
+  .cs-back:hover { color: var(--text); }
+
+  /* Scroll-linked horizontal carousel */
+  .cs-carousel-zone { flex: 1; overflow: hidden; }
+  .cs-carousel-track {
+    display: flex; align-items: stretch;
+    height: 100%; gap: 12px;
+    padding: 16px 40px;
+    will-change: transform;
+    transition: transform 0.08s linear;
+  }
+  .cs-slide {
+    flex-shrink: 0; height: 100%;
+    aspect-ratio: 4/3;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .cs-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cs-slide-bg { width: 100%; height: 100%; }
+
+  /* Scrollable bottom panel */
+  .cs-panel {
+    flex: 1; overflow-y: auto; overflow-x: hidden;
+    display: flex; flex-direction: column;
+    min-height: 0;
+  }
+
+  /* Folder-style tab bar */
+  .cs-tabs {
+    position: sticky; top: 0; z-index: 2;
+    display: flex; align-items: flex-end;
+    padding: 0 40px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .cs-tab {
+    background: none; border: none; cursor: pointer;
+    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); padding: 14px 22px 12px;
+    border-radius: 6px 6px 0 0;
+    border-top: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .cs-tab.active {
+    color: var(--text); background: var(--bg);
+    border-color: var(--border);
+    border-bottom-color: var(--bg);
+  }
+  .cs-tab:not(.active):hover { color: var(--dim); }
+
+  /* Panes */
+  .cs-tab-body { flex: 1; }
+  .cs-pane { display: none; }
+  .cs-pane.active { display: block; }
+
+  /* INTRO pane */
+  .cs-pane[data-pane="intro"] { padding: 40px 40px 80px; }
+  .cs-intro-head { margin-bottom: 28px; }
+  .cs-company {
+    font-family: var(--ff-display); font-style: italic;
+    font-size: 16px; color: var(--dim); letter-spacing: -0.01em;
+    margin-bottom: 6px;
+  }
+  .cs-cs-title {
+    font-family: var(--ff-display); font-style: italic;
+    font-size: 30px; font-weight: 400; color: var(--text);
+    letter-spacing: -0.025em; line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cs-tag {
+    font-family: var(--ff-mono); font-size: 8.5px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); border: 1px solid var(--border);
+    border-radius: 100px; padding: 3px 9px;
+  }
+  .cs-desc {
+    font-family: var(--ff); font-size: 14px; color: var(--dim);
+    line-height: 1.7; letter-spacing: -0.01em;
+    max-width: 580px; margin-bottom: 28px;
+  }
+  .cs-meta-row {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    padding-top: 20px; border-top: 1px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .cs-meta-block { display: flex; flex-direction: column; gap: 3px; }
+  .cs-meta-label {
+    font-family: var(--ff-mono); font-size: 8px;
+    letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted);
+  }
+  .cs-meta-value {
+    font-family: var(--ff); font-size: 13px;
+    color: var(--text); letter-spacing: -0.01em;
+  }
+  .cs-metrics { display: flex; gap: 36px; flex-wrap: wrap; }
+  .cs-metric { display: flex; flex-direction: column; gap: 2px; }
+  .cs-metric-val {
+    font-family: var(--ff); font-size: 26px; font-weight: 500;
+    color: var(--text); letter-spacing: -0.03em; line-height: 1;
+  }
+  .cs-metric-lbl {
+    font-family: var(--ff); font-size: 11px;
+    color: var(--muted); letter-spacing: -0.01em;
+  }
+
+  /* STORY (iframe) pane */
+  .cs-pane[data-pane="story"] { padding: 0; }
+  .cs-story-iframe {
+    display: block; width: 100%; height: 80vh;
+    border: none; background: var(--bg);
+  }
+
+  @media (max-width: 760px) {
+    .cs-top { flex: 0 0 44vw; }
+    .cs-topbar { padding: 14px 20px; }
+    .cs-carousel-track { padding: 12px 20px; gap: 8px; }
+    .cs-tabs { padding: 0 20px; }
+    .cs-pane[data-pane="intro"] { padding: 24px 20px 60px; }
+    .cs-meta-row { gap: 24px; }
+  }
+
+  /* ── Preloader ── */
+  .preloader {
+    position: fixed; inset: 0; z-index: 100;
+    background: #fbfbfa;
+    transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .preloader.exit { transform: translateY(-100%); }
+
+  /* Center stack — greeting / counter+pct */
+  .preloader-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .preloader-greeting-wrap {
+    position: relative; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .preloader-greeting {
+    position: absolute;
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', 'Noto Sans Kannada',
+                 'Noto Sans Bengali', 'Noto Sans Gujarati', 'Noto Sans Malayalam',
+                 system-ui, sans-serif;
+    font-size: 22px; font-weight: 400;
+    color: rgba(19,19,19,0.50); letter-spacing: 0.04em;
+    text-align: center; line-height: 1.4;
+    transition: opacity 0.28s ease;
+    white-space: nowrap;
+  }
+  .preloader-greeting.english {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic; letter-spacing: -0.01em;
+  }
+  .preloader-num-row {
+    display: flex; align-items: baseline; justify-content: center; gap: 1px;
+    width: 100%; position: relative; left: 2px;
+  }
+  .preloader-count {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 14px; font-weight: 400;
+    color: rgba(19,19,19,0.75); letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+  .preloader-pct {
+    font-family: 'Noto Sans', system-ui, sans-serif;
+    font-size: 12px; font-weight: 300;
+    color: rgba(19,19,19,0.45); letter-spacing: 0.1em;
+  }
+  /* Left split — flies to left edge via JS */
+  .preloader-split {
+    position: absolute; top: 50%; left: 50%;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 11px; font-weight: 300;
+    color: rgba(19,19,19,0.90); letter-spacing: 0.1em;
+    will-change: transform;
+  }
+
+  /* Progress bar — single element scales from center outward */
+  .preloader-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px; pointer-events: none;
+    background: rgba(19,19,19,0.25);
+    transform: scaleX(0);
+    transform-origin: center;
+  }
+
+  /* Page content fades in after loader exits */
+  .page-stage { opacity: 0; transition: opacity 0.55s ease 0.2s; }
+  .page-stage.revealed { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .preloader { transition: none; }
+    .page-stage { opacity: 1; transition: none; }
+    .preloader-greeting { animation: none; }
+  }
+
+  /* ── Footer ───────────────────────────────────────────── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+  }
+  .footer-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    mix-blend-mode: multiply;
+    opacity: 0.88;
+  }
+  [data-theme="dark"] .footer-logo {
+    mix-blend-mode: screen;
+    filter: invert(1);
+    opacity: 0.7;
+  }
+</style>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader" aria-label="Loading">
+  <span class="preloader-split" id="pl-l">—</span>
+  <span class="preloader-split" id="pl-r">—</span>
+  <div class="preloader-center">
+    <div class="preloader-greeting-wrap">
+      <span class="preloader-greeting english" id="pl-greeting-a">Hello</span>
+      <span class="preloader-greeting" id="pl-greeting-b" style="opacity:0"></span>
+    </div>
+    <div class="preloader-num-row">
+      <span class="preloader-count" id="preloader-count">0</span>
+      <span class="preloader-pct">%</span>
+    </div>
+  </div>
+  <div class="preloader-bar" id="preloader-bar"></div>
+</div>
+
+<!-- Page stage — floating objects are absolute children -->
+<div class="page-stage">
+
+  <!-- ZHU — left, hero zone -->
+  <div class="fobj tip-right" aria-hidden="true"
+       style="left:48px; top:160px; --sz:120px; --r:-6deg; --dur:6s; --delay:-1.2s;">
+    <span class="fobj-img"><img src="assets/images/ZHU.jpg" alt="ZHU"></span>
+    <div class="fobj-tip">
+      <span class="tip-label">ZHU</span>
+      <p class="tip-text">A house artist. My go-to during work hours.</p>
+    </div>
+  </div>
+
+  <!-- Witcher 3 — right, hero zone -->
+  <div class="fobj tip-left" aria-hidden="true"
+       style="right:48px; top:280px; --sz:120px; --r:5deg; --dur:7s; --delay:-3.5s;">
+    <span class="fobj-img"><img src="assets/images/Witcher 3.jpg" alt="Witcher 3"></span>
+    <div class="fobj-tip">
+      <span class="tip-label">Witcher 3</span>
+      <p class="tip-text">One of my favorite narrative-driven games I've played till date.</p>
+    </div>
+  </div>
+
+  <!-- Think Like Da Vinci — left, experience zone -->
+  <div class="fobj tip-right" aria-hidden="true"
+       style="left:40px; top:1700px; --sz:120px; --r:4deg; --dur:5.5s; --delay:-0.8s;">
+    <span class="fobj-img"><img src="assets/images/Think Like Davinci.jpg" alt="Think Like Da Vinci"></span>
+    <div class="fobj-tip">
+      <span class="tip-label">Think Like Da Vinci</span>
+      <p class="tip-text">A gift that has taught me so much about approach in life.</p>
+    </div>
+  </div>
+
+  <!-- Nothing 3A — right, works zone -->
+  <div class="fobj tip-left" aria-hidden="true"
+       style="right:48px; top:3200px; --sz:120px; --r:-4deg; --dur:6.8s; --delay:-2.3s;">
+    <span class="fobj-img"><img src="assets/images/Phone 3a.webp" alt="Nothing 3A"></span>
+    <div class="fobj-tip">
+      <span class="tip-label">Nothing 3A</span>
+      <p class="tip-text">I love the design language Nothing follows. Heavily influenced by it.</p>
+    </div>
+  </div>
+
+  <!-- Ship of Thesus — left, extras zone -->
+  <div class="fobj tip-right" aria-hidden="true"
+       style="left:44px; top:5200px; --sz:120px; --r:3deg; --dur:8s; --delay:-4.1s;">
+    <span class="fobj-img"><img src="assets/images/Ship of Thesus.jpg" alt="Ship of Thesus"></span>
+    <div class="fobj-tip">
+      <span class="tip-label">Ship of Thesus</span>
+      <p class="tip-text">10/10 movie. Recommend if you haven't dived into Assamese cinema.</p>
+    </div>
+  </div>
+
+  <!-- ── Nav ── -->
+  <nav class="nav">
+    <a href="#" class="nav-wordmark">
+      <span class="nav-word-a">euyoro</span>
+      <span class="nav-word-sep">/</span>
+      <span class="nav-word-b" id="nav-name">shreyo</span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-menu-wrap">
+        <button class="nav-menu-btn" id="nav-menu-btn" aria-expanded="false">Menu</button>
+        <div class="nav-dropdown" id="nav-dropdown" role="menu">
+          <a href="#" class="nav-drop-link" role="menuitem">Home</a>
+          <a href="#" class="nav-drop-link" id="nav-about" role="menuitem">About</a>
+          <a href="mailto:shreyoisonline@gmail.com" class="nav-drop-link" role="menuitem">Contact</a>
+          <a href="#extras" class="nav-drop-link nav-drop-fun" role="menuitem">Fun part of the website (click here!!)</a>
+        </div>
+      </div>
+      <button class="nav-theme-btn" id="theme-btn">Light / Dark</button>
+      <a href="mailto:shreyoisonline@gmail.com" class="nav-cta">Reach Out</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-ident">
+            <p class="hero-name">Shreyo Debnath</p>
+            <p class="hero-role">Product Designer</p>
+          </div>
+          <div class="portrait" role="img" aria-label="Shreyo Debnath">
+            <img src="shreyo-portfolio-v0.01-main/assets/shreyo.jpg" alt="Shreyo Debnath" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+          </div>
+        </div>
+        <div class="hero-right appear" style="transition-delay:0.15s">
+          <h1 class="hero-intro-line">But I am also <strong><span class="hero-cycle-wrap"><span id="hero-cycle" class="hero-cycle">a comic nerd</span></span></strong></h1>
+          <div class="hero-body">
+            <p class="hero-p">I am a designer with about 4 years of experience donning hats all the way from <span class="hero-hl">Product to Brand to Motion</span> and now to even Development. I work with all the essence of design I absorb. I drive performance, engagement, sales and make people tell great stories about the companies I work for.</p>
+            <p class="hero-p">Design for me, is a whisper in the ear to tell poems about the human relationships in visuals. <em>And I am a great poet.</em></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Activity -->
+    <section class="activity">
+      <div class="section-head appear">
+        <span class="section-title">Performance</span>
+        <span class="section-meta">GitHub · Sep 2024 – Sep 2025</span>
+      </div>
+      <div class="heatmap-grid appear" style="transition-delay:0.1s">
+        <div class="day-col" id="day-col"></div>
+        <div class="calendar-col" id="calendar-col"></div>
+      </div>
+      <div class="activity-foot">
+        <div class="activity-count-wrap">
+          <span class="activity-count" id="act-count">—</span>
+          <span class="activity-count-lbl">contributions in the last year</span>
+        </div>
+        <div class="legend">
+          <span class="legend-lbl">Less</span>
+          <div class="legend-cells">
+            <div class="legend-cell"></div><div class="legend-cell"></div>
+            <div class="legend-cell"></div><div class="legend-cell"></div>
+            <div class="legend-cell"></div>
+          </div>
+          <span class="legend-lbl">More</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section class="exp-section">
+      <div class="section-head appear">
+        <h2 class="section-title">Experience</h2>
+        <button class="exp-toggle" id="exp-btn" aria-expanded="false">
+          See more <span id="exp-chevron">↓</span>
+        </button>
+      </div>
+      <div class="exp-scrubber appear" id="exp-scrubber" style="transition-delay:0.08s">
+        <div class="scrubber-track"></div>
+        <div class="scrubber-dots" id="scrubber-dots">
+          <div class="scrubber-dot now" data-company="Bright Money" data-role="Product Designer" data-date="Jan 2025 – Present"></div>
+          <div class="scrubber-dot" data-company="Ninecamp Ventures" data-role="Visual Design &amp; Strategy Intern" data-date="May – Jul 2024"></div>
+          <div class="scrubber-dot" data-company="Primary Healthtech" data-role="Visual &amp; UI/UX Design Intern" data-date="Nov 2021 – Sep 2022"></div>
+          <div class="scrubber-dot" data-company="The Grit" data-role="Graphic Design Intern" data-date="Feb – May 2021"></div>
+          <div class="scrubber-dot" data-company="Inteluth Official" data-role="Marketing Graphic Designer" data-date="Aug – Dec 2020"></div>
+          <div class="scrubber-dot" data-company="Career Spark" data-role="Social Media Designer" data-date="Jul 2019 – Feb 2020"></div>
+        </div>
+        <div class="scrubber-tip" id="scrubber-tip"></div>
+      </div>
+      <div class="exp-pills appear" id="exp-pills" style="transition-delay:0.16s">
+        <div class="exp-pill">
+          <div class="pill-top"><span class="co-logo sm logo-bm"><img src="assets/logos/bright-money.png" alt="Bright Money"></span><span class="pill-name">Bright Money</span></div>
+          <span class="pill-date">Jan 2025 – Now</span>
+        </div>
+        <div class="exp-pill">
+          <div class="pill-top"><span class="co-logo sm logo-nc"><img src="assets/logos/ninecamp.png" alt="Ninecamp"></span><span class="pill-name">Ninecamp Ventures</span></div>
+          <span class="pill-date">May – Jul 2024</span>
+        </div>
+        <div class="exp-pill">
+          <div class="pill-top"><span class="co-logo sm logo-ph"><img src="assets/logos/primary-healthtech.png" alt="Primary Healthtech"></span><span class="pill-name">Primary Healthtech</span></div>
+          <span class="pill-date">Nov 2021 – Sep 2022</span>
+        </div>
+        <div class="exp-pill">
+          <div class="pill-top"><span class="co-logo sm logo-tg"><img src="assets/logos/the-grit.png" alt="The Grit"></span><span class="pill-name">The Grit · &amp; Earlier</span></div>
+          <span class="pill-date">2019 – 2021</span>
+        </div>
+      </div>
+      <div class="exp-list" id="exp-list">
+        <div class="exp-list-inner">
+
+        <div class="exp-item">
+          <span class="co-logo md logo-bm"><img src="assets/logos/bright-money.png" alt="Bright Money"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">Bright Money</span><span class="exp-when">Jan 2025 – Present</span></div>
+            <p class="exp-role">Product Designer · Jul 2025 – Present · SF, USA (Remote)</p>
+            <ul class="exp-bullets">
+              <li>Worked across ID Protection, Rent Reporting, Referral Flow 3.0, Freemium, and Bill Saver — research, wireframing, hi-fi, stakeholder presentations, and handoff</li>
+              <li>Built Competitor Hub (S3, RDS, EC2), replacing a locked FigJam; shipped 2 AI-powered Figma plugins; evaluated 4+ AI development tools</li>
+            </ul>
+            <p class="exp-role" style="margin-top:16px;">Visual Designer · Jan – Jul 2025 · Apprenticeship · Bangalore, Hybrid</p>
+            <ul class="exp-bullets">
+              <li>Redesigned employee onboarding and created new internal visual style for Bright Money 2025; mapped the complete in-app UX flow</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <span class="co-logo md logo-nc"><img src="assets/logos/ninecamp.png" alt="Ninecamp"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">Ninecamp Ventures</span><span class="exp-when">May – Jul 2024 · Delhi, India</span></div>
+            <p class="exp-role">Visual Design &amp; Strategy Intern · 3 months</p>
+            <ul class="exp-bullets">
+              <li>Designed the brand identity for Ninecamp Ventures, the mark and system, from scratch</li>
+              <li>Led the website launch covering IA, wireframes, and hi-fi; made marketing collaterals for Boha, Dirty Jungle, and Dear Donna</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <span class="co-logo md logo-ph"><img src="assets/logos/primary-healthtech.png" alt="Primary Healthtech"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">Primary Healthtech · IIT Guwahati</span><span class="exp-when">Nov 2021 – Sep 2022 · On-site</span></div>
+            <p class="exp-role">Visual &amp; UI/UX Design Intern · 11 months</p>
+            <ul class="exp-bullets">
+              <li>Designed the INUP-I2I identity for a MeiTY India joint venture between IIT-G, IIT-B, and IISc Bangalore</li>
+              <li>Redesigned the Primary Healthtech website for their updated design language; print collaterals recognized by the Government of Assam</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <span class="co-logo md logo-tg"><img src="assets/logos/the-grit.png" alt="The Grit"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">The Grit</span><span class="exp-when">Feb – May 2021 · Mumbai, Remote</span></div>
+            <p class="exp-role">Graphic Design Intern · 4 months</p>
+            <ul class="exp-bullets">
+              <li>Made social media posts and marketing materials for the brand</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <span class="co-logo md logo-io"><img src="assets/logos/inteluth.png" alt="Inteluth"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">Inteluth Official</span><span class="exp-when">Aug – Dec 2020 · Guwahati, Hybrid</span></div>
+            <p class="exp-role">Marketing Graphic Designer · Freelance · 5 months</p>
+            <ul class="exp-bullets">
+              <li>Made marketing graphics and video content for social media campaigns</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <span class="co-logo md logo-cs"><img src="assets/logos/careerspark.png" alt="Career Spark"></span>
+          <div class="exp-body">
+            <div class="exp-row1"><span class="exp-company">Career Spark</span><span class="exp-when">Jul 2019 – Feb 2020 · Guwahati, On-site</span></div>
+            <p class="exp-role">Social Media Designer · Intern · 8 months</p>
+            <ul class="exp-bullets">
+              <li>Video content creation and social media design for the brand's digital channels</li>
+            </ul>
+          </div>
+        </div>
+
+        </div><!-- /exp-list-inner -->
+      </div>
+    </section>
+
+  </div><!-- /wrap -->
+
+  <!-- Selected Works -->
+  <section class="works-section">
+    <div class="wrap">
+
+      <div class="works-header appear">
+        <span class="works-eyebrow">Selected work</span>
+        <h2 class="works-title">
+          <span class="wt-layout">
+            <span class="wt-prefix">Case&nbsp;</span>
+            <span class="wt-stack">
+              <span class="wt-swap"><span class="wt-word wt-studies">Studies</span><span class="wt-word wt-stories">Stories</span><span class="wt-strike"></span></span>
+              <span class="wt-sofar">so Far</span>
+            </span>
+          </span>
+        </h2>
+      </div>
+
+      <div class="works-grid">
+
+        <!-- 1: Rent Reporting -->
+        <article class="work-card appear" style="transition-delay:0.05s" data-href="case-studies/rent-reporting.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#e6f4ea 0%,#a8ceb0 50%,#6fa882 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">Credit score path for thin-file renters. Live to customers March 2026.</p>
+          </div>
+        </article>
+
+        <!-- 2: Bright Atlas -->
+        <article class="work-card appear" style="transition-delay:0.1s" data-href="case-studies/bright-atlas.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#dde8f5 0%,#97b8d8 50%,#5a85b8 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Bright Atlas</strong><span class="work-sep">|</span><span class="work-cat">Built</span></p>
+            <p class="work-sub">AI-powered competitor intel — every screenshot searchable, live for all teams.</p>
+          </div>
+        </article>
+
+        <!-- 3: Sauron -->
+        <article class="work-card appear" style="transition-delay:0.15s" data-href="case-studies/sauron.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#f5edd4 0%,#dfb86a 50%,#b8892a 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Sauron</strong><span class="work-sep">|</span><span class="work-cat">Live</span></p>
+            <p class="work-sub">Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship.</p>
+          </div>
+        </article>
+
+        <!-- 4: Referral Redesign -->
+        <article class="work-card appear" style="transition-delay:0.2s" data-href="case-studies/referral-redesign.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#f5dde8 0%,#d4a0b5 50%,#b06a85 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Referral Redesign</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">Rebuilt Bright's referral programme around why users actually refer. Hi-fi signed off.</p>
+          </div>
+        </article>
+
+        <!-- 5: Monet Cancellation -->
+        <article class="work-card appear" style="transition-delay:0.25s" data-href="case-studies/monet-cancellation.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#ede0f5 0%,#b8a0d4 50%,#8a6ab8 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Monet Cancellation</strong><span class="work-sep">|</span><span class="work-cat">In Progress</span></p>
+            <p class="work-sub">Cancellation flow with a Starter tier — giving churning users a middle option.</p>
+          </div>
+        </article>
+
+        <!-- 6: Freemium 3→4 -->
+        <article class="work-card appear" style="transition-delay:0.3s" data-href="case-studies/freemium-3-4.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#dde5f0 0%,#a0b5ce 50%,#6a8aad 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Freemium 3.0 → 4.0</strong><span class="work-sep">|</span><span class="work-cat">Closed</span></p>
+            <p class="work-sub">Experience layer controlling what cancelled Basic users see, locked, and what's offered.</p>
+          </div>
+        </article>
+
+        <!-- 7: ID Protection (full-width) -->
+        <article class="work-card appear" style="transition-delay:0.35s" data-href="case-studies/id-protection.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#d8eae0 0%,#90b8a0 50%,#548a6a 100%)">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">ID Protection</strong><span class="work-sep">|</span><span class="work-cat">Concept</span></p>
+            <p class="work-sub">Researched and pitched a full ID protection product — credit monitoring, breach alerts, dispute flow — to fill a visible competitive gap.</p>
+          </div>
+        </article>
+
+        <div class="works-divider appear"><span>Academic &amp; Personal</span></div>
+
+        <!-- 8: ScribbleShip -->
+        <article class="work-card appear" style="transition-delay:0.05s" data-href="case-studies/scribbleship.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/scribbleship-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">ScribbleShip</strong><span class="work-sep">|</span><span class="work-cat">UI/UX</span></p>
+            <p class="work-sub">Mobile app for on-demand stationery and print ordering in Ahmedabad.</p>
+          </div>
+        </article>
+
+        <!-- 9: GLS Annual Yearbook -->
+        <article class="work-card appear" style="transition-delay:0.1s" data-href="case-studies/gls-yearbook.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/yearbook-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">GLS Annual Yearbook</strong><span class="work-sep">|</span><span class="work-cat">Publication</span></p>
+            <p class="work-sub">28cm hardbound yearbook documenting a design institute's creative journey.</p>
+          </div>
+        </article>
+
+        <!-- 10: Metro Wayfinding -->
+        <article class="work-card appear" style="transition-delay:0.15s" data-href="case-studies/metro-wayfinding.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/metro-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Metro Wayfinding</strong><span class="work-sep">|</span><span class="work-cat">Systems</span></p>
+            <p class="work-sub">Redesigned Ahmedabad Metro signage — wayfinding, typography, spatial ergonomics.</p>
+          </div>
+        </article>
+
+        <!-- 11: Everest Spices Packaging -->
+        <article class="work-card appear" style="transition-delay:0.2s" data-href="case-studies/everest-packaging.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/everest-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Everest Spices</strong><span class="work-sep">|</span><span class="work-cat">Packaging</span></p>
+            <p class="work-sub">International packaging for India's iconic spice brand. Featured on Packaging of the World.</p>
+          </div>
+        </article>
+
+        <!-- 12: Baux Typeface -->
+        <article class="work-card appear" style="transition-delay:0.25s" data-href="case-studies/baux-typeface.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/baux-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Baux Typeface</strong><span class="work-sep">|</span><span class="work-cat">Type Design</span></p>
+            <p class="work-sub">Futuristic display typeface — 30 characters, alien geometry, zero curves.</p>
+          </div>
+        </article>
+
+        <!-- 13: Jupiter Banking TVC -->
+        <article class="work-card appear" style="transition-delay:0.3s" data-href="case-studies/jupiter-tvc.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/jupiter-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Jupiter Banking TVC</strong><span class="work-sep">|</span><span class="work-cat">Film</span></p>
+            <p class="work-sub">Slice-of-life TV commercial for a gen-z neobank — directed and edited.</p>
+          </div>
+        </article>
+
+        <!-- 14: Logofolio (full-width) -->
+        <article class="work-card appear" style="transition-delay:0.35s" data-href="case-studies/logofolio.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/projects/logofolio-hero.jpg') center/cover no-repeat">
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Logofolio &amp; Brand Marks</strong><span class="work-sep">|</span><span class="work-cat">Identity</span></p>
+            <p class="work-sub">Five years of brand identity work — healthcare, education, esports, government. Each mark with its own story.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Extras / Collage -->
+  <section class="extras-section" id="extras">
+    <div class="wrap">
+      <div class="extras-header appear">
+        <span class="extras-title">Xtras</span>
+        <p class="extras-sub">More of me outside work</p>
+      </div>
+    </div>
+    <div class="extras-collage" id="extras-collage">
+
+      <!-- Music player -->
+      <div class="extra-card" style="left:226px;top:22px;width:274px;transform:rotate(2deg);">
+        <div class="ec-music">
+          <div class="ec-music-thumb">🎵</div>
+          <div class="ec-music-info">
+            <div class="ec-music-title">Ilahi</div>
+            <div class="ec-music-artist">Yeh Jawaani Hai Deewani</div>
+          </div>
+          <button class="ec-music-play" aria-label="Play">▶</button>
+        </div>
+        <div style="padding:0 16px 12px">
+          <div class="ec-music-bar"><div class="ec-music-fill"></div></div>
+          <div class="ec-music-time"><span>01:24</span><span>04:16</span></div>
+        </div>
+      </div>
+
+      <!-- Nothing 3A (tall, left) -->
+      <div class="extra-card" style="left:38px;top:50px;width:155px;height:224px;transform:rotate(-7deg);background:linear-gradient(to bottom,transparent 35%,rgba(0,0,0,0.65)) ,url('assets/images/Phone 3a.webp') center/cover no-repeat;">
+        <div class="ec-fill">
+          <div class="ec-label light">Nothing 3A</div>
+          <div class="ec-text light">Heavily influenced<br>by their design.</div>
+        </div>
+      </div>
+
+      <!-- Central portrait -->
+      <div class="extra-card" style="left:306px;top:70px;width:234px;height:318px;transform:rotate(3deg);background:url('shreyo-portfolio-v0.01-main/assets/shreyo.jpg') top center/cover no-repeat;overflow:hidden;"></div>
+
+      <!-- Quote card (right upper) -->
+      <div class="extra-card" style="left:676px;top:16px;width:168px;height:230px;transform:rotate(-4deg);background:linear-gradient(145deg,#f5f0e8,#ede4d0);">
+        <div class="ec-fill" style="justify-content:center;padding:20px 18px;">
+          <div style="font-family:var(--ff-display);font-style:italic;font-size:21px;line-height:1.2;letter-spacing:-0.02em;color:rgba(19,19,19,0.85);text-align:center;">Design is empathy, not decoration.</div>
+        </div>
+      </div>
+
+      <!-- Think Like Da Vinci (bottom left) -->
+      <div class="extra-card" style="left:28px;top:308px;width:183px;height:172px;transform:rotate(5deg);background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,0.6)),url('assets/images/Think Like Davinci.jpg') center/cover no-repeat;">
+        <div class="ec-fill">
+          <div class="ec-label light">Think Like Da Vinci</div>
+          <div class="ec-text light">A gift that changed<br>how I approach life.</div>
+        </div>
+      </div>
+
+      <!-- ZHU (bottom left-center) -->
+      <div class="extra-card" style="left:217px;top:350px;width:200px;height:140px;transform:rotate(-3deg);background:linear-gradient(to bottom,transparent 25%,rgba(0,0,0,0.65)),url('assets/images/ZHU.jpg') center/cover no-repeat;">
+        <div class="ec-fill">
+          <div class="ec-label light">ZHU</div>
+          <div class="ec-text light">House artist. My<br>go-to during work.</div>
+        </div>
+      </div>
+
+      <!-- Witcher 3 (bottom center) -->
+      <div class="extra-card" style="left:490px;top:388px;width:188px;height:166px;transform:rotate(2deg);background:linear-gradient(to bottom,transparent 30%,rgba(0,0,0,0.7)),url('assets/images/Witcher 3.jpg') center/cover no-repeat;">
+        <div class="ec-fill">
+          <div class="ec-label light">Witcher 3</div>
+          <div class="ec-text light">My favorite<br>narrative-driven game.</div>
+        </div>
+      </div>
+
+      <!-- Ship of Theseus (right side) -->
+      <div class="extra-card" style="left:836px;top:252px;width:188px;height:230px;transform:rotate(-5deg);background:linear-gradient(to bottom,transparent 35%,rgba(0,0,0,0.65)),url('assets/images/Ship of Thesus.jpg') center/cover no-repeat;">
+        <div class="ec-fill">
+          <div class="ec-label light">Ship of Theseus</div>
+          <div class="ec-text light">10/10 movie. Dive<br>into Assamese cinema.</div>
+        </div>
+      </div>
+
+      <!-- Photo slot 1 -->
+      <div class="extra-card extra-photo" id="extra-photo-1" style="left:548px;top:36px;width:196px;height:262px;transform:rotate(-2.5deg);overflow:hidden;background:linear-gradient(145deg,#e8e2d9,#d1c5b3);">
+        <div class="ec-fill" style="align-items:center;justify-content:center;gap:8px;">
+          <span style="font-size:30px;opacity:0.35;">🖼</span>
+          <div style="font-family:var(--ff-mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(19,19,19,0.35);">Photo soon</div>
+        </div>
+      </div>
+
+      <!-- Photo slot 2 -->
+      <div class="extra-card extra-photo" id="extra-photo-2" style="left:752px;top:108px;width:178px;height:238px;transform:rotate(4.5deg);overflow:hidden;background:linear-gradient(145deg,#d9e2e4,#b8c6ca);">
+        <div class="ec-fill" style="align-items:center;justify-content:center;gap:8px;">
+          <span style="font-size:30px;opacity:0.35;">🖼</span>
+          <div style="font-family:var(--ff-mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:rgba(19,19,19,0.35);">Photo soon</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Awards & Recognitions ── -->
+  <section class="awards-section">
+   <div class="wrap">
+    <div class="awards-heading appear">
+      <span class="awards-amp">&amp;</span>
+      <div class="awards-title-block">
+        <span class="awards-title-line">Awards</span>
+        <span class="awards-title-line">Recog-</span>
+        <span class="awards-title-line">nitions</span>
+      </div>
+    </div>
+    <div class="awards-table appear" style="transition-delay:0.1s">
+      <div class="award-row has-link"
+        data-year="'24"
+        data-project="Counter Space"
+        data-detail="A typographic book co-designed with Mukul Dev. Among 19,000+ entries from 64 countries."
+        data-img="assets/awards/counter-space.jpg"
+        data-href="https://www.behance.net/gallery/217010387/Counter-Space"
+        data-link-label="behance.net ↗">
+        <span class="award-year">'24</span>
+        <span class="award-project">Counter Space</span>
+        <span class="award-body">TISDC</span>
+        <span class="award-type">Finalist — Visual Design</span>
+      </div>
+      <div class="award-row has-link"
+        data-year="'24"
+        data-project="Academic Packaging"
+        data-detail="A packaging redesign project selected and published globally on packagingoftheworld.com."
+        data-img="assets/awards/everest-packaging.jpg"
+        data-href="https://packagingoftheworld.com/2024/03/everest-spices-international-packaging.html"
+        data-link-label="packagingoftheworld.com ↗">
+        <span class="award-year">'24</span>
+        <span class="award-project">Academic Packaging</span>
+        <span class="award-body">Packaging of the World</span>
+        <span class="award-type">Featured</span>
+      </div>
+      <div class="award-row"
+        data-year="'19"
+        data-project="Science Exhibition"
+        data-detail="State-level qualifier representing South Point School, Guwahati.">
+        <span class="award-year">'19</span>
+        <span class="award-project">Science Exhibition</span>
+        <span class="award-body">National Science Exhibition</span>
+        <span class="award-type">State Representee</span>
+      </div>
+      <div class="award-row has-link"
+        data-year="'18"
+        data-project="TEDx Talk"
+        data-detail="Spoke on how the education system gets in the way of learning, at Borpukhuripar, Sivsagar."
+        data-img="https://img.youtube.com/vi/fPMtrSnMCjo/hqdefault.jpg"
+        data-href="https://www.youtube.com/watch?v=fPMtrSnMCjo"
+        data-link-label="youtube.com ↗">
+        <span class="award-year">'18</span>
+        <span class="award-project">TEDx Talk</span>
+        <span class="award-body">TEDx</span>
+        <span class="award-type">Student Speaker</span>
+      </div>
+    </div>
+   </div><!-- /wrap -->
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <img class="footer-logo" src="assets/images/6dfb4320-7aba-4d98-8101-63c29a8e9dff.png" alt="[PORTFOLIO] — Shreyo Debnath">
+  </footer>
+
+  <!-- Hover card — image only -->
+  <div class="award-hover-card" id="award-hover-card">
+    <img class="ahc-img" id="ahc-img" src="" alt="">
+  </div>
+
+</div><!-- /page-stage -->
+
+<!-- Case Study Overlay -->
+<div class="cs-overlay" id="cs-overlay" role="dialog" aria-modal="true">
+  <div class="cs-top">
+    <div class="cs-topbar">
+      <button class="cs-back" id="cs-back">← Back</button>
+    </div>
+    <div class="cs-carousel-zone">
+      <div class="cs-carousel-track" id="cs-track"></div>
+    </div>
+  </div>
+  <div class="cs-panel" id="cs-panel">
+    <div class="cs-tabs">
+      <button class="cs-tab active" data-tab="intro">Intro</button>
+      <button class="cs-tab" data-tab="story">Case Study</button>
+    </div>
+    <div class="cs-tab-body">
+      <div class="cs-pane active" data-pane="intro" id="cs-intro-pane"></div>
+      <div class="cs-pane" data-pane="story" id="cs-story-pane"></div>
+    </div>
+  </div>
+</div>
+
+<!-- About Overlay -->
+<div class="about-overlay" id="about-overlay" role="dialog" aria-modal="true" aria-label="About Shreyo">
+  <div class="about-left">
+    <button class="about-back" id="about-back">✕ Close</button>
+    <div class="about-content">
+      <h1 class="about-heading">Hello there,<br>I'm Shreyo.</h1>
+      <div class="about-bio">
+        <p>I work on the parts of fintech that are hard to make feel good. Reporting someone's rent to a credit bureau. Selling identity protection to a person who doesn't think they need it. Regulation sets the rules, the stakes are somebody's actual money, and the room to be clever is small.</p>
+        <p>I stopped waiting for engineering bandwidth to test an idea. I build them instead — not as prototypes but deployed, on a URL, with a database behind them. I don't think this makes me an engineer. I think it makes me a designer who wastes less time.</p>
+      </div>
+
+      <!-- ── Journey — remove this block to roll back ── -->
+      <div class="about-journey">
+        <span class="about-journey-label">Career path</span>
+        <div class="journey-list">
+          <div class="journey-item now">
+            <span class="journey-company">Bright Money</span>
+            <span class="journey-meta">Product Designer · Jan 2025 – Present · SF (Remote)</span>
+          </div>
+          <div class="journey-item">
+            <span class="journey-company">Ninecamp Ventures</span>
+            <span class="journey-meta">Visual Design &amp; Strategy Intern · May – Jul 2024 · Delhi</span>
+          </div>
+          <div class="journey-item">
+            <span class="journey-company">GLS University, Ahmedabad</span>
+            <span class="journey-meta">B.Des Visual Communication · 90% · Jun 2022 – Jun 2025</span>
+          </div>
+          <div class="journey-item">
+            <span class="journey-company">Primary Healthtech · IIT Guwahati</span>
+            <span class="journey-meta">Visual &amp; UI/UX Design Intern · 11 months · Nov 2021 – Sep 2022</span>
+          </div>
+          <div class="journey-item">
+            <span class="journey-company">The Grit · Inteluth · Career Spark</span>
+            <span class="journey-meta">Graphic &amp; Social Media Design · 2019 – 2021</span>
+          </div>
+        </div>
+        <p class="about-quote">"be the absurd. live as surreal. surpass the original."</p>
+      </div>
+      <!-- ── end journey ── -->
+
+      <div class="about-skills-grid">
+        <div>
+          <span class="about-skills-label">Design</span>
+          <ul class="about-skills-list">
+            <li>Product Design</li>
+            <li>Design Systems</li>
+            <li>User Research</li>
+            <li>Prototyping</li>
+            <li>Branding</li>
+            <li>Illustration</li>
+            <li>Visual Communication</li>
+          </ul>
+        </div>
+        <div>
+          <span class="about-skills-label">Tools</span>
+          <ul class="about-skills-list">
+            <li>Figma</li>
+            <li>Figma Make</li>
+            <li>Figma Plugin API</li>
+            <li>Claude Code</li>
+            <li>Manus</li>
+            <li>Adobe Creative Suite</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="about-accolades">
+        <span class="about-skills-label" style="margin-top:36px;display:block;">Accolades</span>
+        <div class="accolade-list">
+          <div class="accolade-item">
+            <span class="accolade-name">TISDC Finalist — Visual Design</span>
+            <span class="accolade-detail">Taiwan International Student Design Competition · 19,000+ entries · 64 countries · 2024 · Counter Space, a typographic book co-designed with Mukul Dev</span>
+          </div>
+          <div class="accolade-item">
+            <span class="accolade-name">TEDx Student Speaker</span>
+            <span class="accolade-detail">Borpukhuripar, Sivsagar — on how the education system gets in the way of learning · 2018</span>
+          </div>
+          <div class="accolade-item">
+            <span class="accolade-name">Featured — Packaging of the World</span>
+            <span class="accolade-detail">Academic packaging redesign selected & featured on packagingoftheworld.com · 2024</span>
+          </div>
+          <div class="accolade-item">
+            <span class="accolade-name">National Science Exhibition Representee</span>
+            <span class="accolade-detail">State-level qualifier · South Point School, Guwahati · 2019</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="about-photo" style="background:url('shreyo-portfolio-v0.01-main/assets/shreyo.jpg') center/cover no-repeat"></div>
+</div>
+
+<!-- Heatmap tooltip -->
+<div class="hm-tooltip" id="hm-tip"></div>
+
+<script>
+// ── Preloader ──────────────────────────────────────────────
+(function () {
+  const preloader  = document.getElementById('preloader');
+  const countEl    = document.getElementById('preloader-count');
+  const bar        = document.getElementById('preloader-bar');
+  const splitL     = document.getElementById('pl-l');
+  const splitR     = document.getElementById('pl-r');
+  const greetA     = document.getElementById('pl-greeting-a');
+  const greetB     = document.getElementById('pl-greeting-b');
+  const stage      = document.querySelector('.page-stage');
+
+  const duration = 2860;
+  const start    = performance.now();
+  const vw       = window.innerWidth;
+  const margin   = 32;
+
+  const greetings = [
+    'Hello', 'नमस्ते', 'ನಮಸ್ಕಾರ', 'হ্যালো',
+    'নমস্কাৰ', 'હેલો', 'नमस्कार', 'ഹലോ'
+  ];
+  let gi = 0;
+
+  let greetActive = greetA, greetInactive = greetB;
+  const greetTimer = setInterval(() => {
+    gi = (gi + 1) % greetings.length;
+    const next = greetings[gi];
+    const isEn = next === 'Hello';
+    greetInactive.textContent = next;
+    greetInactive.className = 'preloader-greeting' + (isEn ? ' english' : '');
+    greetInactive.style.opacity = '1';
+    greetActive.style.opacity = '0';
+    [greetActive, greetInactive] = [greetInactive, greetActive];
+  }, 480);
+
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
+
+  function updateSplit(eased) {
+    const lx = -30 + eased * (-(vw / 2 - margin) + 30);
+    const rx =  30 + eased * (  (vw / 2 - margin) - 30);
+    splitL.style.transform = `translateY(-50%) translateX(${lx}px)`;
+    splitR.style.transform = `translateY(-50%) translateX(${rx}px)`;
+  }
+
+  updateSplit(0);
+
+  function tick(now) {
+    const elapsed  = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased    = easeInOutCubic(progress);
+    const count    = Math.floor(eased * 100);
+
+    countEl.textContent = count;
+    updateSplit(eased);
+    bar.style.transform = `scaleX(${eased.toFixed(4)})`;
+
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      countEl.textContent = '100';
+      bar.style.transform = 'scaleX(1)';
+      clearInterval(greetTimer);
+      greetInactive.textContent = 'Hello';
+      greetInactive.className = 'preloader-greeting english';
+      greetInactive.style.opacity = '1';
+      greetActive.style.opacity = '0';
+      [greetActive, greetInactive] = [greetInactive, greetActive];
+      setTimeout(() => {
+        preloader.classList.add('exit');
+        stage.classList.add('revealed');
+        preloader.addEventListener('transitionend', () => {
+          preloader.style.display = 'none';
+        }, { once: true });
+      }, 380);
+    }
+  }
+
+  requestAnimationFrame(tick);
+})();
+
+// ── Hero cycling text ─────────────────────────────────────
+(function () {
+  const items = [
+    'a comic nerd',
+    'a movie guy',
+    'an art director',
+    'a brand designer',
+    'a publication designer',
+    'an anime fan',
+    'a metalhead',
+    'a petrolhead'
+  ];
+  // shuffle on load
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  let idx = 0;
+  const el = document.getElementById('hero-cycle');
+  if (!el) return;
+
+  setInterval(() => {
+    el.style.transition = 'transform 0.2s cubic-bezier(0.4,0,1,1), opacity 0.15s ease';
+    el.style.transform = 'translateY(-110%)';
+    el.style.opacity = '0';
+    setTimeout(() => {
+      idx = (idx + 1) % items.length;
+      el.textContent = items[idx];
+      el.style.transition = 'none';
+      el.style.transform = 'translateY(110%)';
+      el.style.opacity = '0';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        el.style.transition = 'transform 0.24s cubic-bezier(0,0,0.2,1), opacity 0.18s ease';
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      }));
+    }, 200);
+  }, 2800);
+})();
+
+// ── Heatmap + Experience ──────────────────────────────────
+(async function () {
+  const cal   = document.getElementById('calendar-col');
+  const dayCol= document.getElementById('day-col');
+  const tip   = document.getElementById('hm-tip');
+  const DAYS  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const SHOW  = [false,true,false,true,false,true,false];
+
+  for (let d=0;d<7;d++){
+    const el=document.createElement('div');
+    el.className='day-lbl'+(SHOW[d]?'':' hide');
+    el.textContent=DAYS[d];
+    dayCol.appendChild(el);
+  }
+
+  // shreyo-bm-ai: static level data (private commits, extracted from GitHub DOM)
+  const BM_LEVELS = {"2026-03-14":1,"2026-05-29":1,"2026-06-01":3,"2026-06-11":4,"2026-06-12":3,"2026-06-15":3,"2026-06-16":2,"2026-06-18":2,"2026-06-19":4,"2026-07-03":2,"2026-07-10":3,"2026-07-14":1,"2026-07-16":1,"2026-07-17":2,"2026-07-23":2,"2026-07-31":4,"2026-08-13":2,"2026-08-14":4};
+  // level → approximate count weight for merging
+  const lvlToCount = l => [0,2,5,10,20][l]||0;
+
+  // fetch euyoro (all public, API is accurate)
+  let euyoroData = [];
+  try {
+    const res=await fetch('https://github-contributions-api.jogruber.de/v4/euyoro?y=last');
+    if(res.ok){ const j=await res.json(); euyoroData=j.contributions||[]; }
+  } catch(e){}
+
+  if(!euyoroData.length){ return; }
+
+  // merge euyoro counts + BM level weights → recalculate unified levels
+  const raw={};
+  euyoroData.forEach(c=>{ raw[c.date]=(raw[c.date]||0)+c.count; });
+  Object.keys(BM_LEVELS).forEach(date=>{ raw[date]=(raw[date]||0)+lvlToCount(BM_LEVELS[date]); });
+  const maxCount=Math.max(1,...Object.values(raw));
+  const toLevel=n=>n===0?0:n<=maxCount*0.25?1:n<=maxCount*0.5?2:n<=maxCount*0.75?3:4;
+
+  const allDates=[...new Set([...euyoroData.map(c=>c.date),...Object.keys(BM_LEVELS)])].sort();
+  const map={};
+  allDates.forEach(date=>{ map[date]={count:raw[date]||0,level:toLevel(raw[date]||0)}; });
+  const contribs=allDates.map(date=>({date,...map[date]}));
+
+  const firstDate=new Date(contribs[0].date+'T00:00:00');
+  const lastDate =new Date(contribs[contribs.length-1].date+'T00:00:00');
+  const startDate=new Date(firstDate);
+  startDate.setDate(startDate.getDate()-startDate.getDay());
+  const WEEKS=Math.ceil(((lastDate-startDate)/86400000+1)/7);
+
+  // month labels
+  const mRow=document.createElement('div'); mRow.className='month-row';
+  let prevMonth='';
+  for(let w=0;w<WEEKS;w++){
+    const ws=new Date(startDate); ws.setDate(startDate.getDate()+w*7);
+    const mo=ws.toLocaleDateString('en-US',{month:'short'});
+    const el=document.createElement('div');
+    if(mo!==prevMonth){ el.className='month-lbl'; el.textContent=mo; prevMonth=mo; }
+    mRow.appendChild(el);
+  }
+  cal.appendChild(mRow);
+
+  // cells
+  let total=0;
+  for(let d=0;d<7;d++){
+    const row=document.createElement('div'); row.className='cell-row';
+    for(let w=0;w<WEEKS;w++){
+      const dt=new Date(startDate); dt.setDate(startDate.getDate()+w*7+d);
+      const key=dt.toISOString().split('T')[0];
+      const entry=map[key]||{count:0,level:0};
+      const cell=document.createElement('div'); cell.className='hm-cell';
+      if(entry.level>0) cell.setAttribute('data-v',entry.level);
+      cell.dataset.d=dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      cell.dataset.c=entry.count;
+      total+=entry.count;
+      row.appendChild(cell);
+    }
+    cal.appendChild(row);
+  }
+  document.getElementById('act-count').textContent=total.toLocaleString();
+
+  // update date-range label
+  const metaEl=document.querySelector('.section-meta');
+  if(metaEl){
+    const s=firstDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+    const e=lastDate.toLocaleDateString('en-US',{month:'short',year:'numeric'});
+    metaEl.textContent=`GitHub · ${s} – ${e}`;
+  }
+
+  cal.addEventListener('mousemove',e=>{
+    const cell=e.target.closest('.hm-cell'); if(!cell)return;
+    const c=parseInt(cell.dataset.c);
+    tip.textContent=c===0?'No contributions on '+cell.dataset.d:c+' contribution'+(c!==1?'s':'')+' on '+cell.dataset.d;
+    tip.style.left=(e.clientX+14)+'px'; tip.style.top=(e.clientY-38)+'px';
+    tip.classList.add('show');
+  });
+  cal.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+
+  // Experience toggle
+  const btn=document.getElementById('exp-btn');
+  const pills=document.getElementById('exp-pills');
+  const list=document.getElementById('exp-list');
+  const chev=document.getElementById('exp-chevron');
+  const scrubTip=document.getElementById('scrubber-tip');
+  const scrubDots=document.querySelectorAll('#scrubber-dots .scrubber-dot');
+
+  btn.addEventListener('click',()=>{
+    const open=list.classList.contains('open');
+    if(open){
+      list.classList.remove('open');
+      pills.classList.remove('hidden');
+      btn.setAttribute('aria-expanded','false');
+      chev.textContent='↓';
+      btn.childNodes[0].textContent='See more ';
+    } else {
+      list.classList.add('open');
+      pills.classList.add('hidden');
+      btn.setAttribute('aria-expanded','true');
+      chev.textContent='↑';
+      btn.childNodes[0].textContent='See less ';
+    }
+  });
+
+  // Interactive scrubber — only active when list is open
+  scrubDots.forEach(dot => {
+    dot.addEventListener('mouseenter', () => {
+      if (!list.classList.contains('open')) return;
+      dot.classList.add('active-dot');
+      scrubTip.innerHTML = `<strong>${dot.dataset.company}</strong><span>${dot.dataset.role} · ${dot.dataset.date}</span>`;
+      // Position tip centered above the dot
+      const dotRect = dot.getBoundingClientRect();
+      const scrubRect = document.getElementById('exp-scrubber').getBoundingClientRect();
+      scrubTip.style.left = (dotRect.left - scrubRect.left + dot.offsetWidth/2) + 'px';
+      scrubTip.style.transform = 'translateX(-50%)';
+      scrubTip.classList.add('show');
+    });
+    dot.addEventListener('mouseleave', () => {
+      dot.classList.remove('active-dot');
+      scrubTip.classList.remove('show');
+    });
+  });
+})();
+
+// ── Case Study ───────────────────────────────────────────
+(function () {
+  const cs = {
+    'rent-reporting': {
+      company: 'Bright Money', title: 'Rent Reporting',
+      tags: ['Shipped', 'Mobile', 'Product Design'],
+      desc: 'Credit score path for thin-file renters. I designed the end-to-end funnel — portal selection, bureau reporting logic, opt-in/out states, and disclosures. Live to customers March 2026.',
+      role: 'Design owner, kickoff to sign-off', year: 'Dec 2025 – Mar 2026',
+      metrics: [{val:'2',lbl:'Bureaus supported'},{val:'Mar 11',lbl:'Ship date'},{val:'3 wks',lbl:'Alignment time'}],
+      href: 'case-studies/rent-reporting.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#e6f4ea,#a8ceb0,#6fa882)'},
+        {bg:'linear-gradient(140deg,#cfe8d5,#8bbaa0,#5a8a72)'},
+        {bg:'linear-gradient(140deg,#daeee2,#98c4a8,#6a9a7e)'},
+        {bg:'linear-gradient(140deg,#e0f0e6,#b0d0bc,#7aaa92)'},
+      ]
+    },
+    'bright-atlas': {
+      company: 'Bright Money', title: 'Bright Atlas',
+      tags: ['Built', 'Full-stack', 'Design Engineering'],
+      desc: 'AI-powered competitor intelligence platform. Every screenshot from rival fintechs indexed by flow, pattern, and screen type. On real infrastructure three days after I opened the repo.',
+      role: 'Design and build, end to end', year: 'Jun 2026',
+      metrics: [{val:'3 days',lbl:'To production'},{val:'10+',lbl:'Competitors tracked'},{val:'100%',lbl:'Team adopted'}],
+      href: 'case-studies/bright-atlas.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#dde8f5,#97b8d8,#5a85b8)'},
+        {bg:'linear-gradient(140deg,#ccd8f0,#86a8cc,#4a75a8)'},
+        {bg:'linear-gradient(140deg,#d5e2f5,#a0bede,#6a92c0)'},
+        {bg:'linear-gradient(140deg,#e0ecf8,#aaccec,#7aaad8)'},
+      ]
+    },
+    'sauron': {
+      company: 'Bright Money', title: 'Sauron',
+      tags: ['Live', 'Figma Plugin', 'Dev Tooling'],
+      desc: 'Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship. Design QA that runs at source, not in review.',
+      role: 'Design and engineering, solo', year: '2026',
+      metrics: [{val:'<1s',lbl:'Scan time'},{val:'3',lbl:'Check types'},{val:'Live',lbl:'In production'}],
+      href: 'case-studies/sauron.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#f5edd4,#dfb86a,#b8892a)'},
+        {bg:'linear-gradient(140deg,#f0e4c0,#d4a850,#a87820)'},
+        {bg:'linear-gradient(140deg,#f5f0d8,#e0c070,#c09030)'},
+        {bg:'linear-gradient(140deg,#ede0b8,#cca040,#a87018)'},
+      ]
+    },
+    'referral-redesign': {
+      company: 'Bright Money', title: 'Referral Redesign',
+      tags: ['Shipped', 'Mobile', 'Product Design'],
+      desc: "Rebuilt Bright's referral programme around why users actually refer — not discounts but social capital and trust. Hi-fi signed off and handed to engineering.",
+      role: 'Design owner', year: '2025',
+      metrics: [{val:'1',lbl:'Redesign cycle'},{val:'Hi-fi',lbl:'Signed off'},{val:'New',lbl:'Referral model'}],
+      href: 'case-studies/referral-redesign.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#f5dde8,#d4a0b5,#b06a85)'},
+        {bg:'linear-gradient(140deg,#f0d0e0,#c890a8,#a06078)'},
+        {bg:'linear-gradient(140deg,#f5e0ec,#d8b0c8,#b87a98)'},
+        {bg:'linear-gradient(140deg,#eed0e0,#cc9ab8,#a86888)'},
+      ]
+    },
+    'monet-cancellation': {
+      company: 'Bright Money', title: 'Monet Cancellation',
+      tags: ['In Progress', 'Mobile', 'Retention Design'],
+      desc: 'Cancellation flow redesigned around a Starter tier — giving churning users a middle option before they cancel outright. Reduces full churn while preserving monetisation.',
+      role: 'Design owner', year: '2026',
+      metrics: [{val:'1',lbl:'New tier'},{val:'↓',lbl:'Churn intent'},{val:'WIP',lbl:'Status'}],
+      href: 'case-studies/monet-cancellation.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#ede0f5,#b8a0d4,#8a6ab8)'},
+        {bg:'linear-gradient(140deg,#e4d0f0,#a890c8,#7a58a8)'},
+        {bg:'linear-gradient(140deg,#f0e4f8,#c4b0e0,#9878c4)'},
+        {bg:'linear-gradient(140deg,#e8d8f5,#b8a0d8,#8868b8)'},
+      ]
+    },
+    'freemium-3-4': {
+      company: 'Bright Money', title: 'Freemium 3.0 → 4.0',
+      tags: ['Closed', 'Mobile', 'Product Design'],
+      desc: 'Experience layer controlling what cancelled Basic users see, what is locked, and what upgrade path is offered. Defined the locked vs open surface split.',
+      role: 'Design owner', year: '2025',
+      metrics: [{val:'2',lbl:'Freemium tiers'},{val:'Full',lbl:'Feature mapping'},{val:'Closed',lbl:'Status'}],
+      href: 'case-studies/freemium-3-4.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#dde5f0,#a0b5ce,#6a8aad)'},
+        {bg:'linear-gradient(140deg,#ccd8e8,#90a8c0,#607898)'},
+        {bg:'linear-gradient(140deg,#d8e5f0,#a8bcd8,#7890b8)'},
+        {bg:'linear-gradient(140deg,#d0dcea,#98b0ca,#6888a8)'},
+      ]
+    },
+    'id-protection': {
+      company: 'Bright Money', title: 'ID Protection',
+      tags: ['Concept', 'Research', 'Strategy'],
+      desc: 'Researched and pitched a full ID protection product — credit monitoring, breach alerts, and a dispute flow — to fill a visible gap in the competitive set.',
+      role: 'Research and concept, solo', year: '2025',
+      metrics: [{val:'Full',lbl:'Product pitch'},{val:'3',lbl:'Core pillars'},{val:'Gap',lbl:'Market need'}],
+      href: 'case-studies/id-protection.html',
+      slides: [
+        {bg:'linear-gradient(140deg,#d8eae0,#90b8a0,#548a6a)'},
+        {bg:'linear-gradient(140deg,#c8ddd4,#80a890,#487a5c)'},
+        {bg:'linear-gradient(140deg,#d4e8dc,#8cb4a0,#528470)'},
+        {bg:'linear-gradient(140deg,#cce4d8,#88b098,#4e7c64)'},
+      ]
+    },
+    'scribbleship': {
+      company: 'Academic', title: 'ScribbleShip',
+      tags: ['UI/UX', 'Mobile', 'Academic'],
+      desc: 'Mobile app for on-demand stationery and print ordering in Ahmedabad. Designed end-to-end UX — onboarding, catalogue, ordering, and delivery tracking.',
+      role: 'UX Design, solo', year: '2023',
+      metrics: [{val:'E2E',lbl:'App flows'},{val:'Mobile',lbl:'Platform'},{val:'Full',lbl:'UX coverage'}],
+      href: 'case-studies/scribbleship.html',
+      slides: [
+        {src:'assets/projects/scribbleship-hero.jpg'},
+        {bg:'linear-gradient(140deg,#fde8c8,#e8b87a,#c4884a)'},
+        {bg:'linear-gradient(140deg,#fef0d8,#f0c888,#d09858)'},
+        {bg:'linear-gradient(140deg,#fde0c0,#e4b070,#c08040)'},
+      ]
+    },
+    'gls-yearbook': {
+      company: 'Academic', title: 'GLS Annual Yearbook',
+      tags: ['Publication', 'Editorial', 'Print'],
+      desc: '28cm hardbound yearbook documenting a design institute\'s creative journey. Art direction, layout, and print production for a full-year compendium.',
+      role: 'Art direction and layout', year: '2022',
+      metrics: [{val:'28cm',lbl:'Format'},{val:'Hard',lbl:'Bound'},{val:'Full',lbl:'Print production'}],
+      href: 'case-studies/gls-yearbook.html',
+      slides: [
+        {src:'assets/projects/yearbook-hero.jpg'},
+        {bg:'linear-gradient(140deg,#f8f0e4,#d8c090,#b09060)'},
+        {bg:'linear-gradient(140deg,#f4e8d0,#d0b078,#a88048)'},
+        {bg:'linear-gradient(140deg,#f8eedc,#dcc898,#b89a68)'},
+      ]
+    },
+    'metro-wayfinding': {
+      company: 'Academic', title: 'Metro Wayfinding',
+      tags: ['Systems', 'Wayfinding', 'Typography'],
+      desc: 'Redesigned Ahmedabad Metro signage — wayfinding system, typography hierarchy, and spatial ergonomics for a high-traffic transit environment.',
+      role: 'Systems design, solo', year: '2022',
+      metrics: [{val:'Full',lbl:'System design'},{val:'Transit',lbl:'Scale'},{val:'3',lbl:'Design phases'}],
+      href: 'case-studies/metro-wayfinding.html',
+      slides: [
+        {src:'assets/projects/metro-hero.jpg'},
+        {bg:'linear-gradient(140deg,#e0e8f8,#9ab8e0,#5a88c8)'},
+        {bg:'linear-gradient(140deg,#dde4f8,#90b0d8,#5080b8)'},
+        {bg:'linear-gradient(140deg,#e4ecf8,#a8c0e8,#6890d0)'},
+      ]
+    },
+    'everest-packaging': {
+      company: 'Academic', title: 'Everest Spices',
+      tags: ['Packaging', 'Brand', 'Print'],
+      desc: "International packaging redesign for India's iconic spice brand. Featured on Packaging of the World. Colour-coded system for the international range.",
+      role: 'Packaging design, solo', year: '2022',
+      metrics: [{val:'Intl',lbl:'Market range'},{val:'POTW',lbl:'Featured on'},{val:'Coded',lbl:'Colour system'}],
+      href: 'case-studies/everest-packaging.html',
+      slides: [
+        {src:'assets/projects/everest-hero.jpg'},
+        {bg:'linear-gradient(140deg,#f5e0d0,#e0a878,#c07848)'},
+        {bg:'linear-gradient(140deg,#f8e8d8,#e8b888,#c88858)'},
+        {bg:'linear-gradient(140deg,#f4dcc8,#dca070,#b87040)'},
+      ]
+    },
+    'baux-typeface': {
+      company: 'Personal', title: 'Baux Typeface',
+      tags: ['Type Design', 'Lettering', 'Display'],
+      desc: 'Futuristic display typeface — 30 characters, alien geometry, zero curves. Built on a rigid grid of angles and intersections.',
+      role: 'Type design, solo', year: '2022',
+      metrics: [{val:'30',lbl:'Characters'},{val:'0',lbl:'Curves'},{val:'Display',lbl:'Use case'}],
+      href: 'case-studies/baux-typeface.html',
+      slides: [
+        {src:'assets/projects/baux-hero.jpg'},
+        {bg:'linear-gradient(140deg,#e8e8e4,#b8b8b0,#888882)'},
+        {bg:'linear-gradient(140deg,#f0f0ec,#c8c8c0,#989890)'},
+        {bg:'linear-gradient(140deg,#e4e4e0,#b0b0a8,#808078)'},
+      ]
+    },
+    'jupiter-tvc': {
+      company: 'Personal', title: 'Jupiter Banking TVC',
+      tags: ['Film', 'Direction', 'Editing'],
+      desc: 'Slice-of-life TV commercial for a gen-z neobank — directed, shot, and edited. Aimed at the everyday anxiety of money decisions.',
+      role: 'Director and editor', year: '2021',
+      metrics: [{val:'TVC',lbl:'Format'},{val:'Gen-Z',lbl:'Audience'},{val:'Full',lbl:'Production'}],
+      href: 'case-studies/jupiter-tvc.html',
+      slides: [
+        {src:'assets/projects/jupiter-hero.jpg'},
+        {bg:'linear-gradient(140deg,#f5f0e0,#d8c888,#b8a058)'},
+        {bg:'linear-gradient(140deg,#f0ead0,#d0bc78,#b09448)'},
+        {bg:'linear-gradient(140deg,#f5f2e4,#e0d098,#c0a868)'},
+      ]
+    },
+    'logofolio': {
+      company: 'Personal', title: 'Logofolio & Brand Marks',
+      tags: ['Identity', 'Brand', 'Logo Design'],
+      desc: 'Five years of brand identity work — healthcare, education, esports, government. Each mark with its own story and brief.',
+      role: 'Brand identity, multiple clients', year: '2019 – 2024',
+      metrics: [{val:'5yr',lbl:'Of work'},{val:'4',lbl:'Industries'},{val:'Full',lbl:'Brand systems'}],
+      href: 'case-studies/logofolio.html',
+      slides: [
+        {src:'assets/projects/logofolio-hero.jpg'},
+        {bg:'linear-gradient(140deg,#f0e4f5,#c8a0d4,#a070b0)'},
+        {bg:'linear-gradient(140deg,#e8d8f5,#b890cc,#9060a8)'},
+        {bg:'linear-gradient(140deg,#f4e8f8,#d0b0e0,#a880c0)'},
+      ]
+    },
+  };
+
+  const cardKeys = [
+    'rent-reporting','bright-atlas','sauron','referral-redesign',
+    'monet-cancellation','freemium-3-4','id-protection',
+    'scribbleship','gls-yearbook','metro-wayfinding',
+    'everest-packaging','baux-typeface','jupiter-tvc','logofolio'
+  ];
+
+  const overlay   = document.getElementById('cs-overlay');
+  const trackEl   = document.getElementById('cs-track');
+  const panelEl   = document.getElementById('cs-panel');
+  const backBtn   = document.getElementById('cs-back');
+  const introPane = document.getElementById('cs-intro-pane');
+  const storyPane = document.getElementById('cs-story-pane');
+
+  function buildSlides(slides) {
+    return slides.map(s => s.src
+      ? `<div class="cs-slide"><img src="${s.src}" alt="" loading="lazy"></div>`
+      : `<div class="cs-slide"><div class="cs-slide-bg" style="background:${s.bg}"></div></div>`
+    ).join('');
+  }
+
+  function open(key) {
+    const d = cs[key]; if (!d) return;
+
+    trackEl.innerHTML = buildSlides(d.slides);
+    trackEl.style.transform = 'translateX(0)';
+    panelEl.scrollTop = 0;
+
+    introPane.innerHTML = `
+      <div class="cs-intro-head">
+        <div class="cs-company">${d.company}</div>
+        <div class="cs-cs-title">${d.title}</div>
+        <div class="cs-tags">${d.tags.map(t=>`<span class="cs-tag">${t}</span>`).join('')}</div>
+      </div>
+      <p class="cs-desc">${d.desc}</p>
+      <div class="cs-meta-row">
+        <div class="cs-meta-block"><span class="cs-meta-label">Role</span><span class="cs-meta-value">${d.role}</span></div>
+        <div class="cs-meta-block"><span class="cs-meta-label">Period</span><span class="cs-meta-value">${d.year}</span></div>
+      </div>
+      <div class="cs-metrics">${d.metrics.map(m=>`<div class="cs-metric"><span class="cs-metric-val">${m.val}</span><span class="cs-metric-lbl">${m.lbl}</span></div>`).join('')}</div>
+    `;
+    storyPane.innerHTML = `<iframe class="cs-story-iframe" src="${d.href}" loading="lazy" title="${d.title} — Case Study"></iframe>`;
+
+    document.querySelectorAll('.cs-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.cs-pane').forEach(p => p.classList.remove('active'));
+    document.querySelector('.cs-tab[data-tab="intro"]').classList.add('active');
+    introPane.classList.add('active');
+
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { storyPane.innerHTML = ''; }, 950);
+  }
+
+  // Scroll in panel → carousel translates horizontally
+  panelEl.addEventListener('scroll', () => {
+    const scrollable = panelEl.scrollHeight - panelEl.clientHeight;
+    if (!scrollable) return;
+    const progress = Math.min(1, panelEl.scrollTop / scrollable);
+    const zone = overlay.querySelector('.cs-carousel-zone');
+    const maxShift = Math.max(0, trackEl.scrollWidth - zone.clientWidth);
+    trackEl.style.transform = `translateX(${-progress * maxShift}px)`;
+  }, { passive: true });
+
+  // Tab switching
+  document.querySelectorAll('.cs-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.cs-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.cs-pane').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.cs-pane[data-pane="${target}"]`).classList.add('active');
+    });
+  });
+
+  // Wire cards — prevent data-href navigation
+  document.querySelectorAll('.work-card').forEach((card, i) => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      open(cardKeys[i]);
+    });
+  });
+
+  backBtn.addEventListener('click', close);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+// ── Card cursor follower ──────────────────────────────────
+(function () {
+  const cursor = document.createElement('div');
+  cursor.className = 'work-cursor';
+  cursor.innerHTML = '<img src="https://media.giphy.com/media/2H67VmB5UEBmU/giphy.gif" alt="">';
+  document.body.appendChild(cursor);
+
+  let active = false;
+
+  document.addEventListener('mousemove', e => {
+    if (!active) return;
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+
+  document.querySelectorAll('.work-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      active = true;
+      cursor.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', () => {
+      active = false;
+      cursor.style.opacity = '0';
+    });
+  });
+})();
+
+// Work card navigation handled by case study overlay IIFE above
+
+// ── Scroll appear ─────────────────────────────────────────
+(function () {
+  const AUTO_SELECTORS = [
+    '.activity', '.exp-section', '.works-section', '.extras-section', '.awards-section',
+    '.section-head', '.section-title',
+    'h1:not(.hero *)', 'h2:not(.hero *)', 'h3', 'h4',
+    'p:not(.hero *):not(.nav *):not(.fobj *)',
+    '.work-card', '.exp-item', '.exp-scrubber', '.exp-pills', '.exp-pill',
+    '.award-row', '.awards-heading', '.awards-title-line',
+    '.extra-card', '.extras-header',
+    '.heatmap-wrap', '.hm-legend', '.hm-meta',
+    '.hero-name', '.hero-tagline', '.hero-body', '.hero-cta',
+    'img:not(.nav *):not(.fobj *):not(.footer-logo)',
+    'hr', 'blockquote', '.pull-quote',
+    '.failure-card', '.reflection-list li',
+    '.meta-block', '.meta-item',
+    '.wordmark', '.cta',
+    '.site-footer'
+  ].join(',');
+
+  const skip = new Set();
+  // Mark existing .appear elements so we don't double-wrap
+  document.querySelectorAll('.appear').forEach(el => skip.add(el));
+
+  // Auto-add .appear to elements not already tagged
+  document.querySelectorAll(AUTO_SELECTORS).forEach(el => {
+    if (!skip.has(el) && !el.classList.contains('appear')) {
+      el.classList.add('appear');
+    }
+  });
+
+  const els = document.querySelectorAll('.appear');
+  if (!els.length) return;
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  els.forEach(el => {
+    if (el.closest('.hero')) {
+      setTimeout(() => el.classList.add('in'), 3640);
+    } else {
+      io.observe(el);
+    }
+  });
+})();
+
+// ── Nav: name hover swap (shreyo ↔ শ্রেয়ো) ──────────────
+(function () {
+  const el = document.getElementById('nav-name');
+  if (!el) return;
+  el.addEventListener('mouseenter', () => {
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = 'শ্রেয়ো'; el.style.opacity = '1'; }, 130);
+  });
+  el.addEventListener('mouseleave', () => {
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = 'shreyo'; el.style.opacity = '1'; }, 130);
+  });
+})();
+
+// ── Nav: Menu dropdown ────────────────────────────────────
+(function () {
+  const btn = document.getElementById('nav-menu-btn');
+  const drop = document.getElementById('nav-dropdown');
+  if (!btn || !drop) return;
+
+  function open() {
+    drop.classList.add('open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  function close() {
+    drop.classList.remove('open');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+  }
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    drop.classList.contains('open') ? close() : open();
+  });
+
+  // Close dropdown when a link inside it is clicked
+  drop.querySelectorAll('.nav-drop-link').forEach(link => {
+    link.addEventListener('click', () => close());
+  });
+
+  // Close on outside click
+  document.addEventListener('click', close);
+  drop.addEventListener('click', e => e.stopPropagation());
+
+  // Close on Esc
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+})();
+
+// ── Nav: theme toggle ─────────────────────────────────────
+(function () {
+  const btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const root = document.documentElement;
+    const cur = root.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+// ── Awards hover card ─────────────────────────────────────
+(function(){
+  const card  = document.getElementById('award-hover-card');
+  const imgEl = document.getElementById('ahc-img');
+  let cx = 0, cy = 0, tx = 0, ty = 0, raf;
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function tick() {
+    cx = lerp(cx, tx, 0.12);
+    cy = lerp(cy, ty, 0.12);
+    card.style.left = cx + 'px';
+    card.style.top  = cy + 'px';
+    raf = requestAnimationFrame(tick);
+  }
+
+  document.querySelectorAll('.award-row').forEach(row => {
+    row.addEventListener('mouseenter', () => {
+      const img = row.dataset.img || '';
+      if (img) { imgEl.src = img; imgEl.classList.remove('no-img'); }
+      else { imgEl.src = ''; imgEl.classList.add('no-img'); }
+      card.classList.add('show');
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    row.addEventListener('mouseleave', () => {
+      card.classList.remove('show');
+      cancelAnimationFrame(raf); raf = null;
+    });
+    if (row.dataset.href) {
+      row.addEventListener('click', () => window.open(row.dataset.href, '_blank', 'noopener'));
+    }
+  });
+
+  document.addEventListener('mousemove', e => {
+    const pad = 24;
+    const cw = card.offsetWidth || 280;
+    const ch = card.offsetHeight || 175;
+    tx = e.clientX + pad;
+    ty = e.clientY - ch / 2;
+    if (tx + cw > window.innerWidth - pad) tx = e.clientX - cw - pad;
+    if (ty < pad) ty = pad;
+    if (ty + ch > window.innerHeight - pad) ty = window.innerHeight - ch - pad;
+  });
+})();
+
+// ── Works title one-time swap ─────────────────────────────
+(function () {
+  const title = document.querySelector('.works-title');
+  if (!title) return;
+  function doSwap() {
+    title.removeEventListener('mouseenter', doSwap);
+    const strike  = title.querySelector('.wt-strike');
+    const studies = title.querySelector('.wt-studies');
+    const stories = title.querySelector('.wt-stories');
+    // 1. Draw highlighter line across "Studies"
+    strike.style.transition = 'width 0.44s cubic-bezier(0.4,0,0.2,1)';
+    strike.style.width = 'calc(100% + 6px)';
+    // 2. Fade Studies out after strike finishes
+    setTimeout(() => {
+      studies.style.transition = 'opacity 0.3s ease';
+      studies.style.opacity = '0';
+    }, 420);
+    // 3. Slowly fade Stories in
+    setTimeout(() => {
+      stories.style.transition = 'opacity 0.55s ease';
+      stories.style.opacity = '1';
+    }, 600);
+  }
+  title.addEventListener('mouseenter', doSwap);
+})();
+
+// ── Extras draggable collage ──────────────────────────────
+(function () {
+  let topZ = 10;
+  const bringToFront = card => { card.style.zIndex = ++topZ; };
+
+  document.querySelectorAll('.extra-card').forEach((card, i) => {
+    card.style.zIndex = i + 1;
+    let drag = false, ox, oy, cl, ct;
+    card.addEventListener('mousedown', e => {
+      if (e.target.closest('.ec-music-play')) return;
+      bringToFront(card);
+      drag = true;
+      const r = card.getBoundingClientRect();
+      const pr = card.offsetParent ? card.offsetParent.getBoundingClientRect() : { left: 0, top: 0 };
+      cl = r.left - pr.left;
+      ct = r.top - pr.top;
+      ox = e.clientX; oy = e.clientY;
+      card.classList.add('dragging');
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', e => {
+      if (!drag) return;
+      card.style.left = (cl + e.clientX - ox) + 'px';
+      card.style.top  = (ct + e.clientY - oy) + 'px';
+    });
+    document.addEventListener('mouseup', () => {
+      if (!drag) return;
+      drag = false;
+      card.classList.remove('dragging');
+    });
+  });
+})();
+
+// ── About overlay ─────────────────────────────────────────
+(function () {
+  const overlay = document.getElementById('about-overlay');
+  const backBtn = document.getElementById('about-back');
+  const navBtn  = document.getElementById('nav-about');
+  if (!overlay || !navBtn) return;
+
+  function openAbout(e) {
+    e.preventDefault();
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeAbout() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  navBtn.addEventListener('click', openAbout);
+  backBtn.addEventListener('click', closeAbout);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeAbout();
+  });
+})();
+</script>

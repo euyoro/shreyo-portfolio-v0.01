@@ -1,0 +1,455 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baux Typeface — Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #9d9d99;
+    --dim: #6b6b68;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #1565c0;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.7rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .failure-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Baux Typeface</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Type Designer, Letterer, Character Sketcher</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">2 weeks</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Output</span>
+    <span class="meta-value">Latin Typeface, 30 Characters (A-Z + punctuation)</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Adobe Illustrator, Glyphs</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Guide</span>
+    <span class="meta-value">Prof. Zubin Islam</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Academic Project · GLS Institute of Design</span>
+    <span class="status-tag">Academic Project</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>How can an alien-ish font look like?</h3>
+
+<p>Inspired by iconic movie posters and television hits from the early 2000s, Baux embodies a design philosophy rooted in compactness and symmetry. Its sleek, small-box shape and meticulously scaled-down lettering evoke a futuristic charm. Through the strategic use of negative space and symmetry, Baux presents itself as a language with an intriguingly otherworldly aesthetic.</p>
+
+<p>The aim was to create a typeface that could hold its own on a movie poster or a brand mark, something that looked like it arrived from somewhere else. Meticulously crafted for symmetry and uniformity, the characters are devoid of tangents or curves, evoking an almost alien and otherworldly appearance.</p>
+
+<div class="image-placeholder">
+  <span>Baux Type Specimen</span>
+</div>
+
+<hr class="section-rule">
+
+<!-- APPROACH -->
+<h2>Approach</h2>
+<h3>Constructing from a square</h3>
+
+<p>The construction logic started with a single constraint: a 1:1 square as the base unit for every character.</p>
+
+<h4>Building Blocks</h4>
+<p>Divisions within the square created a composition of unique building blocks. Each character was assembled from these blocks, keeping legibility in mind despite the geometric rigidity. The primary characters were constructed without using any slanted or angular cuts, with one exception: V. X was the most difficult construction, requiring the most iterations to resolve within the grid while remaining readable.</p>
+
+<div class="image-placeholder">
+  <span>Construction Grid &amp; Building Blocks</span>
+</div>
+
+<h4>No Curves, No Tangents</h4>
+<p>The entire character set was drawn without curves or tangent points. Every edge is a straight line. Every corner is a right angle or a deliberate step. This constraint gave the typeface its distinctive alien quality, the letters look engineered rather than written.</p>
+
+<div class="image-placeholder">
+  <span>Character Construction Details</span>
+</div>
+
+<h4>Application</h4>
+<p>Baux is suited for creating attention-grabbing headlines, logos, and prominent text elements in advertising, packaging, signage, branding, and web design. Its compact form and high contrast make it effective at large display sizes where its construction details are visible.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Full Character Set</span></div>
+  <div class="screen-item"><span>Construction Grid</span></div>
+  <div class="screen-item"><span>Glyph Detail: X</span></div>
+  <div class="screen-item"><span>Poster Application</span></div>
+  <div class="screen-item"><span>Brand Mark Usage</span></div>
+  <div class="screen-item"><span>Signage Mockup</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>A 30-character Latin typeface</h3>
+
+<p>The final output was a complete Latin typeface of 30 characters: the full A-Z alphabet plus punctuation. Every glyph was drawn in Adobe Illustrator and finalized in Glyphs, ready for use as a display font.</p>
+
+<div class="pull-quote">
+  <blockquote>"The font looks very interesting, with a very distinct look."</blockquote>
+  <cite>Dr. D. Uday Kumar</cite>
+</div>
+
+<div class="pull-quote">
+  <blockquote>"Its legibility is very interesting. It would be interesting to see its application first hand."</blockquote>
+  <cite>Faculty Review</cite>
+</div>
+
+<p>Visiting the Indian Type Foundry and interacting with the team during the project deepened my understanding of how professional type design balances creative expression with functional rigor. The constraints that made Baux distinctive, no curves, no tangents, strict grid, are the same kind of constraints that define how a professional foundry approaches a new face.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I took away</h3>
+
+<ul class="reflection-list">
+  <li>Constraints produce character. The no-curves, no-tangents rule was the hardest part of the project and the reason Baux looks like itself. Removing options forced invention.</li>
+  <li>Legibility and novelty are in tension, and the designer's job is to negotiate between them. Every character needed to be readable as a letter while still feeling alien. That negotiation happened glyph by glyph.</li>
+  <li>The 1:1 square grid made consistency automatic. When every glyph shares the same underlying geometry, the set coheres without forcing it. Grid discipline in type design works the same way it does in layout.</li>
+  <li>Understanding font metrics, glyph drawing, type anatomy, form sketching, and form construction as interconnected skills, not separate subjects, changed how I approach letterforms in all design work since.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

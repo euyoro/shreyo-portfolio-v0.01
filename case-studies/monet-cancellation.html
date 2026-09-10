@@ -1,0 +1,508 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monet Cancellation — Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #9d9d99;
+    --dim: #6b6b68;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* TIER CARDS */
+  .tier-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 28px 0;
+  }
+
+  .tier-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px 16px;
+  }
+
+  .tier-card.highlight {
+    background: var(--chosen-bg);
+  }
+
+  .tier-name {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .tier-card.highlight .tier-name {
+    color: rgba(240,240,238,0.45);
+  }
+
+  .tier-price {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .tier-card.highlight .tier-price {
+    color: var(--chosen-text);
+  }
+
+  .tier-desc {
+    font-size: 0.8rem;
+    color: var(--dim);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .tier-card.highlight .tier-desc {
+    color: rgba(240,240,238,0.5);
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* DECISION CARDS */
+  .decision-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .decision-card {
+    border-radius: 8px;
+    padding: 22px 20px;
+    background: var(--card-bg);
+  }
+
+  .decision-card.chosen {
+    background: var(--chosen-bg);
+  }
+
+  .decision-tag {
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .decision-card.chosen .decision-tag {
+    color: rgba(240,240,238,0.4);
+  }
+
+  .decision-title {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .decision-card.chosen .decision-title {
+    color: var(--chosen-text);
+  }
+
+  .decision-desc {
+    font-size: 0.85rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .decision-card.chosen .decision-desc {
+    color: rgba(240,240,238,0.55);
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .screen-item { min-height: 140px; }
+    h2, h3 { page-break-after: avoid; }
+    .tier-cards, .decision-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Monet Cancellation</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Product Designer — sole design owner, cancellation flow</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">Nov 2025 → Sep 2026 · 9 months across phases</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">Head of Product · PM · Sr. Designer · Engineering · Legal</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Premium flow closed. Starter flow WIP at cutoff.</span>
+    <span class="status-tag">In Progress</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>What do you show a user who's trying to leave?</h3>
+
+<p>Monet is Bright's monetization surface. Every screen a user touches when they subscribe, manage their plan, or cancel. I've been part of this project across phases. The cancellation flow was mine to own.</p>
+
+<hr class="section-rule">
+
+<!-- STARTER TIER -->
+<h2>The Problem</h2>
+<h3>The Starter tier</h3>
+
+<p>Bright ran two tiers: Premium or nothing. A user who cancelled went to $0. There was no middle.</p>
+
+<div class="tier-cards">
+  <div class="tier-card">
+    <span class="tier-name">Premium</span>
+    <span class="tier-price">$11 / mo</span>
+    <p class="tier-desc">Full subscription. All features unlocked.</p>
+  </div>
+  <div class="tier-card highlight">
+    <span class="tier-name">Starter — New</span>
+    <span class="tier-price">$5 / mo</span>
+    <p class="tier-desc">Cash advance, credit features, Rent Reporting as add-on. A way to stay in the product.</p>
+  </div>
+  <div class="tier-card">
+    <span class="tier-name">Basic</span>
+    <span class="tier-price">$0</span>
+    <p class="tier-desc">Cancelled. Limited access.</p>
+  </div>
+</div>
+
+<p>Two user groups needed designing for: existing users being migrated to Starter automatically with a 30-day grace period, and Premium users actively cancelling who needed to see the $5 offer.</p>
+
+<hr class="section-rule">
+
+<!-- TIMING DECISION -->
+<h2>Decision</h2>
+<h3>When to show the offer</h3>
+
+<p>Netflix shows you a cheaper plan before you cancel. Audible does the same. The mid-flow downsell is a proven pattern — but only works if the offer is genuinely strong.</p>
+
+<p>I designed multiple flow variants. Variant 1 had stronger visuals. Variant 2 put the $5 offer at the right moment in the flow. We aligned on Variant 2 for the first test. Not because it looked better on screen. Because it gave users the information at the moment it was actually useful.</p>
+
+<div class="decision-cards">
+  <div class="decision-card">
+    <span class="decision-tag">Fallback</span>
+    <div class="decision-title">Post-cancellation offer</div>
+    <div class="decision-desc">Confirm the cancel, then pitch Starter. Designed and ready. Some users respond better when the product honours their decision first.</div>
+  </div>
+  <div class="decision-card chosen">
+    <span class="decision-tag">First test</span>
+    <div class="decision-title">Mid-flow downsell</div>
+    <div class="decision-desc">Show the $5 Starter offer before the user confirms cancellation. Right information at the right moment.</div>
+  </div>
+</div>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Mid-Flow Downsell</span></div>
+  <div class="screen-item"><span>Post-Cancellation Screen</span></div>
+  <div class="screen-item"><span>Starter Active State</span></div>
+  <div class="screen-item"><span>Membership Settings</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- COMPLIANCE -->
+<h2>Constraints</h2>
+<h3>The compliance layer</h3>
+
+<p>Every screen in Monet touches compliance. Cancellation screens even more so.</p>
+
+<p>Two flags from the legal review. The word "free" appeared on a final screen where Starter costs $5 a month. It came out. The phrase "you are eligible" appeared above a loan offer, implying an approval the user didn't have. Rewritten to match compliance-reviewed copy on the Bright website exactly.</p>
+
+<p>These aren't copy notes. Getting them wrong on a cancellation screen is a legal exposure.</p>
+
+<hr class="section-rule">
+
+<!-- STATE MACHINE -->
+<h2>Complexity</h2>
+<h3>The state machine</h3>
+
+<p>The hardest part wasn't the cancellation flow. It was the number of states a single user could be in.</p>
+
+<p>Migrated users in notice period. Migrated in grace period. Migrated once billing started. Premium cancelled. Starter force opt-in. Starter explicit opt-in. Basic. Each with different copy, different CTAs, different settings screens. Eight distinct states. I mapped every one and designed them all.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Migrated — Notice Period</span></div>
+  <div class="screen-item"><span>Grace Period</span></div>
+  <div class="screen-item"><span>Starter Active</span></div>
+  <div class="screen-item"><span>Premium Cancelled</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>What shipped</h3>
+
+<p>Premium cancellation flow: closed and signed off. Starter cancellation flow: feedback implemented, final review pending at handoff. The full settings states and wireframe set were delivered and with engineering.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I'd do differently</h3>
+
+<ul class="reflection-list">
+  <li>Map all user states before touching the design. Eight states across three user types is a known complexity for a tiered subscription product. I discovered the full scope through iteration instead of up front.</li>
+  <li>The mid-flow vs. post-cancellation decision needed data I didn't have. I'd push for prior A/B test results from a comparable product before locking direction. We chose right based on reasoning. Data would have made it faster.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Product Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>
