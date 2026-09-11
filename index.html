@@ -1,4 +1,4 @@
-﻿<script>document.documentElement.setAttribute('data-theme','light');</script>
+<script>document.documentElement.setAttribute('data-theme','light');</script>
 <title>Portfolio V2 — Shreyo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -830,10 +830,9 @@
   }
 
   /* ── Case Study Overlay ── */
-  /* ── Case Study Overlay ── */
   .cs-overlay {
     position: fixed; inset: 0; z-index: 80;
-    background: var(--bg);
+    background: #fbfbfa;
     transform: translateY(100%);
     transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
     display: flex; flex-direction: column;
@@ -841,67 +840,71 @@
   }
   .cs-overlay.open { transform: translateY(0); }
 
-  /* Non-scrolling top: topbar + carousel */
+  /* Top: full-bleed image carousel */
   .cs-top {
-    flex: 0 0 50vh;
+    flex: 0 0 69vh;
     display: flex; flex-direction: column;
-    border-bottom: 1px solid var(--border);
+    position: relative;
     overflow: hidden;
   }
   .cs-topbar {
-    flex-shrink: 0;
+    position: absolute; top: 0; left: 0; right: 0;
+    z-index: 10;
     display: flex; align-items: center;
-    padding: 18px 40px;
-    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
   }
   .cs-back {
     display: inline-flex; align-items: center; gap: 6px;
-    background: none; border: none; cursor: pointer;
-    font-family: var(--ff); font-size: 13px; color: var(--muted);
-    padding: 0; letter-spacing: -0.01em;
-    transition: color 0.18s;
+    background: rgba(0,0,0,0.18); border: none; cursor: pointer;
+    font-family: var(--ff); font-size: 12px; color: rgba(255,255,255,0.92);
+    padding: 7px 16px; border-radius: 100px;
+    letter-spacing: 0.01em;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    transition: background 0.18s;
   }
-  .cs-back:hover { color: var(--text); }
+  .cs-back:hover { background: rgba(0,0,0,0.34); }
 
-  /* Scroll-linked horizontal carousel */
-  .cs-carousel-zone { flex: 1; overflow: hidden; }
+  /* GPU-composited horizontal carousel */
+  .cs-carousel-zone {
+    flex: 1; overflow: hidden;
+    cursor: default;
+  }
+  .cs-carousel-zone.dragging { cursor: grabbing; }
   .cs-carousel-track {
     display: flex; align-items: stretch;
-    height: 100%; gap: 12px;
-    padding: 16px 40px;
+    height: 100%; gap: 2px; padding: 0;
     will-change: transform;
-    transition: transform 0.08s linear;
   }
   .cs-slide {
     flex-shrink: 0; height: 100%;
-    aspect-ratio: 4/3;
-    border-radius: 10px; overflow: hidden;
-    border: 1px solid var(--border);
+    width: 72vw; overflow: hidden;
   }
+  .cs-slide:first-child { width: 100vw; }
   .cs-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .cs-slide-bg { width: 100%; height: 100%; }
 
-  /* Scrollable bottom panel */
+  /* Fixed-height bottom panel */
   .cs-panel {
-    flex: 1; overflow-y: auto; overflow-x: hidden;
+    flex: 0 0 31vh; overflow-y: hidden; overflow-x: hidden;
     display: flex; flex-direction: column;
-    min-height: 0;
+    background: #fbfbfa;
+    border-top: 1px solid rgba(19,19,19,0.09);
   }
 
   /* Folder-style tab bar */
   .cs-tabs {
     position: sticky; top: 0; z-index: 2;
     display: flex; align-items: flex-end;
-    padding: 0 40px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
+    padding: 0 32px;
+    border-bottom: 1px solid rgba(19,19,19,0.09);
+    background: #fbfbfa;
     flex-shrink: 0;
   }
   .cs-tab {
     background: none; border: none; cursor: pointer;
     font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
     letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--muted); padding: 14px 22px 12px;
+    color: #9d9d99; padding: 10px 18px 8px;
     border-radius: 6px 6px 0 0;
     border-top: 1px solid transparent;
     border-left: 1px solid transparent;
@@ -910,82 +913,106 @@
     transition: color 0.15s, background 0.15s;
   }
   .cs-tab.active {
-    color: var(--text); background: var(--bg);
-    border-color: var(--border);
-    border-bottom-color: var(--bg);
+    color: #131313; background: #fbfbfa;
+    border-color: rgba(19,19,19,0.09);
+    border-bottom-color: #fbfbfa;
   }
-  .cs-tab:not(.active):hover { color: var(--dim); }
+  .cs-tab:not(.active):hover { color: #6b6b68; }
 
   /* Panes */
-  .cs-tab-body { flex: 1; }
-  .cs-pane { display: none; }
-  .cs-pane.active { display: block; }
+  .cs-tab-body { flex: 1; display: flex; flex-direction: column; }
+  .cs-pane { display: none; flex: 1; }
+  .cs-pane.active { display: flex; flex-direction: column; }
 
-  /* INTRO pane */
-  .cs-pane[data-pane="intro"] { padding: 40px 40px 80px; }
-  .cs-intro-head { margin-bottom: 28px; }
+  /* INTRO pane — 3-column horizontal layout */
+  .cs-pane[data-pane="intro"] { padding: 0; overflow: hidden; }
+  .cs-intro-grid {
+    display: grid;
+    grid-template-columns: 26% 1fr 220px;
+    flex: 1; height: 100%;
+    overflow: hidden;
+  }
+  .cs-intro-col {
+    padding: 14px 24px;
+    display: flex; flex-direction: column; gap: 6px;
+    overflow: hidden;
+  }
+  .cs-intro-col + .cs-intro-col {
+    border-left: 1px solid rgba(19,19,19,0.09);
+  }
   .cs-company {
-    font-family: var(--ff-display); font-style: italic;
-    font-size: 16px; color: var(--dim); letter-spacing: -0.01em;
-    margin-bottom: 6px;
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: #9d9d99;
+    margin-bottom: 2px;
   }
   .cs-cs-title {
-    font-family: var(--ff-display); font-style: italic;
-    font-size: 30px; font-weight: 400; color: var(--text);
-    letter-spacing: -0.025em; line-height: 1.15;
-    margin-bottom: 12px;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 22px; font-weight: 400; color: #131313;
+    letter-spacing: -0.02em; line-height: 1.15;
   }
-  .cs-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cs-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
   .cs-tag {
-    font-family: var(--ff-mono); font-size: 8.5px;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); border: 1px solid var(--border);
-    border-radius: 100px; padding: 3px 9px;
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 10px;
+    letter-spacing: 0.04em; color: #6b6b68;
+    border: 1px solid rgba(19,19,19,0.12);
+    border-radius: 100px; padding: 2px 10px;
   }
-  .cs-desc {
-    font-family: var(--ff); font-size: 14px; color: var(--dim);
-    line-height: 1.7; letter-spacing: -0.01em;
-    max-width: 580px; margin-bottom: 28px;
+  .cs-meta-inline {
+    display: flex; flex-direction: column; gap: 2px;
+    margin-top: auto; padding-top: 10px;
+    border-top: 1px solid rgba(19,19,19,0.09);
   }
-  .cs-meta-row {
-    display: flex; gap: 40px; flex-wrap: wrap;
-    padding-top: 20px; border-top: 1px solid var(--border);
-    margin-bottom: 28px;
+  .cs-meta-line {
+    display: flex; gap: 8px; align-items: baseline;
   }
-  .cs-meta-block { display: flex; flex-direction: column; gap: 3px; }
   .cs-meta-label {
-    font-family: var(--ff-mono); font-size: 8px;
-    letter-spacing: 0.10em; text-transform: uppercase; color: var(--muted);
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 9px;
+    letter-spacing: 0.10em; text-transform: uppercase; color: #9d9d99;
+    white-space: nowrap; flex-shrink: 0; min-width: 40px;
   }
   .cs-meta-value {
-    font-family: var(--ff); font-size: 13px;
-    color: var(--text); letter-spacing: -0.01em;
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 12px;
+    color: #131313; letter-spacing: -0.01em; line-height: 1.4;
   }
-  .cs-metrics { display: flex; gap: 36px; flex-wrap: wrap; }
-  .cs-metric { display: flex; flex-direction: column; gap: 2px; }
-  .cs-metric-val {
-    font-family: var(--ff); font-size: 26px; font-weight: 500;
-    color: var(--text); letter-spacing: -0.03em; line-height: 1;
+  .cs-desc {
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px;
+    color: #6b6b68; line-height: 1.68; letter-spacing: -0.005em;
+    margin: 0;
   }
+  .cs-metrics {
+    display: flex; flex-direction: column; gap: 8px;
+    height: 100%; justify-content: center;
+  }
+  .cs-metric { display: flex; flex-direction: column; gap: 0; }
   .cs-metric-lbl {
-    font-family: var(--ff); font-size: 11px;
-    color: var(--muted); letter-spacing: -0.01em;
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 9px;
+    letter-spacing: 0.10em; text-transform: uppercase; color: #9d9d99;
+    line-height: 1.3;
+  }
+  .cs-metric-val {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 18px; font-weight: 500;
+    color: #131313; letter-spacing: -0.03em; line-height: 1.1;
   }
 
   /* STORY (iframe) pane */
-  .cs-pane[data-pane="story"] { padding: 0; }
+  .cs-pane[data-pane="story"] { padding: 0; overflow: hidden; }
   .cs-story-iframe {
-    display: block; width: 100%; height: 80vh;
-    border: none; background: var(--bg);
+    display: block; width: 100%; height: 100%;
+    border: none; background: #fbfbfa; flex: 1;
   }
 
   @media (max-width: 760px) {
-    .cs-top { flex: 0 0 44vw; }
+    .cs-top { flex: 0 0 55vh; }
     .cs-topbar { padding: 14px 20px; }
-    .cs-carousel-track { padding: 12px 20px; gap: 8px; }
-    .cs-tabs { padding: 0 20px; }
-    .cs-pane[data-pane="intro"] { padding: 24px 20px 60px; }
-    .cs-meta-row { gap: 24px; }
+    .cs-panel { flex: 0 0 45vh; }
+    .cs-tabs { padding: 0 16px; }
+    .cs-intro-grid { grid-template-columns: 1fr; }
+    .cs-intro-col + .cs-intro-col { border-left: none; border-top: 1px solid rgba(19,19,19,0.09); }
+    .cs-metrics { flex-direction: row; gap: 20px; }
   }
 
   /* ── Preloader ── */
@@ -2108,10 +2135,10 @@
       metrics: [{val:'2',lbl:'Bureaus supported'},{val:'Mar 11',lbl:'Ship date'},{val:'3 wks',lbl:'Alignment time'}],
       href: 'case-studies/rent-reporting.html',
       slides: [
-        {bg:'linear-gradient(140deg,#e6f4ea,#a8ceb0,#6fa882)'},
-        {bg:'linear-gradient(140deg,#cfe8d5,#8bbaa0,#5a8a72)'},
-        {bg:'linear-gradient(140deg,#daeee2,#98c4a8,#6a9a7e)'},
-        {bg:'linear-gradient(140deg,#e0f0e6,#b0d0bc,#7aaa92)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'bright-atlas': {
@@ -2122,10 +2149,10 @@
       metrics: [{val:'3 days',lbl:'To production'},{val:'10+',lbl:'Competitors tracked'},{val:'100%',lbl:'Team adopted'}],
       href: 'case-studies/bright-atlas.html',
       slides: [
-        {bg:'linear-gradient(140deg,#dde8f5,#97b8d8,#5a85b8)'},
-        {bg:'linear-gradient(140deg,#ccd8f0,#86a8cc,#4a75a8)'},
-        {bg:'linear-gradient(140deg,#d5e2f5,#a0bede,#6a92c0)'},
-        {bg:'linear-gradient(140deg,#e0ecf8,#aaccec,#7aaad8)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'sauron': {
@@ -2136,10 +2163,10 @@
       metrics: [{val:'<1s',lbl:'Scan time'},{val:'3',lbl:'Check types'},{val:'Live',lbl:'In production'}],
       href: 'case-studies/sauron.html',
       slides: [
-        {bg:'linear-gradient(140deg,#f5edd4,#dfb86a,#b8892a)'},
-        {bg:'linear-gradient(140deg,#f0e4c0,#d4a850,#a87820)'},
-        {bg:'linear-gradient(140deg,#f5f0d8,#e0c070,#c09030)'},
-        {bg:'linear-gradient(140deg,#ede0b8,#cca040,#a87018)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'referral-redesign': {
@@ -2150,10 +2177,10 @@
       metrics: [{val:'1',lbl:'Redesign cycle'},{val:'Hi-fi',lbl:'Signed off'},{val:'New',lbl:'Referral model'}],
       href: 'case-studies/referral-redesign.html',
       slides: [
-        {bg:'linear-gradient(140deg,#f5dde8,#d4a0b5,#b06a85)'},
-        {bg:'linear-gradient(140deg,#f0d0e0,#c890a8,#a06078)'},
-        {bg:'linear-gradient(140deg,#f5e0ec,#d8b0c8,#b87a98)'},
-        {bg:'linear-gradient(140deg,#eed0e0,#cc9ab8,#a86888)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'monet-cancellation': {
@@ -2164,10 +2191,10 @@
       metrics: [{val:'1',lbl:'New tier'},{val:'↓',lbl:'Churn intent'},{val:'WIP',lbl:'Status'}],
       href: 'case-studies/monet-cancellation.html',
       slides: [
-        {bg:'linear-gradient(140deg,#ede0f5,#b8a0d4,#8a6ab8)'},
-        {bg:'linear-gradient(140deg,#e4d0f0,#a890c8,#7a58a8)'},
-        {bg:'linear-gradient(140deg,#f0e4f8,#c4b0e0,#9878c4)'},
-        {bg:'linear-gradient(140deg,#e8d8f5,#b8a0d8,#8868b8)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'freemium-3-4': {
@@ -2178,10 +2205,10 @@
       metrics: [{val:'2',lbl:'Freemium tiers'},{val:'Full',lbl:'Feature mapping'},{val:'Closed',lbl:'Status'}],
       href: 'case-studies/freemium-3-4.html',
       slides: [
-        {bg:'linear-gradient(140deg,#dde5f0,#a0b5ce,#6a8aad)'},
-        {bg:'linear-gradient(140deg,#ccd8e8,#90a8c0,#607898)'},
-        {bg:'linear-gradient(140deg,#d8e5f0,#a8bcd8,#7890b8)'},
-        {bg:'linear-gradient(140deg,#d0dcea,#98b0ca,#6888a8)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'id-protection': {
@@ -2192,10 +2219,10 @@
       metrics: [{val:'Full',lbl:'Product pitch'},{val:'3',lbl:'Core pillars'},{val:'Gap',lbl:'Market need'}],
       href: 'case-studies/id-protection.html',
       slides: [
-        {bg:'linear-gradient(140deg,#d8eae0,#90b8a0,#548a6a)'},
-        {bg:'linear-gradient(140deg,#c8ddd4,#80a890,#487a5c)'},
-        {bg:'linear-gradient(140deg,#d4e8dc,#8cb4a0,#528470)'},
-        {bg:'linear-gradient(140deg,#cce4d8,#88b098,#4e7c64)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'scribbleship': {
@@ -2207,9 +2234,9 @@
       href: 'case-studies/scribbleship.html',
       slides: [
         {src:'assets/projects/scribbleship-hero.jpg'},
-        {bg:'linear-gradient(140deg,#fde8c8,#e8b87a,#c4884a)'},
-        {bg:'linear-gradient(140deg,#fef0d8,#f0c888,#d09858)'},
-        {bg:'linear-gradient(140deg,#fde0c0,#e4b070,#c08040)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'gls-yearbook': {
@@ -2221,9 +2248,9 @@
       href: 'case-studies/gls-yearbook.html',
       slides: [
         {src:'assets/projects/yearbook-hero.jpg'},
-        {bg:'linear-gradient(140deg,#f8f0e4,#d8c090,#b09060)'},
-        {bg:'linear-gradient(140deg,#f4e8d0,#d0b078,#a88048)'},
-        {bg:'linear-gradient(140deg,#f8eedc,#dcc898,#b89a68)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'metro-wayfinding': {
@@ -2235,9 +2262,9 @@
       href: 'case-studies/metro-wayfinding.html',
       slides: [
         {src:'assets/projects/metro-hero.jpg'},
-        {bg:'linear-gradient(140deg,#e0e8f8,#9ab8e0,#5a88c8)'},
-        {bg:'linear-gradient(140deg,#dde4f8,#90b0d8,#5080b8)'},
-        {bg:'linear-gradient(140deg,#e4ecf8,#a8c0e8,#6890d0)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'everest-packaging': {
@@ -2249,9 +2276,9 @@
       href: 'case-studies/everest-packaging.html',
       slides: [
         {src:'assets/projects/everest-hero.jpg'},
-        {bg:'linear-gradient(140deg,#f5e0d0,#e0a878,#c07848)'},
-        {bg:'linear-gradient(140deg,#f8e8d8,#e8b888,#c88858)'},
-        {bg:'linear-gradient(140deg,#f4dcc8,#dca070,#b87040)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'baux-typeface': {
@@ -2263,9 +2290,9 @@
       href: 'case-studies/baux-typeface.html',
       slides: [
         {src:'assets/projects/baux-hero.jpg'},
-        {bg:'linear-gradient(140deg,#e8e8e4,#b8b8b0,#888882)'},
-        {bg:'linear-gradient(140deg,#f0f0ec,#c8c8c0,#989890)'},
-        {bg:'linear-gradient(140deg,#e4e4e0,#b0b0a8,#808078)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'jupiter-tvc': {
@@ -2277,9 +2304,9 @@
       href: 'case-studies/jupiter-tvc.html',
       slides: [
         {src:'assets/projects/jupiter-hero.jpg'},
-        {bg:'linear-gradient(140deg,#f5f0e0,#d8c888,#b8a058)'},
-        {bg:'linear-gradient(140deg,#f0ead0,#d0bc78,#b09448)'},
-        {bg:'linear-gradient(140deg,#f5f2e4,#e0d098,#c0a868)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
     'logofolio': {
@@ -2291,9 +2318,9 @@
       href: 'case-studies/logofolio.html',
       slides: [
         {src:'assets/projects/logofolio-hero.jpg'},
-        {bg:'linear-gradient(140deg,#f0e4f5,#c8a0d4,#a070b0)'},
-        {bg:'linear-gradient(140deg,#e8d8f5,#b890cc,#9060a8)'},
-        {bg:'linear-gradient(140deg,#f4e8f8,#d0b0e0,#a880c0)'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
+        {bg:'#d5d5d2'},
       ]
     },
   };
@@ -2323,21 +2350,27 @@
     const d = cs[key]; if (!d) return;
 
     trackEl.innerHTML = buildSlides(d.slides);
-    trackEl.style.transform = 'translateX(0)';
+    overlay.querySelector('.cs-carousel-zone').scrollLeft = 0;
     panelEl.scrollTop = 0;
 
     introPane.innerHTML = `
-      <div class="cs-intro-head">
-        <div class="cs-company">${d.company}</div>
-        <div class="cs-cs-title">${d.title}</div>
-        <div class="cs-tags">${d.tags.map(t=>`<span class="cs-tag">${t}</span>`).join('')}</div>
+      <div class="cs-intro-grid">
+        <div class="cs-intro-col">
+          <div class="cs-company">${d.company}</div>
+          <div class="cs-cs-title">${d.title}</div>
+          <div class="cs-tags">${d.tags.map(t=>`<span class="cs-tag">${t}</span>`).join('')}</div>
+          <div class="cs-meta-inline">
+            <div class="cs-meta-line"><span class="cs-meta-label">Role</span><span class="cs-meta-value">${d.role}</span></div>
+            <div class="cs-meta-line"><span class="cs-meta-label">Period</span><span class="cs-meta-value">${d.year}</span></div>
+          </div>
+        </div>
+        <div class="cs-intro-col">
+          <p class="cs-desc">${d.desc}</p>
+        </div>
+        <div class="cs-intro-col">
+          <div class="cs-metrics">${d.metrics.map(m=>`<div class="cs-metric"><span class="cs-metric-lbl">${m.lbl}</span><span class="cs-metric-val">${m.val}</span></div>`).join('')}</div>
+        </div>
       </div>
-      <p class="cs-desc">${d.desc}</p>
-      <div class="cs-meta-row">
-        <div class="cs-meta-block"><span class="cs-meta-label">Role</span><span class="cs-meta-value">${d.role}</span></div>
-        <div class="cs-meta-block"><span class="cs-meta-label">Period</span><span class="cs-meta-value">${d.year}</span></div>
-      </div>
-      <div class="cs-metrics">${d.metrics.map(m=>`<div class="cs-metric"><span class="cs-metric-val">${m.val}</span><span class="cs-metric-lbl">${m.lbl}</span></div>`).join('')}</div>
     `;
     storyPane.innerHTML = `<iframe class="cs-story-iframe" src="${d.href}" loading="lazy" title="${d.title} — Case Study"></iframe>`;
 
@@ -2356,15 +2389,66 @@
     setTimeout(() => { storyPane.innerHTML = ''; }, 950);
   }
 
-  // Scroll in panel → carousel translates horizontally
-  panelEl.addEventListener('scroll', () => {
-    const scrollable = panelEl.scrollHeight - panelEl.clientHeight;
-    if (!scrollable) return;
-    const progress = Math.min(1, panelEl.scrollTop / scrollable);
+  // Lerp-based smooth carousel (GPU transform, not scrollLeft)
+  (function () {
     const zone = overlay.querySelector('.cs-carousel-zone');
-    const maxShift = Math.max(0, trackEl.scrollWidth - zone.clientWidth);
-    trackEl.style.transform = `translateX(${-progress * maxShift}px)`;
-  }, { passive: true });
+    const track = zone.querySelector('.cs-carousel-track');
+    let target = 0, current = 0, rafId = null;
+    const ease = 0.08;
+
+    function maxScroll() {
+      return Math.max(0, track.scrollWidth - zone.clientWidth);
+    }
+
+    function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
+
+    function tick() {
+      current += (target - current) * ease;
+      if (Math.abs(target - current) < 0.5) current = target;
+      track.style.transform = 'translateX(' + (-current) + 'px)';
+      if (Math.abs(target - current) > 0.5) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = null;
+      }
+    }
+
+    function startRaf() {
+      if (!rafId) rafId = requestAnimationFrame(tick);
+    }
+
+    zone.addEventListener('wheel', e => {
+      e.preventDefault();
+      const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+      target = clamp(target + delta * 1.4);
+      startRaf();
+    }, { passive: false });
+
+    // Drag fallback
+    let drag = false, startX, startTarget;
+    zone.addEventListener('mousedown', e => {
+      drag = true; startX = e.pageX; startTarget = target;
+      zone.classList.add('dragging');
+    });
+    zone.addEventListener('mousemove', e => {
+      if (!drag) return;
+      target = clamp(startTarget - (e.pageX - startX) * 1.2);
+      startRaf();
+    });
+    ['mouseup','mouseleave'].forEach(ev => zone.addEventListener(ev, () => {
+      drag = false; zone.classList.remove('dragging');
+    }));
+
+    // Reset position when overlay opens
+    const obs = new MutationObserver(() => {
+      if (overlay.classList.contains('open')) {
+        target = 0; current = 0;
+        track.style.transform = 'translateX(0px)';
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+    });
+    obs.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+  })();
 
   // Tab switching
   document.querySelectorAll('.cs-tab').forEach(tab => {
