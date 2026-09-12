@@ -851,7 +851,7 @@
      viewport height; the floor keeps it clear of the CLOSE bar on tall screens. */
   .cs-carousel-zone {
     flex: 1; overflow: hidden; cursor: default;
-    padding: max(66px, calc(155px - 7vh)) 0 25vh;
+    padding: max(66px, calc(155px - 7vh)) 0 28vh;
     transition: padding 0.75s cubic-bezier(0.76, 0, 0.24, 1);
   }
   .cs-carousel-zone.dragging { cursor: grabbing; }
@@ -892,8 +892,8 @@
   .cs-back {
     pointer-events: auto;
     background: none; border: none; cursor: pointer;
-    font-family: var(--ff-mono); font-size: 10px; font-weight: 500;
-    letter-spacing: 0.16em; text-transform: uppercase;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
     color: #131313; padding: 6px 10px;
     transition: opacity 0.18s, color 0.25s;
   }
@@ -904,7 +904,7 @@
   .cs-sheet {
     position: absolute; z-index: 10;
     left: 34px; right: 34px; bottom: 0;
-    top: 77vh;
+    top: 74vh;
     display: flex; flex-direction: column;
     transition: top 0.75s cubic-bezier(0.76, 0, 0.24, 1);
   }
@@ -918,9 +918,9 @@
   }
   .cs-tab {
     background: #e8e8e5; border: none; cursor: pointer;
-    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: #8a8a86; padding: 13px 40px 11px;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: #8a8a86; padding: 12px 34px 10px;
     border-radius: 10px 10px 0 0;
     transition: color 0.2s, background 0.2s, padding 0.2s;
     position: relative;
@@ -948,41 +948,47 @@
   /* ── Header block — persists in BOTH states ── */
   .cs-head {
     display: grid;
-    grid-template-columns: 30% 1fr 330px;
+    grid-template-columns: 24% minmax(0, 1fr) minmax(540px, auto);
     gap: 48px;
-    padding: 44px 0 40px;
+    padding: 26px 0 22px;
   }
   .cs-company {
-    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: #9d9d99; margin-bottom: 14px;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: #9d9d99; margin-bottom: 10px;
+    white-space: nowrap;
   }
   .cs-cs-title {
     font-family: 'DM Sans', system-ui, sans-serif;
     font-size: 30px; font-weight: 500; color: #131313;
     letter-spacing: -0.025em; line-height: 1.18;
   }
-  .cs-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+  .cs-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
   .cs-tag {
-    font-family: var(--ff-mono); font-size: 8.5px;
-    letter-spacing: 0.12em; text-transform: uppercase; color: #6b6b68;
+    font-family: var(--ff-mono); font-size: 14px;
+    letter-spacing: 0.04em; text-transform: uppercase; color: #6b6b68;
     border: 1px solid rgba(19,19,19,0.14);
-    border-radius: 5px; padding: 5px 11px;
+    border-radius: 5px; padding: 4px 10px;
+    white-space: nowrap;
   }
   .cs-desc {
     font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px;
     color: #6b6b68; line-height: 1.72; letter-spacing: -0.005em;
-    margin: 0; max-width: 62ch;
+    margin: 0; max-width: 30ch;
+    /* summaries vary in length; reserve four lines so every card matches */
+    min-height: calc(4 * 1.72em);
   }
   .cs-metrics {
     display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 16px; align-content: start;
+    gap: 20px; align-content: start; align-items: start;
   }
-  .cs-metric { display: flex; flex-direction: column; gap: 10px; }
+  /* auto row for the overline, so every value starts on the same line */
+  .cs-metric { display: grid; grid-template-rows: auto auto; gap: 10px; }
   .cs-metric-lbl {
-    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
-    letter-spacing: 0.14em; text-transform: uppercase; color: #9d9d99;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
     line-height: 1.3;
+    white-space: nowrap;      /* overline never wraps, so values stay aligned */
   }
   .cs-metric-val {
     font-family: var(--ff-display);
@@ -993,15 +999,15 @@
   /* Short viewports: the collapsed sheet is only 23vh, so tighten the header
      block and the now-larger serif metrics rather than clipping them. */
   @media (max-height: 860px) {
-    .cs-head { padding: 26px 0 22px; gap: 32px; }
+    .cs-head { padding: 20px 0 18px; gap: 32px; }
     .cs-cs-title { font-size: 25px; }
     .cs-tags { margin-top: 12px; }
     .cs-metric { gap: 6px; }
     .cs-metric-val { font-size: 25px; }
-    .cs-desc { font-size: 13px; line-height: 1.6; }
+    .cs-desc { line-height: 1.6; min-height: calc(4 * 1.6em); }
   }
   @media (max-height: 720px) {
-    .cs-head { padding: 18px 0 16px; gap: 24px; }
+    .cs-head { padding: 14px 0 12px; gap: 24px; }
     .cs-cs-title { font-size: 22px; }
     .cs-metric-val { font-size: 22px; }
   }
@@ -1018,7 +1024,11 @@
      Team / Status). Reshape it into the bordered role box from the design —
      extra specificity so it beats the page's own scoped rules. */
   .cs-card .cs-body .meta-block {
-    display: grid; grid-template-columns: repeat(4, 1fr);
+    display: grid;
+    /* item count varies 4-7 across the case studies, so let the column count
+       follow the content instead of fixing it and wrapping the remainder */
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
     gap: 28px 24px;
     border: 1px solid rgba(19,19,19,0.12);
     border-radius: 10px;
@@ -1028,10 +1038,14 @@
   .cs-card .cs-body .meta-item {
     display: flex; flex-direction: column; gap: 14px;
     padding: 0; border: none;
+    /* the source pages span Status across the full width, which is what
+       forced a second row — here every item is an equal peer */
+    grid-column: auto !important;
   }
   .cs-card .cs-body .meta-label {
-    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
-    letter-spacing: 0.14em; text-transform: uppercase; color: #9d9d99;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
+    white-space: nowrap;
   }
   .cs-card .cs-body .meta-value {
     font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px;
@@ -1061,8 +1075,8 @@
     letter-spacing: -0.015em; margin: 48px 0 16px;
   }
   .cs-body h4 {
-    font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
-    letter-spacing: 0.14em; text-transform: uppercase; color: #9d9d99;
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
     margin: 40px 0 14px;
   }
   .cs-body ul, .cs-body ol { margin: 0 0 22px; padding-left: 20px; }
@@ -1083,35 +1097,48 @@
   .cs-body th, .cs-body td {
     text-align: left; padding: 12px 14px;
     border-bottom: 1px solid rgba(19,19,19,0.09);
-    font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px;
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px;
     color: #6b6b68;
   }
   .cs-body th {
-    font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.12em;
+    font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.06em;
     text-transform: uppercase; color: #9d9d99;
   }
   .cs-body-loading {
-    font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.14em;
+    font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.06em;
     text-transform: uppercase; color: #9d9d99; padding: 40px 0;
+  }
+
+  /* Three 14px single-line overlines need ~540px. Below that the overline is
+     allowed to wrap, but a reserved two-line box keeps the values on a shared
+     baseline — the alignment matters more than the nowrap. */
+  @media (max-width: 1280px) {
+    .cs-head { grid-template-columns: 24% minmax(0, 1fr) minmax(360px, auto); gap: 32px; }
+    .cs-metric-lbl { white-space: normal; letter-spacing: 0.04em; min-height: 2.6em; }
+  }
+  @media (max-width: 1040px) {
+    .cs-head { grid-template-columns: 1fr minmax(300px, auto); }
+    .cs-desc { grid-column: 1 / -1; }
   }
 
   @media (max-width: 900px) {
     .cs-head { grid-template-columns: 1fr; gap: 28px; padding: 32px 0; }
     .cs-metrics { grid-template-columns: repeat(3, 1fr); }
-    .cs-card .cs-body .meta-block { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; padding: 24px; }
+    .cs-desc { grid-column: auto; }
+    .cs-card .cs-body .meta-block { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); gap: 24px 20px; padding: 24px; }
   }
   @media (max-width: 760px) {
-    .cs-sheet { left: 14px; right: 14px; top: 73vh; }
+    .cs-sheet { left: 14px; right: 14px; top: 70vh; }
     .cs-overlay.expanded .cs-sheet { top: 96px; }
     .cs-card { padding: 0 22px; }
-    .cs-carousel-zone { padding: max(48px, calc(111px - 6.6vh)) 0 29vh; }
+    .cs-carousel-zone { padding: max(48px, calc(111px - 6.6vh)) 0 32vh; }
     .cs-carousel-track { gap: 14px; padding: 0 14px; }
     .cs-slide img { max-width: 86vw; }
     .cs-slide-bg { width: 80vw; }
     .cs-tab { padding: 11px 22px 9px; }
     .cs-topbar { padding: 16px 20px; }
     .cs-cs-title { font-size: 24px; }
-    .cs-card .cs-body .meta-block { grid-template-columns: 1fr 1fr; }
+    .cs-card .cs-body .meta-block { grid-auto-flow: row; grid-template-columns: 1fr 1fr; }
   }
 
   /* ── Preloader ── */
@@ -2665,6 +2692,7 @@
   // sliding in, which shows as a blank card mid-drag. Instead we release them
   // one at a time after the open animation, so nothing competes with it and
   // every slide is decoded before it can be scrolled to.
+  let teardownTimer = null;
   let warmToken = 0;
   function warmSlides() {
     const mine = ++warmToken;
@@ -2710,6 +2738,9 @@
 
   function open(key) {
     const d = cs[key]; if (!d) return;
+    // a close() within the last 950ms still has a teardown pending — let it
+    // run and it wipes the story we are about to show
+    clearTimeout(teardownTimer);
     activeKey = key;
 
     trackEl.innerHTML = buildSlides(d.slides);
@@ -2731,7 +2762,8 @@
     warmToken++;   // abandon any in-flight warm-up
     overlay.classList.remove('open', 'expanded');
     document.body.style.overflow = '';
-    setTimeout(() => { storyEl.innerHTML = ''; activeKey = null; }, 950);
+    // deferred so the content does not vanish mid close-transition
+    teardownTimer = setTimeout(() => { storyEl.innerHTML = ''; activeKey = null; }, 950);
   }
 
   // Lerp-based smooth carousel (GPU transform, not scrollLeft)
