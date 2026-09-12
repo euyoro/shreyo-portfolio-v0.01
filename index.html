@@ -872,7 +872,10 @@
   .cs-carousel-zone.dragging { cursor: grabbing; }
   .cs-carousel-track {
     display: flex; align-items: stretch;
-    height: 100%; gap: 28px; padding: 0 34px;
+    height: 100%; gap: 28px; padding: 0;
+    /* the resting inset is applied as a transform offset, not padding —
+       padding only exists at the two ends and would jump at the loop seam */
+    --cs-inset: 34px;
     will-change: transform;
   }
   /* Slides size to their image's natural aspect so nothing gets cropped —
@@ -916,7 +919,10 @@
     transition: opacity 0.18s, color 0.25s;
   }
   .cs-back:hover { opacity: 0.55; }
-  .cs-overlay.expanded .cs-back { color: #f4f4f2; }
+  /* Expanded, the sheet owns the screen: CLOSE is withdrawn so the only
+     exits are the Intro tab or a click on the scrim, both of which collapse
+     back to the card where CLOSE returns. Escape still steps back a level. */
+  .cs-overlay.expanded .cs-back { opacity: 0; pointer-events: none; }
 
   /* ── Layer 4: the folder sheet ── */
   .cs-sheet {
@@ -1263,7 +1269,7 @@
     .cs-overlay.expanded .cs-sheet { top: 96px; }
     .cs-card { padding: 0 22px; }
     .cs-carousel-zone { padding: max(48px, calc(111px - 6.6vh)) 0 32vh; }
-    .cs-carousel-track { gap: 14px; padding: 0 14px; }
+    .cs-carousel-track { gap: 14px; padding: 0; --cs-inset: 14px; }
     .cs-slide img { max-width: 86vw; }
     .cs-slide-bg { width: 80vw; }
     .cs-tab { padding: 11px 22px 9px; }
@@ -2742,6 +2748,7 @@
 
   let activeKey = null;
   let resetCarousel = null; // assigned by the carousel IIFE below
+  let setupLoop = null;     // ditto — clones the set for the infinite loop
   const storyCache = {};
 
   // holds the active case study's own CSS, rescoped to .cs-body
@@ -2969,8 +2976,9 @@
     activeKey = key;
 
     trackEl.innerHTML = buildSlides(d.slides);
-    // muted must be set as a property too — the attribute alone is not enough
-    // for autoplay in every engine
+    if (setupLoop) setupLoop();
+    // after cloning, so the loop copies are covered too. muted must be set as
+    // a property — the attribute alone is not enough for autoplay in every engine
     trackEl.querySelectorAll('video').forEach(v => {
       v.muted = true;
       if (!csReduced) v.play().catch(() => {});
@@ -3002,19 +3010,41 @@
   (function () {
     const zone = overlay.querySelector('.cs-carousel-zone');
     const track = zone.querySelector('.cs-carousel-track');
-    let target = 0, current = 0, rafId = null;
+    let target = 0, current = 0, rafId = null, setW = 0;
     const ease = 0.08;
 
-    function maxScroll() {
-      return Math.max(0, track.scrollWidth - zone.clientWidth);
-    }
+    const inset = () =>
+      parseFloat(getComputedStyle(track).getPropertyValue('--cs-inset')) || 0;
 
-    function clamp(v) { return Math.max(0, Math.min(v, maxScroll())); }
+    // Duplicate the slide set until there is always a full screen of content
+    // past the seam, so the wrap is never visible as a gap.
+    setupLoop = function () {
+      track.querySelectorAll('[data-clone]').forEach(n => n.remove());
+      const originals = [...track.children];
+      if (!originals.length) { setW = 0; return; }
+      const gap = parseFloat(getComputedStyle(track).gap) || 0;
+      setW = originals.reduce((w, c) => w + c.getBoundingClientRect().width + gap, 0);
+      if (!(setW > 0)) return;
+      const copies = Math.max(2, Math.ceil((zone.clientWidth + setW) / setW));
+      for (let i = 1; i < copies; i++) {
+        for (const c of originals) {
+          const cl = c.cloneNode(true);
+          cl.setAttribute('data-clone', '');
+          cl.setAttribute('aria-hidden', 'true');
+          track.appendChild(cl);
+        }
+      }
+    };
 
     function tick() {
       current += (target - current) * ease;
       if (Math.abs(target - current) < 0.5) current = target;
-      track.style.transform = 'translateX(' + (-current) + 'px)';
+      // wrap position and target together so the easing delta is preserved
+      if (setW > 0) {
+        const k = Math.floor(current / setW);
+        if (k !== 0) { current -= k * setW; target -= k * setW; }
+      }
+      track.style.transform = 'translateX(' + (inset() - current) + 'px)';
       if (Math.abs(target - current) > 0.5) {
         rafId = requestAnimationFrame(tick);
       } else {
@@ -3029,7 +3059,7 @@
     zone.addEventListener('wheel', e => {
       e.preventDefault();
       const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
-      target = clamp(target + delta * 1.4);
+      target += delta * 1.4;
       startRaf();
     }, { passive: false });
 
@@ -3041,7 +3071,7 @@
     });
     zone.addEventListener('mousemove', e => {
       if (!drag) return;
-      target = clamp(startTarget - (e.pageX - startX) * 1.2);
+      target = startTarget - (e.pageX - startX) * 1.2;
       startRaf();
     });
     ['mouseup','mouseleave'].forEach(ev => zone.addEventListener(ev, () => {
@@ -3052,9 +3082,16 @@
     // the overlay is already up, which a class-change observer would miss
     resetCarousel = function () {
       target = 0; current = 0;
-      track.style.transform = 'translateX(0px)';
+      track.style.transform = 'translateX(' + inset() + 'px)';
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     };
+
+    // slide widths are viewport-relative, so the set has to be re-measured
+    let resizeT = null;
+    addEventListener('resize', () => {
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => { if (overlay.classList.contains('open')) setupLoop(); }, 180);
+    });
   })();
 
   // Tabs drive the sheet: Case Study expands it, Intro collapses it back
