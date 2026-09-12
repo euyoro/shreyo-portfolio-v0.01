@@ -851,7 +851,7 @@
      viewport height; the floor keeps it clear of the CLOSE bar on tall screens. */
   .cs-carousel-zone {
     flex: 1; overflow: hidden; cursor: default;
-    padding: max(76px, calc(165px - 7vh)) 0 30vh;
+    padding: max(66px, calc(155px - 7vh)) 0 25vh;
     transition: padding 0.75s cubic-bezier(0.76, 0, 0.24, 1);
   }
   .cs-carousel-zone.dragging { cursor: grabbing; }
@@ -886,7 +886,7 @@
   .cs-topbar {
     position: absolute; top: 0; left: 0; right: 0; z-index: 20;
     display: flex; justify-content: center;
-    padding: 40px 32px;
+    padding: 30px 32px;
     pointer-events: none;
   }
   .cs-back {
@@ -904,7 +904,7 @@
   .cs-sheet {
     position: absolute; z-index: 10;
     left: 34px; right: 34px; bottom: 0;
-    top: 72vh;
+    top: 77vh;
     display: flex; flex-direction: column;
     transition: top 0.75s cubic-bezier(0.76, 0, 0.24, 1);
   }
@@ -978,16 +978,32 @@
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 16px; align-content: start;
   }
-  .cs-metric { display: flex; flex-direction: column; gap: 18px; }
+  .cs-metric { display: flex; flex-direction: column; gap: 10px; }
   .cs-metric-lbl {
     font-family: var(--ff-mono); font-size: 9px; font-weight: 500;
     letter-spacing: 0.14em; text-transform: uppercase; color: #9d9d99;
     line-height: 1.3;
   }
   .cs-metric-val {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 15px; font-weight: 400;
-    color: #131313; letter-spacing: -0.01em; line-height: 1.1;
+    font-family: var(--ff-display);
+    font-size: 30px; font-weight: 400;
+    color: #131313; letter-spacing: -0.02em; line-height: 1;
+  }
+
+  /* Short viewports: the collapsed sheet is only 23vh, so tighten the header
+     block and the now-larger serif metrics rather than clipping them. */
+  @media (max-height: 860px) {
+    .cs-head { padding: 26px 0 22px; gap: 32px; }
+    .cs-cs-title { font-size: 25px; }
+    .cs-tags { margin-top: 12px; }
+    .cs-metric { gap: 6px; }
+    .cs-metric-val { font-size: 25px; }
+    .cs-desc { font-size: 13px; line-height: 1.6; }
+  }
+  @media (max-height: 720px) {
+    .cs-head { padding: 18px 0 16px; gap: 24px; }
+    .cs-cs-title { font-size: 22px; }
+    .cs-metric-val { font-size: 22px; }
   }
 
   /* ── Story block — only visible when expanded ── */
@@ -1085,15 +1101,15 @@
     .cs-card .cs-body .meta-block { grid-template-columns: repeat(2, 1fr); gap: 24px 20px; padding: 24px; }
   }
   @media (max-width: 760px) {
-    .cs-sheet { left: 14px; right: 14px; top: 68vh; }
+    .cs-sheet { left: 14px; right: 14px; top: 73vh; }
     .cs-overlay.expanded .cs-sheet { top: 96px; }
     .cs-card { padding: 0 22px; }
-    .cs-carousel-zone { padding: max(58px, calc(121px - 6.6vh)) 0 34vh; }
+    .cs-carousel-zone { padding: max(48px, calc(111px - 6.6vh)) 0 29vh; }
     .cs-carousel-track { gap: 14px; padding: 0 14px; }
     .cs-slide img { max-width: 86vw; }
     .cs-slide-bg { width: 80vw; }
     .cs-tab { padding: 11px 22px 9px; }
-    .cs-topbar { padding: 26px 20px; }
+    .cs-topbar { padding: 16px 20px; }
     .cs-cs-title { font-size: 24px; }
     .cs-card .cs-body .meta-block { grid-template-columns: 1fr 1fr; }
   }
@@ -1298,7 +1314,7 @@
             <p class="hero-role">Product Designer</p>
           </div>
           <div class="portrait" role="img" aria-label="Shreyo Debnath">
-            <img src="shreyo-portfolio-v0.01-main/assets/shreyo.jpg" alt="Shreyo Debnath" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+            <img src="assets/images/shreyo.webp" alt="Shreyo Debnath" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
           </div>
         </div>
         <div class="hero-right appear" style="transition-delay:0.15s">
@@ -1694,7 +1710,7 @@
       </div>
 
       <!-- Central portrait -->
-      <div class="extra-card" style="left:330px;top:70px;width:234px;height:318px;transform:rotate(3deg);background:url('shreyo-portfolio-v0.01-main/assets/shreyo.jpg') top center/cover no-repeat;overflow:hidden;"></div>
+      <div class="extra-card" style="left:330px;top:70px;width:234px;height:318px;transform:rotate(3deg);background:url('assets/images/shreyo.webp') top center/cover no-repeat;overflow:hidden;"></div>
 
       <!-- Quote card (right upper) -->
       <div class="extra-card" style="left:625px;top:16px;width:168px;height:230px;transform:rotate(-4deg);background:linear-gradient(145deg,#f5f0e8,#ede4d0);">
@@ -1945,7 +1961,7 @@
       </div>
     </div>
   </div>
-  <div class="about-photo" style="background:url('shreyo-portfolio-v0.01-main/assets/shreyo.jpg') center/cover no-repeat"></div>
+  <div class="about-photo" style="background:url('assets/images/shreyo.webp') center/cover no-repeat"></div>
 </div>
 
 <!-- Heatmap tooltip -->
@@ -2114,15 +2130,23 @@
   allDates.forEach(date=>{ map[date]={count:raw[date]||0,level:toLevel(raw[date]||0)}; });
   const contribs=allDates.map(date=>({date,...map[date]}));
 
-  const firstDate=new Date(contribs[0].date+'T00:00:00');
   const lastDate =new Date(contribs[contribs.length-1].date+'T00:00:00');
+  // Window the graph to the most recent 1 May rather than the full trailing
+  // year — the API still returns a year, we just render the tail of it.
+  const dataStart=new Date(contribs[0].date+'T00:00:00');
+  const mayStart=new Date(lastDate.getFullYear(),4,1);
+  if(mayStart>lastDate) mayStart.setFullYear(mayStart.getFullYear()-1);
+  const firstDate=mayStart<dataStart?dataStart:mayStart;
   const startDate=new Date(firstDate);
   startDate.setDate(startDate.getDate()-startDate.getDay());
   const WEEKS=Math.ceil(((lastDate-startDate)/86400000+1)/7);
 
   // month labels
   const mRow=document.createElement('div'); mRow.className='month-row';
-  let prevMonth='';
+  // startDate snaps back to a Sunday, which can land in the month before the
+  // window. Seed prevMonth with it so that partial month is not labelled.
+  let prevMonth = startDate.getMonth()!==firstDate.getMonth()
+    ? startDate.toLocaleDateString('en-US',{month:'short'}) : '';
   for(let w=0;w<WEEKS;w++){
     const ws=new Date(startDate); ws.setDate(startDate.getDate()+w*7);
     const mo=ws.toLocaleDateString('en-US',{month:'short'});
@@ -2150,6 +2174,9 @@
     cal.appendChild(row);
   }
   document.getElementById('act-count').textContent=total.toLocaleString();
+  const lblEl=document.querySelector('.activity-count-lbl');
+  if(lblEl) lblEl.textContent='contributions since '+
+    firstDate.toLocaleDateString('en-US',{month:'long',year:'numeric'});
 
   // update date-range label
   const metaEl=document.querySelector('.section-meta');
