@@ -1108,33 +1108,48 @@
      Appended after the story from the cs data, not from the fetched page, so
      it is ours to style and never competes with the injected sheet. Scoped at
      .cs-card .cs-body depth for the same reason. */
-  .cs-card .cs-body .cs-out { width: 100%; border-collapse: collapse; }
+  .cs-out-wrap {
+    overflow-x: auto;
+    border: 1px solid rgba(19,19,19,0.12);
+    border-radius: 12px;
+    background: #fff;
+  }
+  .cs-card .cs-body .cs-out {
+    width: 100%; border-collapse: collapse; min-width: 620px;
+  }
+  /* header band — the tinted strip is what makes it read as a table */
   .cs-card .cs-body .cs-out thead th {
     font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
     letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
-    text-align: left; padding: 0 20px 14px 0; white-space: nowrap;
+    text-align: left; padding: 16px 24px; white-space: nowrap;
+    background: #f6f5f2;
     border-bottom: 1px solid rgba(19,19,19,0.12);
   }
+  .cs-card .cs-body .cs-out thead th:first-child { border-radius: 11px 0 0 0; }
+  .cs-card .cs-body .cs-out thead th:last-child  { border-radius: 0 11px 0 0; }
   .cs-card .cs-body .cs-out tbody td {
     font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px;
-    color: #6b6b68; line-height: 1.5; letter-spacing: -0.005em;
-    padding: 18px 20px 18px 0; vertical-align: top;
-    border-bottom: 1px solid rgba(19,19,19,0.07);
+    color: #6b6b68; line-height: 1.55; letter-spacing: -0.005em;
+    padding: 20px 24px; vertical-align: middle;
+    border-bottom: 1px solid rgba(19,19,19,0.08);
   }
   .cs-card .cs-body .cs-out tbody tr:last-child td { border-bottom: none; }
-  .cs-card .cs-body .cs-out td.m { color: #131313; width: 26%; }
+  .cs-card .cs-body .cs-out tbody tr:hover td { background: #fafaf8; }
+  .cs-card .cs-body .cs-out td.m {
+    color: #131313; width: 24%; font-weight: 500;
+  }
   .cs-card .cs-body .cs-out td.b,
   .cs-card .cs-body .cs-out td.a {
-    font-family: var(--ff-display); font-size: 26px; line-height: 1.05;
-    letter-spacing: -0.02em; white-space: nowrap; width: 15%;
+    font-family: var(--ff-display); font-size: 24px; line-height: 1.05;
+    letter-spacing: -0.02em; white-space: nowrap; width: 13%;
     font-variant-numeric: tabular-nums;
   }
   .cs-card .cs-body .cs-out td.b { color: #9d9d99; }
   .cs-card .cs-body .cs-out td.a { color: #131313; }
-  .cs-card .cs-body .cs-out td.w { width: 44%; }
-  /* a metric with no stated baseline shows the after value alone */
-  .cs-card .cs-body .cs-out tr.single td.a { color: #131313; }
-  .cs-out-wrap { overflow-x: auto; }
+  .cs-card .cs-body .cs-out td.b:empty::after {
+    content: '—'; color: rgba(19,19,19,0.22); font-family: 'DM Sans', sans-serif; font-size: 15px;
+  }
+  .cs-card .cs-body .cs-out td.w { width: 50%; }
   .cs-out-note {
     font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.02em;
     color: #9d9d99; margin-top: 18px;
@@ -1143,9 +1158,9 @@
      660px reading measure the prose sections use */
   .cs-card .cs-body .cs-sec.cs-sec-wide .cs-sec-body { max-width: none; }
   @media (max-width: 900px) {
-    .cs-card .cs-body .cs-out thead th { font-size: 12px; padding-right: 14px; }
-    .cs-card .cs-body .cs-out tbody td { font-size: 14px; padding-right: 14px; }
-    .cs-card .cs-body .cs-out td.b, .cs-card .cs-body .cs-out td.a { font-size: 21px; }
+    .cs-card .cs-body .cs-out thead th { font-size: 12px; padding: 13px 16px; }
+    .cs-card .cs-body .cs-out tbody td { font-size: 14px; padding: 16px; }
+    .cs-card .cs-body .cs-out td.b, .cs-card .cs-body .cs-out td.a { font-size: 20px; }
   }
 
   /* Fetched case-study content — left-aligned, spread */
