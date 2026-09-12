@@ -309,16 +309,17 @@
   .logo-io { background: #fff; border: 1px solid #e8e8e6; }
   .logo-cs { background: #fff; border: 1px solid #e8e8e6; }
 
-  /* Pills — collapse to 0 height when hidden */
+  /* Pills — collapse to 0 height when hidden.
+     Heights are driven by JS during the morph (see the FLIP below) so the
+     travelling logos have a known final layout to be measured against. */
+  .exp-section { --exp-dur: 620ms; --exp-ease: cubic-bezier(0.4, 0, 0.2, 1); }
   .exp-pills {
     display: grid; grid-template-columns: repeat(4,1fr); gap: 12px;
     overflow: hidden;
-    max-height: 160px;
     opacity: 1;
-    transition: max-height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease, margin-bottom 0.38s ease;
     margin-bottom: 0;
   }
-  .exp-pills.hidden { max-height: 0; opacity: 0; pointer-events: none; margin-bottom: -8px; }
+  .exp-pills.hidden { height: 0; opacity: 0; pointer-events: none; margin-bottom: -8px; }
 
   .exp-pill {
     display: flex; flex-direction: column; gap: 6px;
@@ -333,12 +334,14 @@
   .pill-date { font-family: var(--ff-mono); font-size: 10px; letter-spacing: 0.02em; color: var(--dim); padding-left: 35px; }
 
   /* List — slides open below the now-collapsed pills */
-  .exp-list {
-    display: grid; grid-template-rows: 0fr; overflow: hidden;
-    transition: grid-template-rows 0.42s cubic-bezier(0.4,0,0.2,1);
-  }
-  .exp-list.open { grid-template-rows: 1fr; }
+  .exp-list { overflow: hidden; height: 0; }
+  .exp-list.open { height: auto; }
   .exp-list-inner { min-height: 0; display: flex; flex-direction: column; }
+
+  /* ── Pill → list morph ──
+     No CSS transitions here on purpose: the whole morph is driven by the Web
+     Animations API in JS, so these rules only describe the two resting states
+     and applying one gives an immediately-measurable final layout. */
 
   .exp-item { display: grid; grid-template-columns: 34px 1fr; gap: 14px; padding: 22px 0; border-top: 1px solid var(--border); }
   .exp-item:first-child { border-top: none; }
@@ -463,7 +466,9 @@
   }
   .works-title-line { display: block; }
   .works-title-indent { margin-left: 1.1em; }
-  .wt-layout { display: flex; align-items: flex-start; justify-content: center; }
+  /* single line now — share the stack's line-height so "Case" and the
+     swapping word sit on the same baseline */
+  .wt-layout { display: flex; align-items: flex-start; justify-content: center; line-height: 0.92; }
   .wt-prefix { flex-shrink: 0; }
   .wt-stack { display: flex; flex-direction: column; line-height: 0.92; }
   .wt-swap { position: relative; display: inline-block; }
@@ -1466,7 +1471,6 @@
             <span class="wt-prefix">Case&nbsp;</span>
             <span class="wt-stack">
               <span class="wt-swap"><span class="wt-word wt-studies">Studies</span><span class="wt-word wt-stories">Stories</span><span class="wt-strike"></span></span>
-              <span class="wt-sofar">so Far</span>
             </span>
           </span>
         </h2>
@@ -2172,22 +2176,107 @@
   const scrubTip=document.getElementById('scrubber-tip');
   const scrubDots=document.querySelectorAll('#scrubber-dots .scrubber-dot');
 
-  btn.addEventListener('click',()=>{
-    const open=list.classList.contains('open');
-    if(open){
-      list.classList.remove('open');
-      pills.classList.remove('hidden');
-      btn.setAttribute('aria-expanded','false');
-      chev.textContent='↓';
-      btn.childNodes[0].textContent='See more ';
-    } else {
-      list.classList.add('open');
-      pills.classList.add('hidden');
-      btn.setAttribute('aria-expanded','true');
-      chev.textContent='↑';
-      btn.childNodes[0].textContent='See less ';
-    }
-  });
+  // ── Pills morph into the list ──
+  // The collapsed pills and the expanded rows are separate nodes, so the
+  // shared logo + company name are FLIPped from one set onto the other:
+  // the row's logo starts life at the pill's position and travels to its own.
+  const EXP_DUR = 620;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const pillEls = [...pills.querySelectorAll('.exp-pill')];
+  const itemEls = [...list.querySelectorAll('.exp-item')];
+
+  // pill i and row i are the same company for as far as the pills go
+  const pairs = pillEls.map((p, i) => itemEls[i] && ({
+    pill: [p.querySelector('.co-logo'), p.querySelector('.pill-name')],
+    item: [itemEls[i].querySelector('.co-logo'), itemEls[i].querySelector('.exp-company')]
+  })).filter(Boolean);
+
+  // everything with no collapsed counterpart just fades in behind the travel
+  const extras = itemEls.flatMap((it, i) => [
+    ...it.querySelectorAll('.exp-when, .exp-role, .exp-bullets'),
+    ...(i >= pairs.length ? [it.querySelector('.co-logo'), it.querySelector('.exp-company')] : [])
+  ].filter(Boolean));
+
+  const rectOf = el => el.getBoundingClientRect();
+  const EXP_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+  let running = [];   // the in-flight morph, cancelled if another starts
+
+  function setLabel(open) {
+    btn.setAttribute('aria-expanded', String(open));
+    chev.textContent = open ? '↑' : '↓';
+    btn.childNodes[0].textContent = open ? 'See less ' : 'See more ';
+  }
+  function applyState(open) {
+    list.classList.toggle('open', open);
+    pills.classList.toggle('hidden', open);
+    setLabel(open);
+  }
+
+  function morph(open) {
+    if (reduced) { applyState(open); return; }
+
+    const movers = pairs.map(p => open
+      ? { from: p.pill, to: p.item }
+      : { from: p.item, to: p.pill });
+
+    // FIRST — measured while any previous morph is still running, so an
+    // interrupted toggle picks up from wherever things visually are
+    const first = movers.map(m => m.from.map(rectOf));
+    const pillsH0 = pills.offsetHeight, listH0 = list.offsetHeight;
+    const listTop0 = rectOf(list).top, pillsTop0 = rectOf(pills).top;
+
+    running.forEach(a => a.cancel());
+    running = [];
+
+    // LAST — the resting states carry no transitions, so applying the end state
+    // lands the real final layout in this same frame, ready to measure
+    applyState(open);
+    const last = movers.map(m => m.to.map(rectOf));
+    const pillsH1 = pills.offsetHeight, listH1 = list.offsetHeight;
+    const listTop1 = rectOf(list).top, pillsTop1 = rectOf(pills).top;
+
+    // The containers resize during the morph, so the flow itself carries these
+    // elements part of the way. Subtract that or they overshoot.
+    const flowDY = open ? (listTop0 - listTop1) : (pillsTop0 - pillsTop1);
+
+    const opts = { duration: EXP_DUR, easing: EXP_EASE };
+    const anims = [];
+
+    // Containers. Same duration and easing as the travel, or the two desync.
+    anims.push(pills.animate([
+      { height: pillsH0 + 'px', opacity: open ? 1 : 0, marginBottom: open ? '0px' : '-8px' },
+      { height: pillsH1 + 'px', opacity: open ? 0 : 1, marginBottom: open ? '-8px' : '0px' }
+    ], opts));
+    anims.push(list.animate(
+      [{ height: listH0 + 'px' }, { height: listH1 + 'px' }], opts));
+
+    // INVERT + PLAY — the destination logo/name starts life at the origin's
+    // position and size, then travels home
+    movers.forEach((m, i) => m.to.forEach((el, j) => {
+      const f = first[i][j], l = last[i][j];
+      anims.push(el.animate([
+        { transform: `translate(${f.left - l.left}px, ${f.top - l.top - flowDY}px) scale(${f.height / l.height})`,
+          transformOrigin: 'left top' },
+        { transform: 'none', transformOrigin: 'left top' }
+      ], opts));
+    }));
+
+    // Everything with no counterpart fades in behind the travel (backwards fill
+    // holds it hidden through the stagger delay)
+    extras.forEach((el, i) => {
+      anims.push(el.animate(
+        open ? [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }]
+             : [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(6px)' }],
+        open ? { duration: 340, easing: 'ease', delay: 150 + Math.min(i, 10) * 20, fill: 'backwards' }
+             : { duration: 200, easing: 'ease' }
+      ));
+    });
+
+    running = anims;
+  }
+
+  btn.addEventListener('click', () => morph(!list.classList.contains('open')));
 
   // Interactive scrubber — only active when list is open
   scrubDots.forEach(dot => {
