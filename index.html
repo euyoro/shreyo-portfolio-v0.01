@@ -882,10 +882,13 @@
     overflow: hidden;
     background: #fff; border-radius: 14px;
   }
-  .cs-slide img {
+  .cs-slide img,
+  .cs-slide video {
     height: 100%; width: auto; max-width: 88vw;
     object-fit: contain; display: block;
   }
+  /* the carousel owns dragging; the video must not swallow the gesture */
+  .cs-slide video { pointer-events: none; background: #fff; }
   .cs-slide-bg { width: 62vw; height: 100%; }
 
   /* ── Layer 2: scrim, only in expanded state ── */
@@ -2644,12 +2647,18 @@
       metrics: [{val:'Full',lbl:'System design'},{val:'Transit',lbl:'Scale'},{val:'3',lbl:'Design phases'}],
       href: 'case-studies/metro-wayfinding.html',
       slides: [
-        {set:'assets/case-studies/metro-wayfinding/01',w:2000,h:1126,alt:"Project title card. Left half white with \"Project 05/ Metro Wayfinding System Design\" in large mono type, a 4-week / System Design tag…"},
-        {set:'assets/case-studies/metro-wayfinding/02',w:2000,h:1126,alt:"Research spread. Top is two columns of body copy on visual ergonomics and site-visit findings…"},
-        {set:'assets/case-studies/metro-wayfinding/03',w:2000,h:1126,alt:"Signage Topology spread. Three short paragraphs up top define guidance/normative/indication signs…"},
-        {set:'assets/case-studies/metro-wayfinding/04',w:2000,h:1126,alt:"Four-up grid of in-situ mockup renders of the new signage on a near-black background: a double-sided ceiling-hung platform sign with blue and red arrows and train icons…"},
-        {set:'assets/case-studies/metro-wayfinding/05',w:2000,h:1126,alt:"Before/after pair of full-height photos of a station entrance totem against a blue sky: left is the existing grey/navy totem with the metro logo and a schematic line map; right is …"},
-        {set:'assets/case-studies/metro-wayfinding/06',w:2000,h:1126,alt:"Before/after pair shot from the same platform viewpoint: left is the existing white-and-green EXIT sign with blue pictogram panels and a left arrow; right is the redesigned black s…"},
+        {set:"assets/case-studies/metro-wayfinding/01",w:2000,h:1244,alt:"A black double-sided sign hangs on two thin cables in a bright white station, its trilingual 'Towards APMC' and 'Towards Motera' panels split by a red rule with red hook arrows pointing left and right."},
+        {set:"assets/case-studies/metro-wayfinding/02",w:2000,h:1602,alt:"Eight field photographs of Ahmedabad's existing metro signage under a Site Visit heading — green exit signs, an orange LED destination board, a blue trilingual interchange panel, a route-map totem and a weathered notice board."},
+        {set:"assets/case-studies/metro-wayfinding/03",w:2000,h:1102,alt:"Two on-site photographs side by side: the existing green-and-white exit sign on the left, and the redesigned black panel with a vertical green EXIT tab, trilingual 'Towards Gate 1' and a large green hook arrow on the right."},
+        {set:"assets/case-studies/metro-wayfinding/04",w:2000,h:1040,alt:"A Signage Typology diagram in which a grey human silhouette stands beside every sign format drawn to relative size and hung at its real height, from the 2x10 ft overhead panel down to small plates and 12x6 ft totems."},
+        {video:"assets/case-studies/metro-wayfinding/v2",w:1200,h:1200,alt:"Animated anatomy of a C1 2x6 ft directional plate, resolving into its proportional zones — 10% secondary info, 60% primary trilingual text, 30% wayfinding arrow."},
+        {video:"assets/case-studies/metro-wayfinding/v1",w:1200,h:1200,alt:"The finished C1 directional plate animating into place: a red platform-number cap, trilingual 'Towards Vastal Gam' and a red hook arrow sweeping right."},
+        {set:"assets/case-studies/metro-wayfinding/05",w:2000,h:1102,alt:"Four finished directional plates on white — red and blue 'Towards Platform' with train pictograms, a green EXIT tab reading 'Towards Gate 1', and red 'Towards Motera' — each trilingual with a colour-coded end cap."},
+        {set:"assets/case-studies/metro-wayfinding/06",w:2000,h:1308,alt:"Three identical black totem pylons with coral-red caps shot from three angles on grey seamless, each carrying the Gujarati and English 'Motera Stadium Gate 01' header, an embedded route map and a red stadium silhouette."},
+        {set:"assets/case-studies/metro-wayfinding/07",w:2000,h:1484,alt:"A typography page presenting the Anek and Baloo Bhai 2 families as large specimens, each with Latin, Devanagari and Gujarati markers above full lowercase, uppercase and numeral lines."},
+        {set:"assets/case-studies/metro-wayfinding/08",w:2000,h:1096,alt:"A legibility test grid repeating 'Sabarmati Railway Station' in Latin, Devanagari and Gujarati across six rows that blur progressively from sharp at the top to barely readable at the bottom."},
+        {set:"assets/case-studies/metro-wayfinding/09",w:2000,h:1504,alt:"The black pylon with its red cap standing on a kerb outside Motera Stadium in daylight, its Gujarati and English station panel and neighbourhood map rising above a street crowd and a red stall."},
+        {set:"assets/case-studies/metro-wayfinding/10",w:2000,h:1164,alt:"A low-angle shot of the black ceiling-hung sign in a dark metro concourse, warm downlight raking across its red hairline rule, red hooked arrows and trilingual 'Towards Motera' and 'Towards APMC' text."},
       ]
     },
     'everest-packaging': {
@@ -2752,6 +2761,13 @@
         `alt="${s.alt || ''}" ` +
         (i ? `data-warm="${s.set}" ` : 'fetchpriority="high" ') +
         `decoding="async" draggable="false"></div>`;
+      // Muted, looping, inline — autoplay is only allowed muted, and is
+      // withheld entirely under prefers-reduced-motion so the poster stands in.
+      if (s.video) return `<div class="cs-slide"><video src="${s.video}.mp4" ` +
+        `poster="${s.video}-poster.webp" width="${s.w}" height="${s.h}" ` +
+        `muted loop playsinline preload="metadata" ` +
+        (csReduced ? '' : 'autoplay ') +
+        `aria-label="${s.alt || ''}" draggable="false"></video></div>`;
       if (s.src) return `<div class="cs-slide"><img src="${s.src}" alt="" ` +
         `loading="lazy" decoding="async" draggable="false"></div>`;
       return `<div class="cs-slide"><div class="cs-slide-bg" style="background:${s.bg}"></div></div>`;
@@ -2844,6 +2860,7 @@
   // sliding in, which shows as a blank card mid-drag. Instead we release them
   // one at a time after the open animation, so nothing competes with it and
   // every slide is decoded before it can be scrolled to.
+  const csReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   let teardownTimer = null;
   let warmToken = 0;
   function warmSlides() {
@@ -2857,7 +2874,10 @@
       img.srcset = set + '-1200.webp 1200w, ' + set + '-2000.webp 2000w';
       img.src = set + '-2000.webp';
       const go = () => { if (mine === warmToken) setTimeout(next, 90); };
-      (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(go, go);
+      // decode() can hang indefinitely when the page is not compositing, which
+      // would stall the queue and leave every later slide unloaded. Race it.
+      const decoded = img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+      Promise.race([decoded, new Promise(r => setTimeout(r, 600))]).then(go, go);
     })();
   }
 
@@ -2949,6 +2969,12 @@
     activeKey = key;
 
     trackEl.innerHTML = buildSlides(d.slides);
+    // muted must be set as a property too — the attribute alone is not enough
+    // for autoplay in every engine
+    trackEl.querySelectorAll('video').forEach(v => {
+      v.muted = true;
+      if (!csReduced) v.play().catch(() => {});
+    });
     if (resetCarousel) resetCarousel();
     renderHead(d);
     styleEl.textContent = '';
@@ -2964,6 +2990,7 @@
   }
 
   function close() {
+    trackEl.querySelectorAll('video').forEach(v => v.pause());
     warmToken++;   // abandon any in-flight warm-up
     overlay.classList.remove('open', 'expanded');
     document.body.style.overflow = '';
