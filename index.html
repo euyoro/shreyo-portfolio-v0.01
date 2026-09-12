@@ -950,7 +950,7 @@
     display: grid;
     grid-template-columns: 24% minmax(0, 1fr) minmax(540px, auto);
     gap: 48px;
-    padding: 26px 0 22px;
+    padding: 36px 0 16px;
   }
   .cs-company {
     font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
@@ -1056,14 +1056,16 @@
      Each h2 becomes a sticky mono micro-label in a left rail, with its h3
      statement and prose in a wide right band. The header block above is
      untouched. */
-  .cs-sec {
+  /* Scoped under .cs-card .cs-body so the fetched page's own
+     '* { margin:0; padding:0 }' reset — injected later in the head — cannot
+     flatten the band spacing back to zero. */
+  .cs-card .cs-body .cs-sec {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
     gap: 64px;
-    padding: 56px 0;
+    padding: 72px 0 64px;
     border-top: 1px solid rgba(19,19,19,0.09);
   }
-  .cs-sec:first-of-type { border-top: none; }
   .cs-card .cs-body .cs-sec-head > h2 {
     font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
     letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
