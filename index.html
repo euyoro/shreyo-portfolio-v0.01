@@ -2309,10 +2309,11 @@
   const contribs=allDates.map(date=>({date,...map[date]}));
 
   const lastDate =new Date(contribs[contribs.length-1].date+'T00:00:00');
-  // Six-month window, snapped to the 1st so the month axis starts cleanly.
-  // The API still returns a year; we only render the tail of it.
+  // Full twelve-month window, snapped to the 1st so the month axis starts
+  // cleanly. More weeks across the same width is the only way to make the
+  // grid denser without inventing contribution data.
   const dataStart=new Date(contribs[0].date+'T00:00:00');
-  const winStart=new Date(lastDate.getFullYear(), lastDate.getMonth()-5, 1);
+  const winStart=new Date(lastDate.getFullYear(), lastDate.getMonth()-11, 1);
   const firstDate=winStart<dataStart?dataStart:winStart;
   const startDate=new Date(firstDate);
   startDate.setDate(startDate.getDate()-startDate.getDay());
