@@ -936,11 +936,13 @@
     flex: 1; min-height: 0;
     background: #fff;
     border-radius: 0 14px 0 0;
-    overflow-y: hidden; overflow-x: hidden;
+    /* scrollable in BOTH states: the collapsed card cannot always hold a
+       four-line summary at 14px on short or narrow viewports, and clipping it
+       with no scroll affordance hides content outright */
+    overflow-y: auto; overflow-x: hidden;
     padding: 0 44px;
     -webkit-overflow-scrolling: touch;
   }
-  .cs-overlay.expanded .cs-card { overflow-y: auto; }
   .cs-card::-webkit-scrollbar { width: 8px; }
   .cs-card::-webkit-scrollbar-thumb { background: rgba(19,19,19,0.16); border-radius: 4px; }
   .cs-card::-webkit-scrollbar-track { background: transparent; }
@@ -1015,12 +1017,18 @@
   }
 
   /* ── Story block — only visible when expanded ── */
+  /* Collapsed, the story must leave the layout entirely — opacity alone keeps
+     its full height in the flow, which gave the collapsed card a scrollbar into
+     invisible content once it became scrollable. */
   .cs-story {
     opacity: 0; pointer-events: none;
+    height: 0; overflow: hidden; padding-bottom: 0;
     transition: opacity 0.45s ease 0.1s;
-    padding-bottom: 120px;
   }
-  .cs-overlay.expanded .cs-story { opacity: 1; pointer-events: auto; }
+  .cs-overlay.expanded .cs-story {
+    opacity: 1; pointer-events: auto;
+    height: auto; overflow: visible; padding-bottom: 120px;
+  }
 
   /* The case study page ships its own meta block (Role / Duration / Stack /
      Team / Status). Reshape it into the bordered role box from the design —
@@ -2389,7 +2397,7 @@
     'rent-reporting': {
       company: 'Bright Money', title: 'Rent Reporting',
       tags: ['Shipped', 'Mobile', 'Product Design'],
-      desc: 'Credit score path for thin-file renters. I designed the end-to-end funnel — portal selection, bureau reporting logic, opt-in/out states, and disclosures. Live to customers March 2026.',
+      desc: "Rent is the largest monthly expense most people have, and for thin-file renters it never reaches a credit report. I designed the end-to-end funnel that closes that gap — portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. A three-week build with a long tail of refinements through 2026.",
       role: 'Design owner, kickoff to sign-off', year: 'Dec 2025 – Mar 2026',
       metrics: [{val:'2',lbl:'Bureaus supported'},{val:'Mar 11',lbl:'Ship date'},{val:'3 wks',lbl:'Alignment time'}],
       href: 'case-studies/rent-reporting.html',
@@ -2403,7 +2411,7 @@
     'bright-atlas': {
       company: 'Bright Money', title: 'Bright Atlas',
       tags: ['Built', 'Full-stack', 'Design Engineering'],
-      desc: 'AI-powered competitor intelligence platform. Every screenshot from rival fintechs indexed by flow, pattern, and screen type. On real infrastructure three days after I opened the repo.',
+      desc: "Our competitor research was trapped inside Figma boards with no search. I built an AI-powered intelligence platform that indexes every screenshot from rival fintechs by flow, pattern and screen type. Product definition through AI pipeline, build and deployment — running on real AWS infrastructure three days after I opened the repo.",
       role: 'Design and build, end to end', year: 'Jun 2026',
       metrics: [{val:'3 days',lbl:'To production'},{val:'10+',lbl:'Competitors tracked'},{val:'100%',lbl:'Team adopted'}],
       href: 'case-studies/bright-atlas.html',
@@ -2417,7 +2425,7 @@
     'sauron': {
       company: 'Bright Money', title: 'Sauron',
       tags: ['Live', 'Figma Plugin', 'Dev Tooling'],
-      desc: 'Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship. Design QA that runs at source, not in review.',
+      desc: "Peer review catches the experience but misses the details — a token used wrong, compliance copy missing, spacing off by two. I built a Figma plugin that flags all three before they ship, designed and coded end to end across ten weeks, then published it to the Figma Community for any team to install and run.",
       role: 'Design and engineering, solo', year: '2026',
       metrics: [{val:'<1s',lbl:'Scan time'},{val:'3',lbl:'Check types'},{val:'Live',lbl:'In production'}],
       href: 'case-studies/sauron.html',
@@ -2431,7 +2439,7 @@
     'referral-redesign': {
       company: 'Bright Money', title: 'Referral Redesign',
       tags: ['Shipped', 'Mobile', 'Product Design'],
-      desc: "Rebuilt Bright's referral programme around why users actually refer — not discounts but social capital and trust. Hi-fi signed off and handed to engineering.",
+      desc: "Who tells a friend about an app they barely use? The 2022 flow was doing the asking but none of the selling. I rebuilt Bright's referral experience across three phases and thirteen months — reframing the offer, rewriting the moment of the ask, and rebuilding the screens around what actually motivates someone to share.",
       role: 'Design owner', year: '2025',
       metrics: [{val:'1',lbl:'Redesign cycle'},{val:'Hi-fi',lbl:'Signed off'},{val:'New',lbl:'Referral model'}],
       href: 'case-studies/referral-redesign.html',
@@ -2445,7 +2453,7 @@
     'monet-cancellation': {
       company: 'Bright Money', title: 'Monet Cancellation',
       tags: ['In Progress', 'Mobile', 'Retention Design'],
-      desc: 'Cancellation flow redesigned around a Starter tier — giving churning users a middle option before they cancel outright. Reduces full churn while preserving monetisation.',
+      desc: "What do you show a user who is trying to leave? I redesigned Bright's cancellation flow around a new Starter tier, giving churning members a middle option instead of a binary stay-or-go. Nine months across phases, working with product, engineering and legal on when the offer appears and what it is allowed to say.",
       role: 'Design owner', year: '2026',
       metrics: [{val:'1',lbl:'New tier'},{val:'↓',lbl:'Churn intent'},{val:'WIP',lbl:'Status'}],
       href: 'case-studies/monet-cancellation.html',
@@ -2459,7 +2467,7 @@
     'freemium-3-4': {
       company: 'Bright Money', title: 'Freemium 3.0 → 4.0',
       tags: ['Closed', 'Mobile', 'Product Design'],
-      desc: 'Experience layer controlling what cancelled Basic users see, what is locked, and what upgrade path is offered. Defined the locked vs open surface split.',
+      desc: "How do you make money from users who stopped paying you? I owned the experience layer from 3.0 through 4.0 — what cancelled Basic users can still see, what gets locked, and where the upgrade prompts sit. Five months shaping a free tier that keeps its value visible without giving the paid product away.",
       role: 'Design owner', year: '2025',
       metrics: [{val:'2',lbl:'Freemium tiers'},{val:'Full',lbl:'Feature mapping'},{val:'Closed',lbl:'Status'}],
       href: 'case-studies/freemium-3-4.html',
@@ -2473,7 +2481,7 @@
     'id-protection': {
       company: 'Bright Money', title: 'ID Protection',
       tags: ['Concept', 'Research', 'Strategy'],
-      desc: 'Researched and pitched a full ID protection product — credit monitoring, breach alerts, and a dispute flow — to fill a visible gap in the competitive set.',
+      desc: "What does every competitor have that we don't? I led the research, built the business model and pitched a full ID protection product — credit monitoring, breach alerts and a dark web scan — assembled largely from data Bright already held. Four and a half months from competitive teardown to a deck that made the case.",
       role: 'Research and concept, solo', year: '2025',
       metrics: [{val:'Full',lbl:'Product pitch'},{val:'3',lbl:'Core pillars'},{val:'Gap',lbl:'Market need'}],
       href: 'case-studies/id-protection.html',
@@ -2487,7 +2495,7 @@
     'scribbleship': {
       company: 'Academic', title: 'ScribbleShip',
       tags: ['UI/UX', 'Mobile', 'Academic'],
-      desc: 'Mobile app for on-demand stationery and print ordering in Ahmedabad. Designed end-to-end UX — onboarding, catalogue, ordering, and delivery tracking.',
+      desc: "Can we deliver stationery and prints on demand? A mobile app for Ahmedabad taken from sector research through to a working prototype — onboarding, catalogue, print job upload, ordering and delivery tracking. Three weeks of academic work at GLS, giving a category nobody had designed for a complete mobile experience.",
       role: 'UX Design, solo', year: '2023',
       metrics: [{val:'E2E',lbl:'App flows'},{val:'Mobile',lbl:'Platform'},{val:'Full',lbl:'UX coverage'}],
       href: 'case-studies/scribbleship.html',
@@ -2503,7 +2511,7 @@
     'gls-yearbook': {
       company: 'Academic', title: 'GLS Annual Yearbook',
       tags: ['Publication', 'Editorial', 'Print'],
-      desc: '28cm hardbound yearbook documenting a design institute\'s creative journey. Art direction, layout, and print production for a full-year compendium.',
+      desc: "How can a book build meaning? A 28cm hardbound yearbook recording a design institute's year — art direction, layout, content editing and print production across a full compendium. I built a visual language minimal enough that student work stayed the loudest thing on every spread, with an AR layer opening the printed page into motion.",
       role: 'Art direction and layout', year: '2022',
       metrics: [{val:'28cm',lbl:'Format'},{val:'Hard',lbl:'Bound'},{val:'Full',lbl:'Print production'}],
       href: 'case-studies/gls-yearbook.html',
@@ -2518,7 +2526,7 @@
     'metro-wayfinding': {
       company: 'Academic', title: 'Metro Wayfinding',
       tags: ['Systems', 'Wayfinding', 'Typography'],
-      desc: 'Redesigned Ahmedabad Metro signage — wayfinding system, typography hierarchy, and spatial ergonomics for a high-traffic transit environment.',
+      desc: "How do you navigate a metro without ever feeling lost? A research-driven redesign of the Ahmedabad Metro's signage — wayfinding hierarchy, bilingual typography, iconography, and the spatial ergonomics of where a sign has to sit to be read at speed. Four weeks building a system that answers before a commuter has to ask.",
       role: 'Systems design, solo', year: '2022',
       metrics: [{val:'Full',lbl:'System design'},{val:'Transit',lbl:'Scale'},{val:'3',lbl:'Design phases'}],
       href: 'case-studies/metro-wayfinding.html',
@@ -2534,7 +2542,7 @@
     'everest-packaging': {
       company: 'Academic', title: 'Everest Spices',
       tags: ['Packaging', 'Brand', 'Print'],
-      desc: "International packaging redesign for India's iconic spice brand. Featured on Packaging of the World. Colour-coded system for the international range.",
+      desc: "Will spice packaging feel authentically Indian — abroad? An international redesign for India's most recognised spice brand, built on surveys of kitchens outside the country. Consumer research, illustration, 3D rendering and a colour-coded system for the export range across five weeks. Featured on Packaging of the World.",
       role: 'Packaging design, solo', year: '2022',
       metrics: [{val:'Intl',lbl:'Market range'},{val:'POTW',lbl:'Featured on'},{val:'Coded',lbl:'Colour system'}],
       href: 'case-studies/everest-packaging.html',
@@ -2550,7 +2558,7 @@
     'baux-typeface': {
       company: 'Personal', title: 'Baux Typeface',
       tags: ['Type Design', 'Lettering', 'Display'],
-      desc: 'Futuristic display typeface — 30 characters, alien geometry, zero curves. Built on a rigid grid of angles and intersections.',
+      desc: "What would an alien alphabet look like if a machine had drawn it? A display typeface of thirty Latin characters constructed entirely from a square — rigid angles, hard intersections, and not a single curve anywhere in the set. Two weeks from character sketches to a working font file, drawn in Illustrator and built in Glyphs.",
       role: 'Type design, solo', year: '2022',
       metrics: [{val:'30',lbl:'Characters'},{val:'0',lbl:'Curves'},{val:'Display',lbl:'Use case'}],
       href: 'case-studies/baux-typeface.html',
@@ -2565,7 +2573,7 @@
     'jupiter-tvc': {
       company: 'Personal', title: 'Jupiter Banking TVC',
       tags: ['Film', 'Direction', 'Editing'],
-      desc: 'Slice-of-life TV commercial for a gen-z neobank — directed, shot, and edited. Aimed at the everyday anxiety of money decisions.',
+      desc: "Can neo banking be advertised to feel human? A two-minute slice-of-life commercial for a gen-z neobank that opens on a person, not a product — written, storyboarded, directed, shot, edited and coloured in two weeks. Built around the ordinary anxiety of money decisions rather than the features meant to solve them.",
       role: 'Director and editor', year: '2021',
       metrics: [{val:'TVC',lbl:'Format'},{val:'Gen-Z',lbl:'Audience'},{val:'Full',lbl:'Production'}],
       href: 'case-studies/jupiter-tvc.html',
@@ -2579,7 +2587,7 @@
     'logofolio': {
       company: 'Personal', title: 'Logofolio & Brand Marks',
       tags: ['Identity', 'Brand', 'Logo Design'],
-      desc: 'Five years of brand identity work — healthcare, education, esports, government. Each mark with its own story and brief.',
+      desc: "What makes a mark memorable? Five years of brand identity work across healthcare, education, government research and esports — from Svasthik Hospital to One Shot eSports. Each mark carries its own brief, its own constraints and its own argument for why it looks the way it does, built out into full identity systems.",
       role: 'Brand identity, multiple clients', year: '2019 – 2024',
       metrics: [{val:'5yr',lbl:'Of work'},{val:'4',lbl:'Industries'},{val:'Full',lbl:'Brand systems'}],
       href: 'case-studies/logofolio.html',
