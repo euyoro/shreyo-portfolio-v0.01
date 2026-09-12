@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Shreyo Debnath — Product Designer. Fintech product design, brand, and design engineering.">
 <script>document.documentElement.setAttribute('data-theme','light');</script>
 <title>Portfolio V2 — Shreyo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -255,14 +261,34 @@
 
   /* ── Activity ── */
   .activity { padding: 40px 0 60px; }
+  /* A short range leaves the graph narrower than the column. Rather than
+     stretch the cells to fill it, the count and legend move alongside. */
+  @media (min-width: 900px) {
+    .activity {
+      display: grid; grid-template-columns: auto minmax(190px, 1fr);
+      grid-template-areas: "head head" "map foot";
+      column-gap: 56px; align-items: end;
+    }
+    .activity > .section-head { grid-area: head; }
+    .activity > .heatmap-grid { grid-area: map; width: auto; }
+    .activity > .activity-foot {
+      grid-area: foot; margin-top: 0;
+      flex-direction: column; align-items: flex-start;
+      justify-content: flex-end; gap: 14px;
+      padding-bottom: 2px;
+    }
+  }
   .heatmap-grid { display: grid; grid-template-columns: 24px 1fr; gap: 0 6px; width: 100%; }
   .day-col { display: flex; flex-direction: column; padding-top: 18px; gap: 0; }
   .day-lbl { font-family: var(--ff-mono); font-size: 8.5px; letter-spacing: 0.03em; color: var(--dim); line-height: 1; display: flex; align-items: center; flex: 1; }
   .day-lbl.hide { visibility: hidden; }
-  .calendar-col { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-  .month-row { display: grid; grid-template-columns: repeat(53,1fr); gap: 3px; margin-bottom: 3px; height: 15px; }
+  .calendar-col { display: flex; flex-direction: column; gap: var(--hm-gap,3px); min-width: 0; }
+  /* Track count follows the rendered range (JS sets --weeks). Hardcoding 53
+     left 33 empty tracks once the window shrank to May-onward, so the graph
+     drew at 38% of its container. */
+  .month-row { display: grid; grid-template-columns: repeat(var(--weeks,53),minmax(0,var(--hm-cell,1fr))); gap: var(--hm-gap,3px); margin-bottom: 4px; height: 15px; }
   .month-lbl { font-family: var(--ff-mono); font-size: 9px; letter-spacing: 0.04em; color: var(--muted); grid-column: span 1; white-space: nowrap; align-self: end; }
-  .cell-row { display: grid; grid-template-columns: repeat(53,1fr); gap: 3px; }
+  .cell-row { display: grid; grid-template-columns: repeat(var(--weeks,53),minmax(0,var(--hm-cell,1fr))); gap: var(--hm-gap,3px); }
   .hm-cell { aspect-ratio: 1; border-radius: 2px; background: var(--h0); cursor: default; transition: opacity 0.1s; min-width: 0; }
   .hm-cell:hover { opacity: 0.65; }
   .hm-cell[data-v="1"] { background: var(--h1); }
@@ -434,7 +460,10 @@
   }
   @media (max-width: 480px) {
     .exp-pills { grid-template-columns: 1fr; }
-    .heatmap-grid { grid-template-columns: 0 1fr; }
+    /* day-col is display:none here, so the grid has ONE child — a '0 1fr'
+       track list put it in the zero-width track and the whole heatmap
+       rendered 0px wide on every phone. */
+    .heatmap-grid { grid-template-columns: 1fr; gap: 0; }
     .day-col { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -1276,7 +1305,8 @@
     opacity: 0.7;
   }
 </style>
-
+</head>
+<body>
 <!-- Preloader -->
 <div class="preloader" id="preloader" aria-label="Loading">
   <span class="preloader-split" id="pl-l">—</span>
@@ -2094,25 +2124,38 @@
     if (progress < 1) {
       requestAnimationFrame(tick);
     } else {
-      countEl.textContent = '100';
-      bar.style.transform = 'scaleX(1)';
-      clearInterval(greetTimer);
-      greetInactive.textContent = 'Hello';
-      greetInactive.className = 'preloader-greeting english';
-      greetInactive.style.opacity = '1';
-      greetActive.style.opacity = '0';
-      [greetActive, greetInactive] = [greetInactive, greetActive];
-      setTimeout(() => {
-        preloader.classList.add('exit');
-        stage.classList.add('revealed');
-        preloader.addEventListener('transitionend', () => {
-          preloader.style.display = 'none';
-        }, { once: true });
-      }, 380);
+      finish();
     }
   }
 
+  // The whole intro is driven by requestAnimationFrame. Where rAF is
+  // suppressed or throttled, tick never reaches progress 1 and the preloader
+  // sits over the site forever, so the reveal is also armed on a plain timer.
+  // transitionend is likewise not guaranteed, so the hide has its own guard.
+  let finished = false;
+  function finish() {
+    if (finished) return;
+    finished = true;
+    countEl.textContent = '100';
+    bar.style.transform = 'scaleX(1)';
+    clearInterval(greetTimer);
+    greetInactive.textContent = 'Hello';
+    greetInactive.className = 'preloader-greeting english';
+    greetInactive.style.opacity = '1';
+    greetActive.style.opacity = '0';
+    [greetActive, greetInactive] = [greetInactive, greetActive];
+    setTimeout(() => {
+      preloader.classList.add('exit');
+      stage.classList.add('revealed');
+      let hidden = false;
+      const hide = () => { if (hidden) return; hidden = true; preloader.style.display = 'none'; };
+      preloader.addEventListener('transitionend', hide, { once: true });
+      setTimeout(hide, 1200);
+    }, 380);
+  }
+
   requestAnimationFrame(tick);
+  setTimeout(finish, duration + 600);
 })();
 
 // ── Hero cycling text ─────────────────────────────────────
@@ -2208,6 +2251,10 @@
   const WEEKS=Math.ceil(((lastDate-startDate)/86400000+1)/7);
 
   // month labels
+  // gap scales with the range so a short window reads as a graph, not a strip
+  cal.style.setProperty('--weeks', WEEKS);
+  cal.style.setProperty('--hm-gap', WEEKS <= 30 ? '5px' : '3px');
+  cal.style.setProperty('--hm-cell', WEEKS <= 30 ? '26px' : '1fr');
   const mRow=document.createElement('div'); mRow.className='month-row';
   // startDate snaps back to a Sunday, which can land in the month before the
   // window. Seed prevMonth with it so that partial month is not labelled.
@@ -3211,3 +3258,5 @@
   });
 })();
 </script>
+</body>
+</html>
