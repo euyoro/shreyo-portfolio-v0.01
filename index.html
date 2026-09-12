@@ -1052,16 +1052,43 @@
     color: #131313; letter-spacing: -0.01em; line-height: 1.45;
   }
 
+  /* ── Story sections ──
+     Each h2 becomes a sticky mono micro-label in a left rail, with its h3
+     statement and prose in a wide right band. The header block above is
+     untouched. */
+  .cs-sec {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 64px;
+    padding: 56px 0;
+    border-top: 1px solid rgba(19,19,19,0.09);
+  }
+  .cs-sec:first-of-type { border-top: none; }
+  .cs-card .cs-body .cs-sec-head > h2 {
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
+    margin: 0; line-height: 1.3;
+    position: sticky; top: 8px;
+  }
+  .cs-card .cs-body .cs-sec-body { max-width: 660px; }
+  .cs-card .cs-body .cs-sec-body > h3 {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 28px; font-weight: 400; color: #131313;
+    letter-spacing: -0.025em; line-height: 1.28;
+    margin: 0 0 26px;
+  }
+  .cs-card .cs-body .cs-sec-body > *:last-child { margin-bottom: 0; }
+
   /* Fetched case-study content — left-aligned, spread */
   .cs-body { max-width: none; }
   /* copy sits in a readable column; the role box and media run full width */
   .cs-body > p, .cs-body > h1, .cs-body > h2, .cs-body > h3, .cs-body > h4,
   .cs-body > ul, .cs-body > ol, .cs-body > blockquote { max-width: 760px; }
   .cs-body > * { margin: 0; }
-  .cs-body p {
-    font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px;
-    color: #6b6b68; line-height: 1.78; letter-spacing: -0.005em;
-    margin-bottom: 22px;
+  .cs-card .cs-body p {
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px;
+    color: #6b6b68; line-height: 1.6; letter-spacing: -0.005em;
+    margin-bottom: 20px; max-width: 62ch;
   }
   .cs-body h1, .cs-body h2 {
     font-family: 'DM Sans', system-ui, sans-serif;
@@ -2709,6 +2736,31 @@
     })();
   }
 
+  // The fetched pages are a flat run of h2/h3/p. Group each h2 with the
+  // content that follows it so the story can be laid out as label + band.
+  // Anything before the first h2 (the meta block) is left exactly as it is.
+  function sectionize(root) {
+    const kids = [...root.children];
+    const firstH2 = kids.findIndex(el => el.tagName === 'H2');
+    if (firstH2 === -1) return;
+
+    let sec = null, head = null, body = null;
+    for (const el of kids.slice(firstH2)) {
+      if (el.tagName === 'H2') {
+        sec = document.createElement('div'); sec.className = 'cs-sec';
+        head = document.createElement('div'); head.className = 'cs-sec-head';
+        body = document.createElement('div'); body.className = 'cs-sec-body';
+        sec.append(head, body);
+        root.insertBefore(sec, el);
+        head.appendChild(el);
+        continue;
+      }
+      // the source rules between sections are redundant — each band has one
+      if (el.tagName === 'HR') { el.remove(); continue; }
+      if (body) body.appendChild(el);
+    }
+  }
+
   function setTab(name) {
     document.querySelectorAll('.cs-tab').forEach(t =>
       t.classList.toggle('active', t.dataset.tab === name));
@@ -2726,6 +2778,7 @@
       if (key !== activeKey) return; // user switched away mid-fetch
       styleEl.textContent = story.css;
       bodyEl.innerHTML = story.html;
+      sectionize(bodyEl);
       bodyEl.dataset.loaded = '1';
     }
   }
