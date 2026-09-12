@@ -1120,6 +1120,50 @@
   }
   .cs-card .cs-body .cs-sec-body > *:last-child { margin-bottom: 0; }
 
+  /* ── Outcomes table ──
+     Appended after the story from the cs data, not from the fetched page, so
+     it is ours to style and never competes with the injected sheet. Scoped at
+     .cs-card .cs-body depth for the same reason. */
+  .cs-card .cs-body .cs-out { width: 100%; border-collapse: collapse; }
+  .cs-card .cs-body .cs-out thead th {
+    font-family: var(--ff-mono); font-size: 14px; font-weight: 500;
+    letter-spacing: 0.06em; text-transform: uppercase; color: #9d9d99;
+    text-align: left; padding: 0 20px 14px 0; white-space: nowrap;
+    border-bottom: 1px solid rgba(19,19,19,0.12);
+  }
+  .cs-card .cs-body .cs-out tbody td {
+    font-family: 'DM Sans', system-ui, sans-serif; font-size: 15px;
+    color: #6b6b68; line-height: 1.5; letter-spacing: -0.005em;
+    padding: 18px 20px 18px 0; vertical-align: top;
+    border-bottom: 1px solid rgba(19,19,19,0.07);
+  }
+  .cs-card .cs-body .cs-out tbody tr:last-child td { border-bottom: none; }
+  .cs-card .cs-body .cs-out td.m { color: #131313; width: 26%; }
+  .cs-card .cs-body .cs-out td.b,
+  .cs-card .cs-body .cs-out td.a {
+    font-family: var(--ff-display); font-size: 26px; line-height: 1.05;
+    letter-spacing: -0.02em; white-space: nowrap; width: 15%;
+    font-variant-numeric: tabular-nums;
+  }
+  .cs-card .cs-body .cs-out td.b { color: #9d9d99; }
+  .cs-card .cs-body .cs-out td.a { color: #131313; }
+  .cs-card .cs-body .cs-out td.w { width: 44%; }
+  /* a metric with no stated baseline shows the after value alone */
+  .cs-card .cs-body .cs-out tr.single td.a { color: #131313; }
+  .cs-out-wrap { overflow-x: auto; }
+  .cs-out-note {
+    font-family: var(--ff-mono); font-size: 14px; letter-spacing: 0.02em;
+    color: #9d9d99; margin-top: 18px;
+  }
+  /* the outcomes band runs full width — four columns need more than the
+     660px reading measure the prose sections use */
+  .cs-card .cs-body .cs-sec.cs-sec-wide .cs-sec-body { max-width: none; }
+  @media (max-width: 900px) {
+    .cs-card .cs-body .cs-out thead th { font-size: 12px; padding-right: 14px; }
+    .cs-card .cs-body .cs-out tbody td { font-size: 14px; padding-right: 14px; }
+    .cs-card .cs-body .cs-out td.b, .cs-card .cs-body .cs-out td.a { font-size: 21px; }
+  }
+
   /* Fetched case-study content — left-aligned, spread */
   .cs-body { max-width: none; }
   /* copy sits in a readable column; the role box and media run full width */
@@ -2447,6 +2491,10 @@
       desc: "Rent is the largest monthly expense most people have, and for thin-file renters it never reaches a credit report. I designed the end-to-end funnel that closes that gap — portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. A three-week build with a long tail of refinements through 2026.",
       role: 'Design owner, kickoff to sign-off', year: 'Dec 2025 – Mar 2026',
       metrics: [{val:'30 → 50%',lbl:'Conversion'},{val:'−15%',lbl:'Support tickets'},{val:'2',lbl:'Bureaus supported'}],
+      outcomes: [
+        {metric:"Application conversion",before:"30%",after:"50%",meaning:"Application conversion on the rent reporting funnel nearly doubled after the redesign."},
+        {metric:"Related support tickets",before:"—",after:"15% fewer",meaning:"Support contacts tied to rent reporting fell once the flow and its disclosures were rebuilt."},
+      ],
       href: 'case-studies/rent-reporting.html',
       slides: [
         {bg:'#d5d5d2'},
@@ -2461,6 +2509,9 @@
       desc: "Our competitor research was trapped inside Figma boards with no search. I built an AI-powered intelligence platform that indexes every screenshot from rival fintechs by flow, pattern and screen type. Product definition through AI pipeline, build and deployment — running on real AWS infrastructure three days after I opened the repo.",
       role: 'Design and build, end to end', year: 'Jun 2026',
       metrics: [{val:'40',lbl:'Competitors'},{val:'1,000+',lbl:'Screenshots'},{val:'1hr → 2min',lbl:'Reference lookup'}],
+      outcomes: [
+        {metric:"Finding a competitor reference",before:"~1 hour",after:"~2 min",meaning:"Research that sat in unsearchable Figma boards became findable on demand, without asking a designer."},
+      ],
       href: 'case-studies/bright-atlas.html',
       slides: [
         {bg:'#d5d5d2'},
@@ -2820,6 +2871,31 @@
     }
   }
 
+  // Outcomes table, appended as the closing band of the story. Driven by the
+  // cs data rather than the fetched page, and only rendered where real
+  // measured figures exist — a case study with none simply has no band.
+  function buildOutcomes(d) {
+    if (!d.outcomes || !d.outcomes.length) return null;
+    const rows = d.outcomes.map(o => {
+      const single = !o.before || o.before === '—';
+      return `<tr${single ? ' class="single"' : ''}>` +
+        `<td class="m">${o.metric}</td>` +
+        `<td class="b">${single ? '' : o.before}</td>` +
+        `<td class="a">${o.after}</td>` +
+        `<td class="w">${o.meaning}</td></tr>`;
+    }).join('');
+    const sec = document.createElement('div');
+    sec.className = 'cs-sec cs-sec-wide';
+    sec.innerHTML =
+      '<div class="cs-sec-head"><h2>Outcomes</h2></div>' +
+      '<div class="cs-sec-body"><div class="cs-out-wrap"><table class="cs-out">' +
+      '<thead><tr><th>Metric</th><th>Before</th><th>After</th><th>What it means</th></tr></thead>' +
+      '<tbody>' + rows + '</tbody></table></div>' +
+      (d.outcomesNote ? '<p class="cs-out-note">' + d.outcomesNote + '</p>' : '') +
+      '</div>';
+    return sec;
+  }
+
   function setTab(name) {
     document.querySelectorAll('.cs-tab').forEach(t =>
       t.classList.toggle('active', t.dataset.tab === name));
@@ -2838,6 +2914,8 @@
       styleEl.textContent = story.css;
       bodyEl.innerHTML = story.html;
       sectionize(bodyEl);
+      const out = buildOutcomes(cs[key]);
+      if (out) bodyEl.appendChild(out);
       bodyEl.dataset.loaded = '1';
     }
   }
