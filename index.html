@@ -261,23 +261,7 @@
 
   /* ── Activity ── */
   .activity { padding: 40px 0 60px; }
-  /* A short range leaves the graph narrower than the column. Rather than
-     stretch the cells to fill it, the count and legend move alongside. */
-  @media (min-width: 900px) {
-    .activity {
-      display: grid; grid-template-columns: auto minmax(190px, 1fr);
-      grid-template-areas: "head head" "map foot";
-      column-gap: 56px; align-items: end;
-    }
-    .activity > .section-head { grid-area: head; }
-    .activity > .heatmap-grid { grid-area: map; width: auto; }
-    .activity > .activity-foot {
-      grid-area: foot; margin-top: 0;
-      flex-direction: column; align-items: flex-start;
-      justify-content: flex-end; gap: 14px;
-      padding-bottom: 2px;
-    }
-  }
+
   .heatmap-grid { display: grid; grid-template-columns: 24px 1fr; gap: 0 6px; width: 100%; }
   .day-col { display: flex; flex-direction: column; padding-top: 18px; gap: 0; }
   .day-lbl { font-family: var(--ff-mono); font-size: 8.5px; letter-spacing: 0.03em; color: var(--dim); line-height: 1; display: flex; align-items: center; flex: 1; }
@@ -2284,12 +2268,11 @@
   const contribs=allDates.map(date=>({date,...map[date]}));
 
   const lastDate =new Date(contribs[contribs.length-1].date+'T00:00:00');
-  // Window the graph to the most recent 1 May rather than the full trailing
-  // year — the API still returns a year, we just render the tail of it.
+  // Six-month window, snapped to the 1st so the month axis starts cleanly.
+  // The API still returns a year; we only render the tail of it.
   const dataStart=new Date(contribs[0].date+'T00:00:00');
-  const mayStart=new Date(lastDate.getFullYear(),4,1);
-  if(mayStart>lastDate) mayStart.setFullYear(mayStart.getFullYear()-1);
-  const firstDate=mayStart<dataStart?dataStart:mayStart;
+  const winStart=new Date(lastDate.getFullYear(), lastDate.getMonth()-5, 1);
+  const firstDate=winStart<dataStart?dataStart:winStart;
   const startDate=new Date(firstDate);
   startDate.setDate(startDate.getDate()-startDate.getDay());
   const WEEKS=Math.ceil(((lastDate-startDate)/86400000+1)/7);
