@@ -2539,11 +2539,12 @@
       // {set} — a responsive pair from the portfolio-PDF slide pipeline.
       // width/height are the intrinsic size so the row reserves its aspect
       // before the image lands and the carousel never reflows mid-scroll.
-      if (s.set) return `<div class="cs-slide"><img src="${s.set}-2000.webp" ` +
-        `srcset="${s.set}-1200.webp 1200w, ${s.set}-2000.webp 2000w" ` +
+      if (s.set) return `<div class="cs-slide"><img ` +
+        (i ? '' : `src="${s.set}-2000.webp" srcset="${s.set}-1200.webp 1200w, ${s.set}-2000.webp 2000w" `) +
         `sizes="(max-width: 760px) 86vw, calc(124vh - 180px)" ` +
         `width="${s.w}" height="${s.h}" ` +
-        `alt="${s.alt || ''}" loading="${i ? 'lazy' : 'eager'}" ` +
+        `alt="${s.alt || ''}" ` +
+        (i ? `data-warm="${s.set}" ` : 'fetchpriority="high" ') +
         `decoding="async" draggable="false"></div>`;
       if (s.src) return `<div class="cs-slide"><img src="${s.src}" alt="" ` +
         `loading="lazy" decoding="async" draggable="false"></div>`;
@@ -2631,6 +2632,28 @@
     }
   }
 
+  // Warm the remaining slides once the overlay has finished opening.
+  // Native lazy-loading is unreliable here — the track moves by transform
+  // inside an overflow:hidden clip, so slides only fetch as they are already
+  // sliding in, which shows as a blank card mid-drag. Instead we release them
+  // one at a time after the open animation, so nothing competes with it and
+  // every slide is decoded before it can be scrolled to.
+  let warmToken = 0;
+  function warmSlides() {
+    const mine = ++warmToken;
+    const pending = [...trackEl.querySelectorAll('img[data-warm]')];
+    (function next() {
+      if (mine !== warmToken || !pending.length) return;
+      const img = pending.shift();
+      const set = img.dataset.warm;
+      delete img.dataset.warm;
+      img.srcset = set + '-1200.webp 1200w, ' + set + '-2000.webp 2000w';
+      img.src = set + '-2000.webp';
+      const go = () => { if (mine === warmToken) setTimeout(next, 90); };
+      (img.decode ? img.decode().catch(() => {}) : Promise.resolve()).then(go, go);
+    })();
+  }
+
   function setTab(name) {
     document.querySelectorAll('.cs-tab').forEach(t =>
       t.classList.toggle('active', t.dataset.tab === name));
@@ -2674,9 +2697,11 @@
 
     overlay.classList.add('open');
     document.body.style.overflow = 'hidden';
+    setTimeout(warmSlides, 950);   // after the 0.9s open transition
   }
 
   function close() {
+    warmToken++;   // abandon any in-flight warm-up
     overlay.classList.remove('open', 'expanded');
     document.body.style.overflow = '';
     setTimeout(() => { storyEl.innerHTML = ''; activeKey = null; }, 950);
