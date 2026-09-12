@@ -948,7 +948,9 @@
   /* ── Header block — persists in BOTH states ── */
   .cs-head {
     display: grid;
-    grid-template-columns: 24% minmax(0, 1fr) minmax(540px, auto);
+    /* metrics take exactly what their non-wrapping overlines need, so the
+       summary band gets every remaining pixel */
+    grid-template-columns: 21% minmax(0, 1fr) max-content;
     gap: 48px;
     padding: 36px 0 16px;
   }
@@ -974,9 +976,9 @@
   .cs-desc {
     font-family: 'DM Sans', system-ui, sans-serif; font-size: 14px;
     color: #6b6b68; line-height: 1.72; letter-spacing: -0.005em;
-    margin: 0; max-width: 30ch;
-    /* summaries vary in length; reserve four lines so every card matches */
-    min-height: calc(4 * 1.72em);
+    margin: 0; max-width: 68ch;
+    /* fills the band; the floor keeps every card the same height */
+    min-height: calc(3 * 1.72em);
   }
   .cs-metrics {
     display: grid; grid-template-columns: repeat(3, 1fr);
@@ -1004,7 +1006,7 @@
     .cs-tags { margin-top: 12px; }
     .cs-metric { gap: 6px; }
     .cs-metric-val { font-size: 25px; }
-    .cs-desc { line-height: 1.6; min-height: calc(4 * 1.6em); }
+    .cs-desc { line-height: 1.6; min-height: calc(3 * 1.6em); }
   }
   @media (max-height: 720px) {
     .cs-head { padding: 14px 0 12px; gap: 24px; }
@@ -1142,7 +1144,7 @@
      allowed to wrap, but a reserved two-line box keeps the values on a shared
      baseline — the alignment matters more than the nowrap. */
   @media (max-width: 1280px) {
-    .cs-head { grid-template-columns: 24% minmax(0, 1fr) minmax(360px, auto); gap: 32px; }
+    .cs-head { grid-template-columns: 21% minmax(0, 1fr) minmax(360px, auto); gap: 32px; }
     .cs-metric-lbl { white-space: normal; letter-spacing: 0.04em; min-height: 2.6em; }
   }
   @media (max-width: 1040px) {
