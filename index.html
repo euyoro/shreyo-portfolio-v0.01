@@ -841,9 +841,12 @@
 
   /* ── Layer 1: full-bleed image carousel (the backdrop) ── */
   .cs-bg { position: absolute; inset: 0; display: flex; }
+  /* Slide height is whatever the padding leaves: 70vh - padTop. The top inset
+     scales so the band stays exactly 10% taller than a flat 150px at every
+     viewport height; the floor keeps it clear of the CLOSE bar on tall screens. */
   .cs-carousel-zone {
     flex: 1; overflow: hidden; cursor: default;
-    padding: 150px 0 30vh;
+    padding: max(76px, calc(165px - 7vh)) 0 30vh;
     transition: padding 0.75s cubic-bezier(0.76, 0, 0.24, 1);
   }
   .cs-carousel-zone.dragging { cursor: grabbing; }
@@ -1080,7 +1083,7 @@
     .cs-sheet { left: 14px; right: 14px; top: 68vh; }
     .cs-overlay.expanded .cs-sheet { top: 96px; }
     .cs-card { padding: 0 22px; }
-    .cs-carousel-zone { padding: 110px 0 34vh; }
+    .cs-carousel-zone { padding: max(58px, calc(121px - 6.6vh)) 0 34vh; }
     .cs-carousel-track { gap: 14px; padding: 0 14px; }
     .cs-slide img { max-width: 86vw; }
     .cs-slide-bg { width: 80vw; }
