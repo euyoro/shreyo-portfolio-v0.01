@@ -262,8 +262,11 @@
   /* ── Activity ── */
   .activity { padding: 40px 0 60px; }
 
-  .heatmap-grid { display: grid; grid-template-columns: 24px 1fr; gap: 0 6px; width: 100%; }
-  .day-col { display: flex; flex-direction: column; padding-top: 18px; gap: 0; }
+  .heatmap-grid { display: grid; grid-template-columns: minmax(0,1fr); width: 100%; position: relative; }
+  .day-col {
+    display: flex; flex-direction: column; padding-top: 19px; gap: 0;
+    position: absolute; left: -30px; top: 0; bottom: 0; width: 24px;
+  }
   .day-lbl { font-family: var(--ff-mono); font-size: 8.5px; letter-spacing: 0.03em; color: var(--dim); line-height: 1; display: flex; align-items: center; flex: 1; }
   .day-lbl.hide { visibility: hidden; }
   .calendar-col { display: flex; flex-direction: column; gap: var(--hm-gap,3px); min-width: 0; }
@@ -447,7 +450,6 @@
     /* day-col is display:none here, so the grid has ONE child — a '0 1fr'
        track list put it in the zero-width track and the whole heatmap
        rendered 0px wide on every phone. */
-    .heatmap-grid { grid-template-columns: 1fr; gap: 0; }
     .day-col { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -1162,6 +1164,21 @@
     .cs-card .cs-body .cs-out tbody td { font-size: 14px; padding: 16px; }
     .cs-card .cs-body .cs-out td.b, .cs-card .cs-body .cs-out td.a { font-size: 20px; }
   }
+
+  /* The fetched pages rule off their own sections because they are a single
+     760px column with nothing else to separate them. Inside the banded layout
+     each section already carries a rule, so those become doubled lines — and
+     the reflection list stacks one per item. Card borders (.screen-item,
+     .failure-card) are components, not dividers, and stay. */
+  /* One rule rather than chasing each page's list class: every page rules off
+     its own prose lists (.reflection-list, .goals-col, ...) because it is a
+     single column with nothing else to separate them. Four classes deep so it
+     beats both '.cs-body .x li' and '.cs-body .x li:first-child', which tie
+     with anything shallower and win on being injected later. */
+  .cs-card .cs-body .cs-sec .cs-sec-body li {
+    border-top: none; border-bottom: none; padding: 6px 0 14px;
+  }
+  .cs-card .cs-body .cta { border-top: none; margin-top: 28px; padding-top: 0; }
 
   /* Fetched case-study content — left-aligned, spread */
   .cs-body { max-width: none; }
@@ -2296,7 +2313,7 @@
   // gap scales with the range so a short window reads as a graph, not a strip
   cal.style.setProperty('--weeks', WEEKS);
   cal.style.setProperty('--hm-gap', WEEKS <= 30 ? '5px' : '3px');
-  cal.style.setProperty('--hm-cell', WEEKS <= 30 ? '26px' : '1fr');
+  cal.style.setProperty('--hm-cell', '1fr');   // fill the section width
   const mRow=document.createElement('div'); mRow.className='month-row';
   // startDate snaps back to a Sunday, which can land in the month before the
   // window. Seed prevMonth with it so that partial month is not labelled.
