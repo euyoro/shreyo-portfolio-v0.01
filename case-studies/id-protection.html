@@ -1,0 +1,531 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ID Protection · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* COMPETITOR GRID */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 28px 0;
+  }
+
+  .comp-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 18px 16px;
+  }
+
+  .comp-name {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .comp-desc {
+    font-size: 0.8125rem;
+    color: var(--dim);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 36px 26px;
+    margin: 32px 0;
+    align-items: start;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span,
+  .screen-item figcaption {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  figure.screen-item,
+  figure.image-placeholder {
+    border: none;
+    background: none;
+    padding: 0;
+    gap: 0;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  figure.screen-item img,
+  figure.image-placeholder img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  figure.screen-item figcaption,
+  figure.image-placeholder figcaption {
+    padding: 14px 0 0;
+    text-align: center;
+    width: 100%;
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 260px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 140px; }
+    h2, h3 { page-break-after: avoid; }
+    .comp-grid { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>ID Protection</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Product Designer: research lead, UX, business model, pitch deck</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">Dec 2025 → May 2026 · 4.5 months</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">Design Director · PM · Sr. Designer · Engineering</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma · Google AI Studio</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Pitched to founder. Not shipped.</span>
+    <span class="status-tag">Closed · May 2026</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>What does every competitor have that we don't?</h3>
+
+<p>In US fintech, ID Protection is a standard category. Most financial apps above a certain scale offer some version of it. Credit monitoring, breach alerts, identity theft detection, dispute tools. The premise is simple: your financial identity is exposed in more places than you track, and a financial app is the right place to surface when something changes.</p>
+
+<p>Bright didn't have it. For an app built around improving users' credit and financial health, that was a visible gap.</p>
+
+<p>That was the starting question for this project. Not "what should we build?" but "what are we missing?" I mapped the competitive landscape. Acorns, Chime, MoneyLion, Kikoff, Aura, and others. Found what was common across most of them. Filtered against Bright's user base, Bright's business model, and what infrastructure Bright already had in place.</p>
+
+<p>ID Protection was the strongest gap. Competitor staple. Bright didn't have it. And the user profile fit: people rebuilding credit, dealing with thin files, financially vulnerable in ways that make identity monitoring genuinely useful.</p>
+
+<div class="comp-grid">
+  <div class="comp-card">
+    <span class="comp-name">Aura</span>
+    <p class="comp-desc">Full ID monitoring, breach alerts, fraud resolution, credit lock. Standalone subscription product.</p>
+  </div>
+  <div class="comp-card">
+    <span class="comp-name">MoneyLion</span>
+    <p class="comp-desc">Credit monitoring, identity alerts, dark web scan. Bundled into premium membership tier.</p>
+  </div>
+  <div class="comp-card">
+    <span class="comp-name">Kikoff</span>
+    <p class="comp-desc">Credit monitoring, identity protection, dispute assistance. Tied to credit-building product.</p>
+  </div>
+  <div class="comp-card">
+    <span class="comp-name">Chime</span>
+    <p class="comp-desc">Transaction alerts, security freeze, early breach notification via partner integrations.</p>
+  </div>
+  <div class="comp-card">
+    <span class="comp-name">Acorns</span>
+    <p class="comp-desc">Identity protection as a premium add-on through Experian partnership.</p>
+  </div>
+  <div class="comp-card">
+    <span class="comp-name">Bright</span>
+    <p class="comp-desc" style="color: var(--accent); font-weight: 500;">Not present. Credit data exists. No monitoring surface.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- THE PITCH -->
+<h2>Solution</h2>
+<h3>The pitch</h3>
+
+<p>This wasn't a feature request. It was a product pitch from scratch. The question I had to answer: if we built this, what would it be, how would we charge for it, and does it fit Bright specifically?</p>
+
+<p>I built the full case. Business model logic and pricing structure. What monetization looks like. And alongside that, the complete UX: onboarding, the introduction story, the dashboard, every state in the dashboard, edge cases, UX copy for every screen, and marketing copy tight enough to introduce the product externally.</p>
+
+<p>The design had to answer the product question and the business question at the same time.</p>
+
+<div class="screen-grid-placeholder">
+  <figure class="screen-item">
+    <img src="../assets/case-studies/id-protection/screens/onboarding.webp" width="720" height="1571"
+         loading="lazy" decoding="async"
+         alt="An onboarding screen reading Your information can be used by scammers without you noticing, above stacked alert cards for a hard pull, a subscription price hike and a double payment.">
+    <figcaption>Onboarding</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/id-protection/screens/intro.webp" width="720" height="1549"
+         loading="lazy" decoding="async"
+         alt="The AI Credit Protection introduction: chips for double payment, hard credit check and credit bill increase above the line 1 in 4 people face credit identity scams that weaken loan offers, with a member quote and a Learn More button.">
+    <figcaption>Introduction Story</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/id-protection/screens/dashboard.webp" width="720" height="2303"
+         loading="lazy" decoding="async"
+         alt="My Credit Score powered by Equifax showing 590 and its change, a tips carousel labelled High Score Impact, and five score factors: payment history, credit utilisation, credit mix, age of accounts and credit inquiry, each rated Good or Bad.">
+    <figcaption>Dashboard</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/id-protection/screens/states.webp" width="720" height="1544"
+         loading="lazy" decoding="async"
+         alt="The Credit Protection screen in its monitoring state, where a scanning visual orbits labels for information changes and public records.">
+    <figcaption>Dashboard States</figcaption>
+  </figure>
+</div>
+
+<hr class="section-rule">
+
+<!-- THE CONSTRAINT -->
+<h2>Approach</h2>
+<h3>Use what's already there</h3>
+
+<p>Working cross-functionally with engineering set the brief I gave myself. Rather than proposing a greenfield build, I wanted to understand what Bright already had and surface it differently.</p>
+
+<p>Bright was already connected to credit bureaus. Credit data was already flowing for users. The question was whether we could take that existing infrastructure and present it as a distinct product. More structured. More consumable. Something a user would recognise as a monitoring product, not just a data display.</p>
+
+<p>The cost structure confirmed it was viable: one hard pull at enrollment, refresh updates after that. The bureau connections were already established. We weren't proposing to rebuild the data layer. We were proposing to give it a product surface.</p>
+
+<hr class="section-rule">
+
+<!-- DISPUTE ANGLE -->
+<h2>The strategic case</h2>
+<h3>Why the dispute flow matters</h3>
+
+<p>The most compelling part of the research was the dispute flow. Users can have errors on their credit report. Those errors suppress their score. If we give users a path to dispute credit errors from inside Bright, we directly help their credit score improve.</p>
+
+<p>Credit score improvement is Bright's core value proposition. A dispute flow is not a feature add. It's a direct extension of what the product already exists to do. It creates a reason for users to stay inside the app and engage with the monitoring product over time. And it ties the monetization back to the outcome users already pay Bright to deliver.</p>
+
+<figure class="image-placeholder">
+  <img src="../assets/case-studies/id-protection/screens/dispute-flow.webp" width="1520" height="781"
+       loading="lazy" decoding="async"
+       alt="Four screens in sequence: the Dispute Center listing a rejected late-payment dispute, the alert drilled into showing a $12,000 transaction with account details and a Dispute with Transunion button, the dispute form asking for a reason, comments and supporting documents, and the Dispute Submitted confirmation.">
+  <figcaption><span>Dispute Flow: alert drill-down to dispute submission</span></figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>What happened</h3>
+
+<p>The pitch went to the founder. The product didn't move forward.</p>
+
+<div class="pull-quote">
+  <blockquote>"You've built a product from the ground up, this is a big deal."</blockquote>
+  <cite>Design Director, on E2E delivery</cite>
+</div>
+
+<p>That outcome doesn't undo the work. The research mapped a real gap. The business model logic held. The UX demonstrated the product was buildable on existing infrastructure. If ID Protection comes back on the roadmap, the foundation is there.</p>
+
+<p>A pitch that doesn't ship is still a pitch that informed a real product decision.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I'd do differently</h3>
+
+<ul class="reflection-list">
+  <li>The competitive research was strong but I could have narrowed the comparison set earlier. Not all competitors were the right analogue for Bright's user profile. Tighter scope would have sharpened the business case faster.</li>
+  <li>The dispute flow deserved more room in the pitch. The argument that it ties directly to credit score improvement (Bright's core outcome) should have been front and centre, not a supporting detail. That's the case that makes this product feel native to Bright rather than borrowed from a competitor's feature list.</li>
+  <li>The prototype built in Google AI Studio was the right call. Stakeholders could see the product before they were asked to approve it. I'd do that earlier on every 0→1 project.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Product Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

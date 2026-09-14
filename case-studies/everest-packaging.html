@@ -1,0 +1,492 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everest Spices: International Packaging · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #286d2b;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
+     the placeholder it replaces, so the page does not reflow around it. */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .failure-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Everest Spices: International Packaging</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Type</span>
+    <span class="meta-value">Packaging Design</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">5 weeks</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Packaging Designer, Consumer Researcher, Illustrator, 3D Artist</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">Graphic by Shreyo &amp; Ruchi, Product by Parth</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Guides</span>
+    <span class="meta-value">Prof. Pritesh Bhatia, Prof. Jaimin Bhavsar</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Adobe Illustrator, Blender, Photoshop</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Academic Project &middot; Featured on Packaging of the World &middot; GLS Institute of Design</span>
+    <span class="status-tag">Featured</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>Will spice packaging feel authentically Indian, abroad?</h3>
+
+<p>Everest Spices, established by Vadilal Shah in 1967, is a renowned Indian spice brand with a rich legacy. Over 45 blends. Superbrands eight times. While Everest emphasizes marketing communication as its distinguishing feature, its packaging lacks a cohesive visual identity suited for international markets.</p>
+
+<p>The packaging had no visual cohesiveness and did not stand out on racks. The package did not adhere to the current trend of keeping packaging inside the fridge. The package allowed egress of aroma and ingress of moisture. Three problems, each enough to lose a customer at point of sale.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/03-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="Research spread headed Current Packaging and Rhetoric and Rituals, over black-and-white photographs of hands opening an Everest sachet and of supermarket shelves.">
+  <figcaption>Existing Everest Packaging: Shelf Audit</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- APPROACH -->
+<h2>Approach</h2>
+<h3>Surveying the international kitchen</h3>
+
+<h4>Consumer research</h4>
+<p>Surveying foreign users revealed clear patterns in demand and appeal. <strong>Price and authenticity</strong> emerged as the key purchasing factors. The research mapped what international audiences frequently cook: <strong>Roti &amp; Sabji (80%)</strong>, <strong>Rice &amp; Dal (50%)</strong>. Most-bought blended spices: <strong>Garam Masala (80%)</strong>, <strong>Basic Three (100%)</strong>.</p>
+
+<p>Where they source spices: <strong>From India (92%)</strong>, <strong>Indian Stores (80%)</strong>. Preference for branded over unbranded: <strong>Yes (80%)</strong>. The data pointed toward a clear opportunity: branded Indian spices have demand abroad, but the packaging doesn't match the expectation.</p>
+
+<div class="image-placeholder">
+  <span>Consumer Survey Results &amp; Insight Mapping</span>
+</div>
+
+<h4>Packaging direction</h4>
+<p>The first direction explored was a BOPP package with a tearable end that could be stored in the fridge, designed for sustainability. The final direction moved to an <strong>upcycled tin box</strong>, keeping spices potent and the package sustainable. A small dispenser was added to prevent over-pouring, and a measuring tray was integrated at the bottom.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>BOPP Direction: Concept</span></div>
+  <div class="screen-item"><span>Tin Box: Final Direction</span></div>
+  <div class="screen-item"><span>Dispenser &amp; Measuring Tray</span></div>
+</div>
+
+<h4>Visual identity: Window to India</h4>
+<p>The graphic language drew on a <strong>"Window to India"</strong> theme, showcasing regional motifs and culture. Arches unique to each region became the central motif, framing AI-assisted illustrations (DALL-E) of the landscapes and traditions behind each spice blend.</p>
+
+<div class="image-placeholder">
+  <span>Window to India: Regional Arch Motifs</span>
+</div>
+
+<h4>Specifications</h4>
+<p>Upcycled Tin. 0.5mm thickness. Screen print and deboss finish. Dimensions: <strong>110 x 72 x 40 mm</strong>.</p>
+
+<div class="image-placeholder">
+  <span>Technical Drawing &amp; Material Specs</span>
+</div>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>A package that carries the culture, not just the spice</h3>
+
+<p>The final packaging system was recognized and <strong>featured on Packaging of the World</strong>. The design resolved the three original problems: visual cohesion across the product line, fridge-friendly storage, and aroma-sealed containment.</p>
+
+<div class="pull-quote">
+  <blockquote>"The design language feels very premium and looks authentically Indian."</blockquote>
+  <cite>Fatlin Renfer, German-Indian</cite>
+</div>
+
+<div class="pull-quote">
+  <blockquote>"The addition of the measuring tray is a cherry on top for a simple package like this!"</blockquote>
+  <cite>Anjali, Freetime Cook</cite>
+</div>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/06-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="A six-image product photography grid on near-black: a red Korma tin beside a bowl of curry on dark wood with a turmeric dish and spoon, and red and olive tins.">
+  <figcaption>Final Packaging: Product Line</figcaption>
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/01-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="A full-bleed 3D render on a warm peach seamless background: three Everest tin cartons, with a red Korma Masala at left rear.">
+  <figcaption>3D Renders: Tin Box Variations</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What this project built</h3>
+
+<ul class="reflection-list">
+  <li><strong>CMFG-NUX Design</strong> as a framework for packaging decisions. Color, material, finish, graphics, and the new-user experience all working as one system.</li>
+  <li><strong>Die Cutting</strong> and <strong>Ergonomics</strong> applied to a real manufacturing constraint. The dispenser and measuring tray had to be producible at scale, not just modeled in Blender.</li>
+  <li><strong>Material Science</strong> and <strong>Regulation &amp; Compliances</strong> for international food packaging. What can be printed on tin. What information is legally required in which markets.</li>
+  <li><strong>Manufacturing Techniques</strong> and <strong>Product Sketching</strong> as communication tools between graphic and product teams.</li>
+  <li>Deepened comprehension through reading <em>Packaging The Brand</em> by Gavin Ambrose.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath &middot; Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

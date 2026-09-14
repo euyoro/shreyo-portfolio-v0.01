@@ -1,5 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#F0202A"/>
-  <rect x="16" y="21" width="32" height="6" rx="3" fill="#fff"/>
-  <rect x="16" y="35" width="18" height="6" rx="3" fill="#fff" opacity=".55"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Eye">
+  <!-- Transparent, so this sits straight on the browser's tab strip — which is
+       light grey in one theme and near-black in the other. No single green
+       survives both: the neon reads 14.4:1 on a dark strip but 1.18:1 on a
+       light one, where it simply disappears. So the two colours split the job.
+       The neon body carries the shape on dark; the deep-green rim, pupil and
+       rays carry it on light at 4.8:1. -->
+  <g stroke="#3f6b00" stroke-width="3.4" stroke-linecap="round" fill="none">
+    <path d="M32 11.5V6.5"/>
+    <path d="M42.6 14.1 45.1 9.8"/>
+    <path d="M21.4 14.1 18.9 9.8"/>
+    <path d="M32 52.5v5"/>
+    <path d="M42.6 49.9 45.1 54.2"/>
+    <path d="M21.4 49.9 18.9 54.2"/>
+  </g>
+  <path d="M11 32Q32 13 53 32Q32 51 11 32Z"
+        fill="#edfe34" stroke="#3f6b00" stroke-width="3.6" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="7.6" fill="#3f6b00"/>
+  <circle cx="34.7" cy="29.3" r="2.4" fill="#edfe34"/>
 </svg>

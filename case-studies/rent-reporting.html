@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rent Reporting · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #286d2b;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px 22px;
+    margin: 32px 0;
+  }
+
+  /* Filled cells: the screen sits flush to the edges, its label beneath.
+     Empty cells keep the dashed well so unshot screens still read as pending. */
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  figure.screen-item {
+    border: none;
+    background: none;
+    padding: 0;
+    gap: 0;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  /* The screen is the object; nothing frames it but its own corner radius. */
+  figure.screen-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  figure.screen-item figcaption {
+    padding: 14px 0 0;
+  }
+
+  .screen-item span,
+  .screen-item figcaption {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .failure-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Rent Reporting</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Product Designer, design owner</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">3-week build + long tail through 2026</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">Design Director · Sr. Designer · PM · SPM · Frontend Engineer</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Shipped. Disclosure update in Credit Tab PD.</span>
+    <span class="status-tag">Shipped</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>Can paying rent build your credit score?</h3>
+
+<p>For millions of renters with thin credit files, the answer used to be no. Rent is the largest monthly expense most people have, but it doesn't show up on a credit report unless someone actively reports it. That gap is what this project was built to close.</p>
+
+<p>Rent reporting lets users connect their rent portal and have their payment history reported to credit bureaus. For the target audience, users rebuilding or starting their credit, this is one of the fastest paths to a real score improvement.</p>
+
+<p>I designed the end-to-end funnel. Portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. The goal was clear: make it easy for users to start reporting, and make the value obvious before they commit.</p>
+
+<hr class="section-rule">
+
+<!-- WHAT I SET OUT TO BUILD -->
+<h2>Approach</h2>
+<h3>What I set out to build</h3>
+
+<p>Three layers to the funnel.</p>
+
+<h4>Get users in</h4>
+<p>The pitch screen needed to communicate one thing: your rent payments can count toward your credit score. No fine print first. Value first, then the steps.</p>
+
+<h4>Portal selection and bureau logic</h4>
+<p>Users pick their rent portal or indicate they don't have one. Reporting goes to TransUnion and Equifax, each with different handling. The design needed to account for both paths, the transition between them, and what users see when one bureau is active and the other isn't.</p>
+
+<h4>Surface it everywhere it matters</h4>
+<p>Banners on the Home Tab. Widgets in the Credit Tab. Opt-out users seeing a path back in. Each touchpoint with its own state logic based on the user's reporting status.</p>
+
+<div class="screen-grid-placeholder">
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/pitch.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="How can reporting Rent improve credit history? listing four reasons: we find your rent payments, we report to the credit bureaus, rent counts as credit history up to 40% of your score, and your score can improve.">
+    <figcaption>Pitch Screen</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/portal.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The Select your Rent portal sheet, listing Rent Cafe, Rent Manager, RentPortal, Resident Center, ResMan, Domuso and AppFolio above a disabled Confirm button.">
+    <figcaption>Portal Selection</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/bureau.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="Congrats! Your Rent is now reporting to TransUnion, with Application Submitted ticked and a second step offering to report to Equifax at no cost beside the Equifax mark.">
+    <figcaption>Bureau Reporting Flow</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/banner.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The Home screen with a dark green Report your Rent Payments banner above a credit score dial reading 590.">
+    <figcaption>Home Tab Banner</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/widget.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="A Rent reporting widget on Home marked Under Review, showing Application submitted ticked and Verifying details in progress.">
+    <figcaption>Credit Tab Widget</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/optout.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="A sheet over the dimmed rent details form reading Continue building your credit score, with a Continue setup button and a Skip link.">
+    <figcaption>Opt-in / Opt-out State</figcaption>
+  </figure>
+</div>
+
+<hr class="section-rule">
+
+<!-- WHAT SHIPPED -->
+<h2>Outcome</h2>
+<h3>What shipped</h3>
+
+<p>The full funnel: sign-up through reporting, with all bureau paths, portal selection, edge cases for users without a portal, and the widget and banner system surfacing the feature across the app.</p>
+
+<p>Later, Equifax support was added to the funnel. A disclosure update moved the compliance layer into the Credit Tab.</p>
+
+<p>Before signing off on the build, I held the design sign-off by a day. Frontend had unresolved issues. The PM was pushing to close the sprint. I flagged it to the Design Director and asked to sync with engineering the next morning before releasing.</p>
+
+<div class="pull-quote">
+  <blockquote>"Well done. Push for quality always."</blockquote>
+  <cite>Design Director</cite>
+</div>
+
+<p>Sign-off is the last moment design has leverage over what ships. I'd rather delay by a day than approve something I know needs fixes.</p>
+
+<hr class="section-rule">
+
+<!-- WHAT DIDN'T GO AS PLANNED -->
+<h2>Process</h2>
+<h3>What didn't go as planned</h3>
+
+<p>The project should have taken four to six days. It took close to three weeks. Not because the design was complex. Because the inputs kept changing.</p>
+
+<p>The spec had gaps. Copy was missing from the requirements. Edge cases for the portal selection flow and the skip/opt-out paths were not mapped before design started. I began designing around those gaps, and each one became a revision when the answers arrived late.</p>
+
+<p>The bureau transition logic changed three times during the project. Each time was a re-alignment, not an iteration. The flow moved forward, then back, then forward again. Decisions made early were revisited after senior stakeholders reviewed, which meant screens already built had to be reworked to match an older direction.</p>
+
+<p>Some of the banners I designed were cut after a later review found they didn't fit the updated approach. That time was spent. It didn't need to be.</p>
+
+<p>After the project closed, I wrote a post-mortem. Not because anyone asked. Because I wanted the gap between the expected timeline and the actual one documented, with specific reasons, so I could hold myself to a better process next time.</p>
+
+<div class="failure-cards">
+  <div class="failure-card">
+    <div class="failure-title">"I designed around the gaps instead of pushing for the spec first" <span class="failure-mine">· mine</span></div>
+    <p class="failure-body">When the requirements had no copy and unmapped edge cases, I started designing anyway. Every gap became a reversal. Pushing for the spec before starting would have been slower on day one and faster by day ten.</p>
+  </div>
+  <div class="failure-card">
+    <div class="failure-title">"Post-mortem at the end, not the middle" <span class="failure-mine">· mine</span></div>
+    <p class="failure-body">Every reason I listed in the post-mortem was visible by week two. A mid-project flag would have shortened the last stretch. I documented the problem after the timeline was already spent.</p>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I'd do differently</h3>
+
+<ul class="reflection-list">
+  <li>When a spec has gaps, don't design around them. Push for the answers first. Starting early feels productive. Reworking the same screens three times is not.</li>
+  <li>The sign-off delay was right. Design sign-off is the last checkpoint before screens are locked. Using it as a quality gate is exactly what it's for.</li>
+  <li>Write the post-mortem at week two, not week three. The problems were visible earlier than I reported them.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Product Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

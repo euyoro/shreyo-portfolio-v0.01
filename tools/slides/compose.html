@@ -1,0 +1,213 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>slide composer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=DM+Mono:wght@400;500&display=swap">
+<style>
+  /* Case-study deck slides. Rendered by build.mjs at an exact pixel size, so
+     every unit is absolute px against the declared canvas. Two vocabularies
+     share this file: device/plate/fragment/annot primitives placed by the
+     spec, and the deck classes below used inside a slide's `htmlFile`. */
+  :root {
+    --ink:    #131313;
+    --muted:  #6f6f6b;
+    --dim:    #9a9a95;
+    --line:   #dedad2;
+    --accent: #1B4D38;   /* Bright green, for stage bars and rules */
+    --warn:   #C4512E;   /* pain tags */
+    --card:   #ffffff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; color: var(--ink); }
+  .slide { position: relative; overflow: hidden; }
+
+  /* ── device ───────────────────────────────────────────
+     The frame is drawn, not photographed: a metal edge, a black rim, and the
+     screen clipped inside. Sized from the screen width the spec asks for, so
+     the bezel stays in proportion at any scale. */
+  .device { position: absolute; }
+  .device .edge {
+    position: relative;
+    background: linear-gradient(148deg, #e6e6ea 0%, #a8a8af 22%, #77777e 42%,
+                                #dcdce1 58%, #9c9ca3 78%, #6f6f76 100%);
+    box-shadow: 0 42px 80px -34px rgba(19,19,19,0.42), 0 8px 22px rgba(19,19,19,0.10);
+  }
+  .device .rim { background: #0a0a0a; height: 100%; }
+  .device .scr { overflow: hidden; background: #fff; height: 100%; }
+  .device img { display: block; width: 100%; }
+  .device .island { position: absolute; left: 50%; transform: translateX(-50%); background: #0a0a0a; z-index: 3; }
+
+  .frag { position: absolute; overflow: hidden; background: #fff; border: 1px solid var(--line);
+    box-shadow: 0 26px 54px -28px rgba(19,19,19,0.26); }
+  .frag img { position: absolute; display: block; max-width: none; }
+
+  .plate { position: absolute; overflow: hidden;
+    box-shadow: 0 30px 64px -30px rgba(19,19,19,0.30), 0 2px 8px rgba(19,19,19,0.06); }
+  .plate img { display: block; width: 100%; }
+
+  .annot { position: absolute; z-index: 6; }
+  .annot .txt { color: var(--muted); line-height: 1.34; white-space: pre-line; }
+  .annot .dot { position: absolute; border-radius: 50%; background: #a9a9a4; }
+  .annot .lead { position: absolute; background: #c9c9c4; height: 1px; }
+
+  /* ── deck vocabulary ──────────────────────────────────*/
+
+  /* the small mono section label, with its rule above */
+  .sec { position: absolute; left: 110px; top: 86px; z-index: 5; }
+  .sec .rule { width: 118px; height: 3px; background: var(--accent); margin-bottom: 22px; }
+  .sec .lbl {
+    font-family: 'DM Mono', ui-monospace, monospace; font-size: 22px;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink);
+  }
+
+  /* slide headline */
+  .title { position: absolute; left: 110px; font-size: 62px; font-weight: 700; letter-spacing: -0.02em; }
+  .title .sub { display: block; font-size: 30px; font-weight: 400; color: var(--accent); margin-top: 16px; letter-spacing: 0; }
+
+  /* the stage chevron — a progress bar for the journey */
+  .stage { position: absolute; display: flex; align-items: stretch; height: 78px; z-index: 4; }
+  .stage .seg { background: var(--accent); }
+  .stage .seg.a { opacity: 1; }
+  .stage .seg.b { opacity: 0.72; }
+  .stage .head {
+    display: flex; align-items: center; padding: 0 42px; color: #fff;
+    font-size: 38px; font-weight: 500; background: var(--accent);
+  }
+  .stage .point { width: 78px; background: var(--accent); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+  .stage .point.ghost { opacity: 0.55; margin-left: -24px; }
+  .stage .point.ghost2 { opacity: 0.28; margin-left: -24px; }
+
+  /* a chain of consequences, arrow-linked */
+  .chain { position: absolute; display: flex; align-items: flex-start; gap: 46px; z-index: 5; }
+  .step { width: 380px; }
+  .step p { font-size: 36px; line-height: 1.28; font-weight: 400; }
+  .chain .arrow { flex: 0 0 74px; height: 3px; background: var(--dim); margin-top: 26px; position: relative; }
+  .chain .arrow::after {
+    content: ''; position: absolute; right: -2px; top: -8px;
+    border-left: 18px solid var(--dim); border-top: 9px solid transparent; border-bottom: 9px solid transparent;
+  }
+  .tag {
+    display: inline-block; margin-top: 30px; padding: 16px 28px; background: var(--warn); color: #fff;
+    font-family: 'DM Mono', ui-monospace, monospace; font-size: 24px; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  /* requirement cards */
+  .cards { position: absolute; display: flex; gap: 34px; z-index: 5; }
+  .card {
+    flex: 1; background: var(--card); border-radius: 26px; padding: 46px 40px 44px;
+    border: 1px solid var(--line);
+    box-shadow: 0 26px 60px -36px rgba(19,19,19,0.22);
+  }
+  .card .ico { font-size: 52px; line-height: 1; margin-bottom: 34px; }
+  .card h3 { font-size: 38px; font-weight: 700; line-height: 1.14; margin-bottom: 26px; letter-spacing: -0.01em; }
+  .card p { font-size: 25px; line-height: 1.46; color: var(--muted); font-weight: 300; }
+
+  /* bullets beside a set of devices */
+  .bullets { position: absolute; z-index: 5; }
+  .bullets li {
+    list-style: none; position: relative; padding-left: 40px;
+    font-size: 32px; line-height: 1.36; margin-bottom: 30px; font-weight: 400;
+  }
+  .bullets li::before {
+    content: ''; position: absolute; left: 0; top: 16px;
+    width: 14px; height: 14px; border-radius: 50%; background: var(--accent);
+  }
+  .bullets li b { font-weight: 700; }
+
+  /* flow diagram — nodes laid out in a row with connectors */
+  .flow { position: absolute; z-index: 5; }
+  .flow .row { display: flex; align-items: center; }
+  .node {
+    border-radius: 12px; color: #fff; font-size: 25px; font-weight: 500;
+    padding: 26px 22px; text-align: center; line-height: 1.26;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .conn { flex: 0 0 70px; height: 3px; background: #9aa3a0; position: relative; }
+  .conn::after {
+    content: ''; position: absolute; right: -1px; top: -7px;
+    border-left: 15px solid #9aa3a0; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
+  }
+
+  /* the edge-case matrix */
+  .matrix { position: absolute; z-index: 5; border-collapse: collapse; }
+  .matrix th, .matrix td {
+    border: 1px solid var(--line); padding: 20px 24px; font-size: 25px; text-align: left; font-weight: 400;
+  }
+  .matrix thead th { background: var(--accent); color: #fff; font-weight: 500; }
+  .matrix tbody tr:nth-child(even) { background: #F7F7F5; }
+  .matrix td.k { color: var(--muted); }
+
+  /* outcome metrics */
+  .metrics { position: absolute; z-index: 5; display: flex; gap: 130px; }
+  .metric .rule { width: 150px; height: 3px; background: var(--accent); margin-bottom: 26px; }
+  .metric .num { font-size: 118px; font-weight: 700; letter-spacing: -0.035em; line-height: 1; }
+  .metric .cap { margin-top: 24px; font-size: 29px; line-height: 1.4; color: var(--accent); max-width: 460px; }
+</style>
+<body>
+<div id="root"></div>
+<script id="spec" type="application/json">__SPEC__</script>
+<script>
+  const spec = JSON.parse(document.getElementById('spec').textContent);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  // Screens are authored at 375pt wide, so bezel, corner radius and island all
+  // scale off the rendered screen width rather than being fixed numbers.
+  function deviceEl(d) {
+    const w = d.w, k = w / 375;
+    const bezel = Math.round(11 * k);
+    const rOut = Math.round(58 * k), rIn = Math.round(46 * k);
+    const h = Math.round(w * (d.ratio || (812 / 375)));
+    const island = d.island === false ? '' :
+      `<div class="island" style="top:${Math.round(11 * k)}px;width:${Math.round(124 * k)}px;` +
+      `height:${Math.round(35 * k)}px;border-radius:${Math.round(18 * k)}px"></div>`;
+    return `<div class="device" style="left:${d.x}px;top:${d.y}px;` +
+      `width:${w + bezel * 2}px;z-index:${d.z || 2}">` +
+      `<div class="edge" style="border-radius:${rOut}px;padding:${Math.round(3 * k)}px;height:${h + bezel * 2}px">` +
+      `<div class="rim" style="border-radius:${rOut - Math.round(3 * k)}px;padding:${bezel - Math.round(3 * k)}px">` +
+      `<div class="scr" style="border-radius:${rIn}px">` +
+      `<img src="${esc(d.src)}" alt=""></div></div>${island}</div></div>`;
+  }
+
+  // crop is [x, y, w, h] in the SOURCE image's own pixels; `w` is how wide the
+  // crop should render on the slide.
+  function fragEl(f) {
+    const [cx, cy, cw, ch] = f.crop, k = f.w / cw;
+    return `<div class="frag" style="left:${f.x}px;top:${f.y}px;width:${Math.round(f.w)}px;` +
+      `height:${Math.round(ch * k)}px;border-radius:${f.r == null ? 18 : f.r}px;z-index:${f.z || 4}">` +
+      `<img src="${esc(f.src)}" style="width:${Math.round(f.srcW * k)}px;` +
+      `left:${-Math.round(cx * k)}px;top:${-Math.round(cy * k)}px" alt=""></div>`;
+  }
+
+  const plateEl = p =>
+    `<div class="plate" style="left:${p.x}px;top:${p.y}px;width:${p.w}px;` +
+    `border-radius:${p.r == null ? 14 : p.r}px;z-index:${p.z || 1}">` +
+    `<img src="${esc(p.src)}" alt=""></div>`;
+
+  // `x` is where the text starts; `from` is the x the leader runs back to.
+  function annotEl(a) {
+    const size = a.size || 30;
+    const dot = Math.round(size * 0.26), gap = Math.round(size * 0.52);
+    const dotX = a.x - gap - dot, lead = dotX - a.from;
+    return `<div class="annot" style="left:0;top:${a.y}px;width:100%">` +
+      `<div class="lead" style="left:${a.from}px;width:${lead > 0 ? lead : 0}px;top:${Math.round(size * 0.62)}px"></div>` +
+      `<div class="dot" style="left:${dotX}px;width:${dot}px;height:${dot}px;top:${Math.round(size * 0.62 - dot / 2)}px"></div>` +
+      `<div class="txt" style="position:absolute;left:${a.x}px;top:0;width:${a.w || 420}px;` +
+      `font-size:${size}px">${esc(a.text)}</div></div>`;
+  }
+
+  document.getElementById('root').outerHTML =
+    `<div class="slide" style="width:${spec.w}px;height:${spec.h}px;background:${spec.bg || 'linear-gradient(180deg, #FFFFFF 0%, #F0FFF6 100%)'}">` +
+    (spec.plates || []).map(plateEl).join('') +
+    (spec.devices || []).map(deviceEl).join('') +
+    (spec.fragments || []).map(fragEl).join('') +
+    (spec.annots || []).map(annotEl).join('') +
+    (spec.html || '') +
+    `</div>`;
+
+  Promise.all([
+    document.fonts.ready,
+    ...[...document.images].map(i => i.decode().catch(() => {})),
+  ]).then(() => { document.documentElement.dataset.ready = '1'; });
+</script>

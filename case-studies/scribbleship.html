@@ -1,0 +1,479 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScribbleShip · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #145fb4;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
+     the placeholder it replaces, so the page does not reflow around it. */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .failure-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>ScribbleShip</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">UI Designer</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">3 weeks</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Team</span>
+    <span class="meta-value">UI by Shreyo, Branding by Saurabh</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Guides</span>
+    <span class="meta-value">Prof. Hardik Shiroya, Prof. Yash Sakla</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Academic Project · GLS Institute of Design</span>
+    <span class="status-tag">Academic Project</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>Can we deliver stationery and prints on demand?</h3>
+
+<p>In Ahmedabad, ordering personalized stationery or print materials is still an inconvenient, fragmented process. Students, businesses, and academic institutions routinely need custom prints, but there is no single platform that brings the entire workflow together, from browsing to ordering to delivery.</p>
+
+<p>ScribbleShip was built to address that gap. A mobile app designed to streamline how people discover, customize, and order stationery and print materials. The goal was to make the process feel as effortless as ordering food, bringing personalized stationery and prints on demand to a market that had been underserved.</p>
+
+<p>Design and UX principles were used to devise a comprehensive execution plan, from sector research through to a pilot strategy. I designed the full UI, working from UX research through high-fidelity prototyping.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/scribbleship/06-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="Three iPhone mockups cropped top and bottom on white: the home screen with a location header, a Search Pencil Boxes field and an Upto 60% Off hero banner.">
+  <figcaption>App Hero Shot</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- APPROACH -->
+<h2>Approach</h2>
+<h3>From sector research to a working prototype</h3>
+
+<p>The project moved through four distinct phases, each building on the previous one.</p>
+
+<h4>UX Research</h4>
+<p>Started with sector selection to identify the right market opportunity, followed by ground study and gap analysis in Ahmedabad. Market research confirmed the demand for on-demand print and stationery services. From there, the unique selling proposition was defined: a single-platform solution for personalized stationery and prints with delivery.</p>
+
+<div class="image-placeholder">
+  <span>Sector Selection &amp; Gap Analysis</span>
+</div>
+
+<h4>User Research</h4>
+<p>A user survey was conducted to map real behaviors and pain points. This informed the creation of user personas and the end-to-end user journey. The target audience included design and art students, creative young adults and teenagers, companies requiring bulk prints, and professionals seeking a stationery solution.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/scribbleship/03-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="Psychographics and Demographics spread: two persona blocks with red scribble-hair character illustrations, Aman, 21, a design student, and Sohum, 56.">
+  <figcaption>User Personas</figcaption>
+</figure>
+
+<h4>Wireframing</h4>
+<p>Wireframes were built to test layout and information architecture. A low-fidelity prototype was used to validate the core navigation and task flows before investing in visual design.</p>
+
+<h4>UI Prototyping</h4>
+<p>Usability testing surfaced friction points in the early flows, which were improved before moving to the visual language. SF Pro Display was chosen as the primary typeface. Bright red was used for attention and key actions, with black and white providing contrast. Icons were rounded and soft to match the friendly, approachable tone of the brand. The final high-fidelity prototype covered the full user journey, and a pilot strategy was drafted for launch.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Sector Selection</span></div>
+  <div class="screen-item"><span>User Personas</span></div>
+  <div class="screen-item"><span>Wireframes</span></div>
+  <div class="screen-item"><span>Home Screen</span></div>
+  <div class="screen-item"><span>Print Task Flow</span></div>
+  <div class="screen-item"><span>Stationery Browse</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>A complete mobile experience</h3>
+
+<p>The final deliverable was a high-fidelity interactive prototype covering the full user journey: onboarding, browsing stationery, placing print orders, customizing materials, and tracking delivery. Usability testing validated that the core flows were intuitive and the visual language was well-received by the target audience.</p>
+
+<div class="pull-quote">
+  <blockquote>"The app feels extremely smooth and exciting, I'd love to actually use it."</blockquote>
+  <cite>Sneha Manna, Student</cite>
+</div>
+
+<div class="pull-quote">
+  <blockquote>"The idea is very much needed, we as students always face this problem."</blockquote>
+  <cite>Siddharth Dutta, Student</cite>
+</div>
+
+<p>The project also served as an exercise in end-to-end product thinking: from identifying a market opportunity through sector research, to defining a USP, to shipping a tested prototype with a pilot strategy. A certification course under Saptarishi Prakash deepened my comprehension of the design process throughout.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I took away</h3>
+
+<ul class="reflection-list">
+  <li>UX research before UI prototyping is not optional. The sector selection and gap analysis gave the project a foundation that made every downstream decision faster and more grounded.</li>
+  <li>Usability testing in the wireframe stage caught problems that would have been expensive to fix in high fidelity. Testing early is always worth the time.</li>
+  <li>A strong visual language, SF Pro, bright red for action, soft rounded icons, came from understanding the audience first. Design decisions that follow research feel intentional, not decorative.</li>
+  <li>Working across UX research, UI design, project management, strategic planning, A/B testing, and information architecture in a single project built range that carried into later work.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath · Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>

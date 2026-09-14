@@ -1,0 +1,507 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logofolio & Brand Marks · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6a1b9a;
+    margin-top: 4px;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .screen-item span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* FAILURE CARDS */
+  .failure-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .failure-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .failure-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .failure-mine {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .failure-body {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* REFLECTION */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p {
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* KEY CONCEPTS */
+  .key-concepts {
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.65;
+    margin-bottom: 16px;
+  }
+
+  .brand-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+    .failure-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 32px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--text); }
+  .back-link svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Logofolio & Brand Marks</h1>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Type</span>
+    <span class="meta-value">Brand Identity Design</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">2019–2024</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Brand Designer, Visual Identity Designer</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Adobe Illustrator, Photoshop</span>
+  </div>
+  <div class="meta-item" style="grid-column: 1 / -1;">
+    <span class="meta-label">Status</span>
+    <span class="meta-value">Freelance & Academic Work</span>
+    <span class="status-tag">Freelance & Academic</span>
+  </div>
+</div>
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>What makes a mark memorable?</h3>
+
+<p>Branding is like creating a poem within visual forms. It is a customer's gut feeling about a product, service or company. We connect through shared experiences, and our stories reveal our uniqueness, values, and vulnerability. The best stories are ones you can visualize in the retelling.</p>
+
+<div class="pull-quote">
+  <blockquote>"A logo must work as a simple, unobtrusive and didactic use of figuration. It must be as simple a sign as easy to read as a child's picture book."</blockquote>
+  <cite>Bob Noorda</cite>
+</div>
+
+<p>A mark must be as immersive as a semiotic symbol which connects to the people first and must holistically align with the ideals and reality of its audience. Each identity in this collection began with that principle: understand the audience before drawing a single stroke.</p>
+
+<hr class="section-rule">
+
+<!-- BRAND 1: SVASTHIK HOSPITAL -->
+<h2>Brand Marks</h2>
+<h3>Svasthik Hospital</h3>
+<span class="brand-tag">Academic &middot; Healthcare</span>
+
+<p>India's largest (hypothetical) private multi-specialty hospital and India's first private medical college. The brand was created with a vision to break the saturated identities in the current healthcare industry and bring new vision and visuals.</p>
+
+<div class="image-placeholder">
+  <span>Svasthik Hospital: Primary Logo</span>
+</div>
+
+<p>The hospital's emblem, a vibrant open-peacock, embodies commitment to life, joy, and personalized care. Symbolizing warmth and dedication, it reflects values of prioritizing patients' well-being. Additionally, the form subtly represents the rising sun, evoking positivity and renewal in health. Enclosed within a circle for equilibrium, it underscores the promise of trustworthy, medically-backed treatments.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Peacock Emblem Construction</span></div>
+  <div class="screen-item"><span>Color Palette & Typography</span></div>
+  <div class="screen-item"><span>Brand Applications</span></div>
+</div>
+
+<p class="key-concepts"><strong>Key concepts:</strong> Specialty Treatment, Swastik Sun, Collaborative Efforts, New Beginnings, Tranquility, Healing, Trust & Technology.</p>
+
+<hr class="section-rule">
+
+<!-- BRAND 2: SIGMA VOICE -->
+<h3>Sigma Voice: The Literary Club</h3>
+<span class="brand-tag">Commercial &middot; College Club</span>
+
+<p>Sigma Voice is RGU's literary hub, fostering the talents of orators, writers, and avid readers. As a vital part of the student body, it offers a dynamic platform for showcasing skills on national and international levels.</p>
+
+<div class="image-placeholder">
+  <span>Sigma Voice: Primary Logo</span>
+</div>
+
+<p>The logo embodies strength and expression. Sigma, symbolizing unity and vocal power, merges with the timeless symbol of the feather, representing honor and connection to literature's essence. The microphone, a symbol of integrity and influence, amplifies the voice of the club's members. Within the emblem, a figure represents the core of literature: stories, voices, and perspectives. The eagle signifies honesty, majesty, and freedom.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Emblem Breakdown</span></div>
+  <div class="screen-item"><span>Monochrome Variants</span></div>
+  <div class="screen-item"><span>Merchandise Mockups</span></div>
+</div>
+
+<p class="key-concepts"><strong>Key concepts:</strong> Youth, Novelty, Flame & Passion, Pen/Literature, Microphone/Oration, Eagle/Willpower.</p>
+
+<hr class="section-rule">
+
+<!-- BRAND 3: INUP I2I -->
+<h3>INUP I2I: IIT Programme</h3>
+<span class="brand-tag">IIT Guwahati Internship &middot; Government</span>
+
+<p>Indian Nanoelectronics Users Program (INUP) is jointly run by the Centre of Excellence in Nanoelectronics at IIT-Bombay and IISc-Bangalore. INUP serves as a platform for researchers to provide hands-on training in nanoelectronics and to assist in the initiation of research.</p>
+
+<div class="image-placeholder">
+  <span>INUP I2I: Primary Logo</span>
+</div>
+
+<p>The logo depicts two humanoid figures aiding each other, symbolizing the essence of manpower training. Within their interaction, the letter "N" in INUP emerges, showcasing the program's focus. The intertwined figures symbolize the collaboration inherent in ideating to innovate. Incorporating benzene rings and graphene-based elements signifies the essence of nanotechnology and advanced materials.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Figure & Letter Construction</span></div>
+  <div class="screen-item"><span>Molecular Grid System</span></div>
+  <div class="screen-item"><span>Stationery & Print</span></div>
+</div>
+
+<hr class="section-rule">
+
+<!-- BRAND 4: ONE SHOT ESPORTS -->
+<h3>One Shot eSports</h3>
+<span class="brand-tag">Academic &middot; Gaming</span>
+
+<p>One Shot eSports, a burgeoning Esports startup in the Hanover region, is the brainchild of seasoned industry veterans and accomplished entrepreneurs. With deep roots in the Indian Esports realm and a strong entrepreneurial spirit, One Shot is dedicated to advancing Esports from grassroots to professional levels.</p>
+
+<div class="image-placeholder">
+  <span>One Shot eSports: Primary Logo</span>
+</div>
+
+<p>The brand identity is tailored to resonate with teenage gamers. The logo integrates a radical reminiscent of an FPS gamer's focal point, cleverly embedded as the "O" in "One," imbuing the design with modernity and relevance. Bold, aggressive red hues enhance its contemporary allure.</p>
+
+<div class="screen-grid-placeholder">
+  <div class="screen-item"><span>Logo & Crosshair Construction</span></div>
+  <div class="screen-item"><span>Jersey Design</span></div>
+  <div class="screen-item"><span>Gun Skin Application</span></div>
+</div>
+
+<p class="key-concepts"><strong>Key concepts:</strong> Bold & Absolute, Alert & Aggressive, Circle/Balance, Vision & Focus, Radical & Letter O.</p>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What brand identity work has taught me</h3>
+
+<ul class="reflection-list">
+  <li>A logo is not a decoration. It is the smallest unit of a brand's promise. If the mark cannot hold the idea on its own, the system built around it will not compensate.</li>
+  <li>The best symbols carry double meaning: the peacock that is also a rising sun, the crosshair that is also a letter. Layered meaning is what makes a mark stick in memory.</li>
+  <li>Audiences shape the mark more than aesthetics do. A hospital identity and a gaming identity demand entirely different emotional registers, even when the same grid system underpins both.</li>
+  <li>Presenting brand work to non-designers requires showing the logic, not just the result. Construction grids, symbol breakdowns, and application mockups are not extras. They are how the work earns trust.</li>
+  <li>Working across healthcare, education, government, and gaming forced range. Each project reset assumptions about color, tone, and visual density. That range became the most transferable skill.</li>
+</ul>
+
+<!-- CTA -->
+<div class="cta">
+  <p>Shreyo Debnath &middot; Designer</p>
+  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+</div>
+
+</body>
+</html>
