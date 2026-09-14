@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bright Atlas — Shreyo Debnath</title>
+<title>Bright Atlas · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #2e7d32;
+    color: #286d2b;
     margin-top: 4px;
   }
 
@@ -161,7 +163,7 @@
   }
 
   .query-label {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -193,7 +195,7 @@
   }
 
   .arch-step-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -202,7 +204,7 @@
   }
 
   .arch-step p {
-    font-size: 0.9rem;
+    font-size: 0.875rem;
     margin: 0;
     line-height: 1.65;
   }
@@ -229,7 +231,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -242,8 +244,8 @@
     border-radius: 8px;
     padding: 20px 24px;
     margin: 20px 0;
-    font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    font-size: 0.8rem;
+    font-family: var(--ff-mono);
+    font-size: 0.8125rem;
     color: rgba(240,240,238,0.7);
     line-height: 1.8;
   }
@@ -273,13 +275,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -309,7 +311,7 @@
     border-top: 1px solid var(--border);
   }
 
-  .cta p { font-size: 0.85rem; color: var(--muted); }
+  .cta p { font-size: 0.875rem; color: var(--muted); }
   .cta a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
 
   @media print {
@@ -326,7 +328,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -360,7 +362,7 @@
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
-    <span class="meta-value">Product Designer — product definition, AI pipeline, build, deployment</span>
+    <span class="meta-value">Product Designer: product definition, AI pipeline, build, deployment</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Duration</span>
@@ -485,7 +487,7 @@
 
 <div class="failure-cards">
   <div class="failure-card">
-    <div class="failure-title">"Credentials in the setup guide" <span class="failure-mine">— mine</span></div>
+    <div class="failure-title">"Credentials in the setup guide" <span class="failure-mine">· mine</span></div>
     <p class="failure-body">I put API keys in a tutorial.md and shared it with the team. Convenient. Until DevOps rotated them and the site went down. Environment variables from day one, not a markdown file with keys in it.</p>
   </div>
   <div class="failure-card">

@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Freemium 3.0 → 4.0 — Shreyo Debnath</title>
+<title>Freemium 3.0 → 4.0 · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -97,7 +99,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -114,11 +116,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #2e7d32;
+    color: #286d2b;
     margin-top: 4px;
   }
 
@@ -131,7 +133,7 @@
 
   /* WORDMARK */
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -154,7 +156,7 @@
   }
 
   .evo-tag {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -164,7 +166,7 @@
   }
 
   .evo-card p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     margin: 0;
     line-height: 1.6;
   }
@@ -191,7 +193,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -217,7 +219,7 @@
   }
 
   .decision-tag {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -231,7 +233,7 @@
   }
 
   .decision-title {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.05rem;
     color: var(--text);
     margin-bottom: 10px;
@@ -243,7 +245,7 @@
   }
 
   .decision-desc {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.6;
   }
@@ -277,7 +279,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -302,7 +304,7 @@
   }
 
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -311,7 +313,7 @@
 
   /* SUBHEADING */
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -345,7 +347,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;

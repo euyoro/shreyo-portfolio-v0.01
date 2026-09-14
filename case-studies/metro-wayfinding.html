@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Metro Wayfinding System — Shreyo Debnath</title>
+<title>Metro Wayfinding System · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #1565c0;
+    color: #145fb4;
     margin-top: 4px;
   }
 
@@ -168,7 +170,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +185,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +194,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +223,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +260,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -282,8 +284,19 @@
     gap: 8px;
   }
 
+  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
+     the placeholder it replaces, so the page does not reflow around it. */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -307,7 +320,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -374,9 +387,12 @@
 
 <p><strong>Signage is graphic communications in the built world,</strong> which conveys information from one entity (the external environment) to another (people) in a visual mode. It tells a story as they walk through that space.</p>
 
-<div class="image-placeholder">
-  <span>Metro Station &mdash; Existing Wayfinding Audit</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/metro-wayfinding/02-1200.webp"
+       width="1200" height="960" loading="lazy" decoding="async"
+       alt="Eight field photographs of Ahmedabad's existing metro signage under a Site Visit heading: green exit signs, an orange LED destination board and a blue trilingual interchange panel.">
+  <figcaption>Metro Station: Existing Wayfinding Audit</figcaption>
+</figure>
 
 <hr class="section-rule">
 
@@ -398,20 +414,23 @@
 
 <p>A color coding system was developed to distinguish sign types. Signage was classified into three categories: <strong>Guidance Signs</strong> (directional), <strong>Normative Signs</strong> (regulatory), and <strong>Indication Signs</strong> (informational).</p>
 
-<div class="image-placeholder">
-  <span>Signage Taxonomy &amp; Color Coding System</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/metro-wayfinding/04-1200.webp"
+       width="1200" height="624" loading="lazy" decoding="async"
+       alt="A Signage Typology diagram in which a grey human silhouette stands beside every sign format, each drawn to relative size and hung at its real height.">
+  <figcaption>Signage Taxonomy &amp; Color Coding System</figcaption>
+</figure>
 
 <h4>Signage topology and sizing</h4>
 <p>Physical sign dimensions were specified for each placement context: A1 (2x10ft), A2 (2x4ft), A3 (2x6ft), B1 (0.5x1ft), B3 (2x12ft), C1 (2x2ft), C2, and D2 (12x8ft). Each size was mapped to a specific location within the station architecture.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>A1 &mdash; Platform Guidance</span></div>
-  <div class="screen-item"><span>A2 &mdash; Corridor Directional</span></div>
-  <div class="screen-item"><span>A3 &mdash; Concourse Overhead</span></div>
-  <div class="screen-item"><span>B1 &mdash; Counter Indicator</span></div>
-  <div class="screen-item"><span>C1 &mdash; Normative Signage</span></div>
-  <div class="screen-item"><span>D2 &mdash; External Station ID</span></div>
+  <div class="screen-item"><span>A1: Platform Guidance</span></div>
+  <div class="screen-item"><span>A2: Corridor Directional</span></div>
+  <div class="screen-item"><span>A3: Concourse Overhead</span></div>
+  <div class="screen-item"><span>B1: Counter Indicator</span></div>
+  <div class="screen-item"><span>C1: Normative Signage</span></div>
+  <div class="screen-item"><span>D2: External Station ID</span></div>
 </div>
 
 <h4>User persona</h4>
@@ -435,12 +454,15 @@
   <cite>Metro Official</cite>
 </div>
 
-<div class="image-placeholder">
-  <span>Final Signage System &mdash; In-Situ Mockups</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/metro-wayfinding/09-1200.webp"
+       width="1200" height="902" loading="lazy" decoding="async"
+       alt="The black pylon with its red cap on a kerb outside Motera Stadium in daylight, its Gujarati and English station panel and neighbourhood map rising above the pavement.">
+  <figcaption>Final Signage System: In-Situ Mockups</figcaption>
+</figure>
 
 <div class="image-placeholder">
-  <span>Accessibility Testing &mdash; Color Blindness Simulation</span>
+  <span>Accessibility Testing: Color Blindness Simulation</span>
 </div>
 
 <hr class="section-rule">

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everything · Shreyo Debnath</title>
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="description" content="An endless canvas of everything Shreyo Debnath has made. Drag to move around.">
+<!-- Held back from the live site. Nothing links here any more, but a page
+     with no inbound links is not the same as a page that is not indexed —
+     remove this line when the Playground goes public. -->
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700&family=DM+Mono:wght@400&display=swap">
+<style>
+  /* Tokens mirror index.html so the page belongs to the same system. */
+  :root {
+    --bg:      #fbfbfa;
+    --surface: #ffffff;
+    --border:  rgba(19,19,19,0.09);
+    --text:    #131313;
+    --muted:   #72726e;
+    --dim:     #575753;
+    --accent:  #C01828;
+    --dot:     rgba(19,19,19,0.13);
+    --t1: #eae7e0; --t2: #e3e7e4; --t3: #e9e3e6; --t4: #e4e7ec; --t5: #ece7de;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-mono:    'DM Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --e-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* This page opens light — it is a white canvas by design. The toggle and a
+     stored preference still win; only the OS default is overridden. */
+  :root[data-theme="dark"] {
+    --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+    --text: #f0f0ee; --muted: #82827e; --dim: #9c9c98;
+    --accent: #E8505F; --dot: rgba(251,251,250,0.14);
+    --t1: #232320; --t2: #1f2422; --t3: #241f22; --t4: #1f2227; --t5: #252118;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    overflow: hidden;              /* the canvas pans; the page never scrolls */
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    /* Nothing here is meant to be selected, and a stray selection makes
+       dragging feel like it snags. Kill it across the page. */
+    user-select: none; -webkit-user-select: none; -ms-user-select: none;
+  }
+
+  /* ── the pannable canvas ────────────────────────────── */
+  #field {
+    position: fixed; inset: 0;
+    cursor: grab;
+    touch-action: none;
+    /* The dot grid tiles natively, so panning it is just a background-position
+       shift — no elements, no wrapping maths. */
+    background-image: radial-gradient(var(--dot) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+  #field.dragging { cursor: grabbing; }
+
+  /* Items are absolutely placed and moved by transform every frame, so the
+     browser never reflows while panning. */
+  .item {
+    position: absolute; top: 0; left: 0;
+    will-change: transform;
+  }
+
+  .tile {
+    position: relative; width: 100%; height: 100%;
+    border-radius: 3px; overflow: hidden;
+    background: var(--t1);
+    display: flex; align-items: flex-end;
+    transition: box-shadow 0.3s var(--e-out);
+  }
+  .tile[data-tone="2"] { background: var(--t2); }
+  .tile[data-tone="3"] { background: var(--t3); }
+  .tile[data-tone="4"] { background: var(--t4); }
+  .tile[data-tone="5"] { background: var(--t5); }
+  .tile.empty { border: 1px solid var(--border); }
+
+  .tile img, .tile video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    /* Stop the browser's native image drag from hijacking a pan. */
+    -webkit-user-drag: none; user-drag: none;
+  }
+  .tile.contain img { object-fit: contain; }
+
+  .tile .slot {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: var(--ff-mono); font-size: 0.75rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); opacity: 0.4;
+  }
+
+  .tile .cap {
+    position: relative; z-index: 2; width: 100%; padding: 14px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.34), rgba(0,0,0,0));
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.25s var(--e-out), transform 0.25s var(--e-out);
+  }
+  .tile:hover { box-shadow: 0 22px 50px -22px rgba(19,19,19,0.4); }
+  .tile:hover .cap { opacity: 1; transform: translateY(0); }
+  .cap-name { display: block; font-size: 0.8125rem; font-weight: 500; color: #fff; line-height: 1.3; }
+  .cap-meta { display: block; font-family: var(--ff-mono); font-size: 0.75rem;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.72); margin-top: 3px; }
+
+  /* Big words living on the canvas, behind the pictures. */
+  .word {
+    font-weight: 700; text-transform: uppercase;
+    letter-spacing: -0.035em; line-height: 0.82;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .word.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+  .word.serif {
+    font-family: var(--ff-display); font-weight: 400; font-style: italic;
+    text-transform: none; letter-spacing: -0.015em; color: var(--text);
+  }
+
+  /* ── chrome ─────────────────────────────────────────── */
+  .bar {
+    position: fixed; z-index: 30; left: 0; right: 0; top: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 28px;
+    background: none; pointer-events: none;
+  }
+  /* Blur only, no tint, faded out downward. On its own layer so the
+     wordmark and links stay crisp. */
+  .bar::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
+  }
+  .bar > * { pointer-events: auto; }
+  .wordmark { display: flex; align-items: baseline; text-decoration: none; }
+  .wordmark .a { font-family: var(--ff-display); font-style: italic; font-size: 1.1875rem; color: var(--text); letter-spacing: -0.015em; }
+  .wordmark .sep { font-size: 0.875rem; color: var(--muted); margin: 0 5px; }
+  .wordmark .b { font-size: 0.875rem; color: var(--text); }
+
+  .bar-right { display: flex; align-items: center; gap: 18px; }
+  .back, .theme-btn {
+    font-family: var(--ff); font-size: 0.8125rem; color: var(--dim);
+    background: none; border: none; padding: 0; cursor: pointer;
+    text-decoration: none; transition: color 0.2s var(--e-out);
+  }
+  .back { border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+  .back:hover, .theme-btn:hover { color: var(--text); }
+
+  .intro { position: fixed; z-index: 30; left: 28px; bottom: 26px; max-width: 300px; pointer-events: none; }
+  .intro::before, .hint::before {
+    content: ''; position: absolute; z-index: -1;
+    background: radial-gradient(120% 120% at 0% 100%, var(--bg) 42%, transparent 78%);
+  }
+  .intro::before { left: -34px; right: -90px; top: -56px; bottom: -34px; }
+  .intro .eyebrow {
+    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px;
+  }
+  .intro h1 { font-family: var(--ff-display); font-weight: 400; font-size: 2.125rem; line-height: 1.12; letter-spacing: -0.015em; }
+  .intro p { font-size: 0.8125rem; line-height: 1.55; color: var(--muted); margin-top: 10px; }
+
+  .hint {
+    position: fixed; z-index: 30; right: 28px; bottom: 26px;
+    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); opacity: 0.75;
+    pointer-events: none; transition: opacity 0.5s var(--e-out);
+  }
+  .hint::before {
+    left: -40px; right: -34px; top: -30px; bottom: -30px;
+    background: radial-gradient(120% 140% at 100% 100%, var(--bg) 45%, transparent 80%);
+  }
+  .hint.gone { opacity: 0; }
+
+  @media (max-width: 700px) {
+    .intro { max-width: 205px; bottom: 20px; left: 20px; }
+    .intro h1 { font-size: 1.625rem; }
+    .bar { padding: 16px 20px; }
+    .hint { right: 20px; bottom: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .tile .cap, .hint { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a class="wordmark" href="index.html">
+    <span class="a">euyoro</span><span class="sep">/</span><span class="b">shreyo</span>
+  </a>
+  <div class="bar-right">
+    <button class="theme-btn" id="theme-btn">Light / Dark</button>
+    <a class="back" href="index.html">Back to work</a>
+  </div>
+</div>
+
+<div id="field" role="region" aria-label="An endless canvas of work. Drag to move around, or use the arrow keys." tabindex="0"></div>
+
+<div class="intro">
+  <span class="eyebrow">Fun</span>
+  <h1>Everything I&rsquo;ve made</h1>
+  <p>Shipped, shelved, and student. Keeps going in every direction.</p>
+</div>
+
+<div class="hint" id="hint">Drag to move</div>
+
+<script>
+/* ────────────────────────────────────────────────────────
+   An endless canvas.
+
+   Every item owns a home position inside a FIELD_W x FIELD_H
+   field. Each frame it draws at home + pan, wrapped modulo the
+   field. Because the field is larger than the viewport plus the
+   biggest item, an item always wraps while off-screen, so the
+   seam is never visible and the canvas reads as infinite in
+   both axes. The dot grid tiles natively, so it only needs a
+   background-position shift.
+   ──────────────────────────────────────────────────────── */
+
+/* The layout below is authored on a 4200x3000 field at readable numbers.
+   These two constants tune it without touching a single coordinate:
+   SIZE makes every piece bigger, POS spreads them further apart. Raising
+   SIZE faster than POS is what makes the canvas feel dense. */
+const SIZE = 1.45;
+const POS  = 1.0;
+
+const FIELD_W = Math.round(4200 * POS);
+const FIELD_H = Math.round(3000 * POS);
+const MAX_ITEM = Math.round(640 * SIZE);   /* wrap margin — bigger than any item */
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const A = 'assets/fun/';
+
+/* Freeform scatter: no column grid, varied sizes, deliberate breathing room.
+   `src` / `video` carry real work; everything else is a placeholder slot. */
+const ITEMS = [
+  // ── real pieces ──────────────────────────────────────
+  { x:  250, y:  380, w: 300, h: 424, src: A+'memoir.webp',     name: 'What? / How?',        meta: 'Poster · 2023' },
+  { x: 1180, y:  180, w: 520, h: 381, src: A+'gramophone.webp', name: 'Gramophone',          meta: 'Infographic · 2023' },
+  { x: 2280, y:  600, w: 330, h: 467, src: A+'bicycle.webp',    name: 'Bicycle Thieves',     meta: 'Screening poster · 2022' },
+  { x:  760, y: 1420, w: 260, h: 547, video: A+'yearbook',      name: 'Annual Design Yearbook', meta: 'Print · 2023' },
+  { x: 3260, y: 1180, w: 340, h: 430, src: A+'ornate.svg', contain: true, tone: 3, name: 'Ornament study', meta: 'Vector · 2022' },
+
+  // ── placeholders ─────────────────────────────────────
+  { x:  760, y:  760, w: 380, h: 253, name: 'Rent Reporting',     meta: '2026 · Shipped' },
+  { x: 1800, y:  740, w: 300, h: 400, name: 'Referral Redesign',  meta: '2026 · Shipped' },
+  { x: 2760, y:  200, w: 420, h: 280, name: 'Bright Atlas',       meta: '2026 · Built' },
+  { x: 3480, y:  520, w: 280, h: 280, name: 'Sauron',             meta: '2026 · Live' },
+  { x:  180, y: 1080, w: 340, h: 227, name: 'ID Protection',      meta: '2026 · Pitched' },
+  { x: 1280, y: 1180, w: 300, h: 300, name: 'Freemium 3→4',       meta: '2025' },
+  { x: 2000, y: 1360, w: 400, h: 267, name: 'Monet Cancellation', meta: '2025' },
+  { x: 2760, y: 1560, w: 300, h: 400, name: 'Credit Tab',         meta: '2025' },
+  { x:  340, y: 1880, w: 420, h: 280, name: 'Smart Round-Ups',    meta: '2024' },
+  { x: 1200, y: 2180, w: 300, h: 225, name: 'Home Tab Banners',   meta: '2025' },
+  { x: 1780, y: 1960, w: 340, h: 453, name: 'Disclosure Layer',   meta: '2026' },
+  { x: 2460, y: 2280, w: 400, h: 267, name: 'Bill Saver',         meta: '2025' },
+  { x: 3180, y: 2060, w: 320, h: 320, name: 'Onboarding v3',      meta: '2025' },
+  { x: 3760, y: 1480, w: 300, h: 400, name: 'Atlas MCP Plugin',   meta: '2026' },
+  { x:  120, y: 2520, w: 360, h: 240, name: 'Baux Typeface',      meta: '2021' },
+  { x:  900, y: 2680, w: 300, h: 400, name: 'GLS Yearbook',       meta: '2020' },
+  { x: 1660, y: 2720, w: 420, h: 280, name: 'Metro Wayfinding',   meta: '2020' },
+  { x: 2420, y:  980, w: 300, h: 225, name: 'Everest Packaging',  meta: '2020' },
+  { x: 3660, y: 2560, w: 340, h: 227, name: 'Logofolio',          meta: '2019–2021' },
+  { x:  520, y:  120, w: 300, h: 200, name: 'Scribbleship',       meta: '2021' },
+  { x: 3860, y:  160, w: 280, h: 373, name: 'Jupiter TVC',        meta: '2021' },
+  { x: 1560, y: 2440, w: 260, h: 260, name: 'Lettering studies',  meta: '2020' },
+  { x: 2940, y: 2740, w: 300, h: 200, name: 'Sketchbook',         meta: 'Ongoing' },
+  { x:  140, y: 1560, w: 280, h: 187, name: 'Film photography',   meta: 'Ongoing' },
+  { x: 2140, y:   80, w: 300, h: 200, name: 'Things I cooked',    meta: 'Ongoing' },
+];
+
+/* Words sit on the canvas with the pictures, not over them. */
+const WORDS = [
+  { x:   90, y:  120, text: 'Shreyo',     size: 150 },
+  { x: 2980, y: 2380, text: 'Debnath',    size: 150, outline: true },
+  { x: 1180, y: 1860, text: 'Everything', size: 112 },
+  { x: 3300, y:  880, text: 'so far',     size: 88,  serif: true },
+  { x:  560, y: 2280, text: 'and counting', size: 64, serif: true },
+];
+
+const field = document.getElementById('field');
+const hint  = document.getElementById('hint');
+const nodes = [];
+
+for (const w of WORDS) {
+  const el = document.createElement('div');
+  el.className = 'item word' + (w.outline ? ' outline' : '') + (w.serif ? ' serif' : '');
+  el.style.fontSize = Math.round(w.size * SIZE) + 'px';
+  el.textContent = w.text;
+  field.appendChild(el);
+  nodes.push({ el, x: w.x * POS, y: w.y * POS });
+}
+
+ITEMS.forEach((it, i) => {
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.style.width = Math.round(it.w * SIZE) + 'px';
+  el.style.height = Math.round(it.h * SIZE) + 'px';
+
+  const media = it.video
+    ? `<video src="${it.video}.mp4" poster="${it.video}-poster.webp" muted loop playsinline autoplay></video>`
+    : it.src ? `<img src="${it.src}" alt="${it.name}" loading="lazy" decoding="async" draggable="false">`
+             : `<div class="slot">Image</div>`;
+
+  el.innerHTML =
+    `<div class="tile${it.src || it.video ? '' : ' empty'}${it.contain ? ' contain' : ''}" ` +
+    `data-tone="${it.tone || (i % 5) + 1}">${media}` +
+    `<div class="cap"><span class="cap-name">${it.name}</span>` +
+    `<span class="cap-meta">${it.meta}</span></div></div>`;
+
+  field.appendChild(el);
+  nodes.push({ el, x: it.x * POS, y: it.y * POS });
+});
+
+/* ── pan state ─────────────────────────────────────────── */
+let panX = 60, panY = -60;
+let velX = 0, velY = 0;
+let dragging = false;
+let lastX = 0, lastY = 0;
+
+const mod = (n, m) => ((n % m) + m) % m;
+
+function draw() {
+  for (const n of nodes) {
+    const x = mod(n.x + panX + MAX_ITEM, FIELD_W) - MAX_ITEM;
+    const y = mod(n.y + panY + MAX_ITEM, FIELD_H) - MAX_ITEM;
+    n.el.style.transform = `translate3d(${x}px,${y}px,0)`;
+  }
+  field.style.backgroundPosition = `${panX}px ${panY}px`;
+}
+
+function frame() {
+  if (!dragging && (Math.abs(velX) > 0.05 || Math.abs(velY) > 0.05)) {
+    panX += velX; panY += velY;
+    velX *= 0.94; velY *= 0.94;
+    draw();
+  }
+  requestAnimationFrame(frame);
+}
+
+/* ── input ─────────────────────────────────────────────── */
+field.addEventListener('pointerdown', e => {
+  dragging = true; velX = velY = 0;
+  lastX = e.clientX; lastY = e.clientY;
+  field.classList.add('dragging');
+  field.setPointerCapture(e.pointerId);
+});
+
+field.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  panX += dx; panY += dy;
+  if (Math.abs(dx) + Math.abs(dy) > 2) dismissHint();
+  velX = reduced ? 0 : dx;
+  velY = reduced ? 0 : dy;
+  draw();
+});
+
+function endDrag(e) {
+  if (!dragging) return;
+  dragging = false;
+  field.classList.remove('dragging');
+  if (e && e.pointerId != null && field.hasPointerCapture?.(e.pointerId))
+    field.releasePointerCapture(e.pointerId);
+}
+field.addEventListener('pointerup', endDrag);
+field.addEventListener('pointercancel', endDrag);
+
+/* Trackpads give both axes; a mouse wheel gives only deltaY, so let that
+   drift the canvas diagonally rather than only downward. */
+field.addEventListener('wheel', e => {
+  e.preventDefault();
+  dismissHint();
+  velX = velY = 0;
+  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { panX -= e.deltaX; panY -= e.deltaY; }
+  else if (e.shiftKey) { panX -= e.deltaY; }
+  else { panX -= e.deltaY * 0.6; panY -= e.deltaY * 0.45; }
+  draw();
+}, { passive: false });
+
+field.addEventListener('keydown', e => {
+  const step = e.shiftKey ? 300 : 100;
+  const map = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
+  const d = map[e.key];
+  if (!d) return;
+  e.preventDefault();
+  dismissHint();
+  panX += d[0]; panY += d[1];
+  draw();
+});
+
+let hintGone = false;
+function dismissHint() { if (!hintGone) { hintGone = true; hint.classList.add('gone'); } }
+
+/* ── theme, shared with the main site ──────────────────── */
+const themeBtn = document.getElementById('theme-btn');
+const stored = (() => { try { return localStorage.getItem('theme'); } catch { return null; } })();
+const forced = new URLSearchParams(location.search).get('theme');
+if (forced === 'light' || forced === 'dark') document.documentElement.dataset.theme = forced;
+else document.documentElement.dataset.theme = stored || 'light';
+
+themeBtn.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('theme', next); } catch {}
+});
+
+addEventListener('resize', draw);
+draw();
+frame();
+</script>
+</body>
+</html>

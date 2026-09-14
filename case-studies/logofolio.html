@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Logofolio & Brand Marks — Shreyo Debnath</title>
+<title>Logofolio & Brand Marks · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,7 +134,7 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -168,7 +170,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +185,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +194,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +223,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +260,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -283,7 +285,7 @@
   }
 
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -300,7 +302,7 @@
   }
 
   .brand-tag {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -326,7 +328,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -404,7 +406,7 @@
 <p>India's largest (hypothetical) private multi-specialty hospital and India's first private medical college. The brand was created with a vision to break the saturated identities in the current healthcare industry and bring new vision and visuals.</p>
 
 <div class="image-placeholder">
-  <span>Svasthik Hospital &mdash; Primary Logo</span>
+  <span>Svasthik Hospital: Primary Logo</span>
 </div>
 
 <p>The hospital's emblem, a vibrant open-peacock, embodies commitment to life, joy, and personalized care. Symbolizing warmth and dedication, it reflects values of prioritizing patients' well-being. Additionally, the form subtly represents the rising sun, evoking positivity and renewal in health. Enclosed within a circle for equilibrium, it underscores the promise of trustworthy, medically-backed treatments.</p>
@@ -426,7 +428,7 @@
 <p>Sigma Voice is RGU's literary hub, fostering the talents of orators, writers, and avid readers. As a vital part of the student body, it offers a dynamic platform for showcasing skills on national and international levels.</p>
 
 <div class="image-placeholder">
-  <span>Sigma Voice &mdash; Primary Logo</span>
+  <span>Sigma Voice: Primary Logo</span>
 </div>
 
 <p>The logo embodies strength and expression. Sigma, symbolizing unity and vocal power, merges with the timeless symbol of the feather, representing honor and connection to literature's essence. The microphone, a symbol of integrity and influence, amplifies the voice of the club's members. Within the emblem, a figure represents the core of literature: stories, voices, and perspectives. The eagle signifies honesty, majesty, and freedom.</p>
@@ -448,7 +450,7 @@
 <p>Indian Nanoelectronics Users Program (INUP) is jointly run by the Centre of Excellence in Nanoelectronics at IIT-Bombay and IISc-Bangalore. INUP serves as a platform for researchers to provide hands-on training in nanoelectronics and to assist in the initiation of research.</p>
 
 <div class="image-placeholder">
-  <span>INUP I2I &mdash; Primary Logo</span>
+  <span>INUP I2I: Primary Logo</span>
 </div>
 
 <p>The logo depicts two humanoid figures aiding each other, symbolizing the essence of manpower training. Within their interaction, the letter "N" in INUP emerges, showcasing the program's focus. The intertwined figures symbolize the collaboration inherent in ideating to innovate. Incorporating benzene rings and graphene-based elements signifies the essence of nanotechnology and advanced materials.</p>
@@ -468,7 +470,7 @@
 <p>One Shot eSports, a burgeoning Esports startup in the Hanover region, is the brainchild of seasoned industry veterans and accomplished entrepreneurs. With deep roots in the Indian Esports realm and a strong entrepreneurial spirit, One Shot is dedicated to advancing Esports from grassroots to professional levels.</p>
 
 <div class="image-placeholder">
-  <span>One Shot eSports &mdash; Primary Logo</span>
+  <span>One Shot eSports: Primary Logo</span>
 </div>
 
 <p>The brand identity is tailored to resonate with teenage gamers. The logo integrates a radical reminiscent of an FPS gamer's focal point, cleverly embedded as the "O" in "One," imbuing the design with modernity and relevance. Bold, aggressive red hues enhance its contemporary allure.</p>

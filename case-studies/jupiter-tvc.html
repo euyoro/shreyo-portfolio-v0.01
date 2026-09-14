@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jupiter Banking TVC — Shreyo Debnath</title>
+<title>Jupiter Banking TVC · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #1565c0;
+    color: #145fb4;
     margin-top: 4px;
   }
 
@@ -168,7 +170,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +185,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +194,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +223,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +260,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -283,7 +285,7 @@
   }
 
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -307,7 +309,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -376,10 +378,10 @@
 
 <p>Delving into the world of financial technology, the team explored neobanks where Jupiter Banking is a key player. The task was to create a "Slice of Life" narration style two-minute television ad by comprehending Jupiter's core values. Using film and video elements like storytelling and visuals, the ad needed to effectively convey Jupiter's message and establish a connection with its target audience: gen-z.</p>
 
-<p>Jupiter Banking is a developing company. Since the team were the brand's users and customers, they believed it needed a more engaging advertisement &mdash; one that showed real people solving real problems, not a product demo with motion graphics.</p>
+<p>Jupiter Banking is a developing company. Since the team were the brand's users and customers, they believed it needed a more engaging advertisement: one that showed real people solving real problems, not a product demo with motion graphics.</p>
 
 <div class="image-placeholder">
-  <span>Jupiter Banking &mdash; Brand Analysis</span>
+  <span>Jupiter Banking: Brand Analysis</span>
 </div>
 
 <hr class="section-rule">
@@ -389,7 +391,7 @@
 <h3>From script to screen</h3>
 
 <h4>Pre-production</h4>
-<p>The process began with scripting, storyboarding, and location scouting. The narrative was built around a "Slice of Life" framework: real scenarios where Jupiter's features solve everyday friction around money. The storyboard mapped each scene to a specific product value &mdash; splitting bills, tracking spending, instant transfers.</p>
+<p>The process began with scripting, storyboarding, and location scouting. The narrative was built around a "Slice of Life" framework: real scenarios where Jupiter's features solve everyday friction around money. The storyboard mapped each scene to a specific product value: splitting bills, tracking spending, instant transfers.</p>
 
 <div class="image-placeholder">
   <span>Storyboard Frames</span>
@@ -399,9 +401,9 @@
 <p>Directing and cinematography were handled on location. The visual language leaned warm and candid, matching the conversational tone of the script. The goal was to keep the ad feeling like a story first, a product pitch second.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Scene 1 &mdash; Morning Routine</span></div>
-  <div class="screen-item"><span>Scene 2 &mdash; Bill Splitting</span></div>
-  <div class="screen-item"><span>Scene 3 &mdash; Product Reveal</span></div>
+  <div class="screen-item"><span>Scene 1: Morning Routine</span></div>
+  <div class="screen-item"><span>Scene 2: Bill Splitting</span></div>
+  <div class="screen-item"><span>Scene 3: Product Reveal</span></div>
 </div>
 
 <h4>Post-production</h4>
@@ -426,7 +428,7 @@
 </div>
 
 <div class="image-placeholder">
-  <span>Final Ad &mdash; Selected Frames</span>
+  <span>Final Ad: Selected Frames</span>
 </div>
 
 <hr class="section-rule">

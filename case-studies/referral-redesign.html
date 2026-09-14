@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Referral Redesign — Shreyo Debnath</title>
+<title>Referral Redesign · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -23,12 +26,11 @@
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -38,7 +40,7 @@
 
   /* ── TYPOGRAPHY ── */
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -48,8 +50,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -59,7 +61,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -113,7 +115,7 @@
   }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -130,7 +132,7 @@
 
   .status-open {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -164,7 +166,7 @@
 
   .insight-card strong {
     display: block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -187,7 +189,7 @@
   }
 
   .goals-col h4 {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -225,7 +227,7 @@
   .phase:first-child { border-top: 1px solid var(--border); }
 
   .phase-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -235,7 +237,7 @@
 
   .phase p {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.875rem;
   }
 
   /* ── DECISION CARD ── */
@@ -257,7 +259,7 @@
   }
 
   .decision-tag {
-    font-size: 0.62rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -271,7 +273,7 @@
   }
 
   .decision-title {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.05rem;
     color: var(--text);
     margin-bottom: 10px;
@@ -283,7 +285,7 @@
   }
 
   .decision-desc {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.6;
   }
@@ -315,13 +317,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -335,7 +337,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -344,7 +346,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -365,7 +367,7 @@
   }
 
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -373,7 +375,7 @@
   }
 
   .image-placeholder small {
-    font-size: 0.72rem;
+    font-size: 0.8125rem;
     color: var(--border);
   }
 
@@ -381,8 +383,8 @@
   .screen-grid-placeholder {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
+    gap: 36px 22px;
+    margin: 32px 0;
   }
 
   .screen-item {
@@ -398,20 +400,53 @@
     text-align: center;
   }
 
-  .screen-item span {
-    font-size: 0.68rem;
+  .screen-item span,
+  .screen-item figcaption {
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
   }
 
+  /* Filled wells drop the dashed container: the screen is the object, and its
+     label sits underneath. Empty wells keep the dashed box so anything still
+     unshot reads as pending. */
+  figure.screen-item,
+  figure.ba-side,
+  figure.image-placeholder {
+    border: none;
+    background: none;
+    padding: 0;
+    gap: 0;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  figure.screen-item img,
+  figure.ba-side img,
+  figure.image-placeholder img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  figure.screen-item figcaption,
+  figure.ba-side figcaption,
+  figure.image-placeholder figcaption {
+    padding: 14px 0 0;
+    text-align: center;
+    width: 100%;
+  }
+
   /* ── BEFORE / AFTER ── */
   .before-after {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
+    gap: 22px;
+    margin: 32px 0;
+    align-items: end;
   }
 
   .ba-side {
@@ -426,7 +461,7 @@
   }
 
   .ba-label {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -458,7 +493,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -470,7 +505,7 @@
 
   /* ── WORDMARK ── */
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -496,7 +531,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -530,7 +565,7 @@
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
-    <span class="meta-value">Product Designer — sole owner</span>
+    <span class="meta-value">Product Designer: sole owner</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Duration</span>
@@ -547,7 +582,7 @@
   <div class="meta-item" style="grid-column: 1 / -1;">
     <span class="meta-label">Status</span>
     <span class="meta-value">Hi-fi signed off. Referral Templates in dev queue.</span>
-    <span class="status-open">P0 — Aug 2026</span>
+    <span class="status-open">P0 · Aug 2026</span>
   </div>
 </div>
 
@@ -567,7 +602,7 @@
 <p>Three things were broken:</p>
 <ul>
   <li>The reward structure was buried in copy. Users couldn't skim what they'd actually earn.</li>
-  <li>The PLU — the in-app card surfacing the referral offer — was static. Growth couldn't vary messaging without a dev sprint.</li>
+  <li>The PLU (the in-app card surfacing the referral offer) was static. Growth couldn't vary messaging without a dev sprint.</li>
   <li>The visual system had moved. The old screens were built on a design language the product had since replaced.</li>
 </ul>
 
@@ -603,7 +638,7 @@
     <h4>Business</h4>
     <ul>
       <li>Higher referral conversion, no backend changes</li>
-      <li>Growth-controlled PLU — testable without a dev sprint</li>
+      <li>Growth-controlled PLU: testable without a dev sprint</li>
       <li>Full visual alignment with Phoenix design system</li>
     </ul>
   </div>
@@ -617,23 +652,25 @@
 
 <div class="phases">
   <div class="phase">
-    <div class="phase-label">Phase 1 — Aug to Sep 2025</div>
+    <div class="phase-label">Phase 1 · Aug to Sep 2025</div>
     <p>UX from scratch. I mapped the full referral experience in FigJam, built the 3.0 UX flows, explored a scratch-card treatment for the referral card, ideated PLU screens, and locked the illustration direction with Joe.</p>
   </div>
   <div class="phase">
-    <div class="phase-label">Phase 2 — Oct to Nov 2025</div>
+    <div class="phase-label">Phase 2 · Oct to Nov 2025</div>
     <p>UI hygiene across all touchpoints. Illustration delivered by Pallavi. Screens ready, aligned with Joe, shared with Ashish. Then: deprioritised. The RMS track took Growth's bandwidth. Screens sat for eight months.</p>
   </div>
   <div class="phase">
-    <div class="phase-label">Phase 3 — Jul to Aug 2026</div>
+    <div class="phase-label">Phase 3 · Jul to Aug 2026</div>
     <p>Joe revived it with one constraint: no backend involvement. Wireframes done in a day. Hi-fi closed in a week. Aligned with Ashish and Tanishq. Closed.</p>
   </div>
 </div>
 
-<div class="image-placeholder">
-  <span>FigJam — Referral Flow Indexing</span>
-  <small>figma.com/board/27dc0rutSsnJGshszIJdHH · node 70-1087</small>
-</div>
+<figure class="image-placeholder">
+  <img src="../assets/case-studies/referral-redesign/screens/figjam.webp" width="1400" height="1111"
+       loading="lazy" decoding="async"
+       alt="The referral flow indexing board: a legend defining the flow notation, a taxonomy splitting in-app from out-of-app touchpoints, a row of value propositions covering mutual reward, monthly cap and tiered offers, and the written conditions each party must meet to earn a reward.">
+  <figcaption><span>FigJam: Referral Flow Indexing</span></figcaption>
+</figure>
 
 <hr class="section-rule">
 
@@ -665,20 +702,53 @@
 
 <div class="before-after">
   <div class="ba-side">
-    <span class="ba-label">Before — 2022</span>
+    <span class="ba-label">Before · 2022</span>
   </div>
-  <div class="ba-side">
-    <span class="ba-label">After — Phoenix 2026</span>
-  </div>
+  <figure class="ba-side">
+    <img src="../assets/case-studies/referral-redesign/screens/after.webp" width="1400" height="788"
+         loading="lazy" decoding="async"
+         alt="Two angled phones showing the redesigned referral: a Give $25, Get $25 screen with a shareable link, and a limited period offer reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
+    <figcaption class="ba-label">After · Phoenix 2026</figcaption>
+  </figure>
 </div>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>PLU Card</span></div>
-  <div class="screen-item"><span>Referral Pitch Screen</span></div>
-  <div class="screen-item"><span>Reward Breakdown</span></div>
-  <div class="screen-item"><span>Share Flow</span></div>
-  <div class="screen-item"><span>Dashboard Tile</span></div>
-  <div class="screen-item"><span>Confirmation State</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/plu-card.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The Home screen carrying the referral card above the fold, reading Earn up to $120, invite 3 friends to Bright, with a Refer Now button and an Earn $20 chip in the header.">
+    <figcaption>PLU Card</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/pitch.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The referral offer screen: swipeable $20 and $40 reward cards above Win Assured $120!, three ticked qualifying conditions, and an Invite and Get $20 button.">
+    <figcaption>Referral Pitch Screen</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/reward.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="Refer and Claim at money earned $0 of $120, with three reward tiers of $20, $60 and $40 sitting locked above an Unlock Your Rewards explainer.">
+    <figcaption>Reward Breakdown</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/share.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The same dashboard at $20 of $120 with the first tier unlocked in green, above a Get Unique Link row and a Share and Give $20 button.">
+    <figcaption>Share Flow</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/dashboard.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The dashboard at $120 of $120 with all three reward tiers unlocked in colour and the button changed to Invite Friends.">
+    <figcaption>Dashboard Tile</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/referral-redesign/screens/confirmation.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The referred friend's screen reading Congratulations, Get Your Reward!, a large twenty dollar mark, and three steps with the first two ticked, promising $20 in seven business days.">
+    <figcaption>Confirmation State</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">
@@ -688,7 +758,7 @@
 
 <div class="failure-cards">
   <div class="failure-card">
-    <div class="failure-title">"Eight months, same screens, same result" <span class="failure-mine">— mine</span></div>
+    <div class="failure-title">"Eight months, same screens, same result" <span class="failure-mine">· mine</span></div>
     <p class="failure-body">Phase 2 closed with Ashish aligned and screens ready. The deprioritisation was a business call, not mine. But I didn't push for a lightweight test. One PLU variant, one sprint, something to keep the work alive through the RMS gap. I waited for full bandwidth. That's how a six-week project becomes thirteen months.</p>
   </div>
   <div class="failure-card">
@@ -703,7 +773,7 @@
 
 <div class="pull-quote">
   <blockquote>"I kinda liked it, lets roll with it. We can of course change later depending on the performance."</blockquote>
-  <cite>Joe — Design Director</cite>
+  <cite>Joe, Design Director</cite>
 </div>
 
 <p>I deferred. Right call for a product context. Ship, then measure. What I'd change: run a quick reading-order test before asking. I raised a question I could have answered myself.</p>
@@ -725,7 +795,7 @@
 
 <ul class="reflection-list">
   <li>A lightweight PLU test in November 2025 would have closed the eight-month gap. I didn't push for it. That's the one I'd take back.</li>
-  <li>The Phoenix constraint felt like a limitation. It wasn't. Designing modular from the start — message, visual, CTA as independent variables — produces something Growth can actually run experiments on. I'd apply that constraint deliberately next time.</li>
+  <li>The Phoenix constraint felt like a limitation. It wasn't. Designing modular from the start (message, visual, CTA as independent variables) produces something Growth can actually run experiments on. I'd apply that constraint deliberately next time.</li>
   <li>The illustration question deserved a prototype, not a Slack message.</li>
 </ul>
 

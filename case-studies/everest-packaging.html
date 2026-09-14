@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Everest Spices &mdash; International Packaging &mdash; Shreyo Debnath</title>
+<title>Everest Spices: International Packaging · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #2e7d32;
+    color: #286d2b;
     margin-top: 4px;
   }
 
@@ -168,7 +170,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +185,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +194,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +223,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +260,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -282,8 +284,19 @@
     gap: 8px;
   }
 
+  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
+     the placeholder it replaces, so the page does not reflow around it. */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -307,7 +320,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -336,7 +349,7 @@
 
 <span class="wordmark">Shreyo Debnath</span>
 
-<h1>Everest Spices &mdash; International Packaging</h1>
+<h1>Everest Spices: International Packaging</h1>
 
 <div class="meta-block">
   <div class="meta-item">
@@ -372,15 +385,18 @@
 
 <!-- CONTEXT -->
 <h2>Context</h2>
-<h3>Will spice packaging feel authentically Indian &mdash; abroad?</h3>
+<h3>Will spice packaging feel authentically Indian, abroad?</h3>
 
 <p>Everest Spices, established by Vadilal Shah in 1967, is a renowned Indian spice brand with a rich legacy. Over 45 blends. Superbrands eight times. While Everest emphasizes marketing communication as its distinguishing feature, its packaging lacks a cohesive visual identity suited for international markets.</p>
 
 <p>The packaging had no visual cohesiveness and did not stand out on racks. The package did not adhere to the current trend of keeping packaging inside the fridge. The package allowed egress of aroma and ingress of moisture. Three problems, each enough to lose a customer at point of sale.</p>
 
-<div class="image-placeholder">
-  <span>Existing Everest Packaging &mdash; Shelf Audit</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/03-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="Research spread headed Current Packaging and Rhetoric and Rituals, over black-and-white photographs of hands opening an Everest sachet and of supermarket shelves.">
+  <figcaption>Existing Everest Packaging: Shelf Audit</figcaption>
+</figure>
 
 <hr class="section-rule">
 
@@ -401,8 +417,8 @@
 <p>The first direction explored was a BOPP package with a tearable end that could be stored in the fridge, designed for sustainability. The final direction moved to an <strong>upcycled tin box</strong>, keeping spices potent and the package sustainable. A small dispenser was added to prevent over-pouring, and a measuring tray was integrated at the bottom.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>BOPP Direction &mdash; Concept</span></div>
-  <div class="screen-item"><span>Tin Box &mdash; Final Direction</span></div>
+  <div class="screen-item"><span>BOPP Direction: Concept</span></div>
+  <div class="screen-item"><span>Tin Box: Final Direction</span></div>
   <div class="screen-item"><span>Dispenser &amp; Measuring Tray</span></div>
 </div>
 
@@ -410,7 +426,7 @@
 <p>The graphic language drew on a <strong>"Window to India"</strong> theme, showcasing regional motifs and culture. Arches unique to each region became the central motif, framing AI-assisted illustrations (DALL-E) of the landscapes and traditions behind each spice blend.</p>
 
 <div class="image-placeholder">
-  <span>Window to India &mdash; Regional Arch Motifs</span>
+  <span>Window to India: Regional Arch Motifs</span>
 </div>
 
 <h4>Specifications</h4>
@@ -438,13 +454,19 @@
   <cite>Anjali, Freetime Cook</cite>
 </div>
 
-<div class="image-placeholder">
-  <span>Final Packaging &mdash; Product Line</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/06-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="A six-image product photography grid on near-black: a red Korma tin beside a bowl of curry on dark wood with a turmeric dish and spoon, and red and olive tins.">
+  <figcaption>Final Packaging: Product Line</figcaption>
+</figure>
 
-<div class="image-placeholder">
-  <span>3D Renders &mdash; Tin Box Variations</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/01-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="A full-bleed 3D render on a warm peach seamless background: three Everest tin cartons, with a red Korma Masala at left rear.">
+  <figcaption>3D Renders: Tin Box Variations</figcaption>
+</figure>
 
 <hr class="section-rule">
 

@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GLS Annual Yearbook — Shreyo Debnath</title>
+<title>GLS Annual Yearbook · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #1565c0;
+    color: #145fb4;
     margin-top: 4px;
   }
 
@@ -168,7 +170,7 @@
   }
 
   .screen-item span {
-    font-size: 0.68rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +185,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +194,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +223,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +260,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -282,8 +284,19 @@
     gap: 8px;
   }
 
+  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
+     the placeholder it replaces, so the page does not reflow around it. */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -307,7 +320,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -374,9 +387,12 @@
 
 <p>The project was to create an engaging and visually compelling annual yearbook and digital archive platform to capture, celebrate, document, and showcase the creative journey and accomplishments of GLS Institute of Design throughout the year. The book needed to serve as both a keepsake and a repository, a record that students and faculty could refer back to.</p>
 
-<div class="image-placeholder">
-  <span>Yearbook Cover</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/gls-yearbook/01-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="The closed yearbook at an angle on a raw concrete plinth under hard sidelight, its oversized charcoal ANNUAL DESIGN YEAR[BOOK] cover type cropping off the edge.">
+  <figcaption>Yearbook Cover</figcaption>
+</figure>
 
 <hr class="section-rule">
 
@@ -396,9 +412,12 @@
 <h4>Grid System</h4>
 <p>The layout alternated between a column grid for text-heavy pages and a modular grid for portfolio spreads. This gave the book a consistent rhythm while accommodating the variety of student work, from photography to product design to illustration.</p>
 
-<div class="image-placeholder">
-  <span>Grid System &amp; Spread Layouts</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/gls-yearbook/03-1200.webp"
+       width="1200" height="676" loading="lazy" decoding="async"
+       alt="Two wireframe diagrams of the 40 by 28 cm spread grid on black, beside a tight crop of the softbound cover and its heavy grey ANNUAL DESIGN YEAR lockup.">
+  <figcaption>Grid System &amp; Spread Layouts</figcaption>
+</figure>
 
 <h4>AR Integration</h4>
 <p>An augmented reality layer was built using Artvive, allowing readers to scan specific pages and access additional content, video walkthroughs, process documentation, and extended project narratives, through their phone. This bridged the physical book with a digital archive.</p>

@@ -3,18 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rent Reporting — Shreyo Debnath</title>
+<title>Rent Reporting · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
   :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
     --bg: #fbfbfa;
     --surface: #ffffff;
     --border: rgba(19,19,19,0.09);
     --text: #131313;
-    --muted: #9d9d99;
-    --dim: #6b6b68;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
     --accent: #C01828;
     --card-bg: #f4f4f2;
     --chosen-bg: #131313;
@@ -22,12 +25,11 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
 
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -36,7 +38,7 @@
   }
 
   h1 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 2.4rem;
     font-weight: 400;
     line-height: 1.2;
@@ -46,8 +48,8 @@
   }
 
   h2 {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    font-size: 0.7rem;
+    font-family: var(--ff);
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -57,7 +59,7 @@
   }
 
   h3 {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.3;
@@ -69,7 +71,7 @@
   h3:first-child { margin-top: 0; }
 
   h4 {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -87,7 +89,7 @@
   strong { color: var(--text); font-weight: 500; }
 
   .wordmark {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-style: italic;
     font-size: 1rem;
     color: var(--dim);
@@ -115,7 +117,7 @@
   .meta-item:nth-last-child(2) { border-bottom: none; }
 
   .meta-label {
-    font-size: 0.65rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -132,11 +134,11 @@
 
   .status-tag {
     display: inline-block;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #2e7d32;
+    color: #286d2b;
     margin-top: 4px;
   }
 
@@ -150,10 +152,12 @@
   .screen-grid-placeholder {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
+    gap: 36px 22px;
+    margin: 32px 0;
   }
 
+  /* Filled cells: the screen sits flush to the edges, its label beneath.
+     Empty cells keep the dashed well so unshot screens still read as pending. */
   .screen-item {
     border: 1.5px dashed var(--border);
     border-radius: 8px;
@@ -167,8 +171,30 @@
     text-align: center;
   }
 
-  .screen-item span {
-    font-size: 0.68rem;
+  figure.screen-item {
+    border: none;
+    background: none;
+    padding: 0;
+    gap: 0;
+    min-height: 0;
+    justify-content: flex-start;
+  }
+
+  /* The screen is the object; nothing frames it but its own corner radius. */
+  figure.screen-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+  }
+
+  figure.screen-item figcaption {
+    padding: 14px 0 0;
+  }
+
+  .screen-item span,
+  .screen-item figcaption {
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -183,7 +209,7 @@
   }
 
   .pull-quote blockquote {
-    font-family: 'Instrument Serif', Georgia, serif;
+    font-family: var(--ff-display);
     font-size: 1.2rem;
     font-style: italic;
     color: var(--text);
@@ -192,7 +218,7 @@
   }
 
   .pull-quote cite {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--muted);
     font-style: normal;
     letter-spacing: 0.04em;
@@ -221,13 +247,13 @@
   }
 
   .failure-mine {
-    font-size: 0.7rem;
+    font-size: 0.8125rem;
     color: var(--accent);
     font-weight: 500;
   }
 
   .failure-body {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--dim);
     line-height: 1.65;
     margin: 0;
@@ -258,7 +284,7 @@
   }
 
   .cta p {
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     color: var(--muted);
   }
 
@@ -283,7 +309,7 @@
   }
 
   .image-placeholder span {
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
@@ -307,7 +333,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: var(--ff);
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -390,12 +416,42 @@
 <p>Banners on the Home Tab. Widgets in the Credit Tab. Opt-out users seeing a path back in. Each touchpoint with its own state logic based on the user's reporting status.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Pitch Screen</span></div>
-  <div class="screen-item"><span>Portal Selection</span></div>
-  <div class="screen-item"><span>Bureau Reporting Flow</span></div>
-  <div class="screen-item"><span>Home Tab Banner</span></div>
-  <div class="screen-item"><span>Credit Tab Widget</span></div>
-  <div class="screen-item"><span>Opt-in / Opt-out State</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/pitch.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="How can reporting Rent improve credit history? listing four reasons: we find your rent payments, we report to the credit bureaus, rent counts as credit history up to 40% of your score, and your score can improve.">
+    <figcaption>Pitch Screen</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/portal.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The Select your Rent portal sheet, listing Rent Cafe, Rent Manager, RentPortal, Resident Center, ResMan, Domuso and AppFolio above a disabled Confirm button.">
+    <figcaption>Portal Selection</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/bureau.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="Congrats! Your Rent is now reporting to TransUnion, with Application Submitted ticked and a second step offering to report to Equifax at no cost beside the Equifax mark.">
+    <figcaption>Bureau Reporting Flow</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/banner.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="The Home screen with a dark green Report your Rent Payments banner above a credit score dial reading 590.">
+    <figcaption>Home Tab Banner</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/widget.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="A Rent reporting widget on Home marked Under Review, showing Application submitted ticked and Verifying details in progress.">
+    <figcaption>Credit Tab Widget</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/rent-reporting/screens/optout.webp" width="560" height="1213"
+         loading="lazy" decoding="async"
+         alt="A sheet over the dimmed rent details form reading Continue building your credit score, with a Continue setup button and a Skip link.">
+    <figcaption>Opt-in / Opt-out State</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">
@@ -435,11 +491,11 @@
 
 <div class="failure-cards">
   <div class="failure-card">
-    <div class="failure-title">"I designed around the gaps instead of pushing for the spec first" <span class="failure-mine">— mine</span></div>
+    <div class="failure-title">"I designed around the gaps instead of pushing for the spec first" <span class="failure-mine">· mine</span></div>
     <p class="failure-body">When the requirements had no copy and unmapped edge cases, I started designing anyway. Every gap became a reversal. Pushing for the spec before starting would have been slower on day one and faster by day ten.</p>
   </div>
   <div class="failure-card">
-    <div class="failure-title">"Post-mortem at the end, not the middle" <span class="failure-mine">— mine</span></div>
+    <div class="failure-title">"Post-mortem at the end, not the middle" <span class="failure-mine">· mine</span></div>
     <p class="failure-body">Every reason I listed in the post-mortem was visible by week two. A mid-project flag would have shortened the last stretch. I documented the problem after the timeline was already spent.</p>
   </div>
 </div>
