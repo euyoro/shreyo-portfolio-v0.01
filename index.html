@@ -650,6 +650,36 @@
   .award-row.has-link { cursor: pointer; }
   .award-row.has-link:hover .award-project { text-decoration: underline; text-underline-offset: 3px; }
 
+  /* ── Phone: the hero caption and the awards table ──
+     The role line repeats what the page already says two other ways, and
+     stacked above the portrait it pushed the name off the alignment the rest
+     of the column holds. */
+  @media (max-width: 760px) {
+    .hero-role { display: none; }
+
+    /* Four columns inside 375px gave every award three wrapped lines of its
+       own. Stacked, a row reads top to bottom in one pass. */
+    .award-row {
+      grid-template-columns: 1fr;
+      align-items: start; gap: 3px; padding: 16px 0;
+      -webkit-touch-callout: none;   /* no long-press link preview */
+    }
+    .award-year { display: none; }
+    .award-project { font-size: 1rem; }
+    .award-body, .award-type { font-size: 0.8125rem; }
+
+    /* No hover on a touch screen — the state sticks after a tap with no way
+       to clear it. The arrow carries the affordance instead, and only on the
+       rows that actually lead somewhere. */
+    .award-row:hover { background: none; }
+    .award-row.has-link:hover .award-project { text-decoration: none; }
+    .award-row.has-link .award-project::after {
+      content: '\2197';
+      font-size: 0.72em; margin-left: 0.4em;
+      color: var(--muted); vertical-align: 0.08em;
+    }
+  }
+
   /* ── Scroll appear ── */
   .appear {
     opacity: 0;
@@ -1804,17 +1834,45 @@
        to its own aspect, and the gesture that moves it is the one the thumb
        already wants to make. touch-action hands that gesture to us — left to
        itself the browser claims it for a page scroll that has nowhere to go. */
+    /* A real scroller rather than a JS-driven transform. The browser owns
+       momentum, snapping and the layout timing, which is the whole problem
+       here: the slide set is built before its images have laid out, so any
+       measurement the script takes at open time describes a carousel that no
+       longer exists by the time a thumb reaches it.
+
+       scroll-snap-stop: always is what makes a light flick move exactly one
+       card instead of coasting past three. scroll-padding-bottom keeps the
+       snap centre inside the band the sheet leaves visible, rather than
+       centring cards behind it. */
     .cs-carousel-zone {
       padding: max(48px, calc(111px - 6.6vh)) 16px 24.5vh;
-      touch-action: none;
+      overflow-y: auto; overscroll-behavior: contain;
+      scroll-snap-type: y mandatory;
+      scroll-padding-bottom: 24.5vh;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+      scrollbar-width: none;
     }
+    .cs-carousel-zone::-webkit-scrollbar { display: none; }
     .cs-carousel-track {
       flex-direction: column; align-items: center;
       height: auto; gap: 12px; padding: 0; --cs-inset: 0px;
+      /* the transform engine is idle at this width; make sure a stale value
+         left behind by a resize cannot offset the scroller */
+      transform: none !important;
     }
-    .cs-slide { width: 100%; height: auto; }
+    /* Both axes bounded so one card always fits the band: the deck slides are
+       16:9, but a device screenshot at full column width ran close to 1000px
+       tall in a 550px band and could never be centred in it. */
+    .cs-slide {
+      width: auto; max-width: 100%; height: auto;
+      scroll-snap-align: center; scroll-snap-stop: always;
+    }
     .cs-slide img,
-    .cs-slide video { width: 100%; height: auto; max-width: 100%; }
+    .cs-slide video {
+      width: auto; height: auto;
+      max-width: 100%; max-height: 56vh;
+    }
     .cs-slide-bg { width: 100%; height: 58vw; }
 
     /* Collapsed the card is a preview, not a scroller — the swipe has to reach
@@ -2101,6 +2159,7 @@
     .site-footer { line-height: normal; display: flex; flex-direction: column; }
     .footer-links {
       position: static; order: -1;
+      align-items: flex-start;
       justify-content: flex-start; gap: 64px;
       padding: 40px var(--gutter) 12px;
     }
@@ -2151,7 +2210,9 @@
     letter-spacing: 0.14em; color: var(--muted);
   }
   @media (max-width: 700px) {
-    .footer-base { flex-direction: column; align-items: flex-start; gap: 12px; }
+    /* the mood line is last in the stacked order and sat hard against the
+       bottom edge — the base's 18px plus 24px of breathing room */
+    .footer-base { flex-direction: column; align-items: flex-start; gap: 12px; padding-bottom: 42px; }
     /* Stacked, the time reads first and the note answers it. Order rather
        than moving the markup, so the row layout above 700px is untouched. */
     .footer-clock { order: -1; }
@@ -4192,6 +4253,9 @@ const Goo = (function () {
       track.querySelectorAll('[data-clone]').forEach(n => n.remove());
       const originals = [...track.children];
       if (!originals.length) { setW = 0; return; }
+      // Vertical is a native scroller; cloning would just repeat every slide
+      // in a list the reader can see the end of.
+      if (vertical) { setW = 0; return; }
       const gap = parseFloat(getComputedStyle(track).gap) || 0;
       setW = originals.reduce((w, c) => w + extentOf(c) + gap, 0);
       if (!(setW > 0)) return;
@@ -4232,6 +4296,7 @@ const Goo = (function () {
     }
 
     zone.addEventListener('wheel', e => {
+      if (vertical) return;   // the scroller handles it
       e.preventDefault();
       const delta = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
       target += delta * 1.4;
@@ -4243,7 +4308,7 @@ const Goo = (function () {
     // carousel simply could not be moved on a phone.
     let drag = false, dragFrom = 0, startTarget = 0, dragId = null;
     zone.addEventListener('pointerdown', e => {
-      if (e.button > 0) return;
+      if (vertical || e.button > 0) return;
       drag = true; dragId = e.pointerId;
       dragFrom = axisOf(e); startTarget = target;
       zone.classList.add('dragging');
@@ -4262,8 +4327,9 @@ const Goo = (function () {
     // the overlay is already up, which a class-change observer would miss
     resetCarousel = function () {
       target = 0; current = 0;
-      place(inset());
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (vertical) { zone.scrollTop = 0; return; }
+      place(inset());
     };
 
     // Crossing the breakpoint changes which way the strip runs, so the clone
@@ -4274,6 +4340,7 @@ const Goo = (function () {
       target = 0; current = 0;
       if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
       if (overlay.classList.contains('open')) setupLoop();
+      if (vertical) { zone.scrollTop = 0; track.style.transform = ''; return; }
       place(inset());
     });
 
@@ -4557,8 +4624,13 @@ const Goo = (function () {
     raf = requestAnimationFrame(tick);
   }
 
+  // A tap synthesises mouseenter, so on a touch device the card would appear
+  // and then stay, pinned wherever the finger left it.
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+
   document.querySelectorAll('.award-row').forEach(row => {
     row.addEventListener('mouseenter', () => {
+      if (!fine.matches) return;
       const img = row.dataset.img || '';
       if (img) { imgEl.src = img; imgEl.classList.remove('no-img'); }
       else { imgEl.src = ''; imgEl.classList.add('no-img'); }
