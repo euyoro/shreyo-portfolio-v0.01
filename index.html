@@ -458,7 +458,7 @@
   /* overflow was hidden to mask the old slide-out. The word now dissolves in
      place instead, and a blurred blob needs to bleed past the line box — with
      the clip still on, every blob would be sliced flat top and bottom. */
-  .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: bottom; }
+  .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: baseline; }
   .hero-cycle { display: inline-block; }
   .hero-body { display: flex; flex-direction: column; gap: 16px; }
   .hero-hl { color: var(--dim); font-style: normal; }
@@ -1917,7 +1917,7 @@
     .cs-carousel-zone::-webkit-scrollbar { display: none; }
     .cs-carousel-track {
       flex-direction: column; align-items: center;
-      height: auto; gap: 12px; padding: 0; --cs-inset: 0px;
+      height: auto; gap: 14px; padding: 0; --cs-inset: 0px;
       /* the transform engine is idle at this width; make sure a stale value
          left behind by a resize cannot offset the scroller */
       transform: none !important;
@@ -1926,7 +1926,7 @@
        16:9, but a device screenshot at full column width ran close to 1000px
        tall in a 550px band and could never be centred in it. */
     .cs-slide {
-      width: 100%; height: 54vh;
+      width: 100%; height: auto;
       display: grid; place-items: center;
       background: none; border-radius: 0; overflow: visible;
       scroll-snap-align: center; scroll-snap-stop: always;
@@ -1934,7 +1934,7 @@
     .cs-slide img,
     .cs-slide video {
       width: auto; height: auto;
-      max-width: 100%; max-height: 100%;
+      max-width: 100%; max-height: 46vh;
       border-radius: 14px; background: #fff;
     }
     .cs-slide-bg { width: 100%; height: 58vw; }
@@ -1952,6 +1952,43 @@
     }
     .cs-card .cs-body .cs-sec-head > h2 { position: static; }
     .cs-card .cs-body .cs-sec-body > h3 { font-size: 1.375rem; }
+  }
+
+  /* ── The outcomes table, stacked ──
+     Four columns need 620px. Below that the wrapper scrolls horizontally,
+     which hides the column that carries the point. One block per row keeps
+     every figure on screen. */
+  @media (max-width: 760px) {
+    .cs-out-wrap { overflow-x: visible; }
+    .cs-card .cs-body .cs-out { min-width: 0; display: block; }
+    .cs-card .cs-body .cs-out thead { display: none; }
+    .cs-card .cs-body .cs-out tbody { display: block; }
+    .cs-card .cs-body .cs-out tbody tr {
+      display: grid;
+      grid-template-columns: auto auto 1fr;
+      grid-template-areas: 'metric metric metric' 'before after after' 'means means means';
+      gap: 2px 10px; align-items: baseline;
+      padding: 16px; border-bottom: 1px solid rgba(19,19,19,0.10);
+    }
+    .cs-card .cs-body .cs-out tbody tr:last-child { border-bottom: none; }
+    .cs-card .cs-body .cs-out tbody tr:hover td { background: none; }
+    .cs-card .cs-body .cs-out tbody td {
+      display: block; padding: 0; border: none; width: auto;
+    }
+    .cs-card .cs-body .cs-out td.m {
+      grid-area: metric; font-size: 0.8125rem; margin-bottom: 6px;
+    }
+    .cs-card .cs-body .cs-out td.b { grid-area: before; font-size: 1.375rem; }
+    .cs-card .cs-body .cs-out td.a { grid-area: after;  font-size: 1.375rem; }
+    /* the arrow only earns its place when there is a before to move from */
+    .cs-card .cs-body .cs-out td.b:not(:empty)::after {
+      content: '\2192'; margin: 0 8px; color: var(--muted);
+      font-family: var(--ff); font-size: 0.875rem; vertical-align: 0.15em;
+    }
+    .cs-card .cs-body .cs-out td.b:empty { display: none; }
+    .cs-card .cs-body .cs-out td.w {
+      grid-area: means; margin-top: 8px; font-size: 0.8125rem;
+    }
   }
 
   /* ── Preloader ── */
