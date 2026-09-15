@@ -657,16 +657,22 @@
   @media (max-width: 760px) {
     .hero-role { display: none; }
 
-    /* Four columns inside 375px gave every award three wrapped lines of its
-       own. Stacked, a row reads top to bottom in one pass. */
+    /* Still a table — dropping the year frees the width the three remaining
+       columns needed, and the name gets the larger share because it is the
+       one that actually runs long. */
     .award-row {
-      grid-template-columns: 1fr;
-      align-items: start; gap: 3px; padding: 16px 0;
+      grid-template-columns: 1.35fr 1fr 1fr;
+      align-items: start; gap: 12px; padding: 16px 0;
       -webkit-touch-callout: none;   /* no long-press link preview */
     }
     .award-year { display: none; }
-    .award-project { font-size: 1rem; }
+    .award-project { font-size: 0.875rem; }
     .award-body, .award-type { font-size: 0.8125rem; }
+
+    /* The heading sits over a centred table, so it centres with it. */
+    .awards-heading { justify-content: center; gap: 12px; }
+    .awards-title-block { align-items: center; text-align: center; }
+    .awards-title-line:last-child { margin-left: 0; }
 
     /* No hover on a touch screen — the state sticks after a tap with no way
        to clear it. The arrow carries the affordance instead, and only on the
@@ -1078,22 +1084,57 @@
      background-image divs, so they need an explicit ratio here — height:auto
      collapses them to nothing. */
   @media (max-width: 760px) {
+    /* A deck rather than a grid. One card is held at the centre with its
+       neighbours fanned away behind it, and a swipe deals the next one
+       forward. The free-drag handler above bows out on its own here — it
+       checks for position: static, which is what these cards have. */
     .extras-collage {
-      height: auto; overflow: visible;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 12px; padding: 0 var(--gutter);
+      --deck-card: min(62vw, 268px);
+      height: auto;
+      overflow-x: auto; overflow-y: visible;
+      display: flex; align-items: center; gap: 18px;
+      padding: 26px calc(50% - var(--deck-card) / 2) 44px;
+      scroll-snap-type: x mandatory;
+      scroll-padding: 0 calc(50% - var(--deck-card) / 2);
+      overscroll-behavior-x: contain;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .extras-collage::-webkit-scrollbar { display: none; }
     .extra-card {
       position: static !important;
-      transform: none !important;
-      width: auto !important;
+      flex: 0 0 var(--deck-card);
+      width: var(--deck-card) !important;
       height: auto !important;
-      cursor: default;            /* nothing to drag here */
+      cursor: default;
+      scroll-snap-align: center; scroll-snap-stop: always;
+      transform: none;
     }
     .extra-card[role="img"] { aspect-ratio: 4 / 5; }
-    .ec-wide { grid-column: 1 / -1; aspect-ratio: auto; }
-    /* no lift, no z-shuffle — the grid is static */
-    .extra-card:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.07); z-index: auto; }
+    .ec-wide { aspect-ratio: 4 / 5; }
+    .extra-card:hover { box-shadow: 0 10px 34px rgba(0,0,0,0.12); z-index: auto; }
+
+    /* The fan itself, driven off the scroller rather than a scroll listener:
+       the browser interpolates each card by its own position in the scrollport,
+       every frame, with nothing to keep in sync and nothing running when the
+       deck is off screen. Without support the deck is simply a flat carousel,
+       which is a fine place to land. */
+    @supports (animation-timeline: view(inline)) {
+      .extra-card {
+        transform-origin: 50% 135%;
+        animation: deck-fan linear both;
+        animation-timeline: view(inline);
+        animation-range: cover 0% cover 100%;
+      }
+      @keyframes deck-fan {
+        0%   { transform: rotate(-10deg) scale(0.8) translateY(16px); opacity: 0.45; }
+        50%  { transform: rotate(0deg)   scale(1)   translateY(0);    opacity: 1; }
+        100% { transform: rotate(10deg)  scale(0.8) translateY(16px); opacity: 0.45; }
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .extra-card { animation: none !important; transform: none !important; opacity: 1 !important; }
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     .extra-card { transition: none; }
@@ -1410,6 +1451,26 @@
     height: 100%; width: auto; max-width: 88vw;
     object-fit: contain; display: block;
   }
+  /* Every slide past the first is warmed after open, so there is a real
+     window where a card has no image yet. Shimmer rather than a blank. */
+  .cs-slide.is-loading { position: relative; }
+  .cs-slide.is-loading::after {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    border-radius: 14px; pointer-events: none;
+    background: linear-gradient(100deg,
+      rgba(19,19,19,0.055) 28%, rgba(19,19,19,0.10) 48%, rgba(19,19,19,0.055) 68%);
+    background-size: 240% 100%;
+    animation: cs-skel 1.5s linear infinite;
+  }
+  [data-theme="dark"] .cs-slide.is-loading::after {
+    background-image: linear-gradient(100deg,
+      rgba(255,255,255,0.05) 28%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0.05) 68%);
+  }
+  @keyframes cs-skel { to { background-position: -140% 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .cs-slide.is-loading::after { animation: none; }
+  }
+
   /* the carousel owns dragging; the video must not swallow the gesture */
   .cs-slide video { pointer-events: none; background: #fff; }
   .cs-slide-bg { width: 62vw; height: 100%; }
@@ -1865,13 +1926,16 @@
        16:9, but a device screenshot at full column width ran close to 1000px
        tall in a 550px band and could never be centred in it. */
     .cs-slide {
-      width: auto; max-width: 100%; height: auto;
+      width: 100%; height: 54vh;
+      display: grid; place-items: center;
+      background: none; border-radius: 0; overflow: visible;
       scroll-snap-align: center; scroll-snap-stop: always;
     }
     .cs-slide img,
     .cs-slide video {
       width: auto; height: auto;
-      max-width: 100%; max-height: 56vh;
+      max-width: 100%; max-height: 100%;
+      border-radius: 14px; background: #fff;
     }
     .cs-slide-bg { width: 100%; height: 58vw; }
 
@@ -1897,7 +1961,7 @@
        holds as the type scales with the viewport. */
     --pl-name-size: clamp(2.125rem, 11vw, 10.75rem);
     --pl-gap: 26px;
-    --pl-drop: 26px;   /* the two dashes only */
+    --pl-drop: calc(var(--pl-name-size) * 0.15);   /* the two dashes only */
     position: fixed; inset: 0; z-index: 100;
     background: #fbfbfa;
     transition: transform var(--t-stage) var(--e-inout);
@@ -3268,6 +3332,14 @@ const Goo = (function () {
     'a metalhead',
     'a petrolhead'
   ];
+  // "a brand designer" is the one phrase long enough to wrap onto a second
+  // line at phone widths, and the heading is fluid — so the whole hero jumped
+  // by a line every time the cycle landed on it.
+  if (matchMedia('(max-width: 760px)').matches) {
+    const i = items.indexOf('a brand designer');
+    if (i > -1) items.splice(i, 1);
+  }
+
   // shuffle on load
   for (let i = items.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -3860,6 +3932,21 @@ const Goo = (function () {
       .replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
+  // A slide is "loading" from the moment it is built until its image decodes.
+  // Bound to the element rather than a timer: a warm that never completes
+  // leaves a shimmer, which is honest, where a timeout would leave a blank.
+  function watchLoading(root) {
+    root.querySelectorAll('.cs-slide').forEach(slide => {
+      const img = slide.querySelector('img');
+      if (!img) return;
+      if (img.complete && img.naturalWidth) return;
+      slide.classList.add('is-loading');
+      const done = () => slide.classList.remove('is-loading');
+      img.addEventListener('load', done, { once: true });
+      img.addEventListener('error', done, { once: true });
+    });
+  }
+
   function buildSlides(slides) {
     return slides.map((s, i) => {
       // {set} — a responsive pair from the portfolio-PDF slide pipeline.
@@ -4011,6 +4098,7 @@ const Goo = (function () {
   let warmToken = 0;
   function warmSlides() {
     const mine = ++warmToken;
+    watchLoading(trackEl);
     const pending = [...trackEl.querySelectorAll('img[data-warm]')];
     (function next() {
       if (mine !== warmToken || !pending.length) return;
@@ -4197,6 +4285,7 @@ const Goo = (function () {
     activeKey = key;
 
     trackEl.innerHTML = buildSlides(d.slides);
+    watchLoading(trackEl);
     if (setupLoop) setupLoop();
     // after cloning, so the loop copies are observed too. muted must be set as
     // a property — the attribute alone is not enough for autoplay in every engine
