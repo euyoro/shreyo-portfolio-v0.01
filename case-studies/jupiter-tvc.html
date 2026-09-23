@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -157,24 +160,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -310,6 +310,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -380,9 +381,10 @@
 
 <p>Jupiter Banking is a developing company. Since the team were the brand's users and customers, they believed it needed a more engaging advertisement: one that showed real people solving real problems, not a product demo with motion graphics.</p>
 
-<div class="image-placeholder">
-  <span>Jupiter Banking: Brand Analysis</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/jupiter-tvc/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Jupiter Banking: Brand Analysis">
+  <figcaption>Jupiter Banking: Brand Analysis</figcaption>
+</figure>
 
 <hr class="section-rule">
 
@@ -393,17 +395,27 @@
 <h4>Pre-production</h4>
 <p>The process began with scripting, storyboarding, and location scouting. The narrative was built around a "Slice of Life" framework: real scenarios where Jupiter's features solve everyday friction around money. The storyboard mapped each scene to a specific product value: splitting bills, tracking spending, instant transfers.</p>
 
-<div class="image-placeholder">
-  <span>Storyboard Frames</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/jupiter-tvc/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Storyboard Frames">
+  <figcaption>Storyboard Frames</figcaption>
+</figure>
 
 <h4>Production</h4>
 <p>Directing and cinematography were handled on location. The visual language leaned warm and candid, matching the conversational tone of the script. The goal was to keep the ad feeling like a story first, a product pitch second.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Scene 1: Morning Routine</span></div>
-  <div class="screen-item"><span>Scene 2: Bill Splitting</span></div>
-  <div class="screen-item"><span>Scene 3: Product Reveal</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/jupiter-tvc/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Scene 1: Morning Routine">
+    <figcaption>Scene 1: Morning Routine</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/jupiter-tvc/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Scene 2: Bill Splitting">
+    <figcaption>Scene 2: Bill Splitting</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/jupiter-tvc/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Scene 3: Product Reveal">
+    <figcaption>Scene 3: Product Reveal</figcaption>
+  </figure>
 </div>
 
 <h4>Post-production</h4>
@@ -427,9 +439,10 @@
   <cite>Faculty Review</cite>
 </div>
 
-<div class="image-placeholder">
-  <span>Final Ad: Selected Frames</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/jupiter-tvc/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Final Ad: Selected Frames">
+  <figcaption>Final Ad: Selected Frames</figcaption>
+</figure>
 
 <hr class="section-rule">
 

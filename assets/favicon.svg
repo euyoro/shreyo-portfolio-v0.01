@@ -1,20 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Eye">
-  <!-- Transparent, so this sits straight on the browser's tab strip — which is
-       light grey in one theme and near-black in the other. No single green
-       survives both: the neon reads 14.4:1 on a dark strip but 1.18:1 on a
-       light one, where it simply disappears. So the two colours split the job.
-       The neon body carries the shape on dark; the deep-green rim, pupil and
-       rays carry it on light at 4.8:1. -->
-  <g stroke="#3f6b00" stroke-width="3.4" stroke-linecap="round" fill="none">
-    <path d="M32 11.5V6.5"/>
-    <path d="M42.6 14.1 45.1 9.8"/>
-    <path d="M21.4 14.1 18.9 9.8"/>
-    <path d="M32 52.5v5"/>
-    <path d="M42.6 49.9 45.1 54.2"/>
-    <path d="M21.4 49.9 18.9 54.2"/>
-  </g>
-  <path d="M11 32Q32 13 53 32Q32 51 11 32Z"
-        fill="#edfe34" stroke="#3f6b00" stroke-width="3.6" stroke-linejoin="round"/>
-  <circle cx="32" cy="32" r="7.6" fill="#3f6b00"/>
-  <circle cx="34.7" cy="29.3" r="2.4" fill="#edfe34"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Eye">
+  <rect width="32" height="32" rx="7" fill="#edfe34"/>
+
+  <!-- Outer eyelid shape — morphs closed during blink -->
+  <path fill="#000">
+    <animate attributeName="d"
+      values="M3.5 16Q16 6.5 28.5 16Q16 25.5 3.5 16Z;
+              M3.5 16Q16 6.5 28.5 16Q16 25.5 3.5 16Z;
+              M3.5 16Q16 15.7 28.5 16Q16 16.3 3.5 16Z;
+              M3.5 16Q16 15.7 28.5 16Q16 16.3 3.5 16Z;
+              M3.5 16Q16 6.5 28.5 16Q16 25.5 3.5 16Z;
+              M3.5 16Q16 6.5 28.5 16Q16 25.5 3.5 16Z"
+      keyTimes="0;0.70;0.76;0.82;0.88;1"
+      dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </path>
+
+  <!-- Eye white -->
+  <ellipse cx="16" cy="16" rx="7.5" fill="#e8e8e0">
+    <animate attributeName="ry"
+      values="5;5;0;0;5;5"
+      keyTimes="0;0.70;0.76;0.82;0.88;1"
+      dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </ellipse>
+
+  <!-- Pupil -->
+  <circle cx="16" cy="16" fill="#000">
+    <animate attributeName="r"
+      values="3.5;3.5;0;0;3.5;3.5"
+      keyTimes="0;0.70;0.76;0.82;0.88;1"
+      dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </circle>
+
+  <!-- Shine -->
+  <circle cx="17.6" cy="14.4" fill="#fff">
+    <animate attributeName="r"
+      values="1.1;1.1;0;0;1.1;1.1"
+      keyTimes="0;0.70;0.76;0.82;0.88;1"
+      dur="4s" repeatCount="indefinite" calcMode="linear"/>
+  </circle>
 </svg>

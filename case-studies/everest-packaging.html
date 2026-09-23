@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -157,24 +160,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -321,6 +321,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -409,32 +410,44 @@
 
 <p>Where they source spices: <strong>From India (92%)</strong>, <strong>Indian Stores (80%)</strong>. Preference for branded over unbranded: <strong>Yes (80%)</strong>. The data pointed toward a clear opportunity: branded Indian spices have demand abroad, but the packaging doesn't match the expectation.</p>
 
-<div class="image-placeholder">
-  <span>Consumer Survey Results &amp; Insight Mapping</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Consumer Survey Results and Insight Mapping">
+  <figcaption>Consumer Survey Results &amp; Insight Mapping</figcaption>
+</figure>
 
 <h4>Packaging direction</h4>
 <p>The first direction explored was a BOPP package with a tearable end that could be stored in the fridge, designed for sustainability. The final direction moved to an <strong>upcycled tin box</strong>, keeping spices potent and the package sustainable. A small dispenser was added to prevent over-pouring, and a measuring tray was integrated at the bottom.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>BOPP Direction: Concept</span></div>
-  <div class="screen-item"><span>Tin Box: Final Direction</span></div>
-  <div class="screen-item"><span>Dispenser &amp; Measuring Tray</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/everest-packaging/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="BOPP Direction: Concept">
+    <figcaption>BOPP Direction: Concept</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/everest-packaging/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Tin Box: Final Direction">
+    <figcaption>Tin Box: Final Direction</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/everest-packaging/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Dispenser and Measuring Tray">
+    <figcaption>Dispenser &amp; Measuring Tray</figcaption>
+  </figure>
 </div>
 
 <h4>Visual identity: Window to India</h4>
 <p>The graphic language drew on a <strong>"Window to India"</strong> theme, showcasing regional motifs and culture. Arches unique to each region became the central motif, framing AI-assisted illustrations (DALL-E) of the landscapes and traditions behind each spice blend.</p>
 
-<div class="image-placeholder">
-  <span>Window to India: Regional Arch Motifs</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Window to India: Regional Arch Motifs">
+  <figcaption>Window to India: Regional Arch Motifs</figcaption>
+</figure>
 
 <h4>Specifications</h4>
 <p>Upcycled Tin. 0.5mm thickness. Screen print and deboss finish. Dimensions: <strong>110 x 72 x 40 mm</strong>.</p>
 
-<div class="image-placeholder">
-  <span>Technical Drawing &amp; Material Specs</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/everest-packaging/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Technical Drawing and Material Specs">
+  <figcaption>Technical Drawing &amp; Material Specs</figcaption>
+</figure>
 
 <hr class="section-rule">
 

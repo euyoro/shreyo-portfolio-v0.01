@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LoanGPT &amp; Bullet Funnel · Shreyo Debnath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --bg: #fbfbfa;
+    --surface: #ffffff;
+    --border: rgba(19,19,19,0.09);
+    --text: #131313;
+    --muted: #5f5f5b;
+    --dim: #4e4e4a;
+    --accent: #C01828;
+    --card-bg: #f4f4f2;
+    --chosen-bg: #131313;
+    --chosen-text: #f0f0ee;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
+    font-weight: 400;
+    line-height: 1.65;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 48px 120px;
+  }
+
+  h1 {
+    font-family: var(--ff-display);
+    font-size: 2.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  h2 {
+    font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 64px;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text);
+    margin-top: 48px;
+    margin-bottom: 16px;
+  }
+
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    color: var(--dim);
+    font-size: 0.975rem;
+    line-height: 1.75;
+    margin-bottom: 16px;
+  }
+
+  strong { color: var(--text); font-weight: 500; }
+
+  .wordmark {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--dim);
+    margin-bottom: 48px;
+    display: block;
+  }
+
+  /* META */
+  .meta-block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 64px;
+    padding: 24px 0;
+  }
+
+  .meta-item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .meta-item:nth-last-child(1),
+  .meta-item:nth-last-child(2) { border-bottom: none; }
+
+  .meta-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .meta-value {
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  .status-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #286d2b;
+    margin-top: 4px;
+  }
+
+  /* DIVIDER */
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  /* STAT TILES */
+  .stat-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .stat-tile {
+    background: var(--chosen-bg);
+    border-radius: 8px;
+    padding: 24px 20px;
+  }
+
+  .stat-value {
+    font-family: var(--ff-display);
+    font-size: 1.85rem;
+    color: var(--chosen-text);
+    line-height: 1.1;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    color: rgba(240,240,238,0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* INSIGHT CARDS */
+  .insight-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .insight-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 20px 18px;
+  }
+
+  .insight-card strong {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .insight-card p {
+    font-size: 0.84rem;
+    color: var(--dim);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  /* SPLIT GOALS */
+  .split-goals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 28px 0;
+  }
+
+  .goals-col h4 { margin-top: 0; margin-bottom: 14px; }
+
+  .goals-col ul { list-style: none; padding: 0; }
+
+  .goals-col ul li {
+    font-size: 0.9rem;
+    color: var(--dim);
+    line-height: 1.6;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .goals-col ul li:first-child { border-top: 1px solid var(--border); }
+
+  /* DECISION CARDS */
+  .decision-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .decision-card {
+    border-radius: 8px;
+    padding: 24px 20px;
+    background: var(--card-bg);
+  }
+
+  .decision-card.chosen { background: var(--chosen-bg); }
+
+  .decision-tag {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .decision-card.chosen .decision-tag { color: rgba(240,240,238,0.4); }
+
+  .decision-title {
+    font-family: var(--ff-display);
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .decision-card.chosen .decision-title { color: var(--chosen-text); }
+
+  .decision-desc {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.6;
+  }
+
+  .decision-card.chosen .decision-desc { color: rgba(240,240,238,0.55); }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* SCREEN GRID */
+  .screen-grid-placeholder {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .screen-item img { width: 100%; height: auto; display: block; border-radius: 8px; }
+
+  .screen-item figcaption {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 8px;
+  }
+
+  /* CASE FIGURE */
+  .case-figure { margin: 28px 0; }
+  .case-figure img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px; border: 1px solid var(--border);
+  }
+  .case-figure figcaption {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; margin-top: 10px;
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+  }
+
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* REFLECTION LIST */
+  .reflection-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+  }
+
+  .reflection-list li {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.925rem;
+    color: var(--dim);
+    line-height: 1.7;
+  }
+
+  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+
+  /* CTA */
+  .cta {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .cta p { font-size: 0.875rem; color: var(--muted); }
+
+  .cta a {
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    margin-bottom: 56px;
+  }
+
+  .back-link:hover { color: var(--text); }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder { min-height: 160px; }
+    h2, h3 { page-break-after: avoid; }
+  }
+
+  @page { margin: 20mm 18mm; size: A4; }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="../index.html">← Work</a>
+
+<span class="wordmark">Shreyo Debnath</span>
+
+<h1>Rebuilding a funnel that had not moved since 2022.</h1>
+
+<figure class="case-figure" style="margin: 0 0 40px;">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11118.png" width="1456" height="816" loading="eager" decoding="async" alt="LoanGPT onboarding — welcome screen, LoanGPT chat, and post-enroll benefit pitch side by side" style="border:none;">
+</figure>
+
+<div class="meta-block">
+  <div class="meta-item">
+    <span class="meta-label">Role</span>
+    <span class="meta-value">Supporting Designer</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Design Leads</span>
+    <span class="meta-value">Adithya Surasgar, Charuhasan A S</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Product</span>
+    <span class="meta-value">Akhil Jasrotia (PM) · Harsha Pappala (Analytics)</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Design Director</span>
+    <span class="meta-value">Joe</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Duration</span>
+    <span class="meta-value">Oct 2025 – Sep 2026 · Four phases</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Platform</span>
+    <span class="meta-value">iOS · Android · Web</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Tools</span>
+    <span class="meta-value">Figma · FigJam · Mixpanel</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Status</span>
+    <span class="meta-value"><span class="status-tag">Shipped</span></span>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- CONTEXT -->
+<h2>Context</h2>
+<h3>The front door to everything Bright does.</h3>
+
+<p>Bright Money is a US credit app for people with bad credit and expensive debt. It builds credit through Bright Builder, rent reporting and bill reporting, and routes users to loan offers through LoanGPT — our lender recommendation product.</p>
+
+<p>The onboarding funnel is how every single user arrives. Nobody uses Bright without passing through it first. It had not been rebuilt since 2022.</p>
+
+<p>I supported Adithya and Charu across the revamp. My slice: narrative curation — deciding what each screen was allowed to say and why — the post-enroll screens and copy through to production, the LoanGPT surfaces inside the funnel, and reconciling the funnel against the design Source of Truth.</p>
+
+<hr class="section-rule">
+
+<!-- PROBLEM -->
+<h2>Problem</h2>
+<h3>The problem was accumulation, not a bad design.</h3>
+
+<p>Four years of product had been bolted onto a structure built before Rent, Sub Management and Affiliates existed. The funnel still argued like a 2022 product.</p>
+
+<ul class="reflection-list">
+  <li><strong>Two funnels ran in parallel.</strong> Credit Builder and Debt Manager, each with its own pitch, splitting design effort and diluting the argument.</li>
+  <li><strong>Enrolment carried weight it did not need.</strong> Credit agreement, AutoPay and account opening consents all sat before the user ever saw a price.</li>
+  <li><strong>The narrative repeated itself.</strong> User interviews kept flagging the same thing. The same promise said three different ways.</li>
+  <li><strong>Conversion was leaking at monetisation.</strong> Only half of users who started reached the Monet screen.</li>
+  <li><strong>CPA sat at $21</strong> against a plan that needed it lower.</li>
+</ul>
+
+<div class="stat-tiles">
+  <div class="stat-tile">
+    <span class="stat-value">50%</span>
+    <span class="stat-label">Reached Monet — before</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">85/94%</span>
+    <span class="stat-label">CB vs DM conversion</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">$21</span>
+    <span class="stat-label">CPA — before</span>
+  </div>
+</div>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11114.png" width="1456" height="816" loading="lazy" decoding="async" alt="Older 2.0 funnel — multi-product pitch causing user confusion, long path reducing conversions">
+  <figcaption>Older 2.0 UI — lengthy funnel, diluted pitch</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- RESEARCH -->
+<h2>Research</h2>
+<h3>Nine competitors, and one finding that decided the structure.</h3>
+
+<p>We tore down Albert, Cleo, MoneyLion, Acorns, Brigit, Self, Kikoff, Dave and Rocket Money. Not a survey — we were looking for permission to remove things.</p>
+
+<div class="insight-cards">
+  <div class="insight-card">
+    <strong>No competitor runs two separate funnels.</strong>
+    <p>Some personalise. None split the product into parallel paths.</p>
+  </div>
+  <div class="insight-card">
+    <strong>Kikoff and Cleo both place the credit agreement after monetisation.</strong>
+    <p>The friction we carried pre-Monet was not an industry requirement.</p>
+  </div>
+  <div class="insight-card">
+    <strong>Most competitors sell features with deep explanation before monetisation.</strong>
+    <p>We were selling outcomes and skipping the mechanism.</p>
+  </div>
+  <div class="insight-card">
+    <strong>Cash advance is the most used tangible hook in the category.</strong>
+    <p>Bright cannot offer it. Our tangible product had to be the loan proposition itself.</p>
+  </div>
+  <div class="insight-card">
+    <strong>Albert and Cleo sell AI as a feature. Most do not.</strong>
+    <p>AI was available to us as a differentiator, not a category norm.</p>
+  </div>
+  <div class="insight-card">
+    <strong>"100+ lenders" tested positively in user interviews.</strong>
+    <p>Users still said they trusted household bank names more.</p>
+  </div>
+</div>
+
+
+<hr class="section-rule">
+
+<!-- GOALS -->
+<h2>Goals</h2>
+<h3>Two lists that had to survive each other.</h3>
+
+<p>Phase 1 was explicit: revamp the experience <strong>without damaging any key business metric</strong>. Change everything, as long as nothing gets worse.</p>
+
+<div class="split-goals">
+  <div class="goals-col">
+    <h4>User</h4>
+    <ul>
+      <li>Reach the offer faster</li>
+      <li>Understand what the $14 buys</li>
+      <li>Stop hearing the same promise three times</li>
+      <li>Sign fewer things before seeing a price</li>
+    </ul>
+  </div>
+  <div class="goals-col">
+    <h4>Business</h4>
+    <ul>
+      <li>Minimise CPA at comparable spend</li>
+      <li>Maximise affiliate revenue</li>
+      <li>Maximise monthly Monet buy-in</li>
+      <li>Reduce refunds and unauthorised charges</li>
+      <li>Do not damage AOV, retention or secondary opt-ins</li>
+    </ul>
+  </div>
+</div>
+
+<hr class="section-rule">
+
+<!-- PROCESS -->
+<h2>Process</h2>
+<h3>Cut the funnel into five parts. Argue about each one separately.</h3>
+
+<p>Pre-sell. PII. Product funnel. Monetisation. Post-enroll add-ons.</p>
+
+<p>The split let us ask a narrower question of every section: what is this part allowed to say, and what is it not allowed to repeat. Most of the work was that question, answered screen by screen.</p>
+
+<p>Three structural bets came out of it.</p>
+
+<div class="decision-cards">
+  <div class="decision-card chosen">
+    <span class="decision-tag">Primary</span>
+    <div class="decision-title">One funnel</div>
+    <div class="decision-desc">Collapse CB and DM into a single path. More products to lean on, so the pitch stops depending on weak DM elements.</div>
+  </div>
+  <div class="decision-card">
+    <span class="decision-tag">Rejected</span>
+    <div class="decision-title">Two funnels</div>
+    <div class="decision-desc">Backed by no competitor precedent. CB and DM converted identically at 66% SSN-to-Monet over six months.</div>
+  </div>
+</div>
+
+<div class="decision-cards">
+  <div class="decision-card chosen">
+    <span class="decision-tag">Primary</span>
+    <div class="decision-title">Pre-sell, succinct</div>
+    <div class="decision-desc">Two messages only: build credit, get access to credit. Drops the credit card debt paradigm. Chosen because user interviews kept flagging repetition.</div>
+  </div>
+  <div class="decision-card">
+    <span class="decision-tag">Secondary</span>
+    <div class="decision-title">Pre-sell, AI-led</div>
+    <div class="decision-desc">Tie every outcome to AI so the product feels like a chat away. Held as an alternate direction rather than killed.</div>
+  </div>
+</div>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11115.png" width="1456" height="816" loading="lazy" decoding="async" alt="Experiment A vs B — standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user. B won.">
+  <figcaption>Experiment A vs B — LoanGPT as onboarder won</figcaption>
+</figure>
+
+<p>The third bet was subtraction. Credit agreement, AutoPay and account opening consents all moved past enrolment, attached to the moment a user actually activates Bright Builder or Smart Round-Ups. The data supported it plainly: those consents were not required for monetisation, did not affect secondary opt-ins, and did not affect affiliate revenue.</p>
+
+<p>Add-ons were ordered by ARPU. Rent, then Sub Management, then Affiliates. Affiliates went last for a specific reason — users leave the Bright app during an affiliate journey, so anything placed after it does not get seen.</p>
+
+<hr class="section-rule">
+
+<!-- SOLUTION -->
+<h2>Solution</h2>
+<h3>LoanGPT stopped being a destination and became the reason to pay.</h3>
+
+<p>On 1 December 2025 the PM rewrote the post-enroll narrative in one line: remove Credit Builder from the pitch and make a bigger deal of LoanGPT as the tool that gets you the best loans.</p>
+
+<p>That changed what the funnel was selling. The promise became three things in order: build your score, get the best loan offers with LoanGPT, save money.</p>
+
+<div class="pull-quote">
+  <blockquote>"The visuals are actually really important; they are meant to communicate a message, so getting them right really matters."</blockquote>
+  <cite>Akhil Jasrotia, PM — on the first round of narrative screens</cite>
+</div>
+
+<p>The message we landed on for the loan proposition: Bright combines loan offers from 100+ lenders and recommends the best one for you. The number tested well. The recommendation framing positioned Bright as adding intelligence rather than acting as a directory.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11122.png" width="1456" height="816" loading="lazy" decoding="async" alt="New bullet funnel — credit history pitch, $100k loan offers, Bright Builder, AI Money Assistant">
+  <figcaption>New bullet funnel — four screens, one argument</figcaption>
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11113.png" width="1456" height="816" loading="lazy" decoding="async" alt="LoanGPT onboarding chat — welcome, amount collection, pre-qualification, offer comparison with risk flag">
+  <figcaption>LoanGPT chat — collects intent, surfaces offer, flags risk</figcaption>
+</figure>
+
+<h3>The Bullet Funnel was a second bet running alongside.</h3>
+
+<p>While the main funnel was being rebuilt, a shorter variant ran in parallel. A $14 plan against the existing $39-and-above flow, on separate landing pages, aimed at acquiring lower AOV users at a lower CPA.</p>
+
+<p>Internally it became the name for the whole new funnel. Every acquisition campaign now carries the prefix.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11119.png" width="1456" height="816" loading="lazy" decoding="async" alt="Initial pitch screens — 100+ lenders, personalized offers, LoanGPT weekly offer check">
+  <figcaption>Initial pitch screens — lender breadth, personalization, continuous discovery</figcaption>
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11120.png" width="1456" height="816" loading="lazy" decoding="async" alt="Old 2.0 UI — Crush credit card debt splash, credit history screen, $100k offer screen">
+  <figcaption>Old 2.0 — three messages, none of them the same</figcaption>
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11117.png" width="1456" height="816" loading="lazy" decoding="async" alt="Improved 3.0 UI — Build credit history, get best loan offers — single clear entry point">
+  <figcaption>Improved 3.0 — one entry, two promises</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- OUTCOME -->
+<h2>Outcome</h2>
+<h3>What it moved.</h3>
+
+<div class="stat-tiles">
+  <div class="stat-tile">
+    <span class="stat-value">40→45%</span>
+    <span class="stat-label">Funnel conversion</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">10%</span>
+    <span class="stat-label">CPA reduction</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">~$200k</span>
+    <span class="stat-label">Saved per month on acquisition</span>
+  </div>
+</div>
+
+<div class="stat-tiles">
+  <div class="stat-tile">
+    <span class="stat-value">$3→3.6M</span>
+    <span class="stat-label">Affiliate ARR</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">+20%</span>
+    <span class="stat-label">LoanGPT engagement</span>
+  </div>
+  <div class="stat-tile">
+    <span class="stat-value">+5%</span>
+    <span class="stat-label">DAU</span>
+  </div>
+</div>
+
+<p>The CPA saving came with no negative downstream impact. The Phase 1 constraint held. Nothing we removed cost us anything.</p>
+
+<p><strong>One caveat worth stating plainly.</strong> These two sets of numbers share a cause. The funnel rebuild is what put LoanGPT in front of users, so some portion of the engagement lift is funnel exposure rather than the LoanGPT surfaces themselves. No control was run that holds exposure constant. They are one result reported two ways, not two independent wins.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11123.png" width="1456" height="816" loading="lazy" decoding="async" alt="Post-launch — LoanGPT surfaces bad credit scenario, debt plan, Bright membership pitch; outcomes: more completions, lower CAC, lower UnAuth Rate, improved retention">
+  <figcaption>Post-launch — LoanGPT as onboarding surface, debt plan, membership pitch</figcaption>
+</figure>
+
+<hr class="section-rule">
+
+<!-- REFLECTION -->
+<h2>Reflection</h2>
+<h3>What I took from it.</h3>
+
+<ul class="reflection-list">
+  <li><strong>Removing moved the number more than adding did.</strong> The three changes that mattered most were all subtractions: one funnel instead of two, consents moved past enrolment, repetition stripped from the pitch. We added very little.</li>
+  <li><strong>Competitor research is most useful as permission.</strong> Nine teardowns gave us nothing to copy. They told us which pieces of friction we were carrying out of habit rather than necessity.</li>
+  <li><strong>Order is a design decision with a revenue number attached.</strong> Putting Affiliates last was not a layout call. It was the recognition that users physically leave the app during that journey, which makes everything after it worthless.</li>
+  <li><strong>A funnel is an argument delivered in sequence.</strong> Most of my work was not drawing screens. It was deciding what each screen was allowed to say, and making sure it did not say something an earlier screen had already said.</li>
+</ul>
+
+<div class="cta">
+  <p>Built at Bright Money with Adithya Surasgar, Charuhasan A S, Akhil Jasrotia, Harsha Pappala and Joe. Happy to talk through the parts that are not public. <a href="https://www.linkedin.com/in/shreyodebnath" target="_blank" rel="noopener">Reach me on LinkedIn.</a></p>
+</div>
+
+</body>
+</html>

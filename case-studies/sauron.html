@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -227,24 +230,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -328,6 +328,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -421,10 +422,22 @@
 </div>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Plugin UI: Results Panel</span></div>
-  <div class="screen-item"><span>Prohibited Words Flag</span></div>
-  <div class="screen-item"><span>Colour Audit</span></div>
-  <div class="screen-item"><span>Spacing Audit</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Plugin UI: Results Panel">
+    <figcaption>Plugin UI: Results Panel</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Prohibited Words Flag">
+    <figcaption>Prohibited Words Flag</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Colour Audit">
+    <figcaption>Colour Audit</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Spacing Audit">
+    <figcaption>Spacing Audit</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">

@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -157,24 +160,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -321,6 +321,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -407,9 +408,10 @@
 <h4>UX Research</h4>
 <p>Started with sector selection to identify the right market opportunity, followed by ground study and gap analysis in Ahmedabad. Market research confirmed the demand for on-demand print and stationery services. From there, the unique selling proposition was defined: a single-platform solution for personalized stationery and prints with delivery.</p>
 
-<div class="image-placeholder">
-  <span>Sector Selection &amp; Gap Analysis</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/scribbleship/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Sector Selection and Gap Analysis research">
+  <figcaption>Sector Selection &amp; Gap Analysis</figcaption>
+</figure>
 
 <h4>User Research</h4>
 <p>A user survey was conducted to map real behaviors and pain points. This informed the creation of user personas and the end-to-end user journey. The target audience included design and art students, creative young adults and teenagers, companies requiring bulk prints, and professionals seeking a stationery solution.</p>
@@ -428,12 +430,30 @@
 <p>Usability testing surfaced friction points in the early flows, which were improved before moving to the visual language. SF Pro Display was chosen as the primary typeface. Bright red was used for attention and key actions, with black and white providing contrast. Icons were rounded and soft to match the friendly, approachable tone of the brand. The final high-fidelity prototype covered the full user journey, and a pilot strategy was drafted for launch.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Sector Selection</span></div>
-  <div class="screen-item"><span>User Personas</span></div>
-  <div class="screen-item"><span>Wireframes</span></div>
-  <div class="screen-item"><span>Home Screen</span></div>
-  <div class="screen-item"><span>Print Task Flow</span></div>
-  <div class="screen-item"><span>Stationery Browse</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Sector Selection research">
+    <figcaption>Sector Selection</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="User Personas">
+    <figcaption>User Personas</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Wireframes">
+    <figcaption>Wireframes</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Home Screen">
+    <figcaption>Home Screen</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Print Task Flow">
+    <figcaption>Print Task Flow</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/scribbleship/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Stationery Browse">
+    <figcaption>Stationery Browse</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">
