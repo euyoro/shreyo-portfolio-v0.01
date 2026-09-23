@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -30,11 +30,16 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
     margin: 0 auto;
     padding: 72px 48px 120px;
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 40px 20px 80px; }
   }
 
   h1 {
@@ -49,6 +54,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -69,6 +75,16 @@
   }
 
   h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
 
   p {
     color: var(--dim);
@@ -129,7 +145,7 @@
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: #8a6a00;
     margin-top: 4px;
   }
 
@@ -139,92 +155,69 @@
     margin: 56px 0 0;
   }
 
-  /* TIER CARDS */
-  .tier-cards {
+  /* STAT TILES */
+  .stat-tiles {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    gap: 12px;
     margin: 28px 0;
   }
 
-  .tier-card {
+  .stat-tile {
+    background: var(--chosen-bg);
+    border-radius: 8px;
+    padding: 24px 20px;
+  }
+
+  .stat-value {
+    font-family: var(--ff-display);
+    font-size: 2rem;
+    color: var(--chosen-text);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(240,240,238,0.55);
+  }
+
+  @media (max-width: 600px) {
+    .stat-tiles { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* INSIGHT CARDS */
+  .insight-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .insight-card {
     background: var(--card-bg);
     border-radius: 8px;
-    padding: 20px 16px;
+    padding: 20px;
   }
 
-  .tier-card.highlight {
-    background: var(--chosen-bg);
-  }
-
-  .tier-name {
-    font-size: 0.75rem;
+  .insight-card-label {
+    font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
-  .tier-card.highlight .tier-name {
-    color: rgba(240,240,238,0.45);
-  }
-
-  .tier-price {
-    font-family: var(--ff-display);
-    font-size: 1.3rem;
-    color: var(--text);
-    display: block;
-    margin-bottom: 8px;
-  }
-
-  .tier-card.highlight .tier-price {
-    color: var(--chosen-text);
-  }
-
-  .tier-desc {
-    font-size: 0.8125rem;
+  .insight-card p {
+    font-size: 0.875rem;
+    line-height: 1.65;
     color: var(--dim);
-    line-height: 1.55;
     margin: 0;
-  }
-
-  .tier-card.highlight .tier-desc {
-    color: rgba(240,240,238,0.5);
-  }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-grid-2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .screen-item {
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .screen-item span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
   }
 
   /* DECISION CARDS */
@@ -236,67 +229,212 @@
   }
 
   .decision-card {
+    background: var(--card-bg);
     border-radius: 8px;
     padding: 22px 20px;
-    background: var(--card-bg);
   }
 
   .decision-card.chosen {
     background: var(--chosen-bg);
   }
 
-  .decision-tag {
-    font-size: 0.75rem;
+  .decision-card-tag {
+    font-size: 0.7rem;
     font-weight: 500;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
 
-  .decision-card.chosen .decision-tag {
-    color: rgba(240,240,238,0.4);
+  .decision-card.chosen .decision-card-tag {
+    color: rgba(240,240,238,0.5);
   }
 
-  .decision-title {
+  .decision-card h4 {
     font-family: var(--ff-display);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
+    font-weight: 400;
     color: var(--text);
+    margin-top: 0;
     margin-bottom: 10px;
-    line-height: 1.3;
   }
 
-  .decision-card.chosen .decision-title {
+  .decision-card.chosen h4 {
     color: var(--chosen-text);
   }
 
-  .decision-desc {
-    font-size: 0.875rem;
+  .decision-card p {
+    font-size: 0.85rem;
+    line-height: 1.65;
     color: var(--dim);
-    line-height: 1.6;
+    margin: 0;
   }
 
-  .decision-card.chosen .decision-desc {
-    color: rgba(240,240,238,0.55);
+  .decision-card.chosen p {
+    color: rgba(240,240,238,0.7);
   }
 
-  /* REFLECTION */
-  .reflection-list {
+  /* SCREEN GRID */
+  .screen-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .screen-item {
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .screen-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+
+  .screen-item figcaption {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+    margin-top: 8px;
+  }
+
+  /* IMAGE PLACEHOLDER */
+  .image-placeholder {
+    width: 100%;
+    min-height: 280px;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 28px 0;
+    gap: 8px;
+  }
+
+  .image-placeholder span {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .image-placeholder.short { min-height: 180px; }
+
+  /* SPLIT GOALS */
+  .split-goals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 28px 0;
+  }
+
+  .goals-col {
+    background: var(--card-bg);
+    border-radius: 8px;
+    padding: 22px 20px;
+  }
+
+  .goals-col-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .goals-col ul {
     list-style: none;
     padding: 0;
-    margin: 20px 0;
+    margin: 0;
   }
 
-  .reflection-list li {
-    padding: 16px 0;
+  .goals-col ul li {
+    font-size: 0.875rem;
+    color: var(--dim);
+    line-height: 1.65;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .goals-col ul li:last-child { border-bottom: none; }
+
+  /* PULL QUOTE */
+  .pull-quote {
+    border-left: 2px solid var(--text);
+    margin: 36px 0;
+    padding: 4px 0 4px 28px;
+  }
+
+  .pull-quote blockquote {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .pull-quote cite {
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-style: normal;
+    letter-spacing: 0.04em;
+  }
+
+  /* NUMBERED LIST */
+  .numbered-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 28px;
+    counter-reset: item;
+  }
+
+  .numbered-list li {
+    counter-increment: item;
+    padding: 13px 0 13px 36px;
     border-bottom: 1px solid var(--border);
     font-size: 0.925rem;
     color: var(--dim);
-    line-height: 1.7;
+    line-height: 1.65;
+    position: relative;
   }
 
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
+  .numbered-list li:first-child { border-top: 1px solid var(--border); }
+
+  .numbered-list li::before {
+    content: counter(item, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    top: 14px;
+  }
+
+  /* CASE FIGURE */
+  .case-figure {
+    margin: 28px 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .case-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
 
   /* CTA */
   .cta {
@@ -316,24 +454,13 @@
     border-bottom: 1px solid var(--border);
   }
 
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .screen-item { min-height: 140px; }
-    h2, h3 { page-break-after: avoid; }
-    .tier-cards, .decision-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
   /* BACK LINK */
   .back-link {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -353,12 +480,23 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+
+  @media print {
+    body { padding: 0; max-width: 100%; }
+    .image-placeholder, .screen-item { min-height: 140px; }
+    h2, h3 { page-break-after: avoid; }
+    .decision-cards, .split-goals, .insight-cards { page-break-inside: avoid; }
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
 </style>
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
-
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
 
 <span class="wordmark">Shreyo Debnath</span>
 
@@ -367,143 +505,213 @@
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
-    <span class="meta-value">Product Designer: sole design owner, cancellation flow</span>
+    <span class="meta-value">Design POC · Cancel Flow &amp; Settings Screens</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Duration</span>
-    <span class="meta-value">Nov 2025 → Sep 2026 · 9 months across phases</span>
+    <span class="meta-value">3 weeks · Sep 2026</span>
   </div>
   <div class="meta-item">
-    <span class="meta-label">Team</span>
-    <span class="meta-value">Head of Product · PM · Sr. Designer · Engineering · Legal</span>
+    <span class="meta-label">Company</span>
+    <span class="meta-value">Bright Money</span>
+  </div>
+  <div class="meta-item">
+    <span class="meta-label">Platform</span>
+    <span class="meta-value">iOS · Android</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Tools</span>
-    <span class="meta-value">Figma</span>
+    <span class="meta-value">Figma · FigJam</span>
   </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
+  <div class="meta-item">
     <span class="meta-label">Status</span>
-    <span class="meta-value">Premium flow closed. Starter flow WIP at cutoff.</span>
+    <span class="meta-value">In Review · Pending Launch</span>
     <span class="status-tag">In Progress</span>
   </div>
 </div>
 
 <!-- CONTEXT -->
 <h2>Context</h2>
-<h3>What do you show a user who's trying to leave?</h3>
+<h3>A compliance flag that exposed a design problem.</h3>
 
-<p>Monet is Bright's monetization surface. Every screen a user touches when they subscribe, manage their plan, or cancel. I've been part of this project across phases. The cancellation flow was mine to own.</p>
+<p>Bright charges a $5/month Starter membership. Below that, users on the Basic tier — free — can still hold money in a Bright Savings Account. The product had been charging those users an $11 admin fee for the privilege. No explicit consent. No clear communication. Just a charge that showed up.</p>
+
+<p>The bank partner flagged it. Legal flagged it. The label: UDAAP — unfair, deceptive, or abusive acts or practices. Engineering's response was to build a proper Starter tier and shut the admin fee down. ~9,800 users needed migrating. The cancel flow needed redesigning to handle Premium users downgrading cleanly.</p>
+
+<p>I came in as the design POC. The compliance fix was settled. The UX wasn't.</p>
 
 <hr class="section-rule">
 
-<!-- STARTER TIER -->
-<h2>The Problem</h2>
-<h3>The Starter tier</h3>
+<!-- PROBLEM -->
+<h2>Problem</h2>
+<h3>Users were cancelling. Then marking it unauthorized.</h3>
 
-<p>Bright ran two tiers: Premium or nothing. A user who cancelled went to $0. There was no middle.</p>
+<p>User research surfaced the signal clearly: people weren't just leaving. They were leaving and calling it fraud. Cancel attempts were ending in unauthorized charge reports — not because the charge was new, but because users didn't understand what they'd signed up for, couldn't find a way to talk to someone, and the flow gave them no exit that felt legitimate.</p>
 
-<div class="tier-cards">
-  <div class="tier-card">
-    <span class="tier-name">Premium</span>
-    <span class="tier-price">$11 / mo</span>
-    <p class="tier-desc">Full subscription. All features unlocked.</p>
+<div class="insight-cards">
+  <div class="insight-card">
+    <span class="insight-card-label">Signal 01</span>
+    <p>Cancel attempts were followed by unauthorized charge reports — users couldn't tell the difference between a cancelled charge and an unexplained one.</p>
   </div>
-  <div class="tier-card highlight">
-    <span class="tier-name">Starter · New</span>
-    <span class="tier-price">$5 / mo</span>
-    <p class="tier-desc">Cash advance, credit features, Rent Reporting as add-on. A way to stay in the product.</p>
+  <div class="insight-card">
+    <span class="insight-card-label">Signal 02</span>
+    <p>The cancel flow offered a 70% discount with no path to customer support. Users who didn't want the discount had nowhere to go.</p>
   </div>
-  <div class="tier-card">
-    <span class="tier-name">Basic</span>
-    <span class="tier-price">$0</span>
-    <p class="tier-desc">Cancelled. Limited access.</p>
+  <div class="insight-card">
+    <span class="insight-card-label">Signal 03</span>
+    <p>~9,800 Basic users were on an $11 admin fee with no record of consenting to it. The first clear communication many received was a migration notice.</p>
+  </div>
+  <div class="insight-card">
+    <span class="insight-card-label">Signal 04</span>
+    <p>Settings screens had no coherent state model. What a cancelled user saw, what a grace-period user saw, what a migrated user saw — none of it was designed as a system.</p>
   </div>
 </div>
 
-<p>Two user groups needed designing for: existing users being migrated to Starter automatically with a 30-day grace period, and Premium users actively cancelling who needed to see the $5 offer.</p>
+<p>The old flow was designed to retain at any cost. It was optimized to frustrate people out of cancelling rather than give them a reason to stay. That's the problem I was asked to fix.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11125.png" alt="Older 2.0 cancel flow — reason picker, 'Don't stop your progress' retention modal, 70% discount offer">
+</figure>
 
 <hr class="section-rule">
 
-<!-- TIMING DECISION -->
-<h2>Decision</h2>
-<h3>When to show the offer</h3>
+<!-- GOALS -->
+<h2>Goals</h2>
+<h3>Two things at once: keep members, and stop misleading them.</h3>
 
-<p>Netflix shows you a cheaper plan before you cancel. Audible does the same. The mid-flow downsell is a proven pattern, but only works if the offer is genuinely strong.</p>
+<div class="split-goals">
+  <div class="goals-col">
+    <span class="goals-col-label">Business</span>
+    <ul>
+      <li>Save rate ≥ 45% of cancelling Premium users</li>
+      <li>Migrate ~9,800 admin-fee users without churn spike</li>
+      <li>Introduce Starter as a real middle option, not a consolation</li>
+      <li>Ship a four-arm A/B test to find the best cancel path</li>
+    </ul>
+  </div>
+  <div class="goals-col">
+    <span class="goals-col-label">Design</span>
+    <ul>
+      <li>Replace friction-as-retention with honest communication</li>
+      <li>Add a visible path to customer support from within the cancel flow</li>
+      <li>Design a coherent settings screen system across all 13–15 membership states</li>
+      <li>Make the grace period and tier change logic readable to the user</li>
+    </ul>
+  </div>
+</div>
 
-<p>I designed multiple flow variants. Variant 1 had stronger visuals. Variant 2 put the $5 offer at the right moment in the flow. We aligned on Variant 2 for the first test. Not because it looked better on screen. Because it gave users the information at the moment it was actually useful.</p>
+<hr class="section-rule">
+
+<!-- PROCESS -->
+<h2>Process</h2>
+<h3>Pushing back on how the flow used friction.</h3>
+
+<p>The original cancel flow was built around a single idea: make leaving hard enough that people give up. The discount appeared early, the decline path was visually deprioritized, and there was no acknowledgement that the user might have a legitimate reason to cancel. No customer support touchpoint. No honest confirmation of what Basic actually offers.</p>
+
+<p>I argued against that structure. Not because retention doesn't matter — it does, and the A/B test was designed to measure it — but because a flow that works by confusion stops working the moment users learn to distrust it. The unauthorized charge reports were the evidence that it had already stopped working.</p>
 
 <div class="decision-cards">
   <div class="decision-card">
-    <span class="decision-tag">Fallback</span>
-    <div class="decision-title">Post-cancellation offer</div>
-    <div class="decision-desc">Confirm the cancel, then pitch Starter. Designed and ready. Some users respond better when the product honours their decision first.</div>
+    <span class="decision-card-tag">Rejected</span>
+    <h4>Friction-first cancel flow</h4>
+    <p>Bury the cancel path. Show the discount before confirming intent. Offer Basic only after the discount is declined. No CS access from within the flow.</p>
   </div>
   <div class="decision-card chosen">
-    <span class="decision-tag">First test</span>
-    <div class="decision-title">Mid-flow downsell</div>
-    <div class="decision-desc">Show the $5 Starter offer before the user confirms cancellation. Right information at the right moment.</div>
+    <span class="decision-card-tag">Chosen</span>
+    <h4>Honest offer, clear exit</h4>
+    <p>State the offer clearly. Show what Basic actually includes. Add a direct CS path for users who have a complaint. Confirm the downgrade outcome in plain language.</p>
   </div>
 </div>
 
-<div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Mid-Flow Downsell</span></div>
-  <div class="screen-item"><span>Post-Cancellation Screen</span></div>
-  <div class="screen-item"><span>Starter Active State</span></div>
-  <div class="screen-item"><span>Membership Settings</span></div>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11130.png" alt="Older 2.0 cancel interruption — 'Don't stop your progress now', 'Use your full 12 months', intent confirmation screens">
+</figure>
+
+<p>The A/B test structure gave us four arms to validate this. Arm A kept the existing friction-first approach as a control. Arm B showed the $5 Starter offer explicitly before the discount. Arm C defaulted users toward Starter and required an active opt-out. Arm D handled Starter cancellers separately — no offer, just a clean acknowledgement and a move to Basic.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11131.png" alt="New 3.0 cancel flow — 4-screen redesign: benefits screen, 'Before you go' exit sheet, reason picker, cancellation review">
+</figure>
 
 <hr class="section-rule">
 
-<!-- COMPLIANCE -->
-<h2>Constraints</h2>
-<h3>The compliance layer</h3>
+<!-- SETTINGS SCREENS -->
+<h2>Design</h2>
+<h3>Thirteen membership states. One coherent system.</h3>
 
-<p>Every screen in Monet touches compliance. Cancellation screens even more so.</p>
+<p>The cancel flow was the visible work. The settings screen was the larger one.</p>
 
-<p>Two flags from the legal review. The word "free" appeared on a final screen where Starter costs $5 a month. It came out. The phrase "you are eligible" appeared above a loan offer, implying an approval the user didn't have. Rewritten to match compliance-reviewed copy on the Bright website exactly.</p>
+<p>Every combination of tier, billing status, migration state, and grace period had its own variant. Premium active. Premium cancelled within grace. Starter active. Starter on 30-day free grace. Basic after downgrade. Basic on admin-fee migration. Admin-fee user mid-notice period. Each one had different available actions, different copy, different CTAs.</p>
 
-<p>These aren't copy notes. Getting them wrong on a cancellation screen is a legal exposure.</p>
+<p>None of it had been designed as a system. Screens had been added sprint by sprint as edge cases emerged. The result was a settings section that looked different depending on how you got there, with copy that described what was happening in engineering terms rather than user terms.</p>
+
+<p>I mapped every state, identified what each user needed to know and do at that moment, and built the screens as a coherent set. The hierarchy stayed consistent: what your plan is, what it costs, what changes next, what you can do about it. In that order, every time.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11129.png" alt="All membership dashboard — Premium active, Starter active, Starter (30-day free) — full tier grid">
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11134.png" alt="Dashboard 2.0 — before vs after: old layout with repeated info vs new with benefit icons and clear hierarchy">
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11135.png" alt="Starter membership full state + Premium upgrade pitch card — upsell integrated in settings">
+</figure>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11136.png" alt="Starter grace period states — 30-day free banner, premium upsell card embedded, collapsed benefits view">
+</figure>
 
 <hr class="section-rule">
 
-<!-- STATE MACHINE -->
-<h2>Complexity</h2>
-<h3>The state machine</h3>
+<!-- EDGE CASES -->
+<h2>Coverage</h2>
+<h3>Every state the PRD missed, designed before engineering found it.</h3>
 
-<p>The hardest part wasn't the cancellation flow. It was the number of states a single user could be in.</p>
+<p>After the initial design work, I pushed further. The PRD covered the happy path and the core arms. It didn't fully account for every permutation — what a user sees if they cancel during the grace period, what happens at the overlap between the migration notice window and an existing billing cycle, what the reactivation screen shows if a user comes back after the admin-fee migration ran.</p>
 
-<p>Migrated users in notice period. Migrated in grace period. Migrated once billing started. Premium cancelled. Starter force opt-in. Starter explicit opt-in. Basic. Each with different copy, different CTAs, different settings screens. Eight distinct states. I mapped every one and designed them all.</p>
+<p>I took those gaps to the PM and built the missing states before engineering hit them. Not as a redesign pass — as a push from the design side to complete the spec. The intent was to avoid engineering decisions becoming design decisions by default, which is what happens when a screen state has no design file attached to it.</p>
 
-<div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Migrated: Notice Period</span></div>
-  <div class="screen-item"><span>Grace Period</span></div>
-  <div class="screen-item"><span>Starter Active</span></div>
-  <div class="screen-item"><span>Premium Cancelled</span></div>
-</div>
+<ol class="numbered-list">
+  <li><strong>Cancel during grace period</strong> — user on 30-day Starter grace cancels before day 31. Flow needs to acknowledge they won't be charged, not show a save offer.</li>
+  <li><strong>Reactivation after admin-fee migration</strong> — user who was migrated from $11 admin fee comes back. Tier and billing context differs from a standard Basic user reactivating.</li>
+  <li><strong>Mid-notice period interactions</strong> — user in the 30-day notice window (Sep 15 → Oct 15) opens the cancel flow. Should see the migration notice, not the standard premium cancel path.</li>
+  <li><strong>Unpaid billing state + cancel intent</strong> — user with a failed payment on Starter tries to cancel. Billing rule is different (unpaid → next day, not bill-end+1). Screen needs to reflect this.</li>
+</ol>
 
 <hr class="section-rule">
 
 <!-- OUTCOME -->
 <h2>Outcome</h2>
-<h3>What shipped</h3>
+<h3>Not live yet. But the spec is complete.</h3>
 
-<p>Premium cancellation flow: closed and signed off. Starter cancellation flow: feedback implemented, final review pending at handoff. The full settings states and wireframe set were delivered and with engineering.</p>
+<p>The project is in review, pending launch. The A/B test hasn't run. There are no save rate numbers to report yet.</p>
+
+<p>What exists: a complete design system for every membership state, a cancel flow built around communication rather than obstruction, and a spec that covers edge cases the original PRD didn't reach. Engineering has a design file attached to every screen state. PM has visibility into what each transition looks like for the user before it ships.</p>
+
+<p>The compliance driver was the $11 admin fee. The design problem was everything that surrounded it — a cancel flow that trusted friction more than honesty, and a settings section that was never designed as a whole. Those are the things I worked on.</p>
+
+<figure class="case-figure">
+  <img src="../assets/case-studies/monet-cancellation/11127.png" alt="Improved 3.0 cancel flow — 'Don't lose the tools', dark-mode exit sheet 'Before you go', 'Before you cancel please note'">
+</figure>
 
 <hr class="section-rule">
 
 <!-- REFLECTION -->
 <h2>Reflection</h2>
-<h3>What I'd do differently</h3>
+<h3>Designing against the flow's own incentives.</h3>
 
-<ul class="reflection-list">
-  <li>Map all user states before touching the design. Eight states across three user types is a known complexity for a tiered subscription product. I discovered the full scope through iteration instead of up front.</li>
-  <li>The mid-flow vs. post-cancellation decision needed data I didn't have. I'd push for prior A/B test results from a comparable product before locking direction. We chose right based on reasoning. Data would have made it faster.</li>
-</ul>
+<p>The pressure on a cancel flow is always to save the user. Every stakeholder in the room wants the save rate number. What I had to argue is that the save rate is only meaningful if the users who stay actually understand what they stayed for.</p>
+
+<p>A flow that keeps people by making leaving confusing doesn't build retention. It builds a backlog of unauthorized charge reports. The data said so.</p>
+
+<p>The more interesting design problem wasn't the cancel flow. It was the settings screens — mapping 13 states and making them feel like one product. That's less visible work. It doesn't have a metric attached to it. But it's the work that determines whether the product makes sense to someone who's been migrated, cancelled, reactivated, and migrated again. That person exists. They deserve a screen that explains what's happening to them.</p>
 
 <!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+  <p><a href="https://www.linkedin.com/in/shreyodebnath">linkedin.com/in/shreyodebnath</a></p>
 </div>
 
 </body>

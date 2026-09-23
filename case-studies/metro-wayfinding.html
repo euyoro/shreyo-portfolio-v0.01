@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -157,24 +160,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -321,6 +321,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -405,9 +406,10 @@
 
 <p>Surveys indicated that <strong>English (53%)</strong> is the predominant language among metro riders, followed by <strong>Gujarati (34%)</strong> and <strong>Hindi (13%)</strong>. This multilingual reality drove every typographic and layout decision that followed.</p>
 
-<div class="image-placeholder">
-  <span>Footfall Mapping &amp; User Journey Map</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/metro-wayfinding/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Footfall Mapping and User Journey Map">
+  <figcaption>Footfall Mapping &amp; User Journey Map</figcaption>
+</figure>
 
 <h4>Visual ergonomics</h4>
 <p>The typeface chosen was <strong>Anek Sans</strong>, selected for its native support of Devanagari and Gujarati scripts alongside Latin. Contrast values followed Arthur and Passini's research, targeting <strong>70% contrast</strong> for legibility. Letter body width-to-height ratio was maintained between 0.6 and 1.0 across all signage.</p>
@@ -425,12 +427,30 @@
 <p>Physical sign dimensions were specified for each placement context: A1 (2x10ft), A2 (2x4ft), A3 (2x6ft), B1 (0.5x1ft), B3 (2x12ft), C1 (2x2ft), C2, and D2 (12x8ft). Each size was mapped to a specific location within the station architecture.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>A1: Platform Guidance</span></div>
-  <div class="screen-item"><span>A2: Corridor Directional</span></div>
-  <div class="screen-item"><span>A3: Concourse Overhead</span></div>
-  <div class="screen-item"><span>B1: Counter Indicator</span></div>
-  <div class="screen-item"><span>C1: Normative Signage</span></div>
-  <div class="screen-item"><span>D2: External Station ID</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A1: Platform Guidance signage">
+    <figcaption>A1: Platform Guidance</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A2: Corridor Directional signage">
+    <figcaption>A2: Corridor Directional</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A3: Concourse Overhead signage">
+    <figcaption>A3: Concourse Overhead</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="B1: Counter Indicator signage">
+    <figcaption>B1: Counter Indicator</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="C1: Normative Signage">
+    <figcaption>C1: Normative Signage</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/metro-wayfinding/08-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="D2: External Station ID signage">
+    <figcaption>D2: External Station ID</figcaption>
+  </figure>
 </div>
 
 <h4>User persona</h4>
@@ -461,9 +481,10 @@
   <figcaption>Final Signage System: In-Situ Mockups</figcaption>
 </figure>
 
-<div class="image-placeholder">
-  <span>Accessibility Testing: Color Blindness Simulation</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/metro-wayfinding/10-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Accessibility Testing: Color Blindness Simulation">
+  <figcaption>Accessibility Testing: Color Blindness Simulation</figcaption>
+</figure>
 
 <hr class="section-rule">
 

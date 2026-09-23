@@ -44,19 +44,20 @@
   } catch (e) {}
 })();
 </script>
-<title>Shreyo - Product Designer</title>
+<title>Shreyo | Product Designer</title>
 <!-- PNG first, SVG second: browsers that understand both prefer the later
      declaration, and the ones that do not simply never see it. -->
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
 
 <style>
   :root {
     /* Lazim-derived warm neutral system */
     --bg:         #fbfbfa;
+    --pl-ink:     19,19,19;
     --surface:    #ffffff;
     --border:     rgba(19,19,19,0.09);
     --text:       #131313;
@@ -106,6 +107,7 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+      --pl-ink: 240,240,237;
       --text: #f0f0ee; --muted: #838383; --dim: #9d9d9d;
       /* On near-black the neon clears 18:1, so here it can be the text colour
          as well as the fill and the two tokens converge. */
@@ -118,6 +120,7 @@
   }
   :root[data-theme="dark"] {
     --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+    --pl-ink: 240,240,237;
     --text: #f0f0ee; --muted: #838383; --dim: #9d9d9d;
     --accent: #edfe34; --accent-dim: rgba(237,254,52,0.10); --glare: rgba(255,255,255,0.11);
     --neon: #edfe34; --neon-ink: #131313;
@@ -238,21 +241,16 @@
 
   /* ── Nav ── */
   .nav {
-    position: fixed; top: 0; left: 0; right: 0; height: 72px; z-index: 50;
+    position: fixed; top: 38px; left: 0; right: 0; height: 56px; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 20px var(--gutter) 0;
-    background: none;
+    padding: 0 var(--gutter);
+    background: var(--bg);
+    transition: top 0.22s ease;
   }
-  /* No tint on the bar — only blur, faded out downward so it has no hard
-     edge. The blur sits on its own layer so the nav's own text stays crisp;
-     masking .nav itself would fade the wordmark and links with it. */
-  .nav::before {
-    content: ''; position: absolute; inset: 0; z-index: -1;
-    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 45%, transparent 100%);
-    pointer-events: none;
-  }
+  .nav::before { display: none; }
+  .topbar { transition: transform 0.22s ease; }
+  .topbar.tb-hidden { transform: translateY(-100%); }
+  .nav.tb-hidden { top: 0; }
   /* Wordmark — left side */
   .nav-wordmark {
     position: relative; z-index: 2;   /* the panel slides under the bar */
@@ -284,8 +282,8 @@
      On a phone the control belongs in the far corner, so it is ordered past
      the theme toggle. On a desktop the same wrapper holds the inline row of
      links, which belongs on the left — hence order, not markup order. */
-  .nav-menu-wrap { position: relative; order: 2; }
-  .nav-theme-btn { order: 1; position: relative; z-index: 2; }
+  .nav-menu-wrap { position: relative; }
+  .nav-theme-btn { position: relative; z-index: 2; margin-left: -10px; }
   .nav-menu-btn {
     position: relative; z-index: 2;
     display: inline-grid; place-items: center;
@@ -414,12 +412,12 @@
   .nav-theme-btn {
     display: inline-grid; place-items: center;
     width: 44px; height: 27px; padding: 0;
-    background: var(--surface);
-    border: 1px solid var(--border); border-radius: 999px;
+    background: none;
+    border: none;
     color: var(--dim); cursor: pointer;
-    transition: color var(--t-hover), background var(--t-hover), border-color var(--t-hover);
+    transition: color var(--t-hover);
   }
-  .nav-theme-btn:hover { color: var(--text); border-color: var(--dim); }
+  .nav-theme-btn:hover { color: var(--text); }
   .nav-theme-btn:focus-visible { outline: 2px solid var(--dim); outline-offset: 2px; }
   .nav-theme-icon {
     grid-area: 1 / 1; width: 15px; height: 15px; display: block;
@@ -457,13 +455,21 @@
 
   /* ── Hero ── */
   .hero { padding-top: 116px; padding-bottom: 80px; }
-  .hero-grid { display: grid; grid-template-columns: 268px 1fr; gap: 72px; align-items: start; }
+  .hero-grid { display: grid; grid-template-columns: 320px 1fr; gap: 60px; align-items: start; }
   .hero-left { display: flex; flex-direction: column; gap: 22px; }
-  .hero-ident { display: flex; flex-direction: column; gap: 2px; }
+  .hero-ident { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
   .hero-name { font-family: var(--ff); font-size: clamp(0.9375rem, 1.6vw, 1.125rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); }
   .hero-role { font-family: var(--ff); font-size: clamp(0.875rem, 1.4vw, 1rem); font-weight: 400; letter-spacing: -0.01em; color: var(--muted); }
-  .portrait { width: 100%; aspect-ratio: 3/3.6; border-radius: 8px; overflow: hidden; position: relative; background: linear-gradient(145deg,#c9a08a 0%,#e8b89a 38%,#d4907a 72%,#b87060 100%); }
-  .portrait::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse at 40% 25%,rgba(255,255,255,0.10) 0%,transparent 60%); }
+  .portrait { width: 100%; max-width: 320px; aspect-ratio: 1/1; border-radius: 0; overflow: hidden; clip-path: url(#squircle-clip); position: relative; background: #dedad6; transform: rotate(2deg); }
+  .portrait.appear { transform: rotate(2deg) translateY(24px); }
+  .portrait.appear.in { transform: rotate(2deg); }
+  .portrait::before { display: none; }
+  .portrait img,
+  .portrait video { width: 100%; height: 100%; object-fit: cover; object-position: 22% 42%; display: block; border-radius: 0; transform: scale(1.2); transform-origin: center 46%; filter: url(#portrait-stipple); }
+  .portrait img.appear,
+  .portrait video.appear { transform: scale(1.2) translateY(24px); transform-origin: center 46%; filter: url(#portrait-stipple) blur(10px); }
+  .portrait img.appear.in,
+  .portrait video.appear.in { transform: scale(1.2) translateY(0); transform-origin: center 46%; filter: url(#portrait-stipple); }
   .portrait-hint { position:absolute; inset:0; display:flex; align-items:flex-end; padding:14px 16px; font-family:var(--ff-mono); font-size: 0.75rem; letter-spacing:0.12em; color:rgba(255,255,255,0.28); text-transform:uppercase; }
   .hero-right { display: flex; flex-direction: column; padding-top: 0; }
   .hero-intro-line { font-family: var(--ff); font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 32px; }
@@ -471,7 +477,7 @@
   /* overflow was hidden to mask the old slide-out. The word now dissolves in
      place instead, and a blurred blob needs to bleed past the line box — with
      the clip still on, every blob would be sliced flat top and bottom. */
-  .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: baseline; }
+  .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: baseline; white-space: nowrap; }
   .hero-cycle { display: inline-block; }
   .hero-body { display: flex; flex-direction: column; gap: 16px; }
   .hero-hl { color: var(--dim); font-style: normal; }
@@ -733,7 +739,7 @@
 
   @media (max-width: 760px) {
     .hero-grid { grid-template-columns: 1fr; gap: 28px; }
-    .portrait { aspect-ratio: 4/3; }
+    .portrait { aspect-ratio: 1/1; max-width: 220px; }
   }
   @media (max-width: 480px) {
     /* day-col is display:none here, so the grid has ONE child — a '0 1fr'
@@ -1086,6 +1092,21 @@
     color: var(--muted); letter-spacing: -0.01em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
+  /* Sine-wave play button — mirrors Roman Vasilev's ambient audio control */
+  .ec-wave-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; padding: 0;
+    background: none; border: none;
+    color: var(--muted); cursor: pointer; pointer-events: all;
+    transition: color var(--t-hover);
+  }
+  .ec-wave-btn:hover { color: var(--text); }
+  .ec-wave-btn[aria-pressed="true"] { color: var(--text); }
+  .ec-wave-svg { display: block; overflow: hidden; }
+  @media (prefers-reduced-motion: reduce) {
+    .ec-wave-svg animateTransform { display: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .ec-vinyl-disc { animation: none; }
     .ec-tonearm { transition: none; }
@@ -1456,8 +1477,14 @@
      "images at full scale". Placeholder slides fall back to a fixed width. */
   .cs-slide {
     flex-shrink: 0; height: 100%; width: auto;
-    overflow: hidden;
-    background: #fff; border-radius: 14px;
+    overflow: hidden; position: relative;
+    background: #e5f0f5; border-radius: 14px;
+  }
+  .cs-slide::before {
+    content: ''; position: absolute; inset: 0; z-index: 1;
+    background: rgba(200,225,245,0.10);
+    mix-blend-mode: multiply;
+    pointer-events: none; border-radius: inherit;
   }
   .cs-slide img,
   .cs-slide video {
@@ -1475,6 +1502,8 @@
     background-size: 240% 100%;
     animation: cs-skel 1.5s linear infinite;
   }
+  [data-theme="dark"] .cs-slide { background: #1a2a32; }
+  [data-theme="dark"] .cs-slide::before { background: rgba(30,50,70,0.12); }
   [data-theme="dark"] .cs-slide.is-loading::after {
     background-image: linear-gradient(100deg,
       rgba(255,255,255,0.05) 28%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0.05) 68%);
@@ -1952,7 +1981,7 @@
     .cs-slide {
       width: 100%; height: auto;
       display: grid; place-items: center;
-      background: none; border-radius: 0; overflow: visible;
+      background: #e5f0f5; border-radius: 10px; overflow: hidden;
       scroll-snap-align: center; scroll-snap-stop: always;
     }
     .cs-slide img,
@@ -1993,7 +2022,7 @@
     --pl-gap: 26px;
     --pl-drop: calc(var(--pl-name-size) * 0.15);   /* the two dashes only */
     position: fixed; inset: 0; z-index: 100;
-    background: #fbfbfa;
+    background: var(--bg);
     transition: transform var(--t-stage) var(--e-inout);
   }
   .preloader.exit { transform: translateY(-100%); }
@@ -2008,7 +2037,7 @@
     font-weight: 300;
     font-size: var(--pl-name-size);
     letter-spacing: -0.01em; white-space: nowrap; line-height: 1;
-    color: #131313;
+    color: rgb(var(--pl-ink));
     opacity: 0;
     pointer-events: none;
     will-change: opacity, transform;
@@ -2032,7 +2061,7 @@
                  'Noto Sans Bengali', 'Noto Sans Gujarati', 'Noto Sans Malayalam',
                  system-ui, sans-serif;
     font-size: 1.375rem; font-weight: 400;
-    color: rgba(19,19,19,0.50); letter-spacing: 0.04em;
+    color: rgba(var(--pl-ink),0.50); letter-spacing: 0.04em;
     text-align: center; line-height: 1.4;
     transition: opacity 0.28s ease;
     white-space: nowrap;
@@ -2053,13 +2082,13 @@
   .preloader-count {
     font-family: var(--ff);
     font-size: 0.875rem; font-weight: 400;
-    color: rgba(19,19,19,0.75); letter-spacing: 0.12em;
+    color: rgba(var(--pl-ink),0.75); letter-spacing: 0.12em;
     font-variant-numeric: tabular-nums;
   }
   .preloader-pct {
     font-family: 'Noto Sans', system-ui, sans-serif;
     font-size: 0.75rem; font-weight: 300;
-    color: rgba(19,19,19,0.45); letter-spacing: 0.1em;
+    color: rgba(var(--pl-ink),0.45); letter-spacing: 0.1em;
   }
   /* Left split — flies to left edge via JS */
   .preloader-split {
@@ -2067,7 +2096,7 @@
     margin-top: var(--pl-drop);
     font-family: var(--ff);
     font-size: 0.6875rem; font-weight: 300;
-    color: rgba(19,19,19,0.90); letter-spacing: 0.1em;
+    color: rgba(var(--pl-ink),0.90); letter-spacing: 0.1em;
     will-change: transform;
   }
 
@@ -2075,7 +2104,7 @@
   .preloader-bar {
     position: absolute; bottom: 0; left: 0; right: 0;
     height: 1px; pointer-events: none;
-    background: rgba(19,19,19,0.25);
+    background: rgba(var(--pl-ink),0.25);
     transform: scaleX(0);
     transform-origin: center;
   }
@@ -2312,9 +2341,67 @@
     .footer-clock { order: -1; }
     .footer-mood { font-size: 0.8125rem; }
   }
+
+  /* ── Topbar ────────────────────────────────────────────── */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter); height: 38px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 1px; text-transform: uppercase;
+    color: var(--text); gap: 16px;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 55;
+    background: var(--bg);
+  }
+  .topbar a { color: inherit; text-decoration: none; transition: color var(--t-hover); }
+  .topbar a:hover { opacity: 0.6; }
+  .topbar-sep { opacity: 0.25; margin: 0 6px; }
+  .topbar-right { display: flex; gap: 0; align-items: center; flex-shrink: 0; }
+  .topbar-right a { padding: 0 8px; }
+  .topbar-left { display: flex; align-items: center; flex-shrink: 0; white-space: nowrap; }
+  .topbar-center { min-width: 0; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @media (max-width: 700px) { .topbar { display: none; } }
+
+  /* ── Colophon strip ────────────────────────────────────── */
+  .colophon {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px var(--gutter);
+    border-top: 1px solid var(--border);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: normal; text-transform: uppercase;
+    color: var(--text); gap: 16px;
+  }
+  .colophon a { color: inherit; text-decoration: none; transition: opacity var(--t-hover); }
+  .colophon a:hover { opacity: 0.6; }
+  .colophon-center {
+    display: flex; align-items: center; gap: 6px;
+    text-align: center; flex-wrap: wrap; justify-content: center; min-width: 0;
+  }
+  .colophon-icon { width: auto; height: 11px; display: inline-block; vertical-align: middle; flex-shrink: 0; }
+  @media (max-width: 700px) { .colophon { display: none; } }
 </style>
 </head>
 <body>
+
+<!-- Topbar: local time + mood + quick links -->
+<div class="topbar" role="banner">
+  <span class="topbar-left">
+    <time id="topbar-time"></time>
+    <span class="topbar-sep" aria-hidden="true">|</span>Bangalore
+    <span class="topbar-sep" aria-hidden="true">|</span>GMT+5:30
+  </span>
+  <span id="topbar-mood" class="topbar-center"></span>
+  <span class="topbar-right">
+    <a href="mailto:shreyoisonline@gmail.com">Email</a>
+    <span class="topbar-sep" aria-hidden="true">|</span>
+    <a href="https://www.linkedin.com/in/shreyodebnath/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <span class="topbar-sep" aria-hidden="true">|</span>
+    <a href="assets/shreyo-resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+  </span>
+</div>
+
 <!-- Alpha threshold for the heading reveal. Region is widened well past the
      default -10%/120% because the CSS blur runs *before* this filter and its
      output would otherwise be sheared off square — most visibly on the lone
@@ -2328,6 +2415,24 @@
                                            0 1 0 0 0
                                            0 0 1 0 0
                                            0 0 0 20 -8"/>
+    </filter>
+    <!-- Squircle (iOS superellipse) clip path for the hero portrait.
+         clipPathUnits="objectBoundingBox" makes it scale with the element. -->
+    <clipPath id="squircle-clip" clipPathUnits="objectBoundingBox">
+      <path d="M 0.5263 0 c 0.2233 0 0.3349 0 0.4043 0.0693 c 0.0693 0.0693 0.0693 0.1810 0.0693 0.4043 L 1 0.5263 c 0 0.2233 0 0.3349 -0.0693 0.4043 c -0.0693 0.0693 -0.1810 0.0693 -0.4043 0.0693 L 0.4737 1 c -0.2233 0 -0.3349 0 -0.4043 -0.0693 c -0.0693 -0.0693 -0.0693 -0.1810 -0.0693 -0.4043 L 0 0.4737 c 0 -0.2233 0 -0.3349 0.0693 -0.4043 c 0.0693 -0.0693 0.1810 -0.0693 0.4043 -0.0693 Z"/>
+    </clipPath>
+    <!-- Film grain filter for the hero portrait -->
+    <filter id="portrait-stipple" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+      <feColorMatrix type="saturate" values="0" result="bw"/>
+      <feComponentTransfer in="bw" result="base">
+        <feFuncR type="linear" slope="1.1" intercept="-0.05"/>
+        <feFuncG type="linear" slope="1.1" intercept="-0.05"/>
+        <feFuncB type="linear" slope="1.1" intercept="-0.05"/>
+      </feComponentTransfer>
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="4" seed="3" stitchTiles="stitch" result="grain"/>
+      <feColorMatrix in="grain" type="saturate" values="0" result="gray-grain"/>
+      <!-- 88% image + 12% grain -->
+      <feComposite in="base" in2="gray-grain" operator="arithmetic" k1="0" k2="0.88" k3="0.12" k4="0"/>
     </filter>
   </defs>
 </svg>
@@ -2410,6 +2515,31 @@
       <span class="nav-word-b" id="nav-name">shreyo</span>
     </a>
     <div class="nav-right">
+      <button class="ec-wave-btn" id="ec-wave-btn" type="button" aria-pressed="false"
+              aria-label="Play Rock You Like a Hurricane by Scorpions">
+        <svg class="ec-wave-svg" viewBox="0 0 22 8" width="18" height="7" aria-hidden="true">
+          <polyline class="ec-wave-path"
+            points="-22,4 -19.25,1.5 -16.5,0.5 -13.75,1.5 -11,4 -8.25,6.5 -5.5,7.5 -2.75,6.5
+                    0,4 2.75,1.5 5.5,0.5 8.25,1.5 11,4 13.75,6.5 16.5,7.5 19.25,6.5
+                    22,4 24.75,1.5 27.5,0.5 30.25,1.5 33,4 35.75,6.5 38.5,7.5 41.25,6.5 44,4"
+            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <animateTransform attributeName="transform" type="translate"
+              from="0,0" to="-22,0" dur="1.4s" repeatCount="indefinite"/>
+          </polyline>
+        </svg>
+      </button>
+      <button class="nav-theme-btn" id="theme-btn" type="button" aria-label="Switch theme">
+        <span class="nav-theme-swap" aria-hidden="true">
+          <svg class="nav-theme-icon nav-theme-sun" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2.4v2.3M12 19.3v2.3M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.4 12h2.3M19.3 12h2.3M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
+          </svg>
+          <svg class="nav-theme-icon nav-theme-moon" viewBox="0 0 24 24">
+            <path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3Z"/>
+          </svg>
+        </span>
+      </button>
+      <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-bar-cta" data-reach>Let's Talk</a>
       <div class="nav-menu-wrap">
         <button class="nav-menu-btn" id="nav-menu-btn" type="button"
                 aria-expanded="false" aria-controls="nav-dropdown" aria-label="Open menu">
@@ -2429,21 +2559,9 @@
           <a href="#" class="nav-drop-link" id="nav-about" role="menuitem">About</a>
           <a href="https://drive.google.com/file/d/1XRCWsCn7CFS3KYMhP2i7--4ay9FmJaZd/view?usp=sharing" class="nav-drop-link" role="menuitem"
              target="_blank" rel="noopener noreferrer">Resume <span class="nav-arr" aria-hidden="true">&#8599;</span></a>
-          <button class="nav-drop-link nav-drop-theme" id="theme-btn" type="button" role="menuitem" aria-label="Switch theme">Theme
-            <span class="nav-theme-swap" aria-hidden="true">
-              <svg class="nav-theme-icon nav-theme-sun" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="4"/>
-                <path d="M12 2.4v2.3M12 19.3v2.3M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.4 12h2.3M19.3 12h2.3M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
-              </svg>
-              <svg class="nav-theme-icon nav-theme-moon" viewBox="0 0 24 24">
-                <path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3Z"/>
-              </svg>
-            </span>
-          </button>
-          <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-drop-cta" data-reach role="menuitem">Reach Out</a>
+          <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-drop-cta" data-reach role="menuitem">Let's Talk</a>
         </div>
       </div>
-      <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-bar-cta" data-reach>Reach Out</a>
     </div>
   </nav>
 
@@ -2453,19 +2571,20 @@
     <section class="hero">
       <div class="hero-grid">
         <div class="hero-left">
-          <div class="hero-ident">
-            <p class="hero-name">Shreyo Debnath</p>
-            <p class="hero-role">Product Designer</p>
-          </div>
-          <div class="portrait" role="img" aria-label="Shreyo Debnath">
-            <img src="assets/images/shreyo.webp" alt="Shreyo Debnath" style="width:100%;height:100%;object-fit:cover;object-position:top center;display:block;">
+          <div class="portrait appear">
+            <video class="appear" autoplay muted playsinline preload="auto" aria-label="Shreyo Debnath">
+              <source src="assets/images/hero-portrait.webm" type="video/webm">
+            </video>
           </div>
         </div>
         <div class="hero-right appear" style="transition-delay:0.15s">
-          <h1 class="hero-intro-line">I am also <strong><span class="hero-cycle-wrap"><span id="hero-cycle" class="hero-cycle">a comic nerd</span></span></strong></h1>
+          <div class="hero-ident">
+            <p class="hero-role">Hey, I'm Shreyo</p>
+          </div>
+          <h1 class="hero-intro-line">I work across <strong><span class="hero-cycle-wrap"><span id="hero-cycle" class="hero-cycle">product design</span></span></strong></h1>
           <div class="hero-body">
-            <p class="hero-p">I am a designer with about 4 years of experience donning hats all the way from <span class="hero-hl">Product to Brand to Motion</span> and now to even Development. I work with all the essence of design I absorb. I drive performance, engagement, sales and make people tell great stories about the companies I work for.</p>
-            <p class="hero-p">Design, for me, is poetry told through visuals. <em>I just happen to be a good poet.</em></p>
+            <p class="hero-p">A product designer from the Hills of North East India, with 3+ years of experience donning hats all the way from <span class="hero-hl">Product to Brand to Motion</span> and recently Development. I work with all the essence of design I absorb, driving performance, engagement, sales.</p>
+            <p class="hero-p">I make people tell great stories about the companies I work for. Design, for me, is poetry told through visuals. <em>I just happen to be a very good poet.</em></p>
           </div>
         </div>
       </div>
@@ -2644,21 +2763,8 @@
 
       <div class="works-grid">
 
-        <!-- 1: Rent Reporting -->
-        <a class="work-card appear" style="transition-delay:0.05s" href="case-studies/rent-reporting.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/rent-reporting-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="Three angled iPhones showing the rent reporting funnel: build credit history with your rent payments, a RentCafe receipt reading a twelve month total payment record above Congrats! We have found your past rent payments, and a three-step explainer of how reporting rent improves a credit score.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">Credit score path for thin-file renters. Live to customers March 2026.</p>
-          </div>
-        </a>
-
-        <!-- 2: Bright Atlas -->
-        <a class="work-card appear" style="transition-delay:0.1s" href="case-studies/bright-atlas.html">
+        <!-- 1: Bright Atlas -->
+        <a class="work-card appear" style="transition-delay:0.05s" href="case-studies/bright-atlas.html">
           <div class="work-img">
             <img class="work-img-photo" src="assets/projects/bright-atlas-hero.webp"
                  width="1536" height="1024" loading="lazy" decoding="async"
@@ -2670,21 +2776,60 @@
           </div>
         </a>
 
-        <!-- 3: Sauron -->
-        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/sauron.html">
+        <!-- 2: LoanGPT & Bullet Funnel -->
+        <a class="work-card appear" style="transition-delay:0.1s" href="case-studies/loangpt-bullet-funnel.html">
           <div class="work-img">
-            <div class="work-img-fill" style="background:linear-gradient(140deg,#f5edd4 0%,#dfb86a 50%,#b8892a 100%)">
+            <div class="work-img-fill" style="background:url('assets/case-studies/loangpt-bullet-funnel/11118.png') center/cover no-repeat">
               <div class="work-chrome"></div>
             </div>
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Sauron</strong><span class="work-sep">|</span><span class="work-cat">Live</span></p>
-            <p class="work-sub">Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship.</p>
+            <p class="work-title-row"><strong class="work-project">LoanGPT &amp; Bullet Funnel</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">Rebuilt Bright's onboarding funnel from scratch — one path, less friction, $200k/month saved on acquisition.</p>
           </div>
         </a>
 
-        <!-- 4: Referral Redesign -->
-        <a class="work-card appear" style="transition-delay:0.2s" href="case-studies/referral-redesign.html">
+        <!-- 3: Monet Cancellation -->
+        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/monet-cancellation.html">
+          <div class="work-img">
+            <div class="work-img-fill" style="background:url('assets/case-studies/monet-cancellation/11131.png') center/cover no-repeat">
+              <div class="work-chrome"></div>
+            </div>
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Monet Cancellation</strong><span class="work-sep">|</span><span class="work-cat">In Progress</span></p>
+            <p class="work-sub">Cancellation flow with a Starter tier, giving churning users a middle option.</p>
+          </div>
+        </a>
+
+        <!-- 4: ID Protection -->
+        <a class="work-card appear" style="transition-delay:0.2s" href="case-studies/id-protection.html">
+          <div class="work-img">
+            <img class="work-img-photo" src="assets/projects/id-protection-hero.webp"
+                 width="1600" height="900" loading="lazy" decoding="async"
+                 alt="A hand holding an iPhone showing the Credit Protection dashboard: a 720 credit score beside an Irregular Activity alert, swipeable cards for a hard pull and a subscription price hike, and a Disputes Center reading 19 disputes and 0 resolved, over green hills, with an ID PROTECTION wordmark behind.">
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">ID Protection</strong><span class="work-sep">|</span><span class="work-cat">Concept</span></p>
+            <p class="work-sub">Researched and pitched a full ID protection product (credit monitoring, breach alerts, dispute flow) to fill a visible competitive gap.</p>
+          </div>
+        </a>
+
+        <!-- 5: Rent Reporting -->
+        <a class="work-card appear" style="transition-delay:0.25s" href="case-studies/rent-reporting.html">
+          <div class="work-img">
+            <img class="work-img-photo" src="assets/projects/rent-reporting-hero.webp"
+                 width="1600" height="900" loading="lazy" decoding="async"
+                 alt="Three angled iPhones showing the rent reporting funnel: build credit history with your rent payments, a RentCafe receipt reading a twelve month total payment record above Congrats! We have found your past rent payments, and a three-step explainer of how reporting rent improves a credit score.">
+          </div>
+          <div class="work-body">
+            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">Credit score path for thin-file renters. Live to customers March 2026.</p>
+          </div>
+        </a>
+
+        <!-- 6: Referral Redesign -->
+        <a class="work-card appear" style="transition-delay:0.3s" href="case-studies/referral-redesign.html">
           <div class="work-img">
             <img class="work-img-photo" src="assets/projects/referral-redesign-hero.webp"
                  width="1600" height="900" loading="lazy" decoding="async"
@@ -2696,21 +2841,21 @@
           </div>
         </a>
 
-        <!-- 5: Monet Cancellation -->
-        <a class="work-card appear" style="transition-delay:0.25s" href="case-studies/monet-cancellation.html">
+        <!-- 7: Sauron -->
+        <a class="work-card appear" style="transition-delay:0.35s" href="case-studies/sauron.html">
           <div class="work-img">
-            <div class="work-img-fill" style="background:linear-gradient(140deg,#ede0f5 0%,#b8a0d4 50%,#8a6ab8 100%)">
+            <div class="work-img-fill" style="background:linear-gradient(140deg,#f5edd4 0%,#dfb86a 50%,#b8892a 100%)">
               <div class="work-chrome"></div>
             </div>
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Monet Cancellation</strong><span class="work-sep">|</span><span class="work-cat">In Progress</span></p>
-            <p class="work-sub">Cancellation flow with a Starter tier, giving churning users a middle option.</p>
+            <p class="work-title-row"><strong class="work-project">Sauron</strong><span class="work-sep">|</span><span class="work-cat">Live</span></p>
+            <p class="work-sub">Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship.</p>
           </div>
         </a>
 
-        <!-- 6: Freemium 3→4 -->
-        <a class="work-card appear" style="transition-delay:0.3s" href="case-studies/freemium-3-4.html">
+        <!-- 8: Freemium 3→4 -->
+        <a class="work-card appear" style="transition-delay:0.4s" href="case-studies/freemium-3-4.html">
           <div class="work-img">
             <div class="work-img-fill" style="background:linear-gradient(140deg,#dde5f0 0%,#a0b5ce 50%,#6a8aad 100%)">
               <div class="work-chrome"></div>
@@ -2719,19 +2864,6 @@
           <div class="work-body">
             <p class="work-title-row"><strong class="work-project">Freemium 3.0 → 4.0</strong><span class="work-sep">|</span><span class="work-cat">Closed</span></p>
             <p class="work-sub">Experience layer controlling what cancelled Basic users see, locked, and what's offered.</p>
-          </div>
-        </a>
-
-        <!-- 7: ID Protection (full-width) -->
-        <a class="work-card appear" style="transition-delay:0.35s" href="case-studies/id-protection.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/id-protection-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="A hand holding an iPhone showing the Credit Protection dashboard: a 720 credit score beside an Irregular Activity alert, swipeable cards for a hard pull and a subscription price hike, and a Disputes Center reading 19 disputes and 0 resolved, over green hills, with an ID PROTECTION wordmark behind.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">ID Protection</strong><span class="work-sep">|</span><span class="work-cat">Concept</span></p>
-            <p class="work-sub">Researched and pitched a full ID protection product (credit monitoring, breach alerts, dispute flow) to fill a visible competitive gap.</p>
           </div>
         </a>
 
@@ -2986,15 +3118,34 @@
         <a class="footer-link" href="https://github.com/euyoro" target="_blank" rel="noopener noreferrer">GitHub <span class="arr">&#8599;</span></a>
       </div>
     </nav>
-    <div class="footer-base">
-      <p class="footer-mood" id="footer-mood"></p>
-      <p class="footer-clock">
-        <span class="footer-phase" id="footer-phase" aria-hidden="true"></span>
-        <time id="footer-time"></time>
-        <span class="footer-tz">Bangalore</span>
-      </p>
-    </div>
+    <!-- time/mood moved to topbar -->
+    <p class="footer-mood" id="footer-mood" style="display:none"></p>
+    <time id="footer-time" style="display:none"></time>
+    <span id="footer-phase" style="display:none"></span>
   </footer>
+
+  <!-- Colophon strip -->
+  <div class="colophon" role="contentinfo">
+    <span>©2026 Shreyo Debnath</span>
+    <span class="colophon-center">
+      designed with
+      <!-- Anthropic / Claude Code mark -->
+      <svg class="colophon-icon" viewBox="0 0 24 24" fill="#D97757" aria-label="Claude Code" role="img" shape-rendering="geometricPrecision">
+        <path d="M11.376 24L10.776 23.544L10.44 22.8L10.776 21.312L11.16 19.392L11.472 17.856L11.76 15.96L11.928 15.336L11.904 15.288L11.784 15.312L10.344 17.28L8.16 20.232L6.432 22.056L6.024 22.224L5.304 21.864L5.376 21.192L5.784 20.616L8.16 17.568L9.6 15.672L10.536 14.592L10.512 14.448H10.464L4.128 18.576L3 18.72L2.496 18.264L2.568 17.52L2.808 17.28L4.704 15.96L9.432 13.32L9.504 13.08L9.432 12.96H9.192L8.4 12.912L5.712 12.84L3.384 12.744L1.104 12.624L0.528 12.504L0 11.784L0.048 11.424L0.528 11.112L1.224 11.16L2.736 11.28L5.016 11.424L6.672 11.52L9.12 11.784H9.504L9.552 11.616L9.432 11.52L9.336 11.424L6.96 9.84L4.416 8.16L3.072 7.176L2.352 6.672L1.992 6.216L1.848 5.208L2.496 4.488L3.384 4.56L3.6 4.608L4.488 5.304L6.384 6.768L8.88 8.616L9.24 8.904L9.408 8.808V8.736L9.24 8.472L7.896 6.024L6.456 3.528L5.808 2.496L5.64 1.872C5.576 1.656 5.544 1.416 5.544 1.152L6.288 0.144001L6.696 0L7.704 0.144001L8.112 0.504001L8.736 1.92L9.72 4.152L11.28 7.176L11.736 8.088L11.976 8.904L12.072 9.168H12.24V9.024L12.36 7.296L12.6 5.208L12.84 2.52L12.912 1.752L13.296 0.840001L14.04 0.360001L14.616 0.624001L15.096 1.32L15.024 1.752L14.76 3.6L14.184 6.504L13.824 8.472H14.04L14.28 8.208L15.264 6.912L16.92 4.848L17.64 4.032L18.504 3.12L19.056 2.688H20.088L20.832 3.816L20.496 4.992L19.44 6.336L18.552 7.464L17.28 9.168L16.512 10.536L16.584 10.632H16.752L19.608 10.008L21.168 9.744L22.992 9.432L23.832 9.816L23.928 10.2L23.592 11.016L21.624 11.496L19.32 11.952L15.888 12.768L15.84 12.792L15.888 12.864L17.424 13.008L18.096 13.056H19.728L22.752 13.272L23.544 13.8L24 14.424L23.928 14.928L22.704 15.528L21.072 15.144L17.232 14.232L15.936 13.92H15.744V14.016L16.848 15.096L18.84 16.896L21.36 19.224L21.48 19.8L21.168 20.28L20.832 20.232L18.624 18.552L17.76 17.808L15.84 16.2H15.72V16.368L16.152 17.016L18.504 20.544L18.624 21.624L18.456 21.96L17.832 22.176L17.184 22.056L15.792 20.136L14.376 17.952L13.224 16.008L13.104 16.104L12.408 23.352L12.096 23.712L11.376 24Z"/>
+      </svg>
+      Claude Code
+      <!-- Figma mark -->
+      <svg class="colophon-icon" viewBox="0 0 10 15" fill="none" aria-label="Figma" role="img">
+        <rect x="0" y="0" width="5" height="5" rx="2.5" fill="#FF7262"/>
+        <rect x="5" y="0" width="5" height="5" rx="2.5" fill="#F24E1E"/>
+        <rect x="0" y="5" width="5" height="5" rx="2.5" fill="#A259FF"/>
+        <circle cx="7.5" cy="7.5" r="2.5" fill="#1ABCFE"/>
+        <path d="M0 10H5V12.5A2.5 2.5 0 0 1 0 12.5Z" fill="#0ACF83"/>
+      </svg>
+      Figma and the indomitable human spirit
+    </span>
+    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="Back to top">Back to top ↑</a>
+  </div>
 
   <!-- Hover card — image only -->
   <div class="award-hover-card" id="award-hover-card">
@@ -3234,6 +3385,37 @@ const Goo = (function () {
   return { ok, EM, peakOf, set, clear, ramp, resolveIn, dissolveOut };
 })();
 
+// ── Portrait video visibility ──────────────────────────────
+(function () {
+  const video = document.querySelector('.portrait video');
+  if (!video) return;
+  const obs = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, { threshold: 0.1 });
+  obs.observe(video);
+})();
+
+// ── Topbar scroll-hide ─────────────────────────────────────
+(function () {
+  const topbar = document.querySelector('.topbar');
+  const nav    = document.querySelector('.nav');
+  if (!topbar || !nav) return;
+  let last = false;
+  function update() {
+    const hide = window.scrollY > 4;
+    if (hide === last) return;
+    last = hide;
+    topbar.classList.toggle('tb-hidden', hide);
+    nav.classList.toggle('tb-hidden', hide);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+
 // ── Preloader ──────────────────────────────────────────────
 (function () {
   const preloader  = document.getElementById('preloader');
@@ -3252,7 +3434,7 @@ const Goo = (function () {
   // display:none element while the visitor is already scrolling.
   if (document.documentElement.hasAttribute('data-skip-intro')) return;
 
-  const duration = 2860;
+  const duration = 2000;
   const start    = performance.now();
   const vw       = window.innerWidth;
   const margin   = 32;
@@ -3273,7 +3455,7 @@ const Goo = (function () {
     greetInactive.style.opacity = '1';
     greetActive.style.opacity = '0';
     [greetActive, greetInactive] = [greetInactive, greetActive];
-  }, 480);
+  }, 336);
 
   function easeInOutCubic(t) {
     return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -3364,27 +3546,19 @@ const Goo = (function () {
   }
 
   requestAnimationFrame(tick);
-  setTimeout(finish, duration + 600);
+  setTimeout(finish, duration + 420);
 })();
 
 // ── Hero cycling text ─────────────────────────────────────
 (function () {
   const items = [
-    'a comic nerd',
-    'a movie guy',
-    'an art director',
-    'a brand designer',
-    'an anime fan',
-    'a metalhead',
-    'a petrolhead'
+    'product design',
+    'brand design',
+    'motion direction',
+    'AI development',
+    'design systems',
+    'decks and sales',
   ];
-  // "a brand designer" is the one phrase long enough to wrap onto a second
-  // line at phone widths, and the heading is fluid — so the whole hero jumped
-  // by a line every time the cycle landed on it.
-  if (matchMedia('(max-width: 760px)').matches) {
-    const i = items.indexOf('a brand designer');
-    if (i > -1) items.splice(i, 1);
-  }
 
   // shuffle on load
   for (let i = items.length - 1; i > 0; i--) {
@@ -3678,11 +3852,13 @@ const Goo = (function () {
       ],
       href: 'case-studies/rent-reporting.html',
       slides: [
-        {set:'assets/case-studies/rent-reporting/shot01',w:1600,h:1354,alt:"The full funnel board on grey: a dark green header reading 15 Dec 2025, Opted In - Application to Start, above roughly thirty phone screens wired together by flow lines, with green state labels for the TransUnion and Equifax paths and yellow torn-edge annotation notes pinned along the bottom."},
-        {set:'assets/case-studies/rent-reporting/shot02',w:375,h:812,alt:"A bottom sheet titled Select your Rent portal rises over a dimmed screen with the iOS keyboard up: a greyed-out Rent Cafe row, a selected Others row with a globe icon, an optional field reading Add your Rental Portal name, and a black Confirm button."},
-        {set:'assets/case-studies/rent-reporting/shot03',w:375,h:812,alt:"Select the account you pay your Rent from, set over two grouped lists. Under Checking Accounts a Bank of America card ending 4578 is selected; under Credit Cards two more Bank of America rows sit unselected above a black Continue button and a link reading I Pay From Another Account."},
-        {set:'assets/case-studies/rent-reporting/shot04',w:375,h:812,alt:"The connection screen mid-progress: the green Bright leaf mark and a globe icon sit in two outlined circles joined by a filling connector line, above a four-step checklist where Verifying your account is ticked and Fetching transactions, Finding your rent payment and Wrapping everything up remain greyed."},
-        {set:'assets/case-studies/rent-reporting/shot05',w:375,h:812,alt:"Confirm Rent Payments, asking the user to choose the latest rent payment from their transactions. A search field sits above a scrolling list of Mar 05 Metro transport rows at minus $120.00, the first ticked, with a black Confirm button and the escape hatch I don't recognize this payment."},
+        {src:'assets/case-studies/rent-reporting/1.png',w:1920,h:1080,alt:"Two framed iPhones on a light blue background: the left shows the pitch screen How can reporting Rent improve credit history with four value steps from finding on-time payments through credit score improvement; the right shows a Congrats confirmation with a found rent payment of $1,500.33 and a Confirm button."},
+        {src:'assets/case-studies/rent-reporting/2.png',w:1920,h:1080,alt:"Four framed phones on a light blue background showing the full funnel: Select your Rent portal listing Rent Cafe, Rent Manager, Click Pay, Tenant Cloud and Others; Select the account you pay your Rent from with checking and credit card options; a Congrats screen confirming found past rent payments; and a success screen reading Your Rent is now reporting to TransUnion with an Equifax upsell."},
+        {src:'assets/case-studies/rent-reporting/3.png',w:1920,h:1080,alt:"Older 2.0 UI critique on a grey background: two phones showing the lease upload flow, with annotations noting cognitive effort and delay on compliance, and that users needed to follow rules and restrictions strictly, affecting time to completion."},
+        {src:'assets/case-studies/rent-reporting/4.png',w:1920,h:1080,alt:"Older 2.0 UI critique on a light blue background: two phones showing Link your Rent portal with Bright requiring credentials and a congrats success screen, with annotations noting jargon-heavy explainers, mixed CTA colors, and inconsistent 3D illustration style."},
+        {src:'assets/case-studies/rent-reporting/5.png',w:1920,h:1080,alt:"Older 2.0 UI side by side: three phones on a grey background showing Complete your application with a house illustration, Please submit a copy of your lease with document upload requirements, and Congrats You are on your way to build credit with a confetti celebration and verifying details status."},
+        {src:'assets/case-studies/rent-reporting/6.png',w:1920,h:1080,alt:"Improved 3.0 UI side by side: three phones on a light blue background showing Confirm your address with a pre-filled address card, Confirm Rent Payments with a searchable transaction list, and a TransUnion success screen with Application Submitted and an Equifax upsell option."},
+        {src:'assets/case-studies/rent-reporting/7.png',w:1920,h:1080,alt:"Post launch summary on a grey background: three phones showing the redesigned pitch screen, confirm address, and confirm residential address form with pre-filled fields. Annotation notes that the new flow reduced complexity, funnel length, and cognitive load with pre-defined selections."},
         {set:'assets/case-studies/rent-reporting/01',w:2000,h:1125,alt:"Deck slide labelled CURRENT JOURNEY with a green chevron bar reading Buried inside onboarding, beside the old onboarding board of phone screens on dark grey. Two callouts read Rent reporting ran as a step inside signup, competing with account creation, tagged DROP-OFF, and Users who quit signup never reached the funnel at all, tagged LOST INTENT."},
         {set:'assets/case-studies/rent-reporting/02',w:2000,h:1125,alt:"Deck slide headed Where it broke, with three arrow-linked consequences: the portal list had no answer for renters whose portal was missing, tagged DEAD END; address, transaction and retry states were never specified, tagged UNSPECIFIED; unmapped states surfaced as defects late in the build, tagged REWORK."},
         {set:'assets/case-studies/rent-reporting/03',w:2000,h:1125,alt:"Deck slide labelled EDGE CASE DISCOVERY, headed Every funnel state, defined before design. A five-column matrix crosses TransUnion funnel state against Equifax funnel state, opt-in status, what the user sees and what progress is shown, across eleven rows from Not started through Verification in progress."},
@@ -3706,9 +3882,9 @@ const Goo = (function () {
       ],
       href: 'case-studies/bright-atlas.html',
       slides: [
-        {set:'assets/case-studies/bright-atlas/shot01',w:2000,h:1250,alt:"The Atlas home screen on black: a silver leaf mark beside an italic Atlas wordmark, a row of competitor app icons running from Achieve and Acorns through Aura, Brigit and Cash App, then a dated New in site block pairing a Latest Flow strip of Payday Brin screens with a New Apps card, all under a floating dark search bar reading Search screens, flows, apps."},
-        {set:'assets/case-studies/bright-atlas/shot02',w:2000,h:1250,alt:"The Aura app detail page under a blue-gradient header: the app icon beside the label Identity Protection and Credit Monitoring, a summary paragraph, a Find in Figma button, and a metadata row giving 4.7 and 4.5 store ratings, the Fintech Competitor category and a July 2026 update, above an All Screens tab holding 159 screens across 11 flows."},
-        {set:'assets/case-studies/bright-atlas/shot03',w:2000,h:1250,alt:"The AI Inspiration tab: a carousel of captured web sessions centred on a card called Cofounder's replay, then a dated headline reading How the world builds AI Native with a Web and Mobile toggle, above three tagged video cards for Riffle, Exa and Cloudflare and a search bar reading Search AI-native screens."},
+        {video:'assets/case-studies/bright-atlas/clip1',w:1920,h:1080,alt:"Atlas home screen: the dark interface with the leaf wordmark, a scrollable row of competitor app icons, a New in site block showing the latest Four app flow beside a New Apps card, and a floating search bar reading Search screens, flows, apps."},
+        {video:'assets/case-studies/bright-atlas/clip2',w:1920,h:1080,alt:"Clicking into the Albert app detail page: a grid of categorised screens with flow labels beneath each, filtering by onboarding to narrow to that journey, then scrolling through the full onboarding sequence from splash through sign-up to bank linking."},
+        {video:'assets/case-studies/bright-atlas/clip3',w:1920,h:1080,alt:"The AI Inspiration tab: a headline reading How the world builds AI Native with a Web and Mobile toggle, tagged video cards for Riffle, Exa and Cloudflare, and a Riffle card expanding to play its smart onboarding session in full."},
         {set:'assets/case-studies/bright-atlas/01',w:2000,h:1125,alt:"Deck slide labelled THE PROBLEM, headed Our competitor research was trapped inside Figma, noting that fintech rivals need accounts and bank connections to reach the good screens, that freelancers had captured hundreds into Figma boards, and that the boards had no search."},
         {set:'assets/case-studies/bright-atlas/02',w:2000,h:1125,alt:"Deck slide labelled WHAT IT HAD TO ANSWER, headed Three people, three questions, with cards for a Designer asking how Acorns shows a payroll screen, a PM asking what pricing structure Experian shows, and an Exec asking about the full credit-building flow."},
         {set:'assets/case-studies/bright-atlas/03',w:2000,h:1125,alt:"Deck slide labelled USER FLOWS, headed What each of them actually does. Three journey diagrams, one per person, trace green nodes from an intent such as wanting inspiration through searching, finding screens and sharing them. Annotated that a journey was mapped per person, not per feature."},
@@ -3742,6 +3918,13 @@ const Goo = (function () {
       metrics: [{val:'1',lbl:'Redesign cycle'},{val:'Hi-fi',lbl:'Signed off'},{val:'New',lbl:'Referral model'}],
       href: 'case-studies/referral-redesign.html',
       slides: [
+        {src:'assets/case-studies/referral-redesign/22.png',w:1920,h:1080,alt:"Two framed iPhones on a light background showing the How does our referral program work explainer: the left phone shows the full step list with share, wait for eligibility, get $25 deposited, and a $250 limited offer for 3 referrals with a Got it button; the right phone shows the same steps scrolled up with eligibility conditions visible."},
+        {src:'assets/case-studies/referral-redesign/23.png',w:1920,h:1080,alt:"Four framed phones on a cream background showing the old referral flow: a Limited Offer screen reading Refer 3 friends Get $500 with an Invite Friends button, a Congratulations screen confirming a friend's contribution with a $25 boost, an Allow access to contacts prompt, and the main referral offer with swipeable $20 and $40 reward cards above Win Assured $120."},
+        {src:'assets/case-studies/referral-redesign/24.png',w:1920,h:1080,alt:"Older 2.0 critique on a grey background: two phones showing Your Referral Rewards dashboard with a 2/2 gauge, 0 awards left, and a list of friends with statuses like Referral Complete and Award Max Reached, beside a Pending screen with Send reminder buttons. Annotations note extremely mixed up flows and real action screen hidden behind several clicks."},
+        {src:'assets/case-studies/referral-redesign/25.png',w:1920,h:1080,alt:"Older 2.0 versus New 3.0 comparison on a cream background: left phone shows the old How does our referral program work with a flat checklist and green Got it button, annotated as inconsistent with the user experience; right phone shows the new 3.0 version with a gift box illustration, timeline steps, and cleaner hierarchy, annotated as retaining the same UX for quick launch and testing."},
+        {src:'assets/case-studies/referral-redesign/26.png',w:1920,h:1080,alt:"Older 2.0 UI on a light background: three phones showing a Thank you screen with $10 gratitude reward and heart illustration, a green Refer 3 friends Get $500 offer with FAQ and shareable link, and a Limited Time Offer screen with confetti, Get $125 crossed out to $500, and an invites-sent progress tracker."},
+        {src:'assets/case-studies/referral-redesign/27.png',w:1920,h:1080,alt:"Improved 3.0 UI on a cream background: three phones showing a Congratulations screen with megaphone illustration and 1 successful referral, the Give $25 Get $25 offer with a clean layout and shareable link, and a Limited period offer screen with $500 reward, invites-sent progress bar from Friend 1 through Friend 3, and an Invite 3 more friends button."},
+        {src:'assets/case-studies/referral-redesign/28.png',w:1920,h:1080,alt:"New 3.0 design overview on a cream background: a green PLU card offering $20 for first referral with a progress bar, the Refer and Claim dashboard phone showing $0 of $120 with tier cards and friend search, an Earn up to $120 home card, and three swipeable reward tier cards for $20, $40, and $60 with paper plane illustrations."},
         {set:'assets/case-studies/referral-redesign/01',w:2000,h:1125,alt:"Deck slide labelled CONTEXT, headed Who tells a friend about an app they barely use? Beside it a framed phone shows the referral offer: swipeable $20 and $40 reward cards above Win Assured $120! with three ticked conditions and an Invite and Get $20 button."},
         {set:'assets/case-studies/referral-redesign/02',w:2000,h:1125,alt:"Deck slide headed Where it broke, with three arrow-linked findings: nowhere to see where a referral stood, tagged NO STATUS; the reward buried in copy with nothing to aim at, tagged NOTHING TO EARN; the rest of the app on one design system while referral was not, tagged OFF-SYSTEM."},
         {set:'assets/case-studies/referral-redesign/03',w:2000,h:1125,alt:"Deck slide labelled COMPETITOR AUDIT, headed Twelve referral programmes, sorted. A dark research board holds a grid of competitor referral screens beside sections for Summary, Good UX, Bad UX and Outdated UI, each with annotated sticky notes."},
@@ -3760,12 +3943,15 @@ const Goo = (function () {
     'monet-cancellation': {
       company: 'Bright Money', title: 'Monet Cancellation',
       tags: ['In Progress', 'Mobile', 'Retention Design'],
-      desc: "What do you show a user who is trying to leave? I redesigned Bright's cancellation flow around a new Starter tier, giving churning members a middle option instead of a binary stay-or-go. Nine months across phases, working with product, engineering and legal on when the offer appears and what it is allowed to say.",
-      role: 'Design owner', year: '2026',
-      metrics: [{val:'1',lbl:'New tier'},{val:'↓',lbl:'Churn intent'},{val:'WIP',lbl:'Status'}],
+      desc: "Bright's cancel flow was built to frustrate people out of leaving. Users weren't just churning — they were marking the charges unauthorized. I was the design POC on the fix: reworked the cancel flow to lead with honest communication rather than obstruction, and built a coherent settings screen system across 13+ membership states that had never been designed as a whole.",
+      role: 'Design POC', year: 'Sep 2026',
+      metrics: [{val:'4',lbl:'Flow arms'},{val:'13+',lbl:'Screen states'},{val:'≥45%',lbl:'Save target'}],
       href: 'case-studies/monet-cancellation.html',
       slides: [
-        {set:'assets/case-studies/monet-cancellation/01',w:375,h:812,alt:"A Bill Saver offer screen on a peach-to-grey wash: a lightbulb tile above the line Save up to $600 a year on your bills, three feature tiles for Auto Negotiation, Bill Tracking and Price Protection, then an orange Limited Time Special Offer banner over a plan card cutting Bright Bill Saver from $12.99 to $4.99 a month, a ticked Add Identity Protection row at plus $2.99, a five-star member quote, the renewal and refund disclosures, and a black Start Saving Now button."},
+        {src:'assets/case-studies/monet-cancellation/11131.png',w:1920,h:1080,alt:'New 3.0 cancel flow — four redesigned screens: benefits overview, Before you go exit sheet, reason picker, cancellation review'},
+        {src:'assets/case-studies/monet-cancellation/11127.png',w:1920,h:1080,alt:'Improved 3.0 cancel UI — Don\'t lose the tools screen, dark-mode Before you go sheet, Before you cancel please note confirmation'},
+        {src:'assets/case-studies/monet-cancellation/11129.png',w:1920,h:1080,alt:'All membership dashboard states — Premium active, Starter active, Starter on 30-day free trial'},
+        {src:'assets/case-studies/monet-cancellation/11125.png',w:1920,h:1080,alt:'Older 2.0 cancel flow — reason picker, Don\'t stop your progress retention modal, 70% discount offer'},
       ]
     },
     'freemium-3-4': {
@@ -3782,6 +3968,20 @@ const Goo = (function () {
         {bg:'#d5d5d2'},
       ]
     },
+    'loangpt-bullet-funnel': {
+      company: 'Bright Money', title: 'LoanGPT & Bullet Funnel',
+      tags: ['Shipped', 'Mobile', 'Funnel Design'],
+      desc: "Bright's onboarding funnel hadn't been rebuilt since 2022. Four years of product had been bolted onto a structure that still argued like a 2022 product — two parallel paths, consents before the user ever saw a price, and a pitch that said the same thing three times. I supported the revamp: narrative curation, post-enroll screens, the LoanGPT surfaces inside the funnel, and copy through to production. One funnel, less friction, $200k/month saved on acquisition.",
+      role: 'Supporting Designer', year: 'Oct 2025 – Sep 2026',
+      metrics: [{val:'40→45%',lbl:'Conversion'},{val:'−10%',lbl:'CPA'},{val:'$3→3.6M',lbl:'Affiliate ARR'}],
+      href: 'case-studies/loangpt-bullet-funnel.html',
+      slides: [
+        {src:'assets/case-studies/loangpt-bullet-funnel/11118.png',w:1456,h:816,alt:'LoanGPT onboarding — welcome screen, LoanGPT chat, and post-enroll benefit pitch'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11122.png',w:1456,h:816,alt:'New bullet funnel — credit history, loan offers, Bright Builder, AI Money Assistant'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11113.png',w:1456,h:816,alt:'LoanGPT chat flow — collects intent, surfaces offer, flags risk'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11123.png',w:1456,h:816,alt:'Post-launch — LoanGPT as onboarding surface with outcomes'},
+      ]
+    },
     'id-protection': {
       company: 'Bright Money', title: 'ID Protection',
       tags: ['Concept', 'Research', 'Strategy'],
@@ -3790,14 +3990,14 @@ const Goo = (function () {
       metrics: [{val:'Full',lbl:'Product pitch'},{val:'3',lbl:'Core pillars'},{val:'Gap',lbl:'Market need'}],
       href: 'case-studies/id-protection.html',
       slides: [
-        {set:'assets/case-studies/id-protection/shot01',w:750,h:1624,alt:"Protect your identity before it costs you money, under an ID Protection label and an illustration of a card under a magnifier. Three rows read Monitor credit activity in real time, Get alerts for suspicious changes, and Act early to avoid financial damage, above a See How It Works button."},
-        {set:'assets/case-studies/id-protection/shot02',w:750,h:1624,alt:"AI Credit Protection: chips for double payment, hard credit check and credit bill increase sit above the line 1 in 4 people face credit identity scams that weaken loan offers, a member quote from Victor in Texas, and a Learn More button."},
-        {set:'assets/case-studies/id-protection/shot03',w:375,h:812,alt:"An onboarding screen reading Your information can be used by scammers without you noticing, above a phone showing stacked alerts for a hard pull, a Netflix subscription price hike and a double payment."},
-        {set:'assets/case-studies/id-protection/shot04',w:375,h:812,alt:"An onboarding screen reading Let Bright AI find and help you dispute unauthorized issues early, above a phone showing a File Dispute With AI sequence initiating a connection, summarising with AI and drafting a mail."},
-        {set:'assets/case-studies/id-protection/shot05',w:375,h:812,alt:"An onboarding screen reading Get better loan offers when you have a strong credit profile, above a phone showing a score is good and payment history is good tick beside loan offers up to $50,000."},
-        {set:'assets/case-studies/id-protection/shot06',w:750,h:3202,alt:"The Credit Protection dashboard: a Protection Score card reading Bad with a credit score of 742, a priority alerts list carrying a hard pull and a subscription price hike, an AI Insights row, a Track Disputes card with a Start a dispute button, and a Protection Good section listing ways to build credit."},
-        {set:'assets/case-studies/id-protection/shot07',w:375,h:936,alt:"The Dispute Center: an Unknown Hard Credit Inquiry alert dated 20 Jul 2025 noting a lender checked the credit without approval, with Learn More and It was me buttons, then Your Credit Report showing name, report number and date generated, and a Credit Activity feed of payments, a new card and a late payment."},
-        {set:'assets/case-studies/id-protection/shot08',w:375,h:1138,alt:"Late Payment Reported: a $12,000 transaction at 19.99% APR dated 10 Jul 2025, above account details giving the account number, date opened, unsecured credit card type, a $1,250 balance and an active status, with a red Dispute with Transunion button and the line I identify this transaction."},
+        {src:'assets/case-studies/id-protection/29.png',w:1920,h:1080,alt:"ID Protection Figma export 29"},
+        {src:'assets/case-studies/id-protection/30.png',w:1920,h:1080,alt:"ID Protection Figma export 30"},
+        {src:'assets/case-studies/id-protection/31.png',w:1920,h:1080,alt:"ID Protection Figma export 31"},
+        {src:'assets/case-studies/id-protection/32.png',w:1920,h:1080,alt:"ID Protection Figma export 32"},
+        {src:'assets/case-studies/id-protection/33.png',w:1920,h:1080,alt:"ID Protection Figma export 33"},
+        {src:'assets/case-studies/id-protection/34.png',w:1920,h:1080,alt:"ID Protection Figma export 34"},
+        {src:'assets/case-studies/id-protection/35.png',w:1920,h:1080,alt:"ID Protection Figma export 35"},
+        {src:'assets/case-studies/id-protection/36.png',w:1920,h:1080,alt:"ID Protection Figma export 36"},
         {set:'assets/case-studies/id-protection/01',w:2000,h:1125,alt:"Deck slide labelled CONTEXT, headed What does every competitor have that we don't? Beside it a framed phone shows the AI Credit Protection intro: chips for double payment, hard credit check and credit bill increase above the line 1 in 4 people face credit identity scams that weaken loan offers, a member quote, and a Learn More button."},
         {set:'assets/case-studies/id-protection/02',w:2000,h:1125,alt:"Deck slide labelled THE GAP, headed A category everyone else already sells. A three-column table lists what Aura, MoneyLion, Kikoff, Chime and Acorns each offer and how they sell it, with a highlighted final row for Bright reading Not present, credit data exists, no monitoring surface."},
         {set:'assets/case-studies/id-protection/03',w:2000,h:1125,alt:"Deck slide labelled RESEARCH, headed Taking the category apart. A dark board holds competitor onboarding flows, dark-web scanning screens, pricing tables and fraud statistics, annotated that competitor onboarding was pulled apart screen by screen and that pricing tables justify the category."},
@@ -3941,7 +4141,6 @@ const Goo = (function () {
   const HELD_BACK = [
     'freemium-3-4',
     'sauron',
-    'monet-cancellation',
   ];
 
   const slugOf = card =>
@@ -3998,7 +4197,7 @@ const Goo = (function () {
       // {set} — a responsive pair from the portfolio-PDF slide pipeline.
       // width/height are the intrinsic size so the row reserves its aspect
       // before the image lands and the carousel never reflows mid-scroll.
-      if (s.set) return `<div class="cs-slide"><img ` +
+      if (s.set) return `<div class="cs-slide cs-slide--deck"><img ` +
         (i ? '' : `src="${s.set}-2000.webp" srcset="${s.set}-1200.webp 1200w, ${s.set}-2000.webp 2000w" `) +
         `sizes="(max-width: 760px) 86vw, calc(124vh - 180px)" ` +
         `width="${s.w}" height="${s.h}" ` +
@@ -4015,8 +4214,14 @@ const Goo = (function () {
         `poster="${s.video}-poster.webp" width="${s.w}" height="${s.h}" ` +
         `muted loop playsinline preload="none" ` +
         `aria-label="${esc(s.alt)}" draggable="false"></video></div>`;
-      if (s.src) return `<div class="cs-slide"><img src="${s.src}" alt="${esc(s.alt)}" ` +
-        `data-full="${s.src}" tabindex="0" loading="lazy" decoding="async" draggable="false"></div>`;
+      if (s.src) return `<div class="cs-slide"><img src="${s.src}" ` +
+        `sizes="(max-width: 760px) 86vw, calc(124vh - 180px)" ` +
+        `width="${s.w}" height="${s.h}" ` +
+        `alt="${esc(s.alt)}" ` +
+        (i ? '' : 'fetchpriority="high" ') +
+        `data-full="${s.src}" tabindex="0" ` +
+        (i ? 'loading="lazy" ' : '') +
+        `decoding="async" draggable="false"></div>`;
       return `<div class="cs-slide"><div class="cs-slide-bg" style="background:${s.bg}"></div></div>`;
     }).join('');
   }
@@ -4097,6 +4302,7 @@ const Goo = (function () {
     'In production': IC.check, 'Redesign cycle': IC.trend,
     'Signed off': IC.check, 'Referral model': IC.trend,
     'New tier': IC.layers, 'Churn intent': IC.trend, 'Status': IC.check,
+    'CPA': IC.trend, 'Affiliate ARR': IC.bar,
     'Freemium tiers': IC.layers, 'Feature mapping': IC.bar,
     'Product pitch': IC.bar, 'Core pillars': IC.layers, 'Market need': IC.search,
     'App flows': IC.layers, 'Platform': IC.phone, 'UX coverage': IC.pen,
@@ -4940,20 +5146,83 @@ const Goo = (function () {
   els.forEach(function (el) { el.classList.remove('in'); io.observe(el); });
 })();
 
+// ── Portrait video — slow crossfade between loops ──────────
+(function () {
+  const portrait = document.querySelector('.portrait');
+  if (!portrait) return;
+  const vA = portrait.querySelector('video');
+  if (!vA) return;
+
+  const RATE = 0.25;   // quarter speed
+  const FADE = 1.4;    // crossfade duration in real seconds
+
+  vA.removeAttribute('loop');
+  vA.playbackRate = RATE;
+  vA.addEventListener('playing', function () { vA.playbackRate = RATE; });
+
+  // Clone B-roll video, stack on top
+  var vB = vA.cloneNode(true);
+  vB.classList.remove('appear');
+  vB.style.position = 'absolute';
+  vB.style.inset = '0';
+  vB.style.opacity = '0';
+  vB.style.transition = 'none';
+  portrait.appendChild(vB);
+  vB.muted = true;
+  vB.playbackRate = RATE;
+  vB.addEventListener('playing', function () { vB.playbackRate = RATE; });
+  vB.load();
+
+  var active = vA, standby = vB, busy = false;
+
+  function swap() {
+    if (busy) return;
+    busy = true;
+    standby.currentTime = 0;
+    standby.play();
+    standby.style.transition = 'opacity ' + FADE + 's ease';
+    standby.style.opacity = '1';
+    active.style.transition = 'opacity ' + FADE + 's ease';
+    active.style.opacity = '0';
+    var prev = active;
+    setTimeout(function () {
+      prev.pause();
+      prev.currentTime = 0;
+      prev.style.transition = 'none';
+      var tmp = active; active = standby; standby = tmp;
+      busy = false;
+    }, FADE * 1000 + 200);
+  }
+
+  function check(v) {
+    if (!v.duration || busy) return;
+    // convert remaining video time to real seconds
+    if ((v.duration - v.currentTime) / RATE <= FADE + 0.2) swap();
+  }
+
+  vA.addEventListener('timeupdate', function () { if (active === vA) check(vA); });
+  vB.addEventListener('timeupdate', function () { if (active === vB) check(vB); });
+})();
+
 // ── Footer clock — my time, not yours ─────────────────────
 (function () {
   const timeEl  = document.getElementById('footer-time');
   const moodEl  = document.getElementById('footer-mood');
   const phaseEl = document.getElementById('footer-phase');
-  if (!timeEl || !moodEl || !phaseEl) return;
+  const tbTime  = document.getElementById('topbar-time');
+  const tbMood  = document.getElementById('topbar-mood');
+  const tbPhase = document.getElementById('topbar-phase');
 
   const TZ = 'Asia/Kolkata';
-  const DAY   = 'The coffee is warm and the sun is glaring. What creativity would I be up to today?';
-  const NIGHT = 'I might be awake sipping Red Bulls, or be dead asleep. Who knows: only morning can tell.';
+  const DAY   = 'Available ASAP ＊looking for opportunities';
+  const NIGHT = 'Available ASAP ＊looking for opportunities';
 
   const stamp = new Intl.DateTimeFormat('en-US', {
     timeZone: TZ, weekday: 'short', month: 'long', day: 'numeric',
     year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true
+  });
+  const shortStamp = new Intl.DateTimeFormat('en-US', {
+    timeZone: TZ, hour: 'numeric', minute: '2-digit', hour12: true
   });
   // h23 rather than hour12:false — the latter reports midnight as hour 24 in
   // some engines, which would read as night an hour into the morning.
@@ -4979,10 +5248,12 @@ const Goo = (function () {
     const hour = parseInt(hourOf.format(now), 10);
     const day  = hour >= 6 && hour < 18;
 
-    timeEl.textContent  = compose(now);
-    timeEl.dateTime     = now.toISOString();
-    phaseEl.textContent = day ? '☀' : '☾';
-    moodEl.textContent  = day ? DAY : NIGHT;
+    if (timeEl)  { timeEl.textContent = compose(now); timeEl.dateTime = now.toISOString(); }
+    if (phaseEl) phaseEl.textContent = day ? '☀' : '☾';
+    if (moodEl)  moodEl.textContent  = day ? DAY : NIGHT;
+    if (tbTime)  { tbTime.textContent = shortStamp.format(now); tbTime.dateTime = now.toISOString(); }
+    if (tbPhase) tbPhase.textContent = day ? '☀' : '☾';
+    if (tbMood)  tbMood.textContent  = day ? DAY : NIGHT;
 
     // Wake on the next minute boundary instead of every second: the display
     // has no seconds, so a 1Hz timer would repaint sixty times for nothing.
@@ -5110,6 +5381,10 @@ const Goo = (function () {
     stage.classList.toggle('playing', on);
     vinyl.setAttribute('aria-pressed', String(on));
     vinyl.setAttribute('aria-label', (on ? 'Pause ' : 'Play ') + TRACK);
+    const wb = document.getElementById('ec-wave-btn');
+    if (wb) wb.setAttribute('aria-pressed', String(on));
+    const ws = document.querySelector('.ec-wave-svg');
+    if (ws) { if (on) ws.unpauseAnimations(); else ws.pauseAnimations(); }
   }
 
   // Fetched on first press, not on page load: a visitor who never touches the
@@ -5186,6 +5461,13 @@ const Goo = (function () {
   vinyl.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
   });
+
+  const waveBtn = document.getElementById('ec-wave-btn');
+  if (waveBtn) waveBtn.addEventListener('click', toggle);
+
+  // Start with animation paused; paint(true) will unpause when music plays.
+  const waveSvgInit = document.querySelector('.ec-wave-svg');
+  if (waveSvgInit) waveSvgInit.pauseAnimations();
 })();
 
 // ── Extras collage — free drag ────────────────────────────

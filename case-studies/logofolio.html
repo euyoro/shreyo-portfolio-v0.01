@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -49,6 +50,7 @@
 
   h2 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.12em;
@@ -72,6 +74,7 @@
 
   h4 {
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--text);
@@ -157,24 +160,21 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
-
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* PULL QUOTE */
@@ -329,6 +329,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-size: 0.75rem;
     font-weight: 500;
     letter-spacing: 0.06em;
@@ -405,16 +406,26 @@
 
 <p>India's largest (hypothetical) private multi-specialty hospital and India's first private medical college. The brand was created with a vision to break the saturated identities in the current healthcare industry and bring new vision and visuals.</p>
 
-<div class="image-placeholder">
-  <span>Svasthik Hospital: Primary Logo</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/logofolio/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Svasthik Hospital: Primary Logo">
+  <figcaption>Svasthik Hospital: Primary Logo</figcaption>
+</figure>
 
 <p>The hospital's emblem, a vibrant open-peacock, embodies commitment to life, joy, and personalized care. Symbolizing warmth and dedication, it reflects values of prioritizing patients' well-being. Additionally, the form subtly represents the rising sun, evoking positivity and renewal in health. Enclosed within a circle for equilibrium, it underscores the promise of trustworthy, medically-backed treatments.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Peacock Emblem Construction</span></div>
-  <div class="screen-item"><span>Color Palette & Typography</span></div>
-  <div class="screen-item"><span>Brand Applications</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Peacock Emblem Construction">
+    <figcaption>Peacock Emblem Construction</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Color Palette and Typography">
+    <figcaption>Color Palette &amp; Typography</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Brand Applications">
+    <figcaption>Brand Applications</figcaption>
+  </figure>
 </div>
 
 <p class="key-concepts"><strong>Key concepts:</strong> Specialty Treatment, Swastik Sun, Collaborative Efforts, New Beginnings, Tranquility, Healing, Trust & Technology.</p>
@@ -427,16 +438,26 @@
 
 <p>Sigma Voice is RGU's literary hub, fostering the talents of orators, writers, and avid readers. As a vital part of the student body, it offers a dynamic platform for showcasing skills on national and international levels.</p>
 
-<div class="image-placeholder">
-  <span>Sigma Voice: Primary Logo</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/logofolio/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Sigma Voice: Primary Logo">
+  <figcaption>Sigma Voice: Primary Logo</figcaption>
+</figure>
 
 <p>The logo embodies strength and expression. Sigma, symbolizing unity and vocal power, merges with the timeless symbol of the feather, representing honor and connection to literature's essence. The microphone, a symbol of integrity and influence, amplifies the voice of the club's members. Within the emblem, a figure represents the core of literature: stories, voices, and perspectives. The eagle signifies honesty, majesty, and freedom.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Emblem Breakdown</span></div>
-  <div class="screen-item"><span>Monochrome Variants</span></div>
-  <div class="screen-item"><span>Merchandise Mockups</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Emblem Breakdown">
+    <figcaption>Emblem Breakdown</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Monochrome Variants">
+    <figcaption>Monochrome Variants</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Merchandise Mockups">
+    <figcaption>Merchandise Mockups</figcaption>
+  </figure>
 </div>
 
 <p class="key-concepts"><strong>Key concepts:</strong> Youth, Novelty, Flame & Passion, Pen/Literature, Microphone/Oration, Eagle/Willpower.</p>
@@ -449,16 +470,26 @@
 
 <p>Indian Nanoelectronics Users Program (INUP) is jointly run by the Centre of Excellence in Nanoelectronics at IIT-Bombay and IISc-Bangalore. INUP serves as a platform for researchers to provide hands-on training in nanoelectronics and to assist in the initiation of research.</p>
 
-<div class="image-placeholder">
-  <span>INUP I2I: Primary Logo</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/logofolio/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="INUP I2I: Primary Logo">
+  <figcaption>INUP I2I: Primary Logo</figcaption>
+</figure>
 
 <p>The logo depicts two humanoid figures aiding each other, symbolizing the essence of manpower training. Within their interaction, the letter "N" in INUP emerges, showcasing the program's focus. The intertwined figures symbolize the collaboration inherent in ideating to innovate. Incorporating benzene rings and graphene-based elements signifies the essence of nanotechnology and advanced materials.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Figure & Letter Construction</span></div>
-  <div class="screen-item"><span>Molecular Grid System</span></div>
-  <div class="screen-item"><span>Stationery & Print</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Figure and Letter Construction">
+    <figcaption>Figure &amp; Letter Construction</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Molecular Grid System">
+    <figcaption>Molecular Grid System</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Stationery and Print">
+    <figcaption>Stationery &amp; Print</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">
@@ -469,16 +500,26 @@
 
 <p>One Shot eSports, a burgeoning Esports startup in the Hanover region, is the brainchild of seasoned industry veterans and accomplished entrepreneurs. With deep roots in the Indian Esports realm and a strong entrepreneurial spirit, One Shot is dedicated to advancing Esports from grassroots to professional levels.</p>
 
-<div class="image-placeholder">
-  <span>One Shot eSports: Primary Logo</span>
-</div>
+<figure class="case-figure">
+  <img src="../assets/case-studies/logofolio/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="One Shot eSports: Primary Logo">
+  <figcaption>One Shot eSports: Primary Logo</figcaption>
+</figure>
 
 <p>The brand identity is tailored to resonate with teenage gamers. The logo integrates a radical reminiscent of an FPS gamer's focal point, cleverly embedded as the "O" in "One," imbuing the design with modernity and relevance. Bold, aggressive red hues enhance its contemporary allure.</p>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Logo & Crosshair Construction</span></div>
-  <div class="screen-item"><span>Jersey Design</span></div>
-  <div class="screen-item"><span>Gun Skin Application</span></div>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Logo and Crosshair Construction">
+    <figcaption>Logo &amp; Crosshair Construction</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Jersey Design">
+    <figcaption>Jersey Design</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/logofolio/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Gun Skin Application">
+    <figcaption>Gun Skin Application</figcaption>
+  </figure>
 </div>
 
 <p class="key-concepts"><strong>Key concepts:</strong> Bold & Absolute, Alert & Aggressive, Circle/Balance, Vision & Focus, Radical & Letter O.</p>

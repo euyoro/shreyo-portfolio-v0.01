@@ -30,6 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--ff);
+    font-variation-settings: 'opsz' 16;
     font-weight: 400;
     line-height: 1.65;
     max-width: 760px;
@@ -218,24 +219,23 @@
   }
 
   .screen-item {
-    border: 1.5px dashed var(--border);
     border-radius: 8px;
-    min-height: 220px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
+    overflow: hidden;
+    position: relative;
   }
 
-  .screen-item span {
+  .screen-item img {
+    width: 100%; height: auto; display: block;
+    border-radius: 8px;
+  }
+
+  .screen-item figcaption {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--muted);
     font-weight: 500;
+    margin-top: 8px;
   }
 
   /* CODE BLOCK */
@@ -469,10 +469,22 @@
 </div>
 
 <div class="screen-grid-placeholder">
-  <div class="screen-item"><span>Atlas Home</span></div>
-  <div class="screen-item"><span>App Detail View</span></div>
-  <div class="screen-item"><span>Search Results</span></div>
-  <div class="screen-item"><span>AI Inspiration Tab</span></div>
+  <figure class="screen-item">
+    <img src="../assets/shots/atlas-home.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="Atlas home screen: the dark interface with the leaf wordmark, a scrollable row of competitor app icons, a New in site block with the latest flow and new apps added.">
+    <figcaption>Atlas Home</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/case-studies/bright-atlas/shot02-2000.webp" width="2000" height="1250" loading="lazy" decoding="async" alt="Aura app detail page: app icon with Identity Protection and Credit Monitoring label, a Find in Figma button, store ratings, and 159 screens across 11 flows in the All Screens tab.">
+    <figcaption>App Detail View</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/shots/atlas-app.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="Atlas search in action: a query for Push Notifications typed in the search bar, with competitor screens filtered to matching results across apps.">
+    <figcaption>Search Results</figcaption>
+  </figure>
+  <figure class="screen-item">
+    <img src="../assets/shots/atlas-inspiration.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="AI Inspiration tab: How the world builds AI Native headline with Web and Mobile toggle, Cofounder's replay card expanded, and three tagged session cards for Riffle, Exa and Cloudflare below.">
+    <figcaption>AI Inspiration Tab</figcaption>
+  </figure>
 </div>
 
 <hr class="section-rule">
