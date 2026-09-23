@@ -470,6 +470,7 @@
   .portrait video.appear { transform: scale(1.2) translateY(24px); transform-origin: center 46%; filter: url(#portrait-stipple) blur(10px); }
   .portrait img.appear.in,
   .portrait video.appear.in { transform: scale(1.2) translateY(0); transform-origin: center 46%; filter: url(#portrait-stipple); }
+  .portrait-grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: overlay; opacity: 0.55; pointer-events: none; z-index: 3; }
   .portrait-hint { position:absolute; inset:0; display:flex; align-items:flex-end; padding:14px 16px; font-family:var(--ff-mono); font-size: 0.75rem; letter-spacing:0.12em; color:rgba(255,255,255,0.28); text-transform:uppercase; }
   .hero-right { display: flex; flex-direction: column; padding-top: 0; }
   .hero-intro-line { font-family: var(--ff); font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 32px; }
@@ -1478,13 +1479,7 @@
   .cs-slide {
     flex-shrink: 0; height: 100%; width: auto;
     overflow: hidden; position: relative;
-    background: #e5f0f5; border-radius: 14px;
-  }
-  .cs-slide::before {
-    content: ''; position: absolute; inset: 0; z-index: 1;
-    background: rgba(200,225,245,0.10);
-    mix-blend-mode: multiply;
-    pointer-events: none; border-radius: inherit;
+    background: #fff; border-radius: 14px;
   }
   .cs-slide img,
   .cs-slide video {
@@ -1503,7 +1498,6 @@
     animation: cs-skel 1.5s linear infinite;
   }
   [data-theme="dark"] .cs-slide { background: #1a2a32; }
-  [data-theme="dark"] .cs-slide::before { background: rgba(30,50,70,0.12); }
   [data-theme="dark"] .cs-slide.is-loading::after {
     background-image: linear-gradient(100deg,
       rgba(255,255,255,0.05) 28%, rgba(255,255,255,0.10) 48%, rgba(255,255,255,0.05) 68%);
@@ -2398,7 +2392,7 @@
     <span class="topbar-sep" aria-hidden="true">|</span>
     <a href="https://www.linkedin.com/in/shreyodebnath/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <span class="topbar-sep" aria-hidden="true">|</span>
-    <a href="assets/shreyo-resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+    <a href="https://drive.google.com/file/d/1XRCWsCn7CFS3KYMhP2i7--4ay9FmJaZd/view" target="_blank" rel="noopener noreferrer">Resume</a>
   </span>
 </div>
 
@@ -3510,7 +3504,7 @@ const Goo = (function () {
     if (progress < 1) {
       requestAnimationFrame(tick);
     } else {
-      finish();
+      onCounterDone();
     }
   }
 
@@ -3538,6 +3532,7 @@ const Goo = (function () {
     setTimeout(() => {
       preloader.classList.add('exit');
       stage.classList.add('revealed');
+      window.dispatchEvent(new Event('preloader:exit'));
       let hidden = false;
       const hide = () => { if (hidden) return; hidden = true; preloader.style.display = 'none'; };
       preloader.addEventListener('transitionend', hide, { once: true });
@@ -3545,8 +3540,23 @@ const Goo = (function () {
     }, 380);
   }
 
+  // Gate the reveal on the hero video being ready to play.
+  let counterDone = false;
+  let videoReady  = false;
+  function maybeFinish() { if (counterDone && videoReady) finish(); }
+  function onCounterDone() { counterDone = true; maybeFinish(); }
+
+  const heroVid = document.querySelector('.portrait video');
+  if (!heroVid || heroVid.readyState >= 3) {
+    videoReady = true;
+  } else {
+    heroVid.addEventListener('canplay', function () { videoReady = true; maybeFinish(); }, { once: true });
+    // Hard cap: never hold the preloader more than 10s waiting for video
+    setTimeout(function () { videoReady = true; maybeFinish(); }, 10000);
+  }
+
   requestAnimationFrame(tick);
-  setTimeout(finish, duration + 420);
+  setTimeout(onCounterDone, duration + 420);
 })();
 
 // ── Hero cycling text ─────────────────────────────────────
@@ -4902,8 +4912,13 @@ const Goo = (function () {
       // it pops. A timer and not rAF or the observer: neither is delivered to
       // a document that is not rendering, so a tab opened in the background
       // would surface an invisible hero.
-      const wait = document.documentElement.hasAttribute('data-skip-intro') ? 90 : 3640;
-      setTimeout(() => el.classList.add('in'), wait);
+      if (document.documentElement.hasAttribute('data-skip-intro')) {
+        setTimeout(() => el.classList.add('in'), 90);
+      } else {
+        window.addEventListener('preloader:exit', () => {
+          setTimeout(() => el.classList.add('in'), 80);
+        }, { once: true });
+      }
     } else {
       io.observe(el);
     }
@@ -5146,63 +5161,46 @@ const Goo = (function () {
   els.forEach(function (el) { el.classList.remove('in'); io.observe(el); });
 })();
 
-// ── Portrait video — slow crossfade between loops ──────────
+// ── Portrait video — simple loop ──────────
 (function () {
   const portrait = document.querySelector('.portrait');
   if (!portrait) return;
   const vA = portrait.querySelector('video');
   if (!vA) return;
-
-  const RATE = 0.25;   // quarter speed
-  const FADE = 1.4;    // crossfade duration in real seconds
-
-  vA.removeAttribute('loop');
-  vA.playbackRate = RATE;
-  vA.addEventListener('playing', function () { vA.playbackRate = RATE; });
-
-  // Clone B-roll video, stack on top
-  var vB = vA.cloneNode(true);
-  vB.classList.remove('appear');
-  vB.style.position = 'absolute';
-  vB.style.inset = '0';
-  vB.style.opacity = '0';
-  vB.style.transition = 'none';
-  portrait.appendChild(vB);
-  vB.muted = true;
-  vB.playbackRate = RATE;
-  vB.addEventListener('playing', function () { vB.playbackRate = RATE; });
-  vB.load();
-
-  var active = vA, standby = vB, busy = false;
-
-  function swap() {
-    if (busy) return;
-    busy = true;
-    standby.currentTime = 0;
-    standby.play();
-    standby.style.transition = 'opacity ' + FADE + 's ease';
-    standby.style.opacity = '1';
-    active.style.transition = 'opacity ' + FADE + 's ease';
-    active.style.opacity = '0';
-    var prev = active;
-    setTimeout(function () {
-      prev.pause();
-      prev.currentTime = 0;
-      prev.style.transition = 'none';
-      var tmp = active; active = standby; standby = tmp;
-      busy = false;
-    }, FADE * 1000 + 200);
-  }
-
-  function check(v) {
-    if (!v.duration || busy) return;
-    // convert remaining video time to real seconds
-    if ((v.duration - v.currentTime) / RATE <= FADE + 0.2) swap();
-  }
-
-  vA.addEventListener('timeupdate', function () { if (active === vA) check(vA); });
-  vB.addEventListener('timeupdate', function () { if (active === vB) check(vB); });
+  vA.loop = true;
 })();
+
+// ── Portrait moving grain ────────────────────────────────────
+(function () {
+  const portrait = document.querySelector('.portrait');
+  if (!portrait) return;
+
+  const cnv = document.createElement('canvas');
+  cnv.className = 'portrait-grain';
+  cnv.width = 320; cnv.height = 320;
+  portrait.appendChild(cnv);
+  const ctx = cnv.getContext('2d');
+
+  const INTENSITY = 0.22; // 0–1, higher = stronger grain
+  let tick = 0;
+
+  function draw() {
+    requestAnimationFrame(draw);
+    // Refresh every 6 frames (~10fps) for slow film-grain feel
+    if (++tick % 6 !== 0) return;
+    const imgData = ctx.createImageData(cnv.width, cnv.height);
+    const d = imgData.data;
+    for (var i = 0; i < d.length; i += 4) {
+      var v = ((Math.random() * 2 - 1) * INTENSITY * 255 + 128) | 0;
+      d[i] = d[i+1] = d[i+2] = v;
+      d[i+3] = 255;
+    }
+    ctx.putImageData(imgData, 0, 0);
+  }
+
+  draw();
+})();
+
 
 // ── Footer clock — my time, not yours ─────────────────────
 (function () {
