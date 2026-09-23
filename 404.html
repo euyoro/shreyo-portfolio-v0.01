@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<script>
+(function () {
+  var redirects = {
+    '/work/bright-atlas':      '/case-studies/bright-atlas.html',
+    '/work/loangpt':           '/case-studies/loangpt-bullet-funnel.html',
+    '/work/monet-cancellation':'/case-studies/monet-cancellation.html',
+    '/work/id-protection':     '/case-studies/id-protection.html',
+    '/work/rent-reporting':    '/case-studies/rent-reporting.html',
+    '/work/referral':          '/case-studies/referral-redesign.html',
+    '/work/sauron':            '/case-studies/sauron.html',
+    '/work/freemium':          '/case-studies/freemium-3-4.html',
+    '/work/baux':              '/case-studies/baux-typeface.html',
+    '/work/everest':           '/case-studies/everest-packaging.html',
+    '/work/gls-yearbook':      '/case-studies/gls-yearbook.html',
+    '/work/jupiter':           '/case-studies/jupiter-tvc.html',
+    '/work/logofolio':         '/case-studies/logofolio.html',
+    '/work/metro-wayfinding':  '/case-studies/metro-wayfinding.html',
+    '/work/scribbleship':      '/case-studies/scribbleship.html'
+  };
+
+  var path = window.location.pathname.replace(/\/$/, '');
+  var dest = redirects[path];
+  if (dest) {
+    window.location.replace(dest);
+  }
+})();
+</script>
+</head>
+<body></body>
+</html>
