@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LoanGPT &amp; Bullet Funnel · Shreyo Debnath</title>
+<title>Onboarding Funnel Revamp · Shreyo Debnath</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
@@ -414,6 +414,10 @@
     h2, h3 { page-break-after: avoid; }
   }
 
+  .tldr { background: var(--card-bg); border-radius: 8px; padding: 20px 22px; margin: 0 0 40px; }
+  .tldr-label { display: block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .tldr p { margin: 0; color: var(--text); }
+
   @page { margin: 20mm 18mm; size: A4; }
 </style>
 </head>
@@ -426,25 +430,31 @@
 <h1>Rebuilding a funnel that had not moved since 2022.</h1>
 
 <figure class="case-figure" style="margin: 0 0 40px;">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11118.png" width="1456" height="816" loading="eager" decoding="async" alt="LoanGPT onboarding — welcome screen, LoanGPT chat, and post-enroll benefit pitch side by side" style="border:none;">
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11118.png" width="1456" height="816" loading="eager" decoding="async" alt="LoanGPT onboarding: welcome screen, LoanGPT chat, and post-enroll benefit pitch side by side" style="border:none;">
 </figure>
+
+<div class="tldr">
+  <span class="tldr-label">TL;DR</span>
+  <p>A four-phase rebuild of a funnel that had not changed since 2022. I supported the design leads, owning the narrative, the post-enroll screens and the LoanGPT surfaces. Result: conversion 40% to 45%, CPA down 10%, about $200K per month saved, no downstream drop.</p>
+</div>
 
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
     <span class="meta-value">Supporting Designer</span>
+    <span class="meta-value" style="display:block;margin-top:6px;color:var(--muted);font-size:0.8125rem;">Owned: funnel narrative, post-enroll screens and copy, LoanGPT surfaces in the funnel, reconciliation against the design source of truth.</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Design Leads</span>
-    <span class="meta-value">Adithya Surasgar, Charuhasan A S</span>
+    <span class="meta-value">Two design leads</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Product</span>
-    <span class="meta-value">Akhil Jasrotia (PM) · Harsha Pappala (Analytics)</span>
+    <span class="meta-value">Product manager · Analytics</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Design Director</span>
-    <span class="meta-value">Joe</span>
+    <span class="meta-value">Design director</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Duration</span>
@@ -470,11 +480,11 @@
 <h2>Context</h2>
 <h3>The front door to everything Bright does.</h3>
 
-<p>Bright Money is a US credit app for people with bad credit and expensive debt. It builds credit through Bright Builder, rent reporting and bill reporting, and routes users to loan offers through LoanGPT — our lender recommendation product.</p>
+<p>The company is a US credit-building fintech app for people with bad credit and expensive debt. It builds credit through Bright Builder, rent reporting and bill reporting, and routes users to loan offers through LoanGPT, our lender recommendation product.</p>
 
 <p>The onboarding funnel is how every single user arrives. Nobody uses Bright without passing through it first. It had not been rebuilt since 2022.</p>
 
-<p>I supported Adithya and Charu across the revamp. My slice: narrative curation — deciding what each screen was allowed to say and why — the post-enroll screens and copy through to production, the LoanGPT surfaces inside the funnel, and reconciling the funnel against the design Source of Truth.</p>
+<p>I supported the two design leads across the revamp. My slice: narrative curation, which meant deciding what each screen was allowed to say and why. I also owned the post-enroll screens and copy through to production, the LoanGPT surfaces inside the funnel, and reconciling the funnel against the design source of truth.</p>
 
 <hr class="section-rule">
 
@@ -488,28 +498,13 @@
   <li><strong>Two funnels ran in parallel.</strong> Credit Builder and Debt Manager, each with its own pitch, splitting design effort and diluting the argument.</li>
   <li><strong>Enrolment carried weight it did not need.</strong> Credit agreement, AutoPay and account opening consents all sat before the user ever saw a price.</li>
   <li><strong>The narrative repeated itself.</strong> User interviews kept flagging the same thing. The same promise said three different ways.</li>
-  <li><strong>Conversion was leaking at monetisation.</strong> Only half of users who started reached the Monet screen.</li>
-  <li><strong>CPA sat at $21</strong> against a plan that needed it lower.</li>
+  <li><strong>Conversion was leaking at monetisation.</strong> Too many users who started never reached the screen where they first see a price.</li>
+  <li><strong>CPA sat too high</strong> for a plan that needed it lower.</li>
 </ul>
 
-<div class="stat-tiles">
-  <div class="stat-tile">
-    <span class="stat-value">50%</span>
-    <span class="stat-label">Reached Monet — before</span>
-  </div>
-  <div class="stat-tile">
-    <span class="stat-value">85/94%</span>
-    <span class="stat-label">CB vs DM conversion</span>
-  </div>
-  <div class="stat-tile">
-    <span class="stat-value">$21</span>
-    <span class="stat-label">CPA — before</span>
-  </div>
-</div>
-
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11114.png" width="1456" height="816" loading="lazy" decoding="async" alt="Older 2.0 funnel — multi-product pitch causing user confusion, long path reducing conversions">
-  <figcaption>Older 2.0 UI — lengthy funnel, diluted pitch</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11114.png" width="1456" height="816" loading="lazy" decoding="async" alt="Older 2.0 funnel: multi-product pitch causing user confusion, long path reducing conversions">
+  <figcaption>Older 2.0 UI: lengthy funnel, diluted pitch</figcaption>
 </figure>
 
 <hr class="section-rule">
@@ -518,7 +513,7 @@
 <h2>Research</h2>
 <h3>Nine competitors, and one finding that decided the structure.</h3>
 
-<p>We tore down Albert, Cleo, MoneyLion, Acorns, Brigit, Self, Kikoff, Dave and Rocket Money. Not a survey — we were looking for permission to remove things.</p>
+<p>We tore down Albert, Cleo, MoneyLion, Acorns, Brigit, Self, Kikoff, Dave and Rocket Money. Not a survey. We were looking for permission to remove things.</p>
 
 <div class="insight-cards">
   <div class="insight-card">
@@ -527,7 +522,7 @@
   </div>
   <div class="insight-card">
     <strong>Kikoff and Cleo both place the credit agreement after monetisation.</strong>
-    <p>The friction we carried pre-Monet was not an industry requirement.</p>
+    <p>The friction we carried pre-paywall was not an industry requirement.</p>
   </div>
   <div class="insight-card">
     <strong>Most competitors sell features with deep explanation before monetisation.</strong>
@@ -571,7 +566,7 @@
     <ul>
       <li>Minimise CPA at comparable spend</li>
       <li>Maximise affiliate revenue</li>
-      <li>Maximise monthly Monet buy-in</li>
+      <li>Maximise monthly plan buy-in</li>
       <li>Reduce refunds and unauthorised charges</li>
       <li>Do not damage AOV, retention or secondary opt-ins</li>
     </ul>
@@ -599,7 +594,7 @@
   <div class="decision-card">
     <span class="decision-tag">Rejected</span>
     <div class="decision-title">Two funnels</div>
-    <div class="decision-desc">Backed by no competitor precedent. CB and DM converted identically at 66% SSN-to-Monet over six months.</div>
+    <div class="decision-desc">Backed by no competitor precedent, and the two paths converted the same way over six months.</div>
   </div>
 </div>
 
@@ -617,13 +612,13 @@
 </div>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11115.png" width="1456" height="816" loading="lazy" decoding="async" alt="Experiment A vs B — standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user. B won.">
-  <figcaption>Experiment A vs B — LoanGPT as onboarder won</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11115.png" width="1456" height="816" loading="lazy" decoding="async" alt="Experiment A vs B: standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user. B won.">
+  <figcaption>Experiment A vs B: LoanGPT as onboarder won</figcaption>
 </figure>
 
 <p>The third bet was subtraction. Credit agreement, AutoPay and account opening consents all moved past enrolment, attached to the moment a user actually activates Bright Builder or Smart Round-Ups. The data supported it plainly: those consents were not required for monetisation, did not affect secondary opt-ins, and did not affect affiliate revenue.</p>
 
-<p>Add-ons were ordered by ARPU. Rent, then Sub Management, then Affiliates. Affiliates went last for a specific reason — users leave the Bright app during an affiliate journey, so anything placed after it does not get seen.</p>
+<p>Add-ons were ordered by ARPU. Rent, then Sub Management, then Affiliates. Affiliates went last for a specific reason: users leave the app during an affiliate journey, so anything placed after it does not get seen.</p>
 
 <hr class="section-rule">
 
@@ -637,19 +632,19 @@
 
 <div class="pull-quote">
   <blockquote>"The visuals are actually really important; they are meant to communicate a message, so getting them right really matters."</blockquote>
-  <cite>Akhil Jasrotia, PM — on the first round of narrative screens</cite>
+  <cite>Product manager, on the first round of narrative screens</cite>
 </div>
 
 <p>The message we landed on for the loan proposition: Bright combines loan offers from 100+ lenders and recommends the best one for you. The number tested well. The recommendation framing positioned Bright as adding intelligence rather than acting as a directory.</p>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11122.png" width="1456" height="816" loading="lazy" decoding="async" alt="New bullet funnel — credit history pitch, $100k loan offers, Bright Builder, AI Money Assistant">
-  <figcaption>New bullet funnel — four screens, one argument</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11122.png" width="1456" height="816" loading="lazy" decoding="async" alt="New bullet funnel: credit history pitch, $100k loan offers, Bright Builder, AI Money Assistant">
+  <figcaption>New bullet funnel: four screens, one argument</figcaption>
 </figure>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11113.png" width="1456" height="816" loading="lazy" decoding="async" alt="LoanGPT onboarding chat — welcome, amount collection, pre-qualification, offer comparison with risk flag">
-  <figcaption>LoanGPT chat — collects intent, surfaces offer, flags risk</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11113.png" width="1456" height="816" loading="lazy" decoding="async" alt="LoanGPT onboarding chat: welcome, amount collection, pre-qualification, offer comparison with risk flag">
+  <figcaption>LoanGPT chat: collects intent, surfaces offer, flags risk</figcaption>
 </figure>
 
 <h3>The Bullet Funnel was a second bet running alongside.</h3>
@@ -659,18 +654,18 @@
 <p>Internally it became the name for the whole new funnel. Every acquisition campaign now carries the prefix.</p>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11119.png" width="1456" height="816" loading="lazy" decoding="async" alt="Initial pitch screens — 100+ lenders, personalized offers, LoanGPT weekly offer check">
-  <figcaption>Initial pitch screens — lender breadth, personalization, continuous discovery</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11119.png" width="1456" height="816" loading="lazy" decoding="async" alt="Initial pitch screens: 100+ lenders, personalized offers, LoanGPT weekly offer check">
+  <figcaption>Initial pitch screens: lender breadth, personalization, continuous discovery</figcaption>
 </figure>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11120.png" width="1456" height="816" loading="lazy" decoding="async" alt="Old 2.0 UI — Crush credit card debt splash, credit history screen, $100k offer screen">
-  <figcaption>Old 2.0 — three messages, none of them the same</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11120.png" width="1456" height="816" loading="lazy" decoding="async" alt="Old 2.0 UI: Crush credit card debt splash, credit history screen, $100k offer screen">
+  <figcaption>Old 2.0: three messages, none of them the same</figcaption>
 </figure>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11117.png" width="1456" height="816" loading="lazy" decoding="async" alt="Improved 3.0 UI — Build credit history, get best loan offers — single clear entry point">
-  <figcaption>Improved 3.0 — one entry, two promises</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11117.png" width="1456" height="816" loading="lazy" decoding="async" alt="Improved 3.0 UI: Build credit history, get best loan offers: single clear entry point">
+  <figcaption>Improved 3.0: one entry, two promises</figcaption>
 </figure>
 
 <hr class="section-rule">
@@ -697,15 +692,11 @@
 <div class="stat-tiles">
   <div class="stat-tile">
     <span class="stat-value">$3→3.6M</span>
-    <span class="stat-label">Affiliate ARR</span>
+    <span class="stat-label">Contributed to ARR growth</span>
   </div>
   <div class="stat-tile">
     <span class="stat-value">+20%</span>
     <span class="stat-label">LoanGPT engagement</span>
-  </div>
-  <div class="stat-tile">
-    <span class="stat-value">+5%</span>
-    <span class="stat-label">DAU</span>
   </div>
 </div>
 
@@ -714,8 +705,8 @@
 <p><strong>One caveat worth stating plainly.</strong> These two sets of numbers share a cause. The funnel rebuild is what put LoanGPT in front of users, so some portion of the engagement lift is funnel exposure rather than the LoanGPT surfaces themselves. No control was run that holds exposure constant. They are one result reported two ways, not two independent wins.</p>
 
 <figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11123.png" width="1456" height="816" loading="lazy" decoding="async" alt="Post-launch — LoanGPT surfaces bad credit scenario, debt plan, Bright membership pitch; outcomes: more completions, lower CAC, lower UnAuth Rate, improved retention">
-  <figcaption>Post-launch — LoanGPT as onboarding surface, debt plan, membership pitch</figcaption>
+  <img src="../assets/case-studies/loangpt-bullet-funnel/11123.png" width="1456" height="816" loading="lazy" decoding="async" alt="Post-launch: LoanGPT surfaces bad credit scenario, debt plan, Bright membership pitch; outcomes: more completions, lower CAC, lower UnAuth Rate, improved retention">
+  <figcaption>Post-launch: LoanGPT as onboarding surface, debt plan, membership pitch</figcaption>
 </figure>
 
 <hr class="section-rule">
@@ -732,7 +723,7 @@
 </ul>
 
 <div class="cta">
-  <p>Built at Bright Money with Adithya Surasgar, Charuhasan A S, Akhil Jasrotia, Harsha Pappala and Joe. Happy to talk through the parts that are not public. <a href="https://www.linkedin.com/in/shreyodebnath" target="_blank" rel="noopener">Reach me on LinkedIn.</a></p>
+  <p>Built with two design leads, a product manager, an analyst and a design director. Happy to talk through the parts that are not public. <a href="https://www.linkedin.com/in/shreyodebnath" target="_blank" rel="noopener">Reach me on LinkedIn.</a></p>
 </div>
 
 </body>

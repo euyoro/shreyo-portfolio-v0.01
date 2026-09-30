@@ -528,6 +528,8 @@
     size: A4;
   }
 
+  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
+
   /* BACK LINK */
   .back-link {
     display: inline-flex;
@@ -565,6 +567,8 @@
 
 <h1>Referral Redesign</h1>
 
+<p class="outcome-line">Rebuilt the referral flow and made the offer card testable by Growth without engineering. Not shipped yet, so no conversion data.</p>
+
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
@@ -576,7 +580,7 @@
   </div>
   <div class="meta-item">
     <span class="meta-label">Team</span>
-    <span class="meta-value">Joe · Adithya · Pallavi · Ashish · Tanishq</span>
+    <span class="meta-value">Design director · Design lead · Illustrator · Growth · Product</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Tools</span>
@@ -584,16 +588,16 @@
   </div>
   <div class="meta-item" style="grid-column: 1 / -1;">
     <span class="meta-label">Status</span>
-    <span class="meta-value">Hi-fi signed off. Referral Templates in dev queue.</span>
-    <span class="status-open">P0 · Aug 2026</span>
+    <span class="meta-value">Designed. Hi-fi signed off. Referral templates in the dev queue.</span>
+    <span class="status-open">Designed</span>
   </div>
 </div>
 
 <!-- CONTEXT -->
 <h2>Context</h2>
 <h3>Who tells a friend about an app they barely use?</h3>
-<p>That was the real question. Not how to clean up the flow. Whether anyone actually wanted to refer Bright, and whether the screen helped them do it.</p>
-<p>Bright Money is a US fintech app. It helps people manage credit card debt, pay bills, save, and build credit. The referral programme is one of the only organic growth levers the product has. A $25 reward for every friend who signs up and completes a qualifying transaction.</p>
+<p>That was the real question. Not how to clean up the flow. Whether anyone actually wanted to refer the app, and whether the screen helped them do it.</p>
+<p>The company is a US fintech app. It helps people manage credit card debt, pay bills, save, and build credit. The referral programme is one of the only organic growth levers the product has. A $25 reward for every friend who signs up and completes a qualifying transaction.</p>
 <p>I owned this project for 13 months, across three separate phases, each revived when Growth had bandwidth. The brief when it started: Referral 2.0 → 3.0. Nothing else.</p>
 
 <hr class="section-rule">
@@ -656,15 +660,15 @@
 <div class="phases">
   <div class="phase">
     <div class="phase-label">Phase 1 · Aug to Sep 2025</div>
-    <p>UX from scratch. I mapped the full referral experience in FigJam, built the 3.0 UX flows, explored a scratch-card treatment for the referral card, ideated PLU screens, and locked the illustration direction with Joe.</p>
+    <p>UX from scratch. I mapped the full referral experience in FigJam, built the 3.0 UX flows, explored a scratch-card treatment for the referral card, ideated PLU screens, and locked the illustration direction with the design director.</p>
   </div>
   <div class="phase">
     <div class="phase-label">Phase 2 · Oct to Nov 2025</div>
-    <p>UI hygiene across all touchpoints. Illustration delivered by Pallavi. Screens ready, aligned with Joe, shared with Ashish. Then: deprioritised. The RMS track took Growth's bandwidth. Screens sat for eight months.</p>
+    <p>UI hygiene across all touchpoints. Illustration delivered by the illustrator. Screens ready, aligned with the design director, shared with Growth. Then: deprioritised. The RMS track took Growth's bandwidth. Screens sat for eight months.</p>
   </div>
   <div class="phase">
     <div class="phase-label">Phase 3 · Jul to Aug 2026</div>
-    <p>Joe revived it with one constraint: no backend involvement. Wireframes done in a day. Hi-fi closed in a week. Aligned with Ashish and Tanishq. Closed.</p>
+    <p>The design director revived it with one constraint: no backend involvement. Wireframes done in a day. Hi-fi closed in a week. Aligned with Growth and product. Closed.</p>
   </div>
 </div>
 
@@ -680,8 +684,8 @@
 <!-- DECISION -->
 <h2>Key Decision</h2>
 <h3>The constraint that made Phase 3 faster</h3>
-<p>Joe's brief on revival: no backend involvement. I took that further than a refresh.</p>
-<p>The real ask surfaced in the MoM with Ashish. Growth needed a PLU system they could control dynamically. Vary the message, test the offer, swap the visual. No dev sprint. That meant designing the PLU as a modular component, not a fixed screen.</p>
+<p>The design director's brief on revival: no backend involvement. I took that further than a refresh.</p>
+<p>The real ask surfaced in the minutes of the meeting with Growth. Growth needed a PLU system they could control dynamically. Vary the message, test the offer, swap the visual. No dev sprint. That meant designing the PLU as a modular component, not a fixed screen.</p>
 
 <div class="decision-cards">
   <div class="decision-card">
@@ -692,7 +696,7 @@
   <div class="decision-card chosen">
     <span class="decision-tag">Chosen</span>
     <div class="decision-title">Modular PLU component</div>
-    <div class="decision-desc">Message, visual, and CTA templated. Growth controls all three from BE + FE. Built to feed the RMS system Ashish was building toward.</div>
+    <div class="decision-desc">Message, visual, and CTA templated. Growth controls all three from BE + FE. Built to feed the RMS system Growth was building toward.</div>
   </div>
 </div>
 
@@ -719,7 +723,7 @@
   <figure class="screen-item">
     <img src="../assets/case-studies/referral-redesign/screens/plu-card.webp" width="560" height="1213"
          loading="lazy" decoding="async"
-         alt="The Home screen carrying the referral card above the fold, reading Earn up to $120, invite 3 friends to Bright, with a Refer Now button and an Earn $20 chip in the header.">
+         alt="The Home screen carrying the referral card above the fold, reading Earn up to $120, invite 3 friends to the app, with a Refer Now button and an Earn $20 chip in the header.">
     <figcaption>PLU Card</figcaption>
   </figure>
   <figure class="screen-item">
@@ -759,34 +763,23 @@
 <!-- FAILURES -->
 <h2>What I questioned</h2>
 
-<div class="failure-cards">
-  <div class="failure-card">
-    <div class="failure-title">"Eight months, same screens, same result" <span class="failure-mine">· mine</span></div>
-    <p class="failure-body">Phase 2 closed with Ashish aligned and screens ready. The deprioritisation was a business call, not mine. But I didn't push for a lightweight test. One PLU variant, one sprint, something to keep the work alive through the RMS gap. I waited for full bandwidth. That's how a six-week project becomes thirteen months.</p>
-  </div>
-  <div class="failure-card">
-    <div class="failure-title">"Referral Templates hit P0, not the handoff list"</div>
-    <p class="failure-body">Compliance sign-off was a known dependency before we reached the last sprint. I flagged it at alignment, not at kickoff. The blocker was external. The late flag was mine.</p>
-  </div>
-</div>
-
-<!-- PULL QUOTE -->
-<h3>The illustration question</h3>
-<p>When Pallavi delivered the illustration, I wasn't sure it communicated "$120 total" across all three referral message variants. I flagged it before testing it.</p>
+<ul class="reflection-list">
+  <li>I waited for full bandwidth instead of pushing a lightweight test, so the screens sat idle for eight months.</li>
+  <li>I flagged a compliance dependency at alignment, not at kickoff.</li>
+  <li>I raised an illustration question I could have tested myself.</li>
+</ul>
 
 <div class="pull-quote">
   <blockquote>"I kinda liked it, lets roll with it. We can of course change later depending on the performance."</blockquote>
-  <cite>Joe, Design Director</cite>
+  <cite>Design director, on the illustration</cite>
 </div>
-
-<p>I deferred. Right call for a product context. Ship, then measure. What I'd change: run a quick reading-order test before asking. I raised a question I could have answered myself.</p>
 
 <hr class="section-rule">
 
 <!-- OUTCOME -->
 <h2>Outcome</h2>
 <h3>Where it landed</h3>
-<p>Hi-fi signed off by Adithya. Aligned with Ashish and Tanishq. Waiting on dev sprint allocation.</p>
+<p>Hi-fi signed off by the design lead. Aligned with Growth and product. Waiting on dev sprint allocation.</p>
 <p>Referral Templates are P0 as of Aug 2026, blocked on compliance availability and Growth team leave. Not dropped. In queue.</p>
 <p>No conversion data yet. The hi-fi hasn't shipped.</p>
 
@@ -805,7 +798,7 @@
 <!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
 </div>
 
 </body>

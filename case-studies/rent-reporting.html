@@ -331,6 +331,13 @@
     size: A4;
   }
 
+  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 56px; }
+  .stat { background: var(--card-bg); border-radius: 8px; padding: 16px 14px; }
+  .stat-val { display: block; font-family: var(--ff-display); font-size: 1.5rem; line-height: 1.15; color: var(--text); }
+  .stat-lbl { display: block; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  @media (max-width: 640px) { .stat-strip { grid-template-columns: 1fr; } }
+
   /* BACK LINK */
   .back-link {
     display: inline-flex;
@@ -368,6 +375,14 @@
 
 <h1>Rent Reporting</h1>
 
+<p class="outcome-line">Redesigned the funnel that lets renters report rent to credit bureaus. Application conversion went from 30% to 50% and related support tickets fell 15%. [CONFIRM: measurement window]</p>
+
+<div class="stat-strip">
+  <div class="stat"><span class="stat-val">30% → 50%</span><span class="stat-lbl">Application conversion</span></div>
+  <div class="stat"><span class="stat-val">15%</span><span class="stat-lbl">Fewer related support tickets</span></div>
+  <div class="stat"><span class="stat-val">March 2026</span><span class="stat-lbl">Went live</span></div>
+</div>
+
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
@@ -387,7 +402,7 @@
   </div>
   <div class="meta-item" style="grid-column: 1 / -1;">
     <span class="meta-label">Status</span>
-    <span class="meta-value">Shipped. Disclosure update in Credit Tab PD.</span>
+    <span class="meta-value">Shipped. Disclosure update moved into the Credit Tab.</span>
     <span class="status-tag">Shipped</span>
   </div>
 </div>
@@ -414,7 +429,7 @@
 <p>The pitch screen needed to communicate one thing: your rent payments can count toward your credit score. No fine print first. Value first, then the steps.</p>
 
 <h4>Portal selection and bureau logic</h4>
-<p>Users pick their rent portal or indicate they don't have one. Reporting goes to TransUnion and Equifax, each with different handling. The design needed to account for both paths, the transition between them, and what users see when one bureau is active and the other isn't.</p>
+<p>Users pick their rent portal or indicate they don't have one. Reporting goes to two credit bureaus, each with different handling. The design needed to account for both paths, the transition between them, and what users see when one bureau is active and the other isn't.</p>
 
 <h4>Surface it everywhere it matters</h4>
 <p>Banners on the Home Tab. Widgets in the Credit Tab. Opt-out users seeing a path back in. Each touchpoint with its own state logic based on the user's reporting status.</p>
@@ -435,7 +450,7 @@
   <figure class="screen-item">
     <img src="../assets/case-studies/rent-reporting/screens/bureau.webp" width="560" height="1213"
          loading="lazy" decoding="async"
-         alt="Congrats! Your Rent is now reporting to TransUnion, with Application Submitted ticked and a second step offering to report to Equifax at no cost beside the Equifax mark.">
+         alt="Congrats! Your Rent is now reporting to a credit bureau, with Application Submitted ticked and a second step offering to report to the second bureau at no cost.">
     <figcaption>Bureau Reporting Flow</figcaption>
   </figure>
   <figure class="screen-item">
@@ -466,7 +481,7 @@
 
 <p>The full funnel: sign-up through reporting, with all bureau paths, portal selection, edge cases for users without a portal, and the widget and banner system surfacing the feature across the app.</p>
 
-<p>Later, Equifax support was added to the funnel. A disclosure update moved the compliance layer into the Credit Tab.</p>
+<p>Later, support for the second bureau was added to the funnel. A disclosure update moved the compliance layer into the Credit Tab.</p>
 
 <p>Before signing off on the build, I held the design sign-off by a day. Frontend had unresolved issues. The PM was pushing to close the sprint. I flagged it to the Design Director and asked to sync with engineering the next morning before releasing.</p>
 
@@ -483,26 +498,7 @@
 <h2>Process</h2>
 <h3>What didn't go as planned</h3>
 
-<p>The project should have taken four to six days. It took close to three weeks. Not because the design was complex. Because the inputs kept changing.</p>
-
-<p>The spec had gaps. Copy was missing from the requirements. Edge cases for the portal selection flow and the skip/opt-out paths were not mapped before design started. I began designing around those gaps, and each one became a revision when the answers arrived late.</p>
-
-<p>The bureau transition logic changed three times during the project. Each time was a re-alignment, not an iteration. The flow moved forward, then back, then forward again. Decisions made early were revisited after senior stakeholders reviewed, which meant screens already built had to be reworked to match an older direction.</p>
-
-<p>Some of the banners I designed were cut after a later review found they didn't fit the updated approach. That time was spent. It didn't need to be.</p>
-
-<p>After the project closed, I wrote a post-mortem. Not because anyone asked. Because I wanted the gap between the expected timeline and the actual one documented, with specific reasons, so I could hold myself to a better process next time.</p>
-
-<div class="failure-cards">
-  <div class="failure-card">
-    <div class="failure-title">"I designed around the gaps instead of pushing for the spec first" <span class="failure-mine">· mine</span></div>
-    <p class="failure-body">When the requirements had no copy and unmapped edge cases, I started designing anyway. Every gap became a reversal. Pushing for the spec before starting would have been slower on day one and faster by day ten.</p>
-  </div>
-  <div class="failure-card">
-    <div class="failure-title">"Post-mortem at the end, not the middle" <span class="failure-mine">· mine</span></div>
-    <p class="failure-body">Every reason I listed in the post-mortem was visible by week two. A mid-project flag would have shortened the last stretch. I documented the problem after the timeline was already spent.</p>
-  </div>
-</div>
+<p>The project should have taken four to six days and took close to three weeks, because the spec had gaps (missing copy, unmapped edge cases) and the bureau logic changed three times. I designed around the gaps instead of pushing for the spec first, and I wrote the post-mortem at the end, not at week two. Next time I will push for answers before designing, and flag problems mid-project.</p>
 
 <hr class="section-rule">
 
@@ -519,7 +515,7 @@
 <!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
 </div>
 
 </body>

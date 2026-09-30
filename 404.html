@@ -2,13 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Redirecting…</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Page not found · Shreyo Debnath</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; font-family: system-ui, -apple-system, sans-serif; background: #fbfbfa; color: #131313; }
+  main { text-align: center; padding: 24px; }
+  p { color: #5f5f5b; margin: 8px 0 24px; }
+  a { color: #131313; border-bottom: 1px solid rgba(19,19,19,0.3); text-decoration: none; }
+</style>
 <script>
 (function () {
   var redirects = {
     '/work/bright-atlas':      '/case-studies/bright-atlas.html',
     '/work/loangpt':           '/case-studies/loangpt-bullet-funnel.html',
-    '/work/monet-cancellation':'/case-studies/monet-cancellation.html',
     '/work/id-protection':     '/case-studies/id-protection.html',
     '/work/rent-reporting':    '/case-studies/rent-reporting.html',
     '/work/referral':          '/case-studies/referral-redesign.html',
@@ -22,14 +29,16 @@
     '/work/metro-wayfinding':  '/case-studies/metro-wayfinding.html',
     '/work/scribbleship':      '/case-studies/scribbleship.html'
   };
-
-  var path = window.location.pathname.replace(/\/$/, '');
-  var dest = redirects[path];
-  if (dest) {
-    window.location.replace(window.location.origin + dest);
-  }
+  var dest = redirects[window.location.pathname.replace(/\/$/, '')];
+  if (dest) window.location.replace(window.location.origin + dest);
 })();
 </script>
 </head>
-<body></body>
+<body>
+<main>
+  <h1>Page not found</h1>
+  <p>That page is not here.</p>
+  <a href="/">Back to the portfolio</a>
+</main>
+</body>
 </html>

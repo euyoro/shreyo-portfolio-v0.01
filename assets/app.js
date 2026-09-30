@@ -69,7 +69,7 @@
   //   1. prefers-reduced-motion. An autoplaying loop is exactly the kind of
   //      motion that setting exists to stop, and no CSS can stop it. Under
   //      reduce we never call play() and expose controls instead, so the clip
-  //      is still watchable — on purpose, not automatically.
+  //      is still watchable: on purpose, not automatically.
   //   2. The no-JS path. Without this script the video never plays, so every
   //      looping clip carries `controls` in the markup as its fallback and we
   //      strip them here only once we know we can drive playback ourselves.
