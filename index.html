@@ -16,18 +16,18 @@
 
   // The intro is a first impression, not a toll booth: it plays once per tab,
   // so index -> Playground -> index lands on the site instead of replaying it.
-  // The decision has to happen here and not in the body script — the loader is
+  // The decision has to happen here and not in the body script: the loader is
   // an opaque fixed layer over an opacity-0 stage, and the parser paints it
   // long before it reaches the 40KB of markup below.
   // The flag is written when the intro FINISHES, not here. Writing it at parse
   // time would burn the intro for a tab that never rendered a frame of it.
   // sessionStorage, not localStorage: a visit next week has earned it again.
   // Reading it throws outright on opaque origins and wherever site data is
-  // blocked — neither typeof nor `in` catches that, only a try around the
-  // property access — and failing open to "play it" is the right way to be
+  // blocked: neither typeof nor `in` catches that, only a try around the
+  // property access: and failing open to "play it" is the right way to be
   // wrong. ?intro forces it back for when you want to see it again.
   // Pressing reload is asking to watch the page load, so it always plays.
-  // Only a plain navigation — a link back from another page — skips. The
+  // Only a plain navigation: a link back from another page: skips. The
   // Navigation Timing entry exists from navigation start, so it is readable
   // this early; performance.navigation is the pre-2019 spelling of the same
   // question and costs one line to keep.
@@ -75,9 +75,9 @@
     --neon-ink:   #131313;
     --glare:      rgba(255,255,255,0.58);
     --nav-bg:     rgba(251,251,250,0.90);
-    /* Heatmap — warm neutral ramp */
+    /* Heatmap: warm neutral ramp */
     /* Density now runs through the accent. On paper it has to get DARKER as
-       it climbs — the neon is lighter than the empty cell, so ending on it
+       it climbs: the neon is lighter than the empty cell, so ending on it
        would read as less activity, not more. It tops out at --accent. */
     --h0: #ebebe8; --h1: #dcecb4; --h2: #bcdd63; --h3: #86af1e; --h4: #4c7a00;
     /* Fonts */
@@ -85,10 +85,10 @@
     --ff-inst:    'Instrument Sans', system-ui, sans-serif;
     --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
     --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    /* Squared terminals on a grotesque skeleton — the CTA only. */
+    /* Squared terminals on a grotesque skeleton: the CTA only. */
     --gutter:     clamp(1.5rem, 5vw, 4rem);
     --max:        1100px;
-    /* Motion — one scale, so sibling interactions cannot drift apart.
+    /* Motion: one scale, so sibling interactions cannot drift apart.
        Five deliberate one-offs stay literal below: the story fade (0.45s),
        the stage fade (0.55s), the scrim (0.6s), the greeting crossfade
        (0.28s) and the floating-object bob (5s). */
@@ -149,14 +149,14 @@
 
   /* ── Focus ── */
   /* Every interactive thing here is a real button or anchor, so the ring is
-     driven off :focus-visible — it shows for keyboard and assistive input and
+     driven off :focus-visible: it shows for keyboard and assistive input and
      stays out of the way of a mouse click. */
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
   .work-card:focus-visible  { outline-offset: 4px; border-radius: 16px; }
   .award-row:focus-visible  { outline-offset: -2px; border-radius: 6px; }
   .nav-cta:focus-visible    { outline-offset: 3px; border-radius: 999px; }
 
-  /* ── Page stage — objects are absolute children of this ── */
+  /* ── Page stage: objects are absolute children of this ── */
   .page-stage { position: relative; }
 
   /* ── Floating objects ── */
@@ -187,7 +187,7 @@
   }
   /* The objects sit at z-5, behind the content column (.wrap is z-10), so they
      tuck under the text at rest. A tooltip has to clear that text, so the whole
-     object lifts above the column for the duration of the hover — and stays
+     object lifts above the column for the duration of the hover: and stays
      below the nav at z-50. */
   .fobj:hover { z-index: 20; }
 
@@ -251,7 +251,7 @@
   .topbar { transition: transform 0.22s ease; }
   .topbar.tb-hidden { transform: translateY(-100%); }
   .nav.tb-hidden { top: 0; }
-  /* Wordmark — left side */
+  /* Wordmark: left side */
   .nav-wordmark {
     position: relative; z-index: 2;   /* the panel slides under the bar */
     display: flex; align-items: baseline; gap: 0;
@@ -278,10 +278,10 @@
     display: flex; align-items: center; gap: 18px;
     position: relative; z-index: 2;
   }
-  /* Menu button — three bars that fold into a cross.
+  /* Menu button: three bars that fold into a cross.
      On a phone the control belongs in the far corner, so it is ordered past
      the theme toggle. On a desktop the same wrapper holds the inline row of
-     links, which belongs on the left — hence order, not markup order. */
+     links, which belongs on the left: hence order, not markup order. */
   .nav-menu-wrap { position: relative; }
   .nav-theme-btn { position: relative; z-index: 2; margin-left: -10px; }
   .nav-menu-btn {
@@ -339,14 +339,14 @@
   .nav-drop-link:first-child { border-top: 1px solid var(--border); }
   .nav-dropdown.open .nav-drop-link { opacity: 1; transform: none; }
   /* Counted from the END so the sequence runs bottom to top, and so it stays
-     correct whether the CTA is in the panel or up in the bar — a hidden child
+     correct whether the CTA is in the panel or up in the bar: a hidden child
      still counts, which is exactly what keeps the two cases in step. */
   .nav-dropdown.open .nav-drop-link:nth-last-child(1) { transition-delay: 0.06s; }
   .nav-dropdown.open .nav-drop-link:nth-last-child(2) { transition-delay: 0.12s; }
   .nav-dropdown.open .nav-drop-link:nth-last-child(3) { transition-delay: 0.18s; }
   .nav-dropdown.open .nav-drop-link:nth-last-child(4) { transition-delay: 0.24s; }
   .nav-dropdown.open .nav-drop-link:nth-last-child(5) { transition-delay: 0.30s; }
-  /* Theme is a control, not a destination — it gets the row treatment but
+  /* Theme is a control, not a destination: it gets the row treatment but
      keeps its icon pair, which crossfades in place as before. */
   .nav-drop-theme {
     justify-content: space-between; width: 100%;
@@ -356,11 +356,11 @@
   .nav-theme-swap { display: inline-grid; place-items: center; }
   .nav-drop-theme .nav-theme-icon { width: 0.4em; height: 0.4em; }
   .nav-drop-link:hover { color: var(--muted); }
-  /* Shape and colour are inherited from .nav-cta on purpose — this is the
+  /* Shape and colour are inherited from .nav-cta on purpose: this is the
      same button, just sized for a thumb. Restating the radius here would put
      it out of step the next time the CTA is restyled. */
   /* The bar CTA blown up to the panel scale. Everything that makes it that
-     button — the neon fill, the dark ink, the radius, the grotesk — is
+     button: the neon fill, the dark ink, the radius, the grotesk: is
      inherited from .nav-cta so the two never drift apart; the type size and
      the padding here are the only difference, matched to the rows above so
      the whole stack sits on one rhythm. */
@@ -374,12 +374,12 @@
     transition: opacity 0.3s ease 0.28s, transform 0.44s var(--e-out) 0.28s;
   }
   .nav-dropdown.open .nav-drop-cta { opacity: 1; transform: none; }
-  /* the bar's own CTA is a desktop affordance — on a phone it lives in the panel */
+  /* the bar's own CTA is a desktop affordance: on a phone it lives in the panel */
   .nav-bar-cta { display: none; }
   @media (prefers-reduced-motion: reduce) {
     .nav-dropdown, .nav-drop-link, .nav-drop-cta { transition: opacity 0.2s ease; transform: none; }
   }
-  /* Resume leaves the site for Google Drive — say so rather than letting the
+  /* Resume leaves the site for Google Drive: say so rather than letting the
      tab switch be the first hint. */
   .nav-arr { font-size: 0.75rem; opacity: 0.45; }
   /* in the panel the label is ~54px; a 10px marker beside it disappears */
@@ -390,8 +390,8 @@
      fallback: four links plus the wordmark, the theme toggle and the CTA do
      not fit across a phone. */
   /* Desktop gets the same panel, not a row of links in the bar. It lands in
-     the bottom RIGHT — under the control that opened it rather than across
-     the screen from it — and the empty field above is what makes it read as
+     the bottom RIGHT: under the control that opened it rather than across
+     the screen from it: and the empty field above is what makes it read as
      somewhere you arrived rather than a menu that dropped down. */
   @media (min-width: 861px) {
     .nav-dropdown { align-items: flex-end; }
@@ -405,7 +405,7 @@
     .nav-drop-cta { display: none; }
     .nav-bar-cta { display: inline-block; }
   }
-  /* Theme toggle — a pill carrying whichever icon names the theme you are
+  /* Theme toggle: a pill carrying whichever icon names the theme you are
      currently in. Both icons are always in the DOM and stacked in one grid
      cell, so the swap is a crossfade between two things already laid out
      rather than a reflow. */
@@ -476,13 +476,13 @@
   .hero-intro-line { font-family: var(--ff); font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 32px; }
   .hero-intro-line strong { font-weight: 700; }
   /* overflow was hidden to mask the old slide-out. The word now dissolves in
-     place instead, and a blurred blob needs to bleed past the line box — with
+     place instead, and a blurred blob needs to bleed past the line box: with
      the clip still on, every blob would be sliced flat top and bottom. */
   .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: baseline; white-space: nowrap; }
   .hero-cycle { display: inline-block; }
   .hero-body { display: flex; flex-direction: column; gap: 16px; }
   .hero-hl { color: var(--dim); font-style: normal; }
-  /* Body copy: muted by default, <em> switches color not weight — Lazim's trick */
+  /* Body copy: muted by default, <em> switches color not weight: Lazim's trick */
   .hero-p { font-family: var(--ff); font-size: 1.0625rem; color: var(--muted); line-height: 1.65; letter-spacing: -0.02em; max-width: 50ch; }
   .hero-p em { font-style: normal; color: var(--text); }
 
@@ -539,7 +539,7 @@
      sees collapsed are literally the nodes that travel into the open list. */
   .exp-section { padding: 40px 0 80px; --exp-dur: 620ms; --exp-ease: cubic-bezier(0.4, 0, 0.2, 1); }
   /* The title sets at line-height 1, so it carries no descender room of its
-     own — the rail needs the gap given to it explicitly. */
+     own: the rail needs the gap given to it explicitly. */
   .exp-section .section-head { margin-bottom: 48px; }
   .exp-toggle { display: inline-flex; align-items: center; gap: 5px; font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.05em; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0; transition: color var(--t-hover); text-transform: uppercase; }
   .exp-toggle:hover { color: var(--text); }
@@ -651,7 +651,7 @@
   .award-project { font-family: var(--ff); font-size: 0.9375rem; font-weight: 500; color: var(--text); letter-spacing: -0.02em; }
   .award-body { font-family: var(--ff); font-size: 0.875rem; color: var(--text); letter-spacing: -0.01em; }
   .award-type { font-family: var(--ff); font-size: 0.875rem; color: var(--muted); letter-spacing: -0.01em; }
-  /* Hover card — image only */
+  /* Hover card: image only */
   .award-hover-card {
     position: fixed; pointer-events: none; z-index: 70;
     width: 280px; border-radius: 6px; overflow: hidden;
@@ -677,7 +677,7 @@
   @media (max-width: 760px) {
     .hero-role { display: none; }
 
-    /* Still a table — dropping the year frees the width the three remaining
+    /* Still a table: dropping the year frees the width the three remaining
        columns needed, and the name gets the larger share because it is the
        one that actually runs long. */
     .award-row {
@@ -694,7 +694,7 @@
     .awards-title-block { align-items: center; text-align: center; }
     .awards-title-line:last-child { margin-left: 0; }
 
-    /* No hover on a touch screen — the state sticks after a tap with no way
+    /* No hover on a touch screen: the state sticks after a tap with no way
        to clear it. The arrow carries the affordance instead, and only on the
        rows that actually lead somewhere. */
     .award-row:hover { background: none; }
@@ -724,8 +724,8 @@
 
   /* ── Blob-to-defined heading reveal ──────────────────────────────────
      The big headings resolve out of a merged, liquid mass instead of
-     fading in. The blur is a CSS filter function — the cheap, accelerated
-     path the page already leans on — and the SVG filter behind it does
+     fading in. The blur is a CSS filter function: the cheap, accelerated
+     path the page already leans on: and the SVG filter behind it does
      exactly one thing: threshold alpha. That threshold is the whole effect
      and it is the one part CSS cannot express (contrast() has no funcA, so
      it cannot touch alpha and is a no-op over a transparent background).
@@ -743,7 +743,7 @@
     .portrait { aspect-ratio: 1/1; max-width: 220px; }
   }
   @media (max-width: 480px) {
-    /* day-col is display:none here, so the grid has ONE child — a '0 1fr'
+    /* day-col is display:none here, so the grid has ONE child: a '0 1fr'
        track list put it in the zero-width track and the whole heatmap
        rendered 0px wide on every phone. */
     .day-col { display: none; }
@@ -777,7 +777,7 @@
   }
   .works-title-line { display: block; }
   .works-title-indent { margin-left: 1.1em; }
-  /* single line now — share the stack's line-height so "Case" and the
+  /* single line now: share the stack's line-height so "Case" and the
      swapping word sit on the same baseline */
   .wt-layout { display: flex; align-items: flex-start; justify-content: center; line-height: 0.92; }
   .wt-prefix { flex-shrink: 0; }
@@ -841,7 +841,7 @@
     border-color: rgba(19,19,19,0.16);
   }
 
-  /* A band of light crossing the card on hover — the card already clips to
+  /* A band of light crossing the card on hover: the card already clips to
      its radius, so the sweep stays inside the rounded corners. It runs once
      per hover rather than looping, so it reads as a glare catching the
      surface and not as a loading shimmer. */
@@ -876,7 +876,7 @@
   /* Full-width last card gets wider aspect */
   .work-card:last-child .work-img { aspect-ratio: 32/9; }
 
-  /* Placeholder visuals — colored gradient fields */
+  /* Placeholder visuals: colored gradient fields */
   .work-img-fill {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -996,7 +996,7 @@
      The record is the control: clicking the disc starts it. The audio comes
      from YouTube's own embedded player, which is the only way to play a
      commercial recording here without hosting the file. */
-  /* No card. The record is the object — nothing framing it, nothing behind
+  /* No card. The record is the object: nothing framing it, nothing behind
      it, and overflow visible so the disc's own shadow is not clipped away. */
   .ec-vinyl-card {
     padding: 0; background: none; border: none;
@@ -1026,7 +1026,7 @@
   }
   .ec-vinyl.playing .ec-vinyl-disc { animation-play-state: running; }
   @keyframes ec-spin { to { transform: rotate(360deg); } }
-  /* The sheen is a separate, unrotating layer — a highlight that spun with the
+  /* The sheen is a separate, unrotating layer: a highlight that spun with the
      record would read as a painted mark rather than a reflection. */
   .ec-vinyl-sheen {
     position: absolute; inset: 0; border-radius: 50%; pointer-events: none;
@@ -1050,7 +1050,7 @@
     background: var(--bg); z-index: 2;
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.22);
   }
-  /* Tonearm. Rests clear of the record and swings down onto it on play — the
+  /* Tonearm. Rests clear of the record and swings down onto it on play: the
      one part of a turntable that tells you it is running before you hear it.
      pointer-events:none so it never intercepts a tap meant for the disc. */
   .ec-tonearm {
@@ -1075,8 +1075,8 @@
     box-shadow: 0 1px 2px rgba(0,0,0,0.25);
   }
 
-  /* The player itself. It has to be rendered — a display:none iframe will not
-     play — so it sits behind the disc rather than being removed. */
+  /* The player itself. It has to be rendered: a display:none iframe will not
+     play: so it sits behind the disc rather than being removed. */
   .ec-yt {
     position: absolute; left: 50%; top: 50%;
     width: 200px; height: 150px; margin: -75px 0 0 -100px;
@@ -1093,7 +1093,7 @@
     color: var(--muted); letter-spacing: -0.01em;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  /* Sine-wave play button — mirrors Roman Vasilev's ambient audio control */
+  /* Sine-wave play button: mirrors Roman Vasilev's ambient audio control */
   .ec-wave-btn {
     display: inline-flex; align-items: center; justify-content: center;
     width: 30px; height: 30px; padding: 0;
@@ -1116,12 +1116,12 @@
   /* Phones get a plain two-up grid instead of the scattered collage: the
      overlap and the tilt need room the screen does not have, and dragging a
      card around a 375px column is not worth offering. Photo cards are empty
-     background-image divs, so they need an explicit ratio here — height:auto
+     background-image divs, so they need an explicit ratio here: height:auto
      collapses them to nothing. */
   @media (max-width: 760px) {
     /* A deck rather than a grid. One card is held at the centre with its
        neighbours fanned away behind it, and a swipe deals the next one
-       forward. The free-drag handler above bows out on its own here — it
+       forward. The free-drag handler above bows out on its own here: it
        checks for position: static, which is what these cards have. */
     .extras-collage {
       --deck-card: min(62vw, 268px);
@@ -1288,7 +1288,7 @@
     filter: blur(0) saturate(1);
     transform: scale(1);
   }
-  /* No slideshow for anyone who asked for less motion — the first frame
+  /* No slideshow for anyone who asked for less motion: the first frame
      simply stays put, sharp. */
   @media (prefers-reduced-motion: reduce) {
     .about-photo-layer { transition: none; filter: none; transform: none; }
@@ -1385,7 +1385,7 @@
   }
   .reel-slot.focus .reel-tile { filter: none; opacity: 1; transform: scale(1); }
   .reel-tile img { width: 100%; height: 100%; object-fit: contain; padding: 5px; display: block; }
-  /* the Bright mark is a full-bleed tile — the inset the others need would
+  /* the Bright mark is a full-bleed tile: the inset the others need would
      show as a pale seam against its own green */
   .reel-tile.logo-bm img { padding: 0; }
   @media (max-width: 760px) {
@@ -1409,7 +1409,7 @@
     /* One scrolling column, and the overlay is the thing that scrolls.
        It used to clip instead: .about-left was given height:auto so it grew to
        fit its content, while .about-overlay stayed pinned to the viewport with
-       overflow:hidden — and .about-content's own overflow-y never engaged,
+       overflow:hidden: and .about-content's own overflow-y never engaged,
        because flex:1 inside an auto-height parent leaves it no definite height
        to overflow against. Everything past the first screen was unreachable. */
     .about-overlay {
@@ -1440,7 +1440,7 @@
   /* ── Case Study Overlay ── */
   .cs-overlay {
     position: fixed; inset: 0; z-index: 80;
-    /* Not a surface of its own — a veil over the homepage, which stays
+    /* Not a surface of its own: a veil over the homepage, which stays
        visible behind it. No blur: this layer is full-screen, and blurring it
        is the single most expensive thing we could do here. */
     background: rgba(244,244,242,0.85);
@@ -1453,7 +1453,7 @@
   /* ── Layer 1: full-bleed image carousel (the backdrop) ── */
   .cs-bg { position: absolute; inset: 0; display: flex; }
   /* Slide height is whatever the padding leaves: 70vh - padTop. The top inset
-     still eases off as the viewport grows, but on a shallow slope — the CLOSE
+     still eases off as the viewport grows, but on a shallow slope: the CLOSE
      bar ends at 55px, so this leaves roughly 20px of air on a laptop instead
      of the 37px a steeper curve produced. The floor keeps it clear of CLOSE
      on tall screens. */
@@ -1469,12 +1469,12 @@
   .cs-carousel-track {
     display: flex; align-items: stretch;
     height: 100%; gap: 28px; padding: 0;
-    /* the resting inset is applied as a transform offset, not padding —
+    /* the resting inset is applied as a transform offset, not padding:
        padding only exists at the two ends and would jump at the loop seam */
     --cs-inset: 34px;
     will-change: transform;
   }
-  /* Slides size to their image's natural aspect so nothing gets cropped —
+  /* Slides size to their image's natural aspect so nothing gets cropped:
      "images at full scale". Placeholder slides fall back to a fixed width. */
   .cs-slide {
     flex-shrink: 0; height: 100%; width: auto;
@@ -1553,7 +1553,7 @@
   }
   .cs-overlay.expanded .cs-sheet { top: max(50px, calc(8vh - 30px)); }
 
-  /* Folder tabs — sit above the card, attached to it */
+  /* Folder tabs: sit above the card, attached to it */
   .cs-tabs {
     display: flex; align-items: flex-end;
     padding-left: 2px;
@@ -1577,9 +1577,9 @@
   }
   .cs-tab:not(.active):hover { color: #454541; background: rgba(246,246,244,0.9); }
   /* the default ring sits 3px outside, which on a tab reads as a validation
-     box — tuck it inside the tab's own shape instead */
-  /* A keyboard user still needs to see where they are — these tabs are the
-     only way to expand the case study — but the accent ring read as an error
+     box: tuck it inside the tab's own shape instead */
+  /* A keyboard user still needs to see where they are: these tabs are the
+     only way to expand the case study: but the accent ring read as an error
      box on this surface. Same job, quiet about it. */
   .cs-tab:focus-visible {
     outline: 2px solid rgba(19,19,19,0.30);
@@ -1610,7 +1610,7 @@
   .cs-card::-webkit-scrollbar-thumb { background: rgba(19,19,19,0.16); border-radius: 4px; }
   .cs-card::-webkit-scrollbar-track { background: transparent; }
 
-  /* ── Header block — persists in BOTH states ── */
+  /* ── Header block: persists in BOTH states ── */
   .cs-head {
     display: grid;
     /* metrics take exactly what their non-wrapping overlines need, so the
@@ -1647,7 +1647,7 @@
   .cs-meta-icon svg { width: 100%; height: 100%; display: block; }
   /* The literal green and not var(--accent): .cs-card is a hardcoded white
      sheet with no dark-theme override, and --accent flips to the neon in dark
-     mode — which would leave these at 1.1:1 on white. Pinned to the light
+     mode: which would leave these at 1.1:1 on white. Pinned to the light
      green, measured 5.1:1 there. */
   .cs-tag {
     font-family: var(--ff-mono); font-size: 0.875rem;
@@ -1709,8 +1709,8 @@
     .cs-metric-val { font-size: 1.375rem; }
   }
 
-  /* ── Story block — only visible when expanded ── */
-  /* Collapsed, the story must leave the layout entirely — opacity alone keeps
+  /* ── Story block: only visible when expanded ── */
+  /* Collapsed, the story must leave the layout entirely: opacity alone keeps
      its full height in the flow, which gave the collapsed card a scrollbar into
      invisible content once it became scrollable. */
   .cs-story {
@@ -1724,7 +1724,7 @@
   }
 
   /* The case study page ships its own meta block (Role / Duration / Stack /
-     Team / Status). Reshape it into the bordered role box from the design —
+     Team / Status). Reshape it into the bordered role box from the design:
      extra specificity so it beats the page's own scoped rules. */
   .cs-card .cs-body .meta-block {
     display: grid;
@@ -1742,7 +1742,7 @@
     display: flex; flex-direction: column; gap: 14px;
     padding: 0; border: none;
     /* the source pages span Status across the full width, which is what
-       forced a second row — here every item is an equal peer */
+       forced a second row: here every item is an equal peer */
     grid-column: auto !important;
   }
   .cs-card .cs-body .meta-label {
@@ -1760,7 +1760,7 @@
      statement and prose in a wide right band. The header block above is
      untouched. */
   /* Scoped under .cs-card .cs-body so the fetched page's own
-     '* { margin:0; padding:0 }' reset — injected later in the head — cannot
+     '* { margin:0; padding:0 }' reset: injected later in the head: cannot
      flatten the band spacing back to zero. */
   .cs-card .cs-body .cs-sec {
     display: grid;
@@ -1838,7 +1838,7 @@
 
   /* The fetched pages rule off their own sections because they are a single
      760px column with nothing else to separate them. Inside the banded layout
-     each section already carries a rule, so those become doubled lines — and
+     each section already carries a rule, so those become doubled lines: and
      the reflection list stacks one per item. Card borders (.screen-item,
      .failure-card) are components, not dividers, and stay. */
   /* One rule rather than chasing each page's list class: every page rules off
@@ -1851,7 +1851,7 @@
   }
   .cs-card .cs-body .cta { border-top: none; margin-top: 28px; padding-top: 0; }
 
-  /* Fetched case-study content — left-aligned, spread */
+  /* Fetched case-study content: left-aligned, spread */
   .cs-body { max-width: none; }
   /* copy sits in a readable column; the role box and media run full width */
   .cs-body > p, .cs-body > h1, .cs-body > h2, .cs-body > h3, .cs-body > h4,
@@ -1910,7 +1910,7 @@
 
   /* Three 14px single-line overlines need ~540px. Below that the overline is
      allowed to wrap, but a reserved two-line box keeps the values on a shared
-     baseline — the alignment matters more than the nowrap. */
+     baseline: the alignment matters more than the nowrap. */
   @media (max-width: 1280px) {
     .cs-head { grid-template-columns: 21% minmax(0, 1fr) minmax(360px, auto); gap: 32px; }
     .cs-metric-lbl { white-space: normal; letter-spacing: 0.04em; min-height: 2.6em; }
@@ -1940,7 +1940,7 @@
        A phone has height to spend and no width, so the strip runs down the
        screen instead of across it: each slide takes the full column and sizes
        to its own aspect, and the gesture that moves it is the one the thumb
-       already wants to make. touch-action hands that gesture to us — left to
+       already wants to make. touch-action hands that gesture to us: left to
        itself the browser claims it for a page scroll that has nowhere to go. */
     /* A real scroller rather than a JS-driven transform. The browser owns
        momentum, snapping and the layout timing, which is the whole problem
@@ -1986,7 +1986,7 @@
     }
     .cs-slide-bg { width: 100%; height: 58vw; }
 
-    /* Collapsed the card is a preview, not a scroller — the swipe has to reach
+    /* Collapsed the card is a preview, not a scroller: the swipe has to reach
        the sheet so it can open. Expanded, scrolling is handed straight back. */
     .cs-overlay:not(.expanded) .cs-card { overflow-y: hidden; }
     .cs-sheet { touch-action: pan-y; }
@@ -2021,7 +2021,7 @@
   }
   .preloader.exit { transform: translateY(-100%); }
 
-  /* The name sits behind everything and resolves in as the count climbs —
+  /* The name sits behind everything and resolves in as the count climbs:
      barely there at the start, plainly legible by 100%. Opacity and scale are
      driven per frame from the same eased progress the counter uses. */
   .preloader-name {
@@ -2037,11 +2037,11 @@
     will-change: opacity, transform;
   }
 
-  /* Center stack — greeting / counter+pct */
+  /* Center stack: greeting / counter+pct */
   .preloader-center {
     position: absolute; inset: 0;
   }
-  /* sits above the name — its bottom edge rests a gap clear of the type */
+  /* sits above the name: its bottom edge rests a gap clear of the type */
   .preloader-greeting-wrap {
     position: absolute; left: 50%;
     top: calc(50% - var(--pl-name-size) / 2 - var(--pl-gap));
@@ -2084,7 +2084,7 @@
     font-size: 0.75rem; font-weight: 300;
     color: rgba(var(--pl-ink),0.45); letter-spacing: 0.1em;
   }
-  /* Left split — flies to left edge via JS */
+  /* Left split: flies to left edge via JS */
   .preloader-split {
     position: absolute; top: 50%; left: 50%;
     margin-top: var(--pl-drop);
@@ -2094,7 +2094,7 @@
     will-change: transform;
   }
 
-  /* Progress bar — single element scales from center outward */
+  /* Progress bar: single element scales from center outward */
   .preloader-bar {
     position: absolute; bottom: 0; left: 0; right: 0;
     height: 1px; pointer-events: none;
@@ -2110,7 +2110,7 @@
   /* Second and later views in this tab. Both rules carry weight: hiding the
      loader without lifting the stage only trades a flash of the intro for a
      flash of an empty page, because .revealed is added in exactly one place
-     and that code no longer runs. display and not opacity — the loader is a
+     and that code no longer runs. display and not opacity: the loader is a
      full-viewport fixed layer with no pointer-events rule, so anything that
      leaves it a box leaves an invisible sheet swallowing every click. */
   :root[data-skip-intro] .preloader  { display: none; }
@@ -2122,7 +2122,7 @@
     .preloader-greeting { animation: none; }
   }
 
-  /* Expanded, the sheet grows from ~26vh to nearly the full viewport — over
+  /* Expanded, the sheet grows from ~26vh to nearly the full viewport: over
      three times the area to re-blur, and it is the scrolling element, so the
      compositor pays for it on every frame. There is almost nothing left
      behind it to see at that size, so the filter comes off and the surface
@@ -2139,7 +2139,7 @@
 
   /* ── Case study lightbox ── */
   /* Sits above the case-study overlay (80) and the about overlay (81), below
-     the preloader (100). Images only — a video slide stays playable in place. */
+     the preloader (100). Images only: a video slide stays playable in place. */
   .cs-slide img { cursor: zoom-in; }
   .cs-slide img:focus-visible { outline: 2px solid var(--accent); outline-offset: -4px; }
   .cs-lightbox {
@@ -2223,7 +2223,7 @@
   /* ── Reduced motion: the large moves ── */
   /* The overlays travel the full viewport height. That is the biggest motion
      on the site and the likeliest vestibular trigger, so it is cut here
-     alongside the decorative animation handled further up — which was already
+     alongside the decorative animation handled further up: which was already
      covered while these were not. */
   @media (prefers-reduced-motion: reduce) {
     .cs-overlay, .about-overlay, .cs-sheet, .cs-carousel-zone, .cs-scrim,
@@ -2267,7 +2267,7 @@
   .footer-link:hover { color: var(--accent); }
   .footer-link .arr { font-size: 0.75rem; opacity: 0.45; }
 
-  /* Below this the image is too small to hold the columns — drop them back
+  /* Below this the image is too small to hold the columns: drop them back
      into normal flow above the wordmark instead of overlapping it. */
   @media (max-width: 860px) {
     /* Out of the overlay and into the flow, and ahead of the artwork: on a
@@ -2297,7 +2297,7 @@
   }
 
   /* ── Footer baseline: local time in Bangalore, and a note that changes
-     with it. Sits under the wordmark rather than over it — the two link
+     with it. Sits under the wordmark rather than over it: the two link
      columns already occupy the image's empty quarters, and a third block
      in that row would land on the lettering. .site-footer sets
      line-height: 0 to kill the image's descender gap, so restore it. */
@@ -2328,7 +2328,7 @@
   }
   @media (max-width: 700px) {
     /* the mood line is last in the stacked order and sat hard against the
-       bottom edge — the base's 18px plus 24px of breathing room */
+       bottom edge: the base's 18px plus 24px of breathing room */
     .footer-base { flex-direction: column; align-items: flex-start; gap: 12px; padding-bottom: 42px; }
     /* Stacked, the time reads first and the note answers it. Order rather
        than moving the markup, so the row layout above 700px is untouched. */
@@ -2398,7 +2398,7 @@
 
 <!-- Alpha threshold for the heading reveal. Region is widened well past the
      default -10%/120% because the CSS blur runs *before* this filter and its
-     output would otherwise be sheared off square — most visibly on the lone
+     output would otherwise be sheared off square: most visibly on the lone
      "&" of the awards heading, which is narrow. sRGB is deliberate: the
      linearRGB default costs two colourspace conversions per pass. -->
 <svg class="goo-defs" aria-hidden="true" focusable="false">
@@ -2448,10 +2448,10 @@
   <div class="preloader-bar" id="preloader-bar"></div>
 </div>
 
-<!-- Page stage — floating objects are absolute children -->
+<!-- Page stage: floating objects are absolute children -->
 <div class="page-stage">
 
-  <!-- ZHU — left, hero zone -->
+  <!-- ZHU: left, hero zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:48px; top:160px; --sz:120px; --r:-6deg; --dur:6s; --delay:-1.2s;">
     <span class="fobj-img"><img src="assets/images/ZHU.jpg" alt="ZHU"></span>
@@ -2461,7 +2461,7 @@
     </div>
   </div>
 
-  <!-- Witcher 3 — right, hero zone -->
+  <!-- Witcher 3: right, hero zone -->
   <div class="fobj tip-left" aria-hidden="true"
        style="right:48px; top:280px; --sz:120px; --r:5deg; --dur:7s; --delay:-3.5s;">
     <span class="fobj-img"><img src="assets/images/Witcher 3.jpg" alt="Witcher 3"></span>
@@ -2471,7 +2471,7 @@
     </div>
   </div>
 
-  <!-- Think Like Da Vinci — left, experience zone -->
+  <!-- Think Like Da Vinci: left, experience zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:40px; top:1700px; --sz:120px; --r:4deg; --dur:5.5s; --delay:-0.8s;">
     <span class="fobj-img"><img src="assets/images/Think Like Davinci.jpg" alt="Think Like Da Vinci"></span>
@@ -2481,7 +2481,7 @@
     </div>
   </div>
 
-  <!-- Nothing 3A — right, works zone -->
+  <!-- Nothing 3A: right, works zone -->
   <div class="fobj tip-left" aria-hidden="true"
        style="right:48px; top:3200px; --sz:144px; --r:-4deg; --dur:6.8s; --delay:-2.3s;">
     <span class="fobj-img"><img src="assets/images/Phone 3a.webp" alt="Nothing 3A"></span>
@@ -2491,7 +2491,7 @@
     </div>
   </div>
 
-  <!-- Ship of Thesus — left, extras zone -->
+  <!-- Ship of Thesus: left, extras zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:44px; top:5200px; --sz:120px; --r:3deg; --dur:8s; --delay:-4.1s;">
     <span class="fobj-img"><img src="assets/images/Ship of Thesus.jpg" alt="Ship of Thesus"></span>
@@ -2541,7 +2541,7 @@
         </button>
         <div class="nav-dropdown" id="nav-dropdown" role="menu">
           <a href="#work" class="nav-drop-link" role="menuitem">Work</a>
-          <!-- Playground — held back, same as the projects in HELD_BACK below.
+          <!-- Playground: held back, same as the projects in HELD_BACK below.
                fun.html is untouched in the repo and still loads if you go
                straight to it; it just has no way in from the site. Uncomment
                this line and it is back. Commented out rather than removed at
@@ -2630,15 +2630,15 @@
           <div class="exp-body">
             <div class="exp-row1">
               <span class="exp-company">Bright Money</span>
-              <span class="exp-when">Jan 2025 – Present</span>
+              <span class="exp-when">Jan 2025 – Sept 2026</span>
             </div>
             <div class="exp-detail">
-            <p class="exp-role">Product Designer · Jul 2025 – Present · SF, USA (Remote)</p>
+            <p class="exp-role">Product Designer · Jul 2025 – Sept 2026 · Bangalore (Hybrid)</p>
             <ul class="exp-bullets">
               <li>Worked across ID Protection, Rent Reporting, Referral Flow 3.0, Freemium, and Bill Saver: research, wireframing, hi-fi, stakeholder presentations, and handoff</li>
-              <li>Built Competitor Hub (S3, RDS, EC2), replacing a locked FigJam; shipped 2 AI-powered Figma plugins; evaluated 4+ AI development tools</li>
+              <li>Built Atlas (S3, RDS, EC2), a competitor-intelligence platform replacing a locked FigJam; shipped 2 AI-powered Figma plugins; evaluated 4+ AI development tools</li>
             </ul>
-            <p class="exp-role" style="margin-top:16px;">Visual Designer · Jan – Jul 2025 · Apprenticeship · Bangalore, Hybrid</p>
+            <p class="exp-role" style="margin-top:16px;">Visual Designer (Intern) · Jan – Jul 2025 · Bangalore (Hybrid)</p>
             <ul class="exp-bullets">
               <li>Redesigned employee onboarding and created new internal visual style for Bright Money 2025; mapped the complete in-app UX flow</li>
             </ul>
@@ -2765,8 +2765,8 @@
                  alt="A widescreen monitor on a dark desk showing the Atlas AI Inspiration tab: a silver leaf mark beside an italic Atlas wordmark, a carousel of captured web sessions centred on a card called Cofounder's replay, then a dated headline reading 07 JUL 2026, How the world builds AI Native, with a Web and Mobile toggle above three tagged video cards for Riffle, Exa and Cloudflare and a search bar reading Search AI-native screens.">
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Bright Atlas</strong><span class="work-sep">|</span><span class="work-cat">Built</span></p>
-            <p class="work-sub">AI-powered competitor intel: every screenshot searchable, live for all teams.</p>
+            <p class="work-title-row"><strong class="work-project">Atlas</strong><span class="work-sep">|</span><span class="work-cat">Built</span></p>
+            <p class="work-sub">A private, searchable competitor-intelligence platform I designed and built end to end. Finding a reference went from about an hour to about two minutes.</p>
           </div>
         </a>
 
@@ -2778,21 +2778,21 @@
             </div>
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">LoanGPT &amp; Bullet Funnel</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">Rebuilt Bright's onboarding funnel from scratch — one path, less friction, $200k/month saved on acquisition.</p>
+            <p class="work-title-row"><strong class="work-project">Onboarding Funnel Revamp</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">A four-phase rebuild of a 2022 funnel, done with the design leads. I owned the narrative, the post-enroll screens and the LoanGPT surfaces. Conversion 40% to 45%, CPA down 10%.</p>
           </div>
         </a>
 
-        <!-- 3: Monet Cancellation -->
-        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/monet-cancellation.html">
+        <!-- 5: Rent Reporting -->
+        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/rent-reporting.html">
           <div class="work-img">
-            <div class="work-img-fill" style="background:url('assets/case-studies/monet-cancellation/11131.png') center/cover no-repeat">
-              <div class="work-chrome"></div>
-            </div>
+            <img class="work-img-photo" src="assets/projects/rent-reporting-hero.webp"
+                 width="1600" height="900" loading="lazy" decoding="async"
+                 alt="Three angled iPhones showing the rent reporting funnel: build credit history with your rent payments, a RentCafe receipt reading a twelve month total payment record above Congrats! We have found your past rent payments, and a three-step explainer of how reporting rent improves a credit score.">
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Monet Cancellation</strong><span class="work-sep">|</span><span class="work-cat">In Progress</span></p>
-            <p class="work-sub">Cancellation flow with a Starter tier, giving churning users a middle option.</p>
+            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
+            <p class="work-sub">A credit-score path for thin-file renters. Application conversion 30% to 50%, related support tickets down 15%.</p>
           </div>
         </a>
 
@@ -2805,20 +2805,7 @@
           </div>
           <div class="work-body">
             <p class="work-title-row"><strong class="work-project">ID Protection</strong><span class="work-sep">|</span><span class="work-cat">Concept</span></p>
-            <p class="work-sub">Researched and pitched a full ID protection product (credit monitoring, breach alerts, dispute flow) to fill a visible competitive gap.</p>
-          </div>
-        </a>
-
-        <!-- 5: Rent Reporting -->
-        <a class="work-card appear" style="transition-delay:0.25s" href="case-studies/rent-reporting.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/rent-reporting-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="Three angled iPhones showing the rent reporting funnel: build credit history with your rent payments, a RentCafe receipt reading a twelve month total payment record above Congrats! We have found your past rent payments, and a three-step explainer of how reporting rent improves a credit score.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">Credit score path for thin-file renters. Live to customers March 2026.</p>
+            <p class="work-sub">Researched and pitched an identity-protection product to fill a competitive gap: business model, full UX and a dispute flow.</p>
           </div>
         </a>
 
@@ -2830,8 +2817,8 @@
                  alt="Two angled iPhones showing the referral offer: a confetti screen reading Give $25, Get $25 with You'll both get $25 and a shareable link, beside a limited period offer screen reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
           </div>
           <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Referral Redesign</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">Rebuilt Bright's referral programme around why users actually refer. Hi-fi signed off.</p>
+            <p class="work-title-row"><strong class="work-project">Referral Redesign</strong><span class="work-sep">|</span><span class="work-cat">Designed</span></p>
+            <p class="work-sub">Rebuilt a 2022 referral flow around why users actually refer, with a modular offer card that Growth can test without a dev sprint. Hi-fi signed off, in the dev queue.</p>
           </div>
         </a>
 
@@ -2975,7 +2962,7 @@
         </svg>
       </div>
 
-      <!-- Vinyl — the disc is the play control -->
+      <!-- Vinyl: the disc is the play control -->
       <div class="extra-card ec-vinyl-card" style="left:120px;top:44px;width:236px;transform:rotate(-5deg);">
         <div class="ec-vinyl-stage" id="ec-vinyl-stage">
           <div class="ec-yt" id="ec-yt"></div>
@@ -3102,7 +3089,7 @@
         <span class="footer-col-head">Pages</span>
         <a class="footer-link" href="#work">Work</a>
         <a class="footer-link" href="#" id="footer-about">About</a>
-        <a class="footer-link" href="https://www.behance.net/gallery/194317909/Graphic-Design-Portfolio-2024" target="_blank" rel="noopener noreferrer">2024 Portfolio <span class="arr">&#8599;</span></a>
+        <a class="footer-link" href="https://www.behance.net/gallery/194317909/Graphic-Design-Portfolio-2024" target="_blank" rel="noopener noreferrer">Graphic design archive (Behance) <span class="arr">&#8599;</span></a>
       </div>
       <div class="footer-col">
         <span class="footer-col-head">Say hi</span>
@@ -3141,7 +3128,7 @@
     <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="Back to top">Back to top ↑</a>
   </div>
 
-  <!-- Hover card — image only -->
+  <!-- Hover card: image only -->
   <div class="award-hover-card" id="award-hover-card">
     <img class="ahc-img" id="ahc-img" src="" alt="">
   </div>
@@ -3208,7 +3195,7 @@
         <p>That curiosity eventually became a career in design. I found in design a way to solve problems with both logic and creativity. Over the years, I&rsquo;ve moved through product, UX, visual design, publication, branding, and motion, not because I wanted to collect disciplines, but because I&rsquo;m a learner at my core. I like entering unfamiliar territory, understanding its rules, and figuring out what I can do with them.</p>
       </div>
 
-      <!-- ── Approach — remove this block to roll back ── -->
+      <!-- ── Approach: remove this block to roll back ── -->
       <div class="about-skills-grid">
         <div>
           <span class="about-skills-label">Design</span>
@@ -3272,19 +3259,20 @@
         <div class="about-approach-body">
           <p>My approach is simple: break a problem down to its elements, understand the system, study what already exists, and then build from there. I design with logic and guts. The logic comes from research, methodology, and metrics; the gut comes from patterns I&rsquo;ve picked up by paying attention to the work, people, and world around me. I care deeply about quality and about seeing an idea through to the last mile, not just making something that looks right, but making sure it works.</p>
           <p>I believe the safest way to be ordinary is to never be absurd. If you dare to make the unexpected choice, you might make something that actually stands apart.</p>
-          <p>Today, I&rsquo;m a Product Designer working primarily across fintech and digital products, bringing together the analytical curiosity that started everything with the visual craft I&rsquo;ve built along the way.</p>
+          <p>I&rsquo;m a product designer working across fintech and digital products, currently open to my next role in Bangalore.</p>
         </div>
       </div>
       <!-- ── end approach ── -->
 
-      <!-- ── Journey — remove this block to roll back ── -->
+      <!-- ── Journey: remove this block to roll back ── -->
       <div class="about-journey">
         <span class="about-journey-label">Career path</span>
         <div class="about-journey-row">
           <div class="journey-list">
           <div class="journey-item now">
             <span class="journey-company">Bright Money</span>
-            <span class="journey-meta">Product Designer · Jan 2025 – Present · SF (Remote)</span>
+            <span class="journey-meta">Product Designer · Jul 2025 – Sept 2026 · Bangalore (Hybrid)</span>
+            <span class="journey-meta">Visual Designer (Intern) · Jan – Jul 2025 · Bangalore (Hybrid)</span>
           </div>
           <div class="journey-item">
             <span class="journey-company">Ninecamp Ventures</span>
@@ -3332,19 +3320,19 @@ const Goo = (function () {
           && matchMedia('(min-width: 900px) and (pointer: fine)').matches;
 
   const EM     = 0.13;  // peak blur as a fraction of font-size
-  const DETACH = 0.8;   // px — under this the threshold only eats antialiasing
+  const DETACH = 0.8;   // px: under this the threshold only eats antialiasing
 
   const peakOf = el => parseFloat(getComputedStyle(el).fontSize) * EM;
   const set    = (el, px) => { el.style.filter = 'blur(' + px.toFixed(2) + 'px) url(#goo-threshold)'; };
   const clear  = el => { el.style.filter = 'none'; };
 
   // Linear, deliberately. An ease-out front-loads the resolve so hard that the
-  // blur is under 1px in the first third — invisible if the text is also
+  // blur is under 1px in the first third: invisible if the text is also
   // fading in. Returns a cancel function; callers that can be interrupted
   // (the hero cycles forever, headings re-enter view) must hold onto it.
   // Never attach the filter below DETACH. The alpha threshold at ~zero blur
   // destroys glyph antialiasing, so a ramp that starts or ends near zero would
-  // render hard-aliased text for those frames — worse than no effect.
+  // render hard-aliased text for those frames: worse than no effect.
   const apply = (el, px) => { if (px < DETACH) clear(el); else set(el, px); };
 
   function ramp(el, from, to, dur, done) {
@@ -3580,13 +3568,13 @@ const Goo = (function () {
   if (!el) return;
 
   // Each word holds long enough to be read and then forgotten about. The
-  // swap itself is unhurried too — a fast flick in the corner of the eye is
+  // swap itself is unhurried too: a fast flick in the corner of the eye is
   // what makes this kind of thing nag.
   const HOLD = 5000;   // ms a word stays before the next one comes up
   const OUT  = 360;    // ms the outgoing word takes to clear
 
   // Two ways to swap the word. Where the goo is available the word melts into
-  // a blob, is replaced while illegible, and resolves back — so the change of
+  // a blob, is replaced while illegible, and resolves back: so the change of
   // word happens inside the blur and you never see a hard cut. Everywhere else
   // (touch, narrow, reduced motion) the original slide is kept.
   let cancel = null;
@@ -3624,7 +3612,7 @@ const Goo = (function () {
   const swap = Goo.ok ? swapGoo : swapSlide;
 
   // Only cycle while the line is actually on screen. This runs forever, and a
-  // reference filter repaints on the main thread every frame — burning that on
+  // reference filter repaints on the main thread every frame: burning that on
   // a heading nobody is looking at is pure waste.
   let timer = setInterval(swap, HOLD);
   if ('IntersectionObserver' in window) {
@@ -3780,7 +3768,7 @@ const Goo = (function () {
 
   const itemEls = [...list.querySelectorAll('.exp-item')];
   // Only the leaves travel. Their rows re-flow instantly underneath, which is
-  // invisible — a row has no fill of its own — and it keeps the FLIP honest:
+  // invisible: a row has no fill of its own: and it keeps the FLIP honest:
   // measure absolute positions, translate absolute deltas, no parent to
   // subtract because no ancestor is being animated.
   const movers = [...list.querySelectorAll('.exp-dot, .co-logo, .exp-company, .exp-when')];
@@ -3802,7 +3790,7 @@ const Goo = (function () {
   function morph(open) {
     if (reduced || narrowQuery.matches) { applyState(open); return; }
 
-    // FIRST — measured while any previous morph is still running, so an
+    // FIRST: measured while any previous morph is still running, so an
     // interrupted toggle picks up from wherever things visually are
     const first = movers.map(rectOf);
     const listH0 = list.offsetHeight;
@@ -3810,7 +3798,7 @@ const Goo = (function () {
     running.forEach(a => a.cancel());
     running = [];
 
-    // LAST — the resting states carry no transitions, so applying the end
+    // LAST: the resting states carry no transitions, so applying the end
     // state lands the real final layout in this same frame, ready to measure
     applyState(open);
     const last = movers.map(rectOf);
@@ -3820,7 +3808,7 @@ const Goo = (function () {
     const anims = [list.animate(
       [{ height: listH0 + 'px' }, { height: listH1 + 'px' }], opts)];
 
-    // INVERT + PLAY — each leaf starts life at the position it just left and
+    // INVERT + PLAY: each leaf starts life at the position it just left and
     // travels home.
     movers.forEach((el, i) => {
       const dx = first[i].left - last[i].left, dy = first[i].top - last[i].top;
@@ -3851,7 +3839,7 @@ const Goo = (function () {
 (function () {
   const cs = {
     'rent-reporting': {
-      company: 'Bright Money', title: 'Rent Reporting',
+      company: 'US fintech app', title: 'Rent Reporting',
       tags: ['Shipped', 'Mobile', 'Product Design'],
       desc: "Rent is the largest monthly expense most people have, and for thin-file renters it never reaches a credit report. I designed the end-to-end funnel that closes that gap: portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. A three-week build with a long tail of refinements through 2026.",
       role: 'Design owner, kickoff to sign-off', year: 'Dec 2025 – Mar 2026',
@@ -3882,9 +3870,9 @@ const Goo = (function () {
       ]
     },
     'bright-atlas': {
-      company: 'Bright Money', title: 'Bright Atlas',
+      company: 'US fintech app', title: 'Atlas',
       tags: ['Built', 'Full-stack', 'Design Engineering'],
-      desc: "Our competitor research was trapped inside Figma boards with no search. I built an AI-powered intelligence platform that indexes every screenshot from rival fintechs by flow, pattern and screen type. Product definition through AI pipeline, build and deployment, running on real AWS infrastructure three days after I opened the repo.",
+      desc: "Our competitor research was trapped inside Figma boards with no search. I designed and built an AI-powered platform that indexes every screenshot from rival fintechs by flow, feature and screen type, from product definition through the AI tagging pipeline to build and deployment. Finding a reference went from about an hour to about two minutes.",
       role: 'Design and build, end to end', year: 'Jun 2026',
       metrics: [{val:'40',lbl:'Competitors'},{val:'1,000+',lbl:'Screenshots'},{val:'1hr → 2min',lbl:'Reference lookup'}],
       outcomes: [
@@ -3905,11 +3893,10 @@ const Goo = (function () {
         {video:'assets/case-studies/bright-atlas/v1',w:1274,h:722,alt:"A screen recording of Atlas answering a research question: a monospace line types out How does SoFi onboard, a wall of captured competitor screens fills the frame captioned 75 screens, 5 flows, every detail, and the Flows filter drops open to compare one flow across apps."},
         {set:'assets/case-studies/bright-atlas/08',w:2000,h:1125,alt:"Deck slide labelled THE PRODUCT, headed App detail. The Aura app page under a blue gradient header shows the label Identity Protection and Credit Monitoring, a Find in Figma button, store ratings, and an All Screens tab holding 159 screens across 11 flows."},
         {set:'assets/case-studies/bright-atlas/09',w:2000,h:1125,alt:"Deck slide labelled THE PRODUCT, headed AI Inspiration. The tab shows a carousel of captured web sessions, a dated headline reading How the world builds AI Native with a Web and Mobile toggle, and tagged video cards for Riffle, Exa and Cloudflare."},
-        {set:'assets/case-studies/bright-atlas/10',w:2000,h:1125,alt:"Deck slide labelled OUTCOME, headed What shipped, live at competitor-hub.brightmoney.co and updated weekly. Three metrics read 40+ competitor apps searchable by flow, feature, screen type, copy and pricing; 1hr to 2min to find a reference; and 4 weeks from first conversation to V1. Below, the two Claude plugin install commands."}
       ]
     },
     'sauron': {
-      company: 'Bright Money', title: 'Sauron',
+      company: 'US fintech app', title: 'Sauron',
       tags: ['Live', 'Figma Plugin', 'Dev Tooling'],
       desc: "Peer review catches the experience but misses the details: a token used wrong, compliance copy missing, spacing off by two. I built a Figma plugin that flags all three before they ship, designed and coded end to end across ten weeks, then published it to the Figma Community for any team to install and run.",
       role: 'Design and engineering, solo', year: '2026',
@@ -3921,9 +3908,9 @@ const Goo = (function () {
       ]
     },
     'referral-redesign': {
-      company: 'Bright Money', title: 'Referral Redesign',
-      tags: ['Shipped', 'Mobile', 'Product Design'],
-      desc: "Who tells a friend about an app they barely use? The 2022 flow was doing the asking but none of the selling. I rebuilt Bright's referral experience across three phases and thirteen months: reframing the offer, rewriting the moment of the ask, and rebuilding the screens around what actually motivates someone to share.",
+      company: 'US fintech app', title: 'Referral Redesign',
+      tags: ['Designed', 'Mobile', 'Product Design'],
+      desc: "Who tells a friend about an app they barely use? The 2022 flow was doing the asking but none of the selling. I rebuilt the referral experience across three phases and thirteen months: reframing the offer, rewriting the moment of the ask, and rebuilding the screens around what actually motivates someone to share.",
       role: 'Design owner', year: '2025',
       metrics: [{val:'1',lbl:'Redesign cycle'},{val:'Hi-fi',lbl:'Signed off'},{val:'New',lbl:'Referral model'}],
       href: 'case-studies/referral-redesign.html',
@@ -3950,26 +3937,8 @@ const Goo = (function () {
         {set:'assets/case-studies/referral-redesign/13',w:2000,h:1125,alt:"Deck slide labelled OUTCOME, headed Where it landed, noting hi-fi signed off with Referral Templates in the dev queue. Three metrics read 3 user states designed end to end, 13 months across three phases with an eight-month gap, and P0 priority for August 2026."},
       ]
     },
-    'monet-cancellation': {
-      company: 'Bright Money', title: 'Monet Cancellation',
-      tags: ['In Progress', 'Mobile', 'Retention Design'],
-      desc: "Bright's cancel flow was built to frustrate people out of leaving. Users weren't just churning — they were marking the charges unauthorized. I was the design POC on the fix: reworked the cancel flow to lead with honest communication rather than obstruction, and built a coherent settings screen system across 13+ membership states that had never been designed as a whole.",
-      role: 'Design POC', year: 'Sep 2026',
-      metrics: [{val:'4',lbl:'Flow arms'},{val:'13+',lbl:'Screen states'},{val:'≥45%',lbl:'Save target'}],
-      href: 'case-studies/monet-cancellation.html',
-      slides: [
-        {src:'assets/case-studies/monet-cancellation/11125.png',w:1920,h:1080,alt:'Older 2.0 cancel flow — reason picker, Don\'t stop your progress retention modal, 70% discount offer'},
-        {src:'assets/case-studies/monet-cancellation/11130.png',w:1920,h:1080,alt:'Older 2.0 cancel interruption — Don\'t stop your progress now, Use your full 12 months, intent confirmation screens'},
-        {src:'assets/case-studies/monet-cancellation/11131.png',w:1920,h:1080,alt:'New 3.0 cancel flow — four redesigned screens: benefits overview, Before you go exit sheet, reason picker, cancellation review'},
-        {src:'assets/case-studies/monet-cancellation/11127.png',w:1920,h:1080,alt:'Improved 3.0 cancel UI — Don\'t lose the tools screen, dark-mode Before you go sheet, Before you cancel please note confirmation'},
-        {src:'assets/case-studies/monet-cancellation/11129.png',w:1920,h:1080,alt:'All membership dashboard states — Premium active, Starter active, Starter on 30-day free trial'},
-        {src:'assets/case-studies/monet-cancellation/11134.png',w:1920,h:1080,alt:'Dashboard 2.0 — before vs after: old layout with repeated info vs new with benefit icons and clear hierarchy'},
-        {src:'assets/case-studies/monet-cancellation/11135.png',w:1920,h:1080,alt:'Starter membership full state and Premium upgrade pitch card — upsell integrated in settings'},
-        {src:'assets/case-studies/monet-cancellation/11136.png',w:1920,h:1080,alt:'Starter grace period states — 30-day free banner, premium upsell card embedded, collapsed benefits view'},
-      ]
-    },
     'freemium-3-4': {
-      company: 'Bright Money', title: 'Freemium 3.0 → 4.0',
+      company: 'US fintech app', title: 'Freemium 3.0 → 4.0',
       tags: ['Closed', 'Mobile', 'Product Design'],
       desc: "How do you make money from users who stopped paying you? I owned the experience layer from 3.0 through 4.0: what cancelled Basic users can still see, what gets locked, and where the upgrade prompts sit. Five months shaping a free tier that keeps its value visible without giving the paid product away.",
       role: 'Design owner', year: '2025',
@@ -3983,28 +3952,28 @@ const Goo = (function () {
       ]
     },
     'loangpt-bullet-funnel': {
-      company: 'Bright Money', title: 'LoanGPT & Bullet Funnel',
+      company: 'US fintech app', title: 'Onboarding Funnel Revamp',
       tags: ['Shipped', 'Mobile', 'Funnel Design'],
-      desc: "Bright's onboarding funnel hadn't been rebuilt since 2022. Four years of product had been bolted onto a structure that still argued like a 2022 product — two parallel paths, consents before the user ever saw a price, and a pitch that said the same thing three times. I supported the revamp: narrative curation, post-enroll screens, the LoanGPT surfaces inside the funnel, and copy through to production. One funnel, less friction, $200k/month saved on acquisition.",
+      desc: "The onboarding funnel hadn't been rebuilt since 2022. Four years of product had been bolted onto a structure that still argued like a 2022 product: two parallel paths, consents before the user ever saw a price, and a pitch that said the same thing three times. I supported the design leads on the revamp, owning the narrative, the post-enroll screens, the LoanGPT surfaces inside the funnel and copy through to production. Conversion 40% to 45%, CPA down 10%, about $200K per month saved on acquisition.",
       role: 'Supporting Designer', year: 'Oct 2025 – Sep 2026',
-      metrics: [{val:'40→45%',lbl:'Conversion'},{val:'−10%',lbl:'CPA'},{val:'$3→3.6M',lbl:'Affiliate ARR'}],
+      metrics: [{val:'40→45%',lbl:'Conversion'},{val:'−10%',lbl:'CPA'},{val:'$3→3.6M',lbl:'ARR contribution'}],
       href: 'case-studies/loangpt-bullet-funnel.html',
       slides: [
-        {src:'assets/case-studies/loangpt-bullet-funnel/11118.png',w:1456,h:816,alt:'LoanGPT onboarding — welcome screen, LoanGPT chat, and post-enroll benefit pitch'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11114.png',w:1456,h:816,alt:'Older 2.0 funnel — multi-product pitch causing user confusion, long path reducing conversions'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11115.png',w:1456,h:816,alt:'Experiment A vs B — standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11122.png',w:1456,h:816,alt:'New bullet funnel — credit history, loan offers, Bright Builder, AI Money Assistant'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11113.png',w:1456,h:816,alt:'LoanGPT chat flow — collects intent, surfaces offer, flags risk'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11119.png',w:1456,h:816,alt:'Initial pitch screens — 100+ lenders, personalized offers, LoanGPT weekly offer check'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11120.png',w:1456,h:816,alt:'Old 2.0 UI — Crush credit card debt splash, credit history screen, $100k offer screen'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11117.png',w:1456,h:816,alt:'Improved 3.0 UI — Build credit history, get best loan offers — single clear entry point'},
-        {src:'assets/case-studies/loangpt-bullet-funnel/11123.png',w:1456,h:816,alt:'Post-launch — LoanGPT as onboarding surface with outcomes'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11118.png',w:1456,h:816,alt:'LoanGPT onboarding: welcome screen, LoanGPT chat, and post-enroll benefit pitch'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11114.png',w:1456,h:816,alt:'Older 2.0 funnel: multi-product pitch causing user confusion, long path reducing conversions'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11115.png',w:1456,h:816,alt:'Experiment A vs B: standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11122.png',w:1456,h:816,alt:'New bullet funnel: credit history, loan offers, Bright Builder, AI Money Assistant'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11113.png',w:1456,h:816,alt:'LoanGPT chat flow: collects intent, surfaces offer, flags risk'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11119.png',w:1456,h:816,alt:'Initial pitch screens: 100+ lenders, personalized offers, LoanGPT weekly offer check'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11120.png',w:1456,h:816,alt:'Old 2.0 UI: Crush credit card debt splash, credit history screen, $100k offer screen'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11117.png',w:1456,h:816,alt:'Improved 3.0 UI: Build credit history, get best loan offers: single clear entry point'},
+        {src:'assets/case-studies/loangpt-bullet-funnel/11123.png',w:1456,h:816,alt:'Post-launch: LoanGPT as onboarding surface with outcomes'},
       ]
     },
     'id-protection': {
-      company: 'Bright Money', title: 'ID Protection',
+      company: 'US fintech app', title: 'ID Protection',
       tags: ['Concept', 'Research', 'Strategy'],
-      desc: "What does every competitor have that we don't? I led the research, built the business model and pitched a full ID protection product (credit monitoring, breach alerts and a dark web scan) assembled largely from data Bright already held. Four and a half months from competitive teardown to a deck that made the case.",
+      desc: "What does every competitor have that we don't? I led the research, built the business model and pitched a full ID protection product (credit monitoring, breach alerts and a dark web scan) assembled largely from data we already held. Four and a half months from competitive teardown to a deck that made the case.",
       role: 'Research and concept, solo', year: '2025',
       metrics: [{val:'Full',lbl:'Product pitch'},{val:'3',lbl:'Core pillars'},{val:'Gap',lbl:'Market need'}],
       href: 'case-studies/id-protection.html',
@@ -4154,7 +4123,7 @@ const Goo = (function () {
 
   // ── Projects held back from the live site ────────────────
   // Hidden, not deleted. The card markup, the case study page and every slide
-  // asset stay in the repo exactly as they are — these slugs are simply left
+  // asset stay in the repo exactly as they are: these slugs are simply left
   // out of the grid at load. Take a slug off this list and the project comes
   // back with everything intact. Add one and it goes away.
   const HELD_BACK = [
@@ -4179,7 +4148,7 @@ const Goo = (function () {
 
   let activeKey = null;
   let resetCarousel = null; // assigned by the carousel IIFE below
-  let setupLoop = null;     // ditto — clones the set for the infinite loop
+  let setupLoop = null;     // ditto: clones the set for the infinite loop
   const storyCache = {};
 
   // holds the active case study's own CSS, rescoped to .cs-body
@@ -4213,7 +4182,7 @@ const Goo = (function () {
 
   function buildSlides(slides) {
     return slides.map((s, i) => {
-      // {set} — a responsive pair from the portfolio-PDF slide pipeline.
+      // {set}: a responsive pair from the portfolio-PDF slide pipeline.
       // width/height are the intrinsic size so the row reserves its aspect
       // before the image lands and the carousel never reflows mid-scroll.
       if (s.set) return `<div class="cs-slide cs-slide--deck"><img ` +
@@ -4224,7 +4193,7 @@ const Goo = (function () {
         (i ? `data-warm="${s.set}" ` : 'fetchpriority="high" ') +
         `data-full="${s.set}-2000.webp" tabindex="0" ` +
         `decoding="async" draggable="false"></div>`;
-      // Muted, looping, inline — autoplay is only allowed muted, and is
+      // Muted, looping, inline: autoplay is only allowed muted, and is
       // withheld entirely under prefers-reduced-motion so the poster stands in.
       // The source is held back in data-vsrc until the slide is actually in
       // view (see observeMedia), so opening a case study never pulls a video
@@ -4271,7 +4240,7 @@ const Goo = (function () {
     trackEl.querySelectorAll('video').forEach(v => mediaObserver.observe(v));
   }
 
-  // SVG icon library — lightweight inline icons
+  // SVG icon library: lightweight inline icons
   const IC = {
     check:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
     phone:    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',
@@ -4347,7 +4316,7 @@ const Goo = (function () {
     return null;
   }
 
-  // Header block — stays put in both collapsed and expanded states
+  // Header block: stays put in both collapsed and expanded states
   function renderHead(d) {
     const platform = getPlatform(d.tags);
     headEl.innerHTML = `
@@ -4404,7 +4373,7 @@ const Goo = (function () {
       out = Array.from(probe.sheet.cssRules).map(r => rewriteRule(r, scope)).join('\n');
     } catch (err) { out = ''; }
     probe.remove();
-    // the page centres itself at 760px — we want it left-aligned in the sheet
+    // the page centres itself at 760px: we want it left-aligned in the sheet
     return out + '\n.cs-body{max-width:none!important;margin:0!important;padding:0!important;background:none!important;}';
   }
 
@@ -4418,7 +4387,7 @@ const Goo = (function () {
 
       const css = Array.from(doc.querySelectorAll('style'))
         .map(s => s.textContent).join('\n');
-      // strip standalone-page chrome — the sheet provides all of this already
+      // strip standalone-page chrome: the sheet provides all of this already
       doc.body.querySelectorAll('style, script, .back-link, .wordmark')
         .forEach(n => n.remove());
       const h1 = doc.body.querySelector('h1');
@@ -4435,7 +4404,7 @@ const Goo = (function () {
   }
 
   // Warm the remaining slides once the overlay has finished opening.
-  // Native lazy-loading is unreliable here — the track moves by transform
+  // Native lazy-loading is unreliable here: the track moves by transform
   // inside an overflow:hidden clip, so slides only fetch as they are already
   // sliding in, which shows as a blank card mid-drag. Instead we release them
   // one at a time after the open animation, so nothing competes with it and
@@ -4481,7 +4450,7 @@ const Goo = (function () {
   let lbReturnTo = null;
   let lbList = [], lbIndex = 0;
 
-  // Only the real slides — the loop clones are duplicates of these and would
+  // Only the real slides: the loop clones are duplicates of these and would
   // make the gallery run through every image twice.
   function show(i) {
     if (!lbList.length) return;
@@ -4569,7 +4538,7 @@ const Goo = (function () {
         head.appendChild(el);
         continue;
       }
-      // the source rules between sections are redundant — each band has one
+      // the source rules between sections are redundant: each band has one
       if (el.tagName === 'HR') { el.remove(); continue; }
       if (body) body.appendChild(el);
     }
@@ -4577,7 +4546,7 @@ const Goo = (function () {
 
   // Outcomes table, appended as the closing band of the story. Driven by the
   // cs data rather than the fetched page, and only rendered where real
-  // measured figures exist — a case study with none simply has no band.
+  // measured figures exist: a case study with none simply has no band.
   function buildOutcomes(d) {
     if (!d.outcomes || !d.outcomes.length) return null;
     const cards = d.outcomes.map(o => {
@@ -4633,7 +4602,7 @@ const Goo = (function () {
 
   function open(key) {
     const d = cs[key]; if (!d) return;
-    // a close() within the last 950ms still has a teardown pending — let it
+    // a close() within the last 950ms still has a teardown pending: let it
     // run and it wipes the story we are about to show
     clearTimeout(teardownTimer);
     activeKey = key;
@@ -4642,7 +4611,7 @@ const Goo = (function () {
     watchLoading(trackEl);
     if (setupLoop) setupLoop();
     // after cloning, so the loop copies are observed too. muted must be set as
-    // a property — the attribute alone is not enough for autoplay in every engine
+    // a property: the attribute alone is not enough for autoplay in every engine
     observeMedia();
     if (resetCarousel) resetCarousel();
     renderHead(d);
@@ -4746,7 +4715,7 @@ const Goo = (function () {
       startRaf();
     }, { passive: false });
 
-    // Drag. Pointer events so one path covers the mouse and the thumb — the
+    // Drag. Pointer events so one path covers the mouse and the thumb: the
     // mousedown/mousemove pair this replaces never fired for touch, so the
     // carousel simply could not be moved on a phone.
     let drag = false, dragFrom = 0, startTarget = 0, dragId = null;
@@ -4766,7 +4735,7 @@ const Goo = (function () {
         drag = false; dragId = null; zone.classList.remove('dragging');
       }));
 
-    // Called on every open() — including opening a second case study while
+    // Called on every open(): including opening a second case study while
     // the overlay is already up, which a class-change observer would miss
     resetCarousel = function () {
       target = 0; current = 0;
@@ -4836,7 +4805,7 @@ const Goo = (function () {
   // Clicking outside the sheet collapses back to Intro
   scrimEl.addEventListener('click', collapse);
 
-  // The scrim only covers what the sheet leaves — with the sheet at ~94% of
+  // The scrim only covers what the sheet leaves: with the sheet at ~94% of
   // the screen that is a thin strip, and anything layered above it (the top
   // bar, a future control) would swallow the click. So anchor the rule to the
   // sheet itself: a press anywhere in the overlay that is not inside the
@@ -4880,7 +4849,7 @@ const Goo = (function () {
     '.extra-card', '.extras-header',
     '.heatmap-wrap', '.hm-legend', '.hm-meta',
     '.hero-name', '.hero-tagline', '.hero-body', '.hero-cta',
-    // the about photo layers and the lightbox run their own transitions —
+    // the about photo layers and the lightbox run their own transitions:
     // folding them into the scroll reveal would fight both
     'img:not(.nav *):not(.fobj *):not(.footer-logo):not(.about-photo *):not(.cs-lb-img):not(.cs-slide *)',
     'hr', 'blockquote', '.pull-quote',
@@ -4916,7 +4885,7 @@ const Goo = (function () {
   els.forEach(el => {
     if (el.closest('.hero')) {
       // 3640 lines the hero up with the end of the intro. Skipping it leaves
-      // nothing to wait for, but the delay still cannot be 0 — the element
+      // nothing to wait for, but the delay still cannot be 0: the element
       // needs one painted frame at opacity 0 or the transition is skipped and
       // it pops. A timer and not rAF or the observer: neither is delivered to
       // a document that is not rendering, so a tab opened in the background
@@ -4981,7 +4950,7 @@ const Goo = (function () {
     drop.classList.contains('open') ? close() : open();
   });
 
-  // Close when anything inside is chosen — but not Theme. That one acts on
+  // Close when anything inside is chosen: but not Theme. That one acts on
   // the page behind the panel, and you want to see what it did.
   drop.querySelectorAll('.nav-drop-link, .nav-drop-cta').forEach(link => {
     if (link.id === 'theme-btn') return;
@@ -5004,7 +4973,7 @@ const Goo = (function () {
 // Mail is right on a desktop and wrong on a phone, where the reply is going
 // to happen in WhatsApp anyway. The markup ships with the mailto: so the link
 // still works with JavaScript off, and the test is for a touch device rather
-// than a narrow one — a desktop window dragged small is still a desktop.
+// than a narrow one: a desktop window dragged small is still a desktop.
 (function () {
   const WHATSAPP = 'https://wa.me/917002450469';
   // Two of them now: one in the bar for desktop, one inside the mobile panel.
@@ -5089,7 +5058,7 @@ const Goo = (function () {
       card.classList.remove('show');
       cancelAnimationFrame(raf); raf = null;
     });
-    // rows that link are real anchors now — the browser handles activation
+    // rows that link are real anchors now: the browser handles activation
   });
 
   document.addEventListener('mousemove', e => {
@@ -5110,10 +5079,10 @@ const Goo = (function () {
   if (!('IntersectionObserver' in window)) return;
 
   // Large display type only. .section-title is deliberately qualified with
-  // h2 — the same class is on a 13px "Performance" label, which this would
+  // h2: the same class is on a 13px "Performance" label, which this would
   // dissolve into an unreadable smudge.
   // .wt-prefix and .wt-studies rather than .works-title: a filter on the title
-  // creates a stacking context, and .wt-strike blends multiply against it — the
+  // creates a stacking context, and .wt-strike blends multiply against it: the
   // highlighter would flatten into an opaque yellow slab.
   const TARGETS = [
     'h2.section-title', '.wt-prefix', '.wt-studies', '.extras-title',
@@ -5155,7 +5124,7 @@ const Goo = (function () {
     stop(el);
     // Reset so the next entry replays the whole thing. .appear's own observer
     // unobserved these after their first reveal, so nothing else will put .in
-    // back — this element's reveal is ours to drive now.
+    // back: this element's reveal is ours to drive now.
     el.classList.remove('in');
     Goo.clear(el);
   }
@@ -5170,7 +5139,7 @@ const Goo = (function () {
   els.forEach(function (el) { el.classList.remove('in'); io.observe(el); });
 })();
 
-// ── Portrait video — simple loop ──────────
+// ── Portrait video: simple loop ──────────
 (function () {
   const portrait = document.querySelector('.portrait');
   if (!portrait) return;
@@ -5211,7 +5180,7 @@ const Goo = (function () {
 })();
 
 
-// ── Footer clock — my time, not yours ─────────────────────
+// ── Footer clock: my time, not yours ─────────────────────
 (function () {
   const timeEl  = document.getElementById('footer-time');
   const moodEl  = document.getElementById('footer-mood');
@@ -5231,7 +5200,7 @@ const Goo = (function () {
   const shortStamp = new Intl.DateTimeFormat('en-US', {
     timeZone: TZ, hour: 'numeric', minute: '2-digit', hour12: true
   });
-  // h23 rather than hour12:false — the latter reports midnight as hour 24 in
+  // h23 rather than hour12:false: the latter reports midnight as hour 24 in
   // some engines, which would read as night an hour into the morning.
   const hourOf = new Intl.DateTimeFormat('en-US', {
     timeZone: TZ, hour: '2-digit', hourCycle: 'h23'
@@ -5305,7 +5274,7 @@ const Goo = (function () {
 
   // GLS is in the timeline but has no mark, so the reel is companies only.
   // Rotated one step: the slot above the window has to be filled, so the list
-  // starts on the oldest mark and the reel opens focused on Bright Money —
+  // starts on the oldest mark and the reel opens focused on Bright Money:
   // the same order the timeline beside it reads in.
   const LOGOS = [
     ['careerspark.png',        'logo-cs'],
@@ -5371,7 +5340,7 @@ const Goo = (function () {
 
 // ── Vinyl player ──────────────────────────────────────────
 // The record plays a real track, so the audio comes from YouTube's own player
-// rather than a file served from here — embedding is the licensed route, and
+// rather than a file served from here: embedding is the licensed route, and
 // there is no copy of the recording in this repo.
 (function () {
   const vinyl = document.getElementById('ec-vinyl');
@@ -5448,7 +5417,7 @@ const Goo = (function () {
   // Pointer events rather than click, and bound to the card rather than the
   // button: the drag handler takes pointer capture on the card, which
   // retargets everything after pointerdown there, and its preventDefault can
-  // swallow the click entirely. Distance decides — under the threshold it was
+  // swallow the click entirely. Distance decides: under the threshold it was
   // a tap, over it the visitor was moving the record around the collage.
   const card = vinyl.closest('.extra-card') || vinyl;
   const SLOP = 6;
@@ -5477,7 +5446,7 @@ const Goo = (function () {
   if (waveSvgInit) waveSvgInit.pauseAnimations();
 })();
 
-// ── Extras collage — free drag ────────────────────────────
+// ── Extras collage: free drag ────────────────────────────
 // Cards keep their laid-out left/top; a drag offsets them by transform and
 // they stay exactly where they are dropped. A second drag resumes from the
 // position the card was left in rather than snapping back to its origin.
@@ -5492,7 +5461,7 @@ const Goo = (function () {
     const pinned = card.classList.contains('ec-vinyl-card');
     card.style.zIndex = pinned ? 9999 : i + 1;
 
-    // keep the card's own tilt — the drag offset composes on top of it
+    // keep the card's own tilt: the drag offset composes on top of it
     const rot = (card.style.transform.match(/rotate([^)]*)/) || ['rotate(0deg)'])[0];
     const at = (x, y) => `translate(${x}px, ${y}px) ` + rot;
 
@@ -5502,7 +5471,7 @@ const Goo = (function () {
       // The record has no card around it any more, so the disc is both the
       // drag handle and the play control; the vinyl module tells a tap from a
       // drag by distance rather than this handler bowing out.
-      // stacked flat on small screens — nothing to drag
+      // stacked flat on small screens: nothing to drag
       if (getComputedStyle(card).position === 'static') return;
       dragging = true;
       sx = e.clientX; sy = e.clientY;
@@ -5533,9 +5502,9 @@ const Goo = (function () {
   });
 })();
 
-// ── Floating objects — elastic tug, springs home ──────────
+// ── Floating objects: elastic tug, springs home ──────────
 // These sit out near the margins as loose furniture rather than content, so a
-// pull is rubber-banded — it stays slight however far you drag — and released
+// pull is rubber-banded: it stays slight however far you drag: and released
 // back home the moment the pointer lets go.
 (function () {
   const MAX_PULL = 48;   // px an object can stray from home, however far you drag
@@ -5563,13 +5532,13 @@ const Goo = (function () {
         { duration: 520, easing: SPRING }
       );
       homing = anim;
-      // onfinish is not guaranteed — where animations are throttled it never
+      // onfinish is not guaranteed: where animations are throttled it never
       // fires and the object would stay stuck at the end of its pull, so the
       // reset is armed on a plain timer as well.
       const settle = () => {
         if (homing !== anim) return;      // a newer tug already took over
         // a throttled animation sits pinned on its first keyframe, and that
-        // effect outranks the inline style — so it has to be cancelled, not
+        // effect outranks the inline style: so it has to be cancelled, not
         // just overwritten
         try { anim.cancel(); } catch (err) {}
         obj.style.transform = '';

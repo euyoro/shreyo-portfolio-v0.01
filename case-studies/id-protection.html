@@ -328,6 +328,8 @@
     size: A4;
   }
 
+  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
+
   /* BACK LINK */
   .back-link {
     display: inline-flex;
@@ -365,6 +367,8 @@
 
 <h1>ID Protection</h1>
 
+<p class="outcome-line">Researched and pitched an identity-protection product to fill a competitive gap: business model, full UX and a dispute flow. Pitched to the founder, not shipped.</p>
+
 <div class="meta-block">
   <div class="meta-item">
     <span class="meta-label">Role</span>
@@ -395,11 +399,11 @@
 
 <p>In US fintech, ID Protection is a standard category. Most financial apps above a certain scale offer some version of it. Credit monitoring, breach alerts, identity theft detection, dispute tools. The premise is simple: your financial identity is exposed in more places than you track, and a financial app is the right place to surface when something changes.</p>
 
-<p>Bright didn't have it. For an app built around improving users' credit and financial health, that was a visible gap.</p>
+<p>We didn't have it. For an app built around improving users' credit and financial health, that was a visible gap.</p>
 
-<p>That was the starting question for this project. Not "what should we build?" but "what are we missing?" I mapped the competitive landscape. Acorns, Chime, MoneyLion, Kikoff, Aura, and others. Found what was common across most of them. Filtered against Bright's user base, Bright's business model, and what infrastructure Bright already had in place.</p>
+<p>That was the starting question for this project. Not "what should we build?" but "what are we missing?" I mapped the competitive landscape. Acorns, Chime, MoneyLion, Kikoff, Aura, and others. Found what was common across most of them. Filtered against our user base, our business model, and what infrastructure we already had in place.</p>
 
-<p>ID Protection was the strongest gap. Competitor staple. Bright didn't have it. And the user profile fit: people rebuilding credit, dealing with thin files, financially vulnerable in ways that make identity monitoring genuinely useful.</p>
+<p>ID Protection was the strongest gap. Competitor staple. We didn't have it. And the user profile fit: people rebuilding credit, dealing with thin files, financially vulnerable in ways that make identity monitoring genuinely useful.</p>
 
 <div class="comp-grid">
   <div class="comp-card">
@@ -423,7 +427,7 @@
     <p class="comp-desc">Identity protection as a premium add-on through Experian partnership.</p>
   </div>
   <div class="comp-card">
-    <span class="comp-name">Bright</span>
+    <span class="comp-name">Us</span>
     <p class="comp-desc" style="color: var(--accent); font-weight: 500;">Not present. Credit data exists. No monitoring surface.</p>
   </div>
 </div>
@@ -434,7 +438,7 @@
 <h2>Solution</h2>
 <h3>The pitch</h3>
 
-<p>This wasn't a feature request. It was a product pitch from scratch. The question I had to answer: if we built this, what would it be, how would we charge for it, and does it fit Bright specifically?</p>
+<p>This wasn't a feature request. It was a product pitch from scratch. The question I had to answer: if we built this, what would it be, how would we charge for it, and does it fit us specifically?</p>
 
 <p>I built the full case. Business model logic and pricing structure. What monetization looks like. And alongside that, the complete UX: onboarding, the introduction story, the dashboard, every state in the dashboard, edge cases, UX copy for every screen, and marketing copy tight enough to introduce the product externally.</p>
 
@@ -473,11 +477,11 @@
 <h2>Approach</h2>
 <h3>Use what's already there</h3>
 
-<p>Working cross-functionally with engineering set the brief I gave myself. Rather than proposing a greenfield build, I wanted to understand what Bright already had and surface it differently.</p>
+<p>Working cross-functionally with engineering set the brief I gave myself. Rather than proposing a greenfield build, I wanted to understand what we already had and surface it differently.</p>
 
-<p>Bright was already connected to credit bureaus. Credit data was already flowing for users. The question was whether we could take that existing infrastructure and present it as a distinct product. More structured. More consumable. Something a user would recognise as a monitoring product, not just a data display.</p>
+<p>We were already connected to credit bureaus. Credit data was already flowing for users. The question was whether we could take that existing infrastructure and present it as a distinct product. More structured. More consumable. Something a user would recognise as a monitoring product, not just a data display.</p>
 
-<p>The cost structure confirmed it was viable: one hard pull at enrollment, refresh updates after that. The bureau connections were already established. We weren't proposing to rebuild the data layer. We were proposing to give it a product surface.</p>
+<p>It used the credit data and bureau connections that already existed, so it needed a product surface, not a new data layer.</p>
 
 <hr class="section-rule">
 
@@ -485,14 +489,14 @@
 <h2>The strategic case</h2>
 <h3>Why the dispute flow matters</h3>
 
-<p>The most compelling part of the research was the dispute flow. Users can have errors on their credit report. Those errors suppress their score. If we give users a path to dispute credit errors from inside Bright, we directly help their credit score improve.</p>
+<p>The most compelling part of the research was the dispute flow. Users can have errors on their credit report. Those errors suppress their score. If we give users a path to dispute credit errors from inside the app, we directly help their credit score improve.</p>
 
-<p>Credit score improvement is Bright's core value proposition. A dispute flow is not a feature add. It's a direct extension of what the product already exists to do. It creates a reason for users to stay inside the app and engage with the monitoring product over time. And it ties the monetization back to the outcome users already pay Bright to deliver.</p>
+<p>Credit score improvement is our core value proposition. A dispute flow is not a feature add. It's a direct extension of what the product already exists to do. It creates a reason for users to stay inside the app and engage with the monitoring product over time. And it ties the monetization back to the outcome users already pay us to deliver.</p>
 
 <figure class="image-placeholder">
   <img src="../assets/case-studies/id-protection/screens/dispute-flow.webp" width="1520" height="781"
        loading="lazy" decoding="async"
-       alt="Four screens in sequence: the Dispute Center listing a rejected late-payment dispute, the alert drilled into showing a $12,000 transaction with account details and a Dispute with Transunion button, the dispute form asking for a reason, comments and supporting documents, and the Dispute Submitted confirmation.">
+       alt="Four screens in sequence: the Dispute Center listing a rejected late-payment dispute, the alert drilled into showing a $12,000 transaction with account details and a Dispute with the bureau button, the dispute form asking for a reason, comments and supporting documents, and the Dispute Submitted confirmation.">
   <figcaption><span>Dispute Flow: alert drill-down to dispute submission</span></figcaption>
 </figure>
 
@@ -520,15 +524,15 @@
 <h3>What I'd do differently</h3>
 
 <ul class="reflection-list">
-  <li>The competitive research was strong but I could have narrowed the comparison set earlier. Not all competitors were the right analogue for Bright's user profile. Tighter scope would have sharpened the business case faster.</li>
-  <li>The dispute flow deserved more room in the pitch. The argument that it ties directly to credit score improvement (Bright's core outcome) should have been front and centre, not a supporting detail. That's the case that makes this product feel native to Bright rather than borrowed from a competitor's feature list.</li>
+  <li>The competitive research was strong but I could have narrowed the comparison set earlier. Not all competitors were the right analogue for our user profile. Tighter scope would have sharpened the business case faster.</li>
+  <li>The dispute flow deserved more room in the pitch. The argument that it ties directly to credit score improvement (our core outcome) should have been front and centre, not a supporting detail. That's the case that makes this product feel native to the product rather than borrowed from a competitor's feature list.</li>
   <li>The prototype built in Google AI Studio was the right call. Stakeholders could see the product before they were asked to approve it. I'd do that earlier on every 0→1 project.</li>
 </ul>
 
 <!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyodebnath@gmail.com">shreyodebnath@gmail.com</a></p>
+  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
 </div>
 
 </body>
