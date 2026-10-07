@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,356 +8,249 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
+/* cs:begin: generated from tools/cs-style.css, do not edit here */
+/* Case study styles: single source of truth.
+   tools/apply-cs-style.js copies this block into every case-studies/*.html
+   between the cs:begin / cs:end markers. Edit here, then re-run the script.
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+   The homepage overlay (index.html) fetches each page, reads its inline <style>,
+   rescopes it under .cs-body, and strips body-level rules. It owns the header,
+   the metric tiles and the section bands. Pages ship their sections already
+   built with the overlay's own class names (.cs-sec / .cs-sec-head /
+   .cs-sec-body), so the overlay leaves them alone and a direct visit to a
+   page renders the same layout. Where the overlay sets the same property it
+   wins on specificity: the values below are the standalone fallback. */
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
+:root {
+  --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+  --ff-display: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --border: rgba(15,19,48,0.09);
+  --text: #0f1330;
+  --muted: #5c6079;
+  --dim: #44486a;
+  --accent: #2d4fe3;
+  --good: #2d4fe3;
+  --card-bg: #eceef3;
+  --chosen-bg: #0f1330;
+  --chosen-text: #eceef8;
+}
 
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff);
+  font-variation-settings: 'opsz' 16;
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 40px 120px;
+}
 
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
+strong { color: var(--text); font-weight: 500; }
+a { color: var(--text); text-underline-offset: 2px; }
 
-  h3:first-child { margin-top: 0; }
+/* ── Page header (standalone only: the overlay draws its own and strips these) ── */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; margin-bottom: 40px;
+  transition: color 0.2s ease;
+}
+.back-link:hover { color: var(--text); }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-  h4 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
+.wordmark { display: block; font-family: var(--ff-display); font-style: italic; font-size: 1rem; color: var(--dim); margin-bottom: 20px; }
 
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
+h1 {
+  font-family: var(--ff-display); font-size: 2.375rem; font-weight: 400;
+  line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 20px;
+}
 
-  strong { color: var(--text); font-weight: 500; }
+.outcome-line {
+  font-family: var(--ff-display); font-size: 1.4rem; line-height: 1.4;
+  color: var(--text); max-width: 46ch; margin: 0 0 40px;
+}
 
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
+/* ── Scope box ── */
+.meta-block {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 28px 24px;
+  border: 1px solid rgba(19,19,19,0.12); border-radius: 10px;
+  padding: 28px 32px; margin: 0 0 24px; background: var(--surface);
+}
+.meta-item { display: flex; flex-direction: column; gap: 12px; padding: 0; border: none; }
+.meta-label {
+  font-family: var(--ff-mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.meta-value { font-size: 0.875rem; color: var(--text); line-height: 1.45; }
+.status-tag {
+  font-family: var(--ff-mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--good);
+}
+.status-tag.open { color: var(--accent); }
 
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
+/* ── Headline numbers: real, measured figures only ── */
+.stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0 0 24px; }
+.stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; }
+.stat-val { display: block; font-family: var(--ff-display); font-size: 1.75rem; line-height: 1.15; color: var(--text); font-variant-numeric: tabular-nums; }
+.stat-lbl { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── Section bands: label rail + body ── */
+.cs-sec {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 64px;
+  padding: 72px 0 64px; border-top: 1px solid var(--border);
+}
+.cs-sec-head > h2 {
+  font-family: var(--ff-mono); font-size: 0.875rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  line-height: 1.3; position: sticky; top: 24px;
+}
+.cs-sec-body { max-width: 660px; min-width: 0; }
+.cs-sec-body > h3 {
+  font-size: 1.75rem; font-weight: 400; letter-spacing: -0.025em;
+  line-height: 1.28; color: var(--text); margin: 0 0 26px;
+}
+.cs-sec-wide .cs-sec-body { max-width: none; }
+.cs-sec-body > *:last-child { margin-bottom: 0; }
 
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
+.cs-sec-body p { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); margin: 0 0 20px; max-width: 62ch; }
+.cs-sec-body h4 {
+  font-family: var(--ff-mono); font-size: 0.875rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 40px 0 14px;
+}
+.cs-sec-body ul, .cs-sec-body ol { margin: 0 0 22px; padding-left: 20px; max-width: 62ch; }
+.cs-sec-body li { font-size: 0.9375rem; color: var(--dim); line-height: 1.7; margin-bottom: 8px; }
 
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
+/* ── At a glance: the whole case in three lines ── */
+.glance { border-top: 1px solid var(--border); margin: 0; }
+.glance-row {
+  display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px;
+  padding: 16px 0; border-bottom: 1px solid var(--border);
+}
+.glance-k { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.glance-v { font-size: 0.9375rem; line-height: 1.65; color: var(--dim); }
 
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
+/* ── Evidence: findings as short cards ── */
+.insight-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 28px 0; }
+.insight-card { background: var(--card-bg); border-radius: 8px; padding: 18px; }
+.insight-card strong { display: block; font-size: 0.9rem; line-height: 1.4; margin-bottom: 6px; }
+.insight-card span { display: block; font-size: 0.8125rem; line-height: 1.55; color: var(--dim); }
+.insight-card.us span { color: var(--accent); font-weight: 500; }
 
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #286d2b;
-    margin-top: 4px;
-  }
+/* ── Decisions: options with the verdict on the card ── */
+.decision-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 28px 0; }
+.decision-card { border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; background: var(--surface); }
+.decision-card.chosen { background: var(--chosen-bg); border-color: var(--chosen-bg); }
+.decision-tag { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.decision-title { display: block; font-size: 0.9375rem; font-weight: 500; line-height: 1.4; color: var(--text); margin-bottom: 8px; }
+.decision-desc { display: block; font-size: 0.8125rem; line-height: 1.6; color: var(--dim); }
+.decision-card.chosen .decision-tag { color: rgba(240,240,238,0.6); }
+.decision-card.chosen .decision-title { color: var(--chosen-text); }
+.decision-card.chosen .decision-desc { color: rgba(240,240,238,0.72); }
 
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
+/* ── Signal → decision: what we saw, what I did about it ── */
+.pair-list { margin: 28px 0; border-top: 1px solid var(--border); }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); align-items: start; }
+.pair-signal { font-size: 0.875rem; line-height: 1.6; color: var(--muted); }
+.pair-arrow { font-size: 0.875rem; color: var(--muted); line-height: 1.6; text-align: center; }
+.pair-decision { font-size: 0.875rem; line-height: 1.6; color: var(--text); }
 
-  /* CHECK LIST */
-  .check-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0 28px;
-  }
+/* ── Phases: a project that ran in stages ── */
+.phases { margin: 28px 0; border-top: 1px solid var(--border); }
+.phase { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.phase-label { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.phase-text { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); }
 
-  .check-list li {
-    padding: 13px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.6;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: baseline;
-  }
+.closing-line { font-family: var(--ff-display); font-size: 1.25rem; line-height: 1.45; color: var(--text); margin-top: 28px; }
 
-  .check-list li:first-child { border-top: 1px solid var(--border); }
+/* ── Goals ── */
+.split-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+.goals-col { border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; background: var(--surface); }
+.goals-title { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.goals-col ul { list-style: none; padding: 0; margin: 0; max-width: none; }
+.goals-col li { font-size: 0.875rem; line-height: 1.55; color: var(--dim); padding: 6px 0; margin: 0; }
 
-  .check-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-  }
+/* ── Failures: one of them is mine ── */
+.failure-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+.failure-card { border: 1px solid var(--border); border-radius: 8px; padding: 22px 20px; background: var(--surface); }
+.failure-card.wide { grid-column: 1 / -1; }
+.failure-title { display: block; font-size: 0.9375rem; font-weight: 500; line-height: 1.4; color: var(--text); margin-bottom: 10px; }
+.failure-mine { font-size: 0.8125rem; color: var(--accent); font-weight: 500; }
+.failure-body { display: block; font-size: 0.875rem; line-height: 1.65; color: var(--dim); }
 
-  /* SECTION CARDS: 2-col */
-  .section-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
+/* ── Quote: once per case study ── */
+.pull-quote { border-left: 2px solid var(--text); background: var(--card-bg); border-radius: 0 8px 8px 0; padding: 20px 24px; margin: 32px 0; }
+.quote-text { display: block; font-family: var(--ff-display); font-style: italic; font-size: 1.25rem; line-height: 1.45; color: var(--text); }
+.quote-src + .quote-text { margin-top: 22px; }
+.brand-tag { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: -10px 0 22px; }
+.quote-src { display: block; margin-top: 10px; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
-  .section-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
+/* ── Media ── */
+.screen-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 28px 0; }
+.screen-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.screen-item { margin: 0; }
+.screen-item img, .case-figure img { display: block; width: 100%; height: auto; border-radius: 8px; margin: 0; }
+.screen-item figcaption, .case-figure figcaption { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-top: 8px; }
+.case-figure { margin: 28px 0; }
+.arch-diagram { margin: 28px 0; color: var(--dim); }
+.arch-diagram svg { display: block; width: 100%; height: auto; }
+.code-block { background: var(--chosen-bg); border-radius: 8px; padding: 20px 24px; margin: 20px 0; font-family: var(--ff-mono); font-size: 0.8125rem; line-height: 1.8; color: rgba(240,240,238,0.7); }
+.code-block .cmd { color: var(--chosen-text); }
 
-  .section-card-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 14px;
-  }
+/* ── Takeaways ── */
+.reflection-list { list-style: none; padding: 0; margin: 0; max-width: 62ch; }
+.reflection-list li { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); padding: 6px 0 14px; margin: 0; border: none; }
 
-  .section-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+/* ── Close ── */
+.cta { margin-top: 0; padding-top: 40px; border-top: 1px solid var(--border); }
+.cta p { font-size: 0.875rem; color: var(--muted); margin: 0 0 4px; }
+.cta a { text-decoration: none; border-bottom: 1px solid var(--border); }
 
-  .section-card ul li {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    padding: 5px 0;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── Narrow ── */
+@media (max-width: 900px) {
+  body { padding: 28px 20px 96px; }
+  h1 { font-size: 1.775rem; }
+  .meta-block { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); gap: 24px 20px; padding: 24px; }
+  .cs-sec { grid-template-columns: 168px minmax(0, 1fr); gap: 32px; }
+}
+@media (max-width: 760px) {
+  .meta-block { grid-template-columns: 1fr 1fr; }
+  .cs-sec { grid-template-columns: 1fr; gap: 20px; padding: 48px 0 40px; }
+  .cs-sec-head > h2 { position: static; }
+  .cs-sec-body > h3 { font-size: 1.375rem; }
+  .glance-row { grid-template-columns: 1fr; gap: 4px; }
+  .pair { grid-template-columns: 1fr; gap: 6px; }
+  .phase { grid-template-columns: 1fr; gap: 4px; }
+  .pair-arrow { text-align: left; }
+  .split-goals, .failure-cards, .screen-grid { grid-template-columns: 1fr; }
+  .screen-grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
 
-  .section-card ul li:last-child { border-bottom: none; }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-item {
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-  .screen-item img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px;
-  }
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
-
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* IMAGE PLACEHOLDER */
-  .image-placeholder {
-    width: 100%;
-    min-height: 280px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-    gap: 8px;
-  }
-
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder, .screen-item { min-height: 140px; }
-    h2, h3 { page-break-after: avoid; }
-    .section-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
+@media print {
+  body { max-width: 100%; padding: 0; }
+  .cs-sec-head > h2 { position: static; }
+  .cs-sec { break-inside: avoid-page; }
+  .insight-cards, .decision-cards, .failure-cards, .pair-list { break-inside: avoid; }
+}
+@page { margin: 20mm 18mm; size: A4; }
+/* cs:end */
 </style>
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
-
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
 
 <span class="wordmark">Shreyo Debnath</span>
 
 <h1>Sauron</h1>
+
+<p class="outcome-line">A Figma plugin that checks designs for copy, colour and spacing errors before they reach dev. Built solo in eight weeks and published to the Figma Community.</p>
 
 <div class="meta-block">
   <div class="meta-item">
@@ -365,111 +258,132 @@
     <span class="meta-value">Product Designer, sole builder and owner</span>
   </div>
   <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">Mar 2026 → May 2026 · 8 weeks</span>
+    <span class="meta-label">Timeline</span>
+    <span class="meta-value">8 weeks</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Tools</span>
     <span class="meta-value">Figma Plugin API · Claude</span>
   </div>
-  <div class="meta-item" style="grid-column: 2 / -1;">
+  <div class="meta-item">
     <span class="meta-label">Status</span>
     <span class="meta-value">Published to Figma Community</span>
     <span class="status-tag">Live</span>
   </div>
 </div>
 
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>Peer review catches the experience. It misses the details.</h3>
-
-<p>When a designer reviews another designer's work, they're looking at the flow. The hierarchy. Whether the screen makes sense. They're not stopping to check if every CTA uses the right hex value. They're not reading every word to find the one that says "utilize" instead of "use." They're not measuring every padding value to confirm it's on the 4px rhythm.</p>
-
-<p>This is what slips through. Not the obvious things. The small ones. A compliance word in body copy. A colour that's close but pulled from the wrong token. A spacing value that's 10px instead of 8px. These aren't caught in peer review because peer review isn't designed to catch them.</p>
-
-<p>They get caught in dev. Or in a visual QA (VQA) pass that runs days later. Or they ship.</p>
-
-<p>Sauron is the check that happens before any of that.</p>
-
-<hr class="section-rule">
-
-<!-- WHAT IT DOES -->
-<h2>Solution</h2>
-<h3>What it checks</h3>
-
-<p>A Figma plugin acting as an automated peer reviewer. Two modes, two moments in the design process.</p>
-
-<div class="section-cards">
-  <div class="section-card">
-    <span class="section-card-tag">Before Dev: Design Hygiene</span>
-    <ul>
-      <li>Copy compliance against prohibited words sheet</li>
-      <li>US English: flags British spellings and grammar</li>
-      <li>Colour audit against design system tokens</li>
-      <li>Spacing rhythm: flags values breaking the 4px grid</li>
-      <li>Component check: unlinked elements that should be system components</li>
-    </ul>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>At a glance</h2></div>
+  <div class="cs-sec-body">
+    <h3>An automated peer reviewer for the details people miss.</h3>
+    <div class="glance">
+      <div class="glance-row">
+        <span class="glance-k">Problem</span>
+        <div class="glance-v">Peer review catches the experience and misses the details: compliance words, off-token colours, spacing that breaks the 4px rhythm. Those surface in dev, in a visual QA pass days later, or they ship.</div>
+      </div>
+      <div class="glance-row">
+        <span class="glance-k">My part</span>
+        <div class="glance-v">I built it solo: a Figma plugin that reads the selected frames and checks them against copy, colour and spacing rules, before dev and after.</div>
+      </div>
+      <div class="glance-row">
+        <span class="glance-k">Result</span>
+        <div class="glance-v">Eight weeks from a line item with no spec to a published plugin. The check is now one click inside Figma.</div>
+      </div>
+    </div>
   </div>
-  <div class="section-card">
-    <span class="section-card-tag">After Dev: Visual QA</span>
-    <ul>
-      <li>Compares built product against the design file</li>
-      <li>Copy drift between design and implementation</li>
-      <li>Spacing and colour deviation</li>
-      <li>Illustration and asset drift</li>
-    </ul>
+</section>
+
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Context</h2></div>
+  <div class="cs-sec-body">
+    <h3>Peer review catches the experience. It misses the details.</h3>
+    <p>When a designer reviews another designer's work, they're looking at the flow. The hierarchy. Whether the screen makes sense. They're not stopping to check if every CTA uses the right hex value. They're not reading every word to find the one that says "utilize" instead of "use." They're not measuring every padding value to confirm it's on the 4px rhythm.</p>
+    <p>This is what slips through. Not the obvious things. The small ones.</p>
+    <div class="insight-cards">
+      <div class="insight-card"><strong>A compliance word</strong><span>In body copy.</span></div>
+      <div class="insight-card"><strong>A colour that's close</strong><span>Pulled from the wrong token.</span></div>
+      <div class="insight-card"><strong>A spacing value off the grid</strong><span>10px instead of 8px.</span></div>
+    </div>
+    <p>These aren't caught in peer review because peer review isn't designed to catch them. They get caught in dev. Or in a visual QA (VQA) pass that runs days later. Or they ship.</p>
+    <p>Sauron is the check that happens before any of that.</p>
   </div>
-</div>
+</section>
 
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Plugin UI: Results Panel">
-    <figcaption>Plugin UI: Results Panel</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Prohibited Words Flag">
-    <figcaption>Prohibited Words Flag</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Colour Audit">
-    <figcaption>Colour Audit</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Spacing Audit">
-    <figcaption>Spacing Audit</figcaption>
-  </figure>
-</div>
+<section class="cs-sec cs-sec-wide">
+  <div class="cs-sec-head"><h2>Solution</h2></div>
+  <div class="cs-sec-body">
+    <h3>Two modes, at two moments in the design process.</h3>
+    <p>A Figma plugin acting as an automated peer reviewer.</p>
+    <div class="split-goals">
+      <div class="goals-col">
+        <span class="goals-title">Before dev: design hygiene</span>
+        <ul>
+          <li>Copy compliance against prohibited words sheet</li>
+          <li>US English: flags British spellings and grammar</li>
+          <li>Colour audit against design system tokens</li>
+          <li>Spacing rhythm: flags values breaking the 4px grid</li>
+          <li>Component check: unlinked elements that should be system components</li>
+        </ul>
+      </div>
+      <div class="goals-col">
+        <span class="goals-title">After dev: visual QA</span>
+        <ul>
+          <li>Compares built product against the design file</li>
+          <li>Copy drift between design and implementation</li>
+          <li>Spacing and colour deviation</li>
+          <li>Illustration and asset drift</li>
+        </ul>
+      </div>
+    </div>
+    <div class="screen-grid">
+      <figure class="screen-item">
+        <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Plugin UI: Results Panel">
+        <figcaption>Plugin UI: Results Panel</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Prohibited Words Flag">
+        <figcaption>Prohibited Words Flag</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/sauron/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Colour Audit">
+        <figcaption>Colour Audit</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/shots/sauron-ui.png" width="1200" height="675" loading="lazy" decoding="async" alt="Spacing Audit">
+        <figcaption>Spacing Audit</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
-<hr class="section-rule">
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Process</h2></div>
+  <div class="cs-sec-body">
+    <h3>Eight weeks from a line item to a published plugin.</h3>
+    <p>The design director's AI Product Design Workflow list in March 2026. Two items assigned to me: Visual QA and American Spelling Check. The brief was a line item. No spec, no prior tool, no reference.</p>
+    <p>I built it solo. The plugin runs directly inside Figma, reads the selected frames, and checks them against the rules. The prohibited words list and compliance terms pull from an external sheet. Colours check against the design system token library. Spacing flags anything not divisible by 4.</p>
+  </div>
+</section>
 
-<!-- HOW IT STARTED -->
-<h2>Process</h2>
-<h3>How it started</h3>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Outcome</h2></div>
+  <div class="cs-sec-body">
+    <h3>The launch.</h3>
+    <p>Announced to the team on May 14. Published to the Figma Community on May 19, alongside the Screen Namer plugin. Two tools, same day. Both built solo.</p>
+    <div class="pull-quote">
+      <span class="quote-text">"Very cool. Very contra vibe."</span>
+      <span class="quote-src">Design Director</span>
+    </div>
+    <div class="pair-list">
+      <div class="pair">
+        <span class="pair-signal"><strong>Before Sauron.</strong> Compliance copy issues and colour drift were caught in VQA or not at all. Designers ran their own hygiene checks against a list they had to find and read manually.</span>
+        <span class="pair-arrow">→</span>
+        <span class="pair-decision"><strong>After Sauron.</strong> The check is one click inside Figma. It runs before the file moves to PD, as the last gate before handoff.</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<p>The design director's AI Product Design Workflow list in March 2026. Two items assigned to me: Visual QA and American Spelling Check. The brief was a line item. No spec, no prior tool, no reference.</p>
-
-<p>I built it solo. The plugin runs directly inside Figma, reads the selected frames, and checks them against the rules. The prohibited words list and compliance terms pull from an external sheet. Colours check against the design system token library. Spacing flags anything not divisible by 4.</p>
-
-<p>Eight weeks from a line item to a published plugin.</p>
-
-<hr class="section-rule">
-
-<!-- LAUNCH -->
-<h2>Outcome</h2>
-<h3>The launch</h3>
-
-<p>Announced to the team on May 14. Published to the Figma Community on May 19, alongside the Screen Namer plugin. Two tools, same day. Both built solo.</p>
-
-<div class="pull-quote">
-  <blockquote>"Very cool. Very contra vibe."</blockquote>
-  <cite>Design Director</cite>
-</div>
-
-<p>Before Sauron, compliance copy issues and colour drift were caught in VQA or not at all. Designers were responsible for running their own hygiene checks against a list they had to find and read manually.</p>
-
-<p>After Sauron, the check is one click inside Figma. It runs before the file moves to PD. It's the last gate before handoff.</p>
-
-<!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
   <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>

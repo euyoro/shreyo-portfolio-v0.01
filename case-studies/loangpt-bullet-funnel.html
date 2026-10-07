@@ -3,728 +3,559 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Onboarding Funnel Revamp · Shreyo Debnath</title>
+<title>Funnel Revamp · Shreyo Debnath</title>
+<meta name="description" content="Rebuilding the onboarding funnel every Bright user passes through. Conversion went from 40% to 45% and CPA fell 10%, mostly by removing things.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
-
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
-
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
-
-  h3:first-child { margin-top: 0; }
-
-  h4 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
-
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  strong { color: var(--text); font-weight: 500; }
-
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
-
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
-
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
-
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #286d2b;
-    margin-top: 4px;
-  }
-
-  /* DIVIDER */
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
-
-  /* STAT TILES */
-  .stat-tiles {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .stat-tile {
-    background: var(--chosen-bg);
-    border-radius: 8px;
-    padding: 24px 20px;
-  }
-
-  .stat-value {
-    font-family: var(--ff-display);
-    font-size: 1.85rem;
-    color: var(--chosen-text);
-    line-height: 1.1;
-    margin-bottom: 8px;
-    display: block;
-  }
-
-  .stat-label {
-    font-size: 0.7rem;
-    color: rgba(240,240,238,0.45);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 500;
-  }
-
-  /* INSIGHT CARDS */
-  .insight-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .insight-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px 18px;
-  }
-
-  .insight-card strong {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--text);
-    margin-bottom: 6px;
-    font-weight: 500;
-  }
-
-  .insight-card p {
-    font-size: 0.84rem;
-    color: var(--dim);
-    margin: 0;
-    line-height: 1.55;
-  }
-
-  /* SPLIT GOALS */
-  .split-goals {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin: 28px 0;
-  }
-
-  .goals-col h4 { margin-top: 0; margin-bottom: 14px; }
-
-  .goals-col ul { list-style: none; padding: 0; }
-
-  .goals-col ul li {
-    font-size: 0.9rem;
-    color: var(--dim);
-    line-height: 1.6;
-    padding: 7px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .goals-col ul li:first-child { border-top: 1px solid var(--border); }
-
-  /* DECISION CARDS */
-  .decision-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .decision-card {
-    border-radius: 8px;
-    padding: 24px 20px;
-    background: var(--card-bg);
-  }
-
-  .decision-card.chosen { background: var(--chosen-bg); }
-
-  .decision-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .decision-card.chosen .decision-tag { color: rgba(240,240,238,0.4); }
-
-  .decision-title {
-    font-family: var(--ff-display);
-    font-size: 1.05rem;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .decision-card.chosen .decision-title { color: var(--chosen-text); }
-
-  .decision-desc {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.6;
-  }
-
-  .decision-card.chosen .decision-desc { color: rgba(240,240,238,0.55); }
-
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
-
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-item {
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .screen-item img { width: 100%; height: auto; display: block; border-radius: 8px; }
-
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* CASE FIGURE */
-  .case-figure { margin: 28px 0; }
-  .case-figure img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px; border: 1px solid var(--border);
-  }
-  .case-figure figcaption {
-    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); font-weight: 500; margin-top: 10px;
-  }
-
-  /* IMAGE PLACEHOLDER */
-  .image-placeholder {
-    width: 100%;
-    min-height: 280px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-  }
-
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  /* REFLECTION LIST */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p { font-size: 0.875rem; color: var(--muted); }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 56px;
-  }
-
-  .back-link:hover { color: var(--text); }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder { min-height: 160px; }
-    h2, h3 { page-break-after: avoid; }
-  }
-
-  .tldr { background: var(--card-bg); border-radius: 8px; padding: 20px 22px; margin: 0 0 40px; }
-  .tldr-label { display: block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .tldr p { margin: 0; color: var(--text); }
-
-  @page { margin: 20mm 18mm; size: A4; }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
 </head>
 <body>
 
-<a class="back-link" href="../index.html">← Work</a>
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
 
-<span class="wordmark">Shreyo Debnath</span>
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#context" data-sec="context"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span data-t="Context">Context</span></a></li>
+      <li><a href="#problem" data-sec="problem"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><span data-t="Problem">Problem</span></a></li>
+      <li><a href="#research" data-sec="research"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span data-t="Research">Research</span></a></li>
+      <li><a href="#goals" data-sec="goals"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span data-t="Goals">Goals</span></a></li>
+      <li><a href="#process" data-sec="process"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg><span data-t="Process">Process</span></a></li>
+      <li><a href="#solution" data-sec="solution"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg><span data-t="Solution">Solution</span></a></li>
+      <li><a href="#outcome" data-sec="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Outcome">Outcome</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
 
-<h1>Rebuilding a funnel that had not moved since 2022.</h1>
+<main>
 
-<figure class="case-figure" style="margin: 0 0 40px;">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11118.png" width="1456" height="816" loading="eager" decoding="async" alt="LoanGPT onboarding: welcome screen, LoanGPT chat, and post-enroll benefit pitch side by side" style="border:none;">
-</figure>
+<header class="pg-hero">
+  <div class="pg-kicker"><span>US fintech app</span><span>iOS · Android · Web</span></div>
+  <h1 class="pg-title">Funnel Revamp</h1>
+  <p class="pg-sub">Rebuilding a funnel that had not moved since 2022. Conversion went from 40% to 45% and CPA fell 10%, on the funnel every new user passes through.</p>
+  <figure class="pg-media">
+    <img src="../assets/case-studies/loangpt-bullet-funnel/11118.png" width="1456" height="816" loading="eager" decoding="async" alt="LoanGPT onboarding: welcome screen, LoanGPT chat, and post-enroll benefit pitch side by side">
+  </figure>
+</header>
 
-<div class="tldr">
-  <span class="tldr-label">TL;DR</span>
-  <p>A four-phase rebuild of a funnel that had not changed since 2022. I supported the design leads, owning the narrative, the post-enroll screens and the LoanGPT surfaces. Result: conversion 40% to 45%, CPA (cost per acquisition) down 10%, about $200K per month saved, no downstream drop.</p>
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Supporting Designer</dd></div>
+  <div><dt>Timeline</dt><dd>4 weeks</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#F24E1E;--m:url(../assets/logos/tools/figma.svg)" aria-hidden="true"></i>Figma</span><span class="pg-tool">FigJam</span><span class="pg-tool"><i style="--c:#7856FF;--m:url(../assets/logos/tools/mixpanel.svg)" aria-hidden="true"></i>Mixpanel</span></dd></div>
+  <div><dt>Status</dt><dd>Live</dd></div>
+</dl>
+
+<div class="pg-stats">
+  <div class="pg-stat"><b>40 → 45%</b><span>Funnel conversion</span></div>
+  <div class="pg-stat"><b>−10%</b><span>CPA (cost per acquisition)</span></div>
+  <div class="pg-stat"><b>~$200K</b><span>Saved per month on acquisition</span></div>
+  <div class="pg-stat"><b>+20%</b><span>LoanGPT engagement</span></div>
 </div>
 
-<div class="meta-block">
-  <div class="meta-item">
-    <span class="meta-label">Role</span>
-    <span class="meta-value">Supporting Designer</span>
-    <span class="meta-value" style="display:block;margin-top:6px;color:var(--muted);font-size:0.8125rem;">Owned: funnel narrative, post-enroll screens and copy, LoanGPT surfaces in the funnel, reconciliation against the design source of truth.</span>
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">A four-phase rebuild where removing things moved the number.</h2>
+  <div class="pg-three">
+    <div><h3>Problem</h3><p class="pg-p">The onboarding funnel is how every user arrives, and it had not been rebuilt since 2022. Four years of product had been bolted onto it.</p></div>
+    <div><h3>My part</h3><p class="pg-p">Supporting designer to the two design leads. I owned the narrative, the post-enroll screens and copy, the LoanGPT surfaces in the funnel, and reconciliation against the design source of truth.</p></div>
+    <div><h3>Result</h3><p class="pg-p">Conversion 40% to 45%, CPA down 10%, about $200K per month saved, with no downstream drop.</p></div>
   </div>
-  <div class="meta-item">
-    <span class="meta-label">Design Leads</span>
-    <span class="meta-value">Two design leads</span>
+</section>
+
+<section class="pg-sec" id="context">
+  <div class="pg-narrow">
+    <p class="pg-label">Context</p>
+    <h2 class="pg-h2">The front door to everything Bright does.</h2>
+    <p class="pg-p">The company is a US credit-building fintech app for people with bad credit and expensive debt. It builds credit through Bright Builder, rent reporting and bill reporting, and routes users to loan offers through LoanGPT, our lender recommendation product.</p>
+    <p class="pg-p">The onboarding funnel is how every single user arrives. Nobody uses Bright without passing through it first. It had not been rebuilt since 2022.</p>
+    <p class="pg-p">I supported the two design leads across the revamp. My slice: narrative curation, which meant deciding what each screen was allowed to say and why. I also owned the post-enroll screens and copy through to production, the LoanGPT surfaces inside the funnel, and reconciling the funnel against the design source of truth.</p>
   </div>
-  <div class="meta-item">
-    <span class="meta-label">Product</span>
-    <span class="meta-value">Product manager · Analytics</span>
+</section>
+
+<section class="pg-sec" id="problem">
+  <div class="pg-narrow">
+    <p class="pg-label">Problem</p>
+    <h2 class="pg-h2">The problem was accumulation, not a bad design.</h2>
+    <p class="pg-p">Four years of product had been bolted onto a structure built before Rent, Sub Management and Affiliates existed. The funnel still argued like a 2022 product.</p>
   </div>
-  <div class="meta-item">
-    <span class="meta-label">Design Director</span>
-    <span class="meta-value">Design director</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">Oct 2025 – Sep 2026 · Four phases</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Platform</span>
-    <span class="meta-value">iOS · Android · Web</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Tools</span>
-    <span class="meta-value">Figma · FigJam · Mixpanel</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Status</span>
-    <span class="meta-value"><span class="status-tag">Shipped</span></span>
-  </div>
-</div>
-
-<hr class="section-rule">
-
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>The front door to everything Bright does.</h3>
-
-<p>The company is a US credit-building fintech app for people with bad credit and expensive debt. It builds credit through Bright Builder, rent reporting and bill reporting, and routes users to loan offers through LoanGPT, our lender recommendation product.</p>
-
-<p>The onboarding funnel is how every single user arrives. Nobody uses Bright without passing through it first. It had not been rebuilt since 2022.</p>
-
-<p>I supported the two design leads across the revamp. My slice: narrative curation, which meant deciding what each screen was allowed to say and why. I also owned the post-enroll screens and copy through to production, the LoanGPT surfaces inside the funnel, and reconciling the funnel against the design source of truth.</p>
-
-<hr class="section-rule">
-
-<!-- PROBLEM -->
-<h2>Problem</h2>
-<h3>The problem was accumulation, not a bad design.</h3>
-
-<p>Four years of product had been bolted onto a structure built before Rent, Sub Management and Affiliates existed. The funnel still argued like a 2022 product.</p>
-
-<ul class="reflection-list">
-  <li><strong>Two funnels ran in parallel.</strong> Credit Builder and Debt Manager, each with its own pitch, splitting design effort and diluting the argument.</li>
-  <li><strong>Enrolment carried weight it did not need.</strong> Credit agreement, AutoPay and account opening consents all sat before the user ever saw a price.</li>
-  <li><strong>The narrative repeated itself.</strong> User interviews kept flagging the same thing. The same promise said three different ways.</li>
-  <li><strong>Conversion was leaking at monetisation.</strong> Too many users who started never reached the screen where they first see a price.</li>
-  <li><strong>CPA sat too high</strong> for a plan that needed it lower.</li>
-</ul>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11114.png" width="1456" height="816" loading="lazy" decoding="async" alt="Older 2.0 funnel: multi-product pitch causing user confusion, long path reducing conversions">
-  <figcaption>Older 2.0 UI: lengthy funnel, diluted pitch</figcaption>
-</figure>
-
-<hr class="section-rule">
-
-<!-- RESEARCH -->
-<h2>Research</h2>
-<h3>Nine competitors, and one finding that decided the structure.</h3>
-
-<p>We tore down Albert, Cleo, MoneyLion, Acorns, Brigit, Self, Kikoff, Dave and Rocket Money. Not a survey. We were looking for permission to remove things.</p>
-
-<div class="insight-cards">
-  <div class="insight-card">
-    <strong>No competitor runs two separate funnels.</strong>
-    <p>Some personalise. None split the product into parallel paths.</p>
-  </div>
-  <div class="insight-card">
-    <strong>Kikoff and Cleo both place the credit agreement after monetisation.</strong>
-    <p>The friction we carried pre-paywall was not an industry requirement.</p>
-  </div>
-  <div class="insight-card">
-    <strong>Most competitors sell features with deep explanation before monetisation.</strong>
-    <p>We were selling outcomes and skipping the mechanism.</p>
-  </div>
-  <div class="insight-card">
-    <strong>Cash advance is the most used tangible hook in the category.</strong>
-    <p>Bright cannot offer it. Our tangible product had to be the loan proposition itself.</p>
-  </div>
-  <div class="insight-card">
-    <strong>Albert and Cleo sell AI as a feature. Most do not.</strong>
-    <p>AI was available to us as a differentiator, not a category norm.</p>
-  </div>
-  <div class="insight-card">
-    <strong>"100+ lenders" tested positively in user interviews.</strong>
-    <p>Users still said they trusted household bank names more.</p>
-  </div>
-</div>
-
-
-<hr class="section-rule">
-
-<!-- GOALS -->
-<h2>Goals</h2>
-<h3>Two lists that had to survive each other.</h3>
-
-<p>Phase 1 was explicit: revamp the experience <strong>without damaging any key business metric</strong>. Change everything, as long as nothing gets worse.</p>
-
-<div class="split-goals">
-  <div class="goals-col">
-    <h4>User</h4>
-    <ul>
-      <li>Reach the offer faster</li>
-      <li>Understand what the $14 buys</li>
-      <li>Stop hearing the same promise three times</li>
-      <li>Sign fewer things before seeing a price</li>
+  <div class="pg-wide pg-gap">
+    <ul class="pg-cards pg-cards-5" aria-label="What was wrong">
+      <li class="pg-card"><b>Two funnels in parallel</b><span>Credit Builder and Debt Manager, each with its own pitch, splitting design effort and diluting the argument.</span></li>
+      <li class="pg-card"><b>Heavy enrolment</b><span>Credit agreement, AutoPay and account opening consents all sat before the user ever saw a price.</span></li>
+      <li class="pg-card"><b>A repeating narrative</b><span>User interviews kept flagging the same thing: the same promise said three different ways.</span></li>
+      <li class="pg-card"><b>Leaking at monetisation</b><span>Too many users who started never reached the screen where they first see a price.</span></li>
+      <li class="pg-card"><b>CPA too high</b><span>For a plan that needed it lower.</span></li>
     </ul>
+    <figure class="pg-media pg-gap">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11114.png" width="1456" height="816" loading="lazy" decoding="async" alt="Older 2.0 funnel: multi-product pitch causing user confusion, long path reducing conversions">
+    </figure>
+    <p class="pg-cap">Older 2.0 UI: lengthy funnel, diluted pitch.</p>
   </div>
-  <div class="goals-col">
-    <h4>Business</h4>
-    <ul>
-      <li>Minimise CPA at comparable spend</li>
-      <li>Maximise affiliate revenue</li>
-      <li>Maximise monthly plan buy-in</li>
-      <li>Reduce refunds and unauthorised charges</li>
-      <li>Do not damage average order value (AOV), retention or secondary opt-ins</li>
-    </ul>
+</section>
+
+<section class="pg-sec pg-wide" id="research">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Research</p>
+      <h2 class="pg-h2">Nine competitors, and one finding that decided the structure.</h2>
+      <p class="pg-p">We tore down Albert, Cleo, MoneyLion, Acorns, Brigit, Self, Kikoff, Dave and Rocket Money. Not a survey. We were looking for permission to remove things.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">01</span><span><b>No competitor runs two separate funnels.</b>Some personalise. None split the product into parallel paths.</span></div>
+      <div class="pg-row"><span class="pg-row-k">02</span><span><b>Kikoff and Cleo both place the credit agreement after monetisation.</b>The friction we carried pre-paywall was not an industry requirement.</span></div>
+      <div class="pg-row"><span class="pg-row-k">03</span><span><b>Most competitors sell features with deep explanation before monetisation.</b>We were selling outcomes and skipping the mechanism.</span></div>
+      <div class="pg-row"><span class="pg-row-k">04</span><span><b>Cash advance is the most used tangible hook in the category.</b>Bright cannot offer it. Our tangible product had to be the loan proposition itself.</span></div>
+      <div class="pg-row"><span class="pg-row-k">05</span><span><b>Albert and Cleo sell AI as a feature. Most do not.</b>AI was available to us as a differentiator, not a category norm.</span></div>
+      <div class="pg-row"><span class="pg-row-k">06</span><span><b>"100+ lenders" tested positively in user interviews.</b>Users still said they trusted household bank names more.</span></div>
+    </div>
   </div>
-</div>
+</section>
 
-<hr class="section-rule">
-
-<!-- PROCESS -->
-<h2>Process</h2>
-<h3>Cut the funnel into five parts. Argue about each one separately.</h3>
-
-<p>Pre-sell. PII. Product funnel. Monetisation. Post-enroll add-ons.</p>
-
-<p>The split let us ask a narrower question of every section: what is this part allowed to say, and what is it not allowed to repeat. Most of the work was that question, answered screen by screen.</p>
-
-<p>Three structural bets came out of it.</p>
-
-<div class="decision-cards">
-  <div class="decision-card chosen">
-    <span class="decision-tag">Primary</span>
-    <div class="decision-title">One funnel</div>
-    <div class="decision-desc">Collapse Credit Builder (CB) and Debt Manager (DM) into a single path. More products to lean on, so the pitch stops depending on weak DM elements.</div>
+<section class="pg-sec pg-wide" id="goals">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Goals</p>
+      <h2 class="pg-h2">Two lists that had to survive each other.</h2>
+      <p class="pg-p">Phase 1 was explicit: revamp the experience <strong>without damaging any key business metric</strong>. Change everything, as long as nothing gets worse.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">User</span><span>Reach the offer faster. Understand what the $14 buys. Stop hearing the same promise three times. Sign fewer things before seeing a price.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Business</span><span>Minimise CPA at comparable spend. Maximise affiliate revenue. Maximise monthly plan buy-in. Reduce refunds and unauthorised charges. Do not damage average order value (AOV), retention or secondary opt-ins.</span></div>
+    </div>
   </div>
-  <div class="decision-card">
-    <span class="decision-tag">Rejected</span>
-    <div class="decision-title">Two funnels</div>
-    <div class="decision-desc">Backed by no competitor precedent, and the two paths converted the same way over six months.</div>
+</section>
+
+<section class="pg-sec" id="process">
+  <div class="pg-narrow">
+    <p class="pg-label">Process</p>
+    <h2 class="pg-h2">Bring down the number of repeating screens.</h2>
+    <p class="pg-p">The split let us ask a narrower question of every section: what is this part allowed to say, and what is it not allowed to repeat. Most of the work was that question, answered screen by screen.</p>
   </div>
-</div>
-
-<div class="decision-cards">
-  <div class="decision-card chosen">
-    <span class="decision-tag">Primary</span>
-    <div class="decision-title">Pre-sell, succinct</div>
-    <div class="decision-desc">Two messages only: build credit, get access to credit. Drops the credit card debt paradigm. Chosen because user interviews kept flagging repetition.</div>
+  <div class="pg-wide pg-gap">
+    <ol class="pg-steps" aria-label="The five parts of the funnel">
+      <li class="pg-step"><b>Pre-sell</b><span>What the funnel promises</span></li>
+      <li class="pg-step"><b>PII</b><span>What we ask for</span></li>
+      <li class="pg-step"><b>Product funnel</b><span>What each product argues</span></li>
+      <li class="pg-step"><b>Monetisation</b><span>Where the price appears</span></li>
+      <li class="pg-step"><b>Post-enroll add-ons</b><span>What comes after paying</span></li>
+    </ol>
+    <p class="pg-cap">Three structural bets came out of it.</p>
   </div>
-  <div class="decision-card">
-    <span class="decision-tag">Secondary</span>
-    <div class="decision-title">Pre-sell, AI-led</div>
-    <div class="decision-desc">Tie every outcome to AI so the product feels like a chat away. Held as an alternate direction rather than killed.</div>
+
+  <div class="pg-wide pg-gap">
+    <div class="pg-split">
+      <div>
+        <p class="pg-label">Bet 1</p>
+        <h3 class="pg-h2">How many funnels.</h3>
+      </div>
+      <div class="pg-rows">
+        <div class="pg-row"><span><span class="pg-chip yes">Primary</span></span><span><b>One funnel</b>Collapse Credit Builder (CB) and Debt Manager (DM) into a single path. More products to lean on, so the pitch stops depending on weak DM elements.</span></div>
+        <div class="pg-row"><span><span class="pg-chip">Rejected</span></span><span><b>Two funnels</b>Backed by no competitor precedent, and the two paths converted the same way over six months.</span></div>
+      </div>
+    </div>
+
+    <div class="pg-split pg-gap">
+      <div>
+        <p class="pg-label">Bet 2</p>
+        <h3 class="pg-h2">What the pre-sell says.</h3>
+      </div>
+      <div class="pg-rows">
+        <div class="pg-row"><span><span class="pg-chip yes">Primary</span></span><span><b>Pre-sell, succinct</b>Two messages only: build credit, get access to credit. Drops the credit card debt paradigm. Chosen because user interviews kept flagging repetition.</span></div>
+        <div class="pg-row"><span><span class="pg-chip">Secondary</span></span><span><b>Pre-sell, AI-led</b>Tie every outcome to AI so the product feels like a chat away. Held as an alternate direction rather than killed.</span></div>
+      </div>
+    </div>
+
+    <figure class="pg-media pg-gap">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11115.png" width="1456" height="816" loading="lazy" decoding="async" alt="Experiment A vs B: standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user. B won.">
+    </figure>
+    <p class="pg-cap">Experiment A vs B: LoanGPT as onboarder won.</p>
+
+    <div class="pg-split pg-gap">
+      <div>
+        <p class="pg-label">Bet 3</p>
+        <h3 class="pg-h2">Subtraction.</h3>
+      </div>
+      <div class="pg-rows">
+        <div class="pg-row"><span class="pg-row-k">Consents</span><span>Credit agreement, AutoPay and account opening consents all moved past enrolment, attached to the moment a user actually activates Bright Builder or Smart Round-Ups. The data supported it plainly: those consents were not required for monetisation, did not affect secondary opt-ins, and did not affect affiliate revenue.</span></div>
+        <div class="pg-row"><span class="pg-row-k">Order</span><span>Add-ons were ordered by ARPU (average revenue per user). Rent, then Sub Management, then Affiliates. Affiliates went last for a specific reason: users leave the app during an affiliate journey, so anything placed after it does not get seen.</span></div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11115.png" width="1456" height="816" loading="lazy" decoding="async" alt="Experiment A vs B: standard funnel pitching LoanGPT vs LoanGPT itself onboarding the user. B won.">
-  <figcaption>Experiment A vs B: LoanGPT as onboarder won</figcaption>
-</figure>
-
-<p>The third bet was subtraction. Credit agreement, AutoPay and account opening consents all moved past enrolment, attached to the moment a user actually activates Bright Builder or Smart Round-Ups. The data supported it plainly: those consents were not required for monetisation, did not affect secondary opt-ins, and did not affect affiliate revenue.</p>
-
-<p>Add-ons were ordered by ARPU (average revenue per user). Rent, then Sub Management, then Affiliates. Affiliates went last for a specific reason: users leave the app during an affiliate journey, so anything placed after it does not get seen.</p>
-
-<hr class="section-rule">
-
-<!-- SOLUTION -->
-<h2>Solution</h2>
-<h3>LoanGPT stopped being a destination and became the reason to pay.</h3>
-
-<p>On 1 December 2025 the PM rewrote the post-enroll narrative in one line: remove Credit Builder from the pitch and make a bigger deal of LoanGPT as the tool that gets you the best loans.</p>
-
-<p>That changed what the funnel was selling. The promise became three things in order: build your score, get the best loan offers with LoanGPT, save money.</p>
-
-<div class="pull-quote">
-  <blockquote>"The visuals are actually really important; they are meant to communicate a message, so getting them right really matters."</blockquote>
-  <cite>Product manager, on the first round of narrative screens</cite>
-</div>
-
-<p>The message we landed on for the loan proposition: Bright combines loan offers from 100+ lenders and recommends the best one for you. The number tested well. The recommendation framing positioned Bright as adding intelligence rather than acting as a directory.</p>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11122.png" width="1456" height="816" loading="lazy" decoding="async" alt="New bullet funnel: credit history pitch, $100k loan offers, Bright Builder, AI Money Assistant">
-  <figcaption>New bullet funnel: four screens, one argument</figcaption>
-</figure>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11113.png" width="1456" height="816" loading="lazy" decoding="async" alt="LoanGPT onboarding chat: welcome, amount collection, pre-qualification, offer comparison with risk flag">
-  <figcaption>LoanGPT chat: collects intent, surfaces offer, flags risk</figcaption>
-</figure>
-
-<h3>The Bullet Funnel was a second bet running alongside.</h3>
-
-<p>While the main funnel was being rebuilt, a shorter variant ran in parallel. A $14 plan against the existing $39-and-above flow, on separate landing pages, aimed at acquiring lower AOV users at a lower CPA.</p>
-
-<p>Internally it became the name for the whole new funnel. Every acquisition campaign now carries the prefix.</p>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11119.png" width="1456" height="816" loading="lazy" decoding="async" alt="Initial pitch screens: 100+ lenders, personalized offers, LoanGPT weekly offer check">
-  <figcaption>Initial pitch screens: lender breadth, personalization, continuous discovery</figcaption>
-</figure>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11120.png" width="1456" height="816" loading="lazy" decoding="async" alt="Old 2.0 UI: Crush credit card debt splash, credit history screen, $100k offer screen">
-  <figcaption>Old 2.0: three messages, none of them the same</figcaption>
-</figure>
-
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11117.png" width="1456" height="816" loading="lazy" decoding="async" alt="Improved 3.0 UI: Build credit history, get best loan offers: single clear entry point">
-  <figcaption>Improved 3.0: one entry, two promises</figcaption>
-</figure>
-
-<hr class="section-rule">
-
-<!-- OUTCOME -->
-<h2>Outcome</h2>
-<h3>What it moved.</h3>
-
-<div class="stat-tiles">
-  <div class="stat-tile">
-    <span class="stat-value">40→45%</span>
-    <span class="stat-label">Funnel conversion</span>
+<section class="pg-sec" id="solution">
+  <div class="pg-narrow">
+    <p class="pg-label">Solution</p>
+    <h2 class="pg-h2">LoanGPT became the destination and the reason to pay.</h2>
+    <p class="pg-p">On 1 December 2025 the PM rewrote the post-enroll narrative in one line: remove Credit Builder from the pitch and make a bigger deal of LoanGPT as the tool that gets you the best loans.</p>
+    <p class="pg-p">That changed what the funnel was selling. The promise became three things in order: build your score, get the best loan offers with LoanGPT, save money.</p>
+    <div class="pg-note">
+      <b>"The visuals are actually really important; they are meant to communicate a message, so getting them right really matters."</b>
+      <span>Product manager, on the first round of narrative screens</span>
+    </div>
+    <p class="pg-p">The message we landed on for the loan proposition: Bright combines loan offers from 100+ lenders and recommends the best one for you. The number tested well. The recommendation framing positioned Bright as adding intelligence rather than acting as a directory.</p>
   </div>
-  <div class="stat-tile">
-    <span class="stat-value">10%</span>
-    <span class="stat-label">CPA reduction</span>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11122.png" width="1456" height="816" loading="lazy" decoding="async" alt="New bullet funnel: credit history pitch, $100k loan offers, Bright Builder, AI Money Assistant">
+    </figure>
+    <p class="pg-cap">New bullet funnel: four screens, one argument.</p>
+    <figure class="pg-media pg-gap">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11113.png" width="1456" height="816" loading="lazy" decoding="async" alt="LoanGPT onboarding chat: welcome, amount collection, pre-qualification, offer comparison with risk flag">
+    </figure>
+    <p class="pg-cap">LoanGPT chat: collects intent, surfaces offer, flags risk.</p>
   </div>
-  <div class="stat-tile">
-    <span class="stat-value">~$200k</span>
-    <span class="stat-label">Saved per month on acquisition</span>
+
+  <div class="pg-narrow pg-gap">
+    <h3 class="pg-h2">The Bullet Funnel ran alongside.</h3>
+    <p class="pg-p">While the main funnel was being rebuilt, a shorter variant ran in parallel. A $14 plan against the existing $39-and-above flow, on separate landing pages, aimed at acquiring lower AOV users at a lower CPA.</p>
+    <p class="pg-p">Internally it became the name for the whole new funnel. Every acquisition campaign now carries the prefix.</p>
   </div>
-</div>
-
-<div class="stat-tiles">
-  <div class="stat-tile">
-    <span class="stat-value">$3→3.6M</span>
-    <span class="stat-label">Contributed to ARR growth</span>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11119.png" width="1456" height="816" loading="lazy" decoding="async" alt="Initial pitch screens: 100+ lenders, personalized offers, LoanGPT weekly offer check">
+    </figure>
+    <p class="pg-cap">Initial pitch screens: lender breadth, personalization, continuous discovery.</p>
+    <div class="pg-pair pg-gap">
+      <div>
+        <figure class="pg-media"><img src="../assets/case-studies/loangpt-bullet-funnel/11120.png" width="1456" height="816" loading="lazy" decoding="async" alt="Old 2.0 UI: Crush credit card debt splash, credit history screen, $100k offer screen"></figure>
+        <p class="pg-cap">Old 2.0: three messages, none of them the same.</p>
+      </div>
+      <div>
+        <figure class="pg-media"><img src="../assets/case-studies/loangpt-bullet-funnel/11117.png" width="1456" height="816" loading="lazy" decoding="async" alt="Improved 3.0 UI: Build credit history, get best loan offers: single clear entry point"></figure>
+        <p class="pg-cap">Improved 3.0: one entry, two promises.</p>
+      </div>
+    </div>
   </div>
-  <div class="stat-tile">
-    <span class="stat-value">+20%</span>
-    <span class="stat-label">LoanGPT engagement</span>
+</section>
+
+<section class="pg-sec" id="outcome">
+  <div class="pg-narrow">
+    <p class="pg-label">Outcome</p>
+    <h2 class="pg-h2">What it moved.</h2>
+    <p class="pg-p">Conversion, CPA and the monthly saving are in the numbers at the top. Two more figures came with them.</p>
+    <div class="pg-pair">
+      <div class="pg-note pg-metric"><b>$3 → 3.6M</b><span>Contributed to ARR growth</span></div>
+      <div class="pg-note pg-metric"><b>+20%</b><span>LoanGPT engagement</span></div>
+    </div>
+    <p class="pg-p">All figures were measured over one month. The CPA saving came with no negative downstream impact. The Phase 1 constraint held. Nothing we removed cost us anything.</p>
+    <p class="pg-p"><strong>One caveat worth stating plainly.</strong> These two sets of numbers share a cause. The funnel rebuild is what put LoanGPT in front of users, so some portion of the engagement lift is funnel exposure rather than the LoanGPT surfaces themselves. No control was run that holds exposure constant. They are one result reported two ways, not two independent wins.</p>
   </div>
-</div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media">
+      <img src="../assets/case-studies/loangpt-bullet-funnel/11123.png" width="1456" height="816" loading="lazy" decoding="async" alt="Post-launch: LoanGPT surfaces bad credit scenario, debt plan, Bright membership pitch; outcomes: more completions, lower CAC, lower UnAuth Rate, improved retention">
+    </figure>
+    <p class="pg-cap">Post-launch: LoanGPT as onboarding surface, debt plan, membership pitch.</p>
+  </div>
+</section>
 
-<p>All figures above were measured over one month. The CPA saving came with no negative downstream impact. The Phase 1 constraint held. Nothing we removed cost us anything.</p>
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What I took from it.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Removing moved the number more than adding did.</strong> The three changes that mattered most were all subtractions: one funnel instead of two, consents moved past enrolment, repetition stripped from the pitch. We added very little.</span></li>
+      <li><span><strong>Competitor research is most useful as permission.</strong> Nine teardowns gave us nothing to copy. They told us which pieces of friction we were carrying out of habit rather than necessity.</span></li>
+      <li><span><strong>Order is a design decision with a revenue number attached.</strong> Putting Affiliates last was not a layout call. It was the recognition that users physically leave the app during that journey, which makes everything after it worthless.</span></li>
+      <li><span><strong>A funnel is an argument delivered in sequence.</strong> Most of my work was not drawing screens. It was deciding what each screen was allowed to say, and making sure it did not say something an earlier screen had already said.</span></li>
+    </ol>
+  </div>
+</section>
 
-<p><strong>One caveat worth stating plainly.</strong> These two sets of numbers share a cause. The funnel rebuild is what put LoanGPT in front of users, so some portion of the engagement lift is funnel exposure rather than the LoanGPT surfaces themselves. No control was run that holds exposure constant. They are one result reported two ways, not two independent wins.</p>
+</main>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/loangpt-bullet-funnel/11123.png" width="1456" height="816" loading="lazy" decoding="async" alt="Post-launch: LoanGPT surfaces bad credit scenario, debt plan, Bright membership pitch; outcomes: more completions, lower CAC, lower UnAuth Rate, improved retention">
-  <figcaption>Post-launch: LoanGPT as onboarding surface, debt plan, membership pitch</figcaption>
-</figure>
+<footer class="pg-foot">
+  <a class="pg-next pg-prev" href="monet-cancellation.html"><small>Previous project</small><span>← Monet Cancellation</span></a>
+  <a class="pg-next" href="id-protection.html"><small>Next project</small><span>ID Protection →</span></a>
+</footer>
 
-<hr class="section-rule">
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
 
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What I took from it.</h3>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="smooth-scroll.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
 
-<ul class="reflection-list">
-  <li><strong>Removing moved the number more than adding did.</strong> The three changes that mattered most were all subtractions: one funnel instead of two, consents moved past enrolment, repetition stripped from the pitch. We added very little.</li>
-  <li><strong>Competitor research is most useful as permission.</strong> Nine teardowns gave us nothing to copy. They told us which pieces of friction we were carrying out of habit rather than necessity.</li>
-  <li><strong>Order is a design decision with a revenue number attached.</strong> Putting Affiliates last was not a layout call. It was the recognition that users physically leave the app during that journey, which makes everything after it worthless.</li>
-  <li><strong>A funnel is an argument delivered in sequence.</strong> Most of my work was not drawing screens. It was deciding what each screen was allowed to say, and making sure it did not say something an earlier screen had already said.</li>
-</ul>
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
 
-<div class="cta">
-  <p>Built with two design leads, a product manager, an analyst and a design director. Happy to talk through the parts that are not public. <a href="https://www.linkedin.com/in/shreyodebnath" target="_blank" rel="noopener">Reach me on LinkedIn.</a></p>
-</div>
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
 
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
+
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
+
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
+
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
+
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
+
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
+
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
+
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
+
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', 'Information architecture');
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
+
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
+
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
+
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
 </body>
 </html>

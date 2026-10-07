@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monet Cancellation · Shreyo Debnath</title>
+<meta name="description" content="Building a split offboarding funnel to ensure users can get the most before they decide to cancel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
+</head>
+<body>
+
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
+
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#context" data-sec="context"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span data-t="Context">Context</span></a></li>
+      <li><a href="#problem" data-sec="problem"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><span data-t="Problem">Problem</span></a></li>
+      <li><a href="#redesign" data-sec="redesign"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg><span data-t="Redesign">Redesign</span></a></li>
+      <li><a href="#decision" data-sec="decision"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg><span data-t="Decision">Decision</span></a></li>
+      <li><a href="#constraints" data-sec="constraints"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg><span data-t="Constraints">Constraints</span></a></li>
+      <li><a href="#complexity" data-sec="complexity"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg><span data-t="Complexity">Complexity</span></a></li>
+      <li><a href="#outcome" data-sec="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Where it landed">Where it landed</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
+
+<main>
+
+<header class="pg-hero">
+  <div class="pg-kicker"><span>US fintech app</span><span>Subscription flows</span></div>
+  <h1 class="pg-title">Monet Cancellation</h1>
+  <p class="pg-sub">Building a split offboarding funnel to ensure users can get the most before they decide to cancel.</p>
+  <figure class="pg-media">
+    <img src="../assets/case-studies/monet-cancellation/s5.webp" width="1024" height="576" loading="eager" decoding="async" alt="The redesigned cancellation flow in four screens: Don't lose the tools improving your credit, a Before you go sheet, What's making you cancel, and Review canceling Premium.">
+  </figure>
+</header>
+
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Product Designer, Project Management &amp; Handoff</dd></div>
+  <div><dt>Timeline</dt><dd>9 months across phases</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#F24E1E;--m:url(../assets/logos/tools/figma.svg)" aria-hidden="true"></i>Figma</span></dd></div>
+  <div><dt>Status</dt><dd>In progress</dd></div>
+</dl>
+
+<div class="pg-stats">
+  <div class="pg-stat"><b>$5</b><span>New Starter tier</span></div>
+  <div class="pg-stat"><b>2</b><span>Flow variants designed</span></div>
+  <div class="pg-stat"><b>8</b><span>User states mapped</span></div>
+  <div class="pg-stat"><b>9 mo</b><span>Across phases</span></div>
+</div>
+
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">Giving user more options than before covering all open ends of the current membership.</h2>
+  <div class="pg-three">
+    <div><h3>Problem</h3><p class="pg-p">Bright ran two tiers: Premium or nothing. A user who cancelled went to $0, with no middle.</p></div>
+    <div><h3>My part</h3><p class="pg-p">Product design, project management and handoff for the cancellation flow, from the offer timing to the seven account states behind it.</p></div>
+    <div><h3>Where it landed</h3><p class="pg-p">The Premium cancellation flow is closed and signed off. The Starter flow had feedback implemented and a final review pending.</p></div>
+  </div>
+</section>
+
+<section class="pg-sec" id="context">
+  <div class="pg-narrow">
+    <p class="pg-label">Context</p>
+    <h2 class="pg-h2">Monet is where every subscription decision happens.</h2>
+    <p class="pg-p">Monet is Bright's monetization surface. It covers every screen a user touches when they subscribe, manage their plan or cancel. I was part of this project across its phases, taking the cancellation flow through design, project management and handoff.</p>
+  </div>
+</section>
+
+<section class="pg-sec" id="problem">
+  <div class="pg-narrow">
+    <p class="pg-label">Problem</p>
+    <h2 class="pg-h2">Cancelling meant losing the user completely.</h2>
+    <p class="pg-p">Bright had Premium or nothing. The new Starter tier was a way to stay in the product at a price a leaving user might accept.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <ul class="pg-cards pg-cards-3" aria-label="The three tiers">
+      <li class="pg-card"><b>Premium · $14 / mo</b><span>Full subscription. All features unlocked.</span></li>
+      <li class="pg-card"><b>Starter (new) · $5 / mo</b><span>Cash advance, credit features, and Rent Reporting as an add-on. A way to stay in the product.</span></li>
+      <li class="pg-card"><b>Basic · $0</b><span>Cancelled. Limited access.</span></li>
+    </ul>
+  </div>
+  <div class="pg-narrow pg-gap">
+    <p class="pg-p">Two user groups needed designing for: existing users migrated to Starter automatically with a 30-day grace period, and Premium users actively cancelling who needed to see the $5 offer.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <div class="pg-pair">
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s1.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The older 2.0 cancellation flow: a reasons survey, a Don't stop your progress screen, and a 70% off special offer."></div><p class="pg-cap">Older 2.0: the flow did not use the feedback from the user survey to retain users who were leaving.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s4.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The older 2.0 UI: Don't stop your progress now, and two Use your full 12 months membership screens with an hourglass and a clock."></div><p class="pg-cap">Older 2.0 UI.</p></figure>
+    </div>
+  </div>
+</section>
+
+<section class="pg-sec" id="redesign">
+  <div class="pg-narrow">
+    <p class="pg-label">Redesign</p>
+    <h2 class="pg-h2">The 3.0 flow shows what leaving costs.</h2>
+    <p class="pg-p">The 2.0 flow asked why the user wanted to leave, then offered a discount, without using the survey answers. The 3.0 flow opens on the premium tools the user is about to lose, adds a confirmation sheet, asks what is making them cancel, and ends on a review of the benefits and the date access ends.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/monet-cancellation/s2.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The improved 3.0 UI: Don't lose the tools improving your credit, a Before you go sheet with Keep my Progress and Continue to Cancel, and a Before you cancel, please note screen."></figure>
+    <p class="pg-cap">Improved 3.0 UI.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/monet-cancellation/s5.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The 3.0 cancellation flow in four screens: the tools you will lose, a Before you go sheet, What is making you cancel, and Review canceling Premium with the plan end date."></figure>
+    <p class="pg-cap">The 3.0 flow, end to end.</p>
+  </div>
+</section>
+
+<section class="pg-sec pg-wide" id="decision">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Decision</p>
+      <h2 class="pg-h2">When to show the offer.</h2>
+      <p class="pg-p">Netflix shows you a cheaper plan before you cancel. Audible does the same. The mid-flow downsell is a proven pattern, but it only works if the offer is genuinely strong.</p>
+      <p class="pg-p">I designed multiple flow variants. Variant 1 had stronger visuals. Variant 2 put the $5 offer at the right moment in the flow. We aligned on Variant 2 for the first test, not because it looked better on screen, but because it gave users the information at the moment it was actually useful.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span><span class="pg-chip yes">First test</span></span><span><b>Mid-flow downsell</b>Show the $5 Starter offer before the user confirms cancellation. Right information at the right moment.</span></div>
+      <div class="pg-row"><span><span class="pg-chip">Fallback</span></span><span><b>Post-cancellation offer</b>Confirm the cancel, then pitch Starter. Designed and ready. Some users respond better when the product honours their decision first.</span></div>
+    </div>
+  </div>
+
+  <div class="pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/monet-cancellation/s9.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="Two phone screens of the Starter offer: a bottom sheet reading Enjoy Starter free for 30 days, listing four Starter benefits with Continue and Save and Lose all benefits buttons, beside the post-cancellation screen, Your Premium membership is now canceled, which keeps the benefits with Bright Starter at $5 a month."></figure>
+    <p class="pg-cap">The Starter offer. Left: the offer sheet, Enjoy Starter free for 30 days, with Continue and Save. Right: the post-cancellation screen, which keeps Starter at $5/mo.</p>
+  </div>
+</section>
+
+<section class="pg-sec pg-wide" id="constraints">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Constraints</p>
+      <h2 class="pg-h2">The compliance layer.</h2>
+      <p class="pg-p">Every screen in Monet touches compliance, and cancellation screens even more so. These were not copy notes. Getting them wrong on a cancellation screen is a legal exposure.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">Flag 1</span><span><b>"Free" on a final screen</b>The word appeared where Starter costs $5 a month. It came out.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Flag 2</span><span><b>"You are eligible" above a loan offer</b>It implied an approval the user did not have. Rewritten to match the compliance-reviewed copy on the Bright website exactly.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="pg-sec" id="complexity">
+  <div class="pg-narrow">
+    <p class="pg-label">Complexity</p>
+    <h2 class="pg-h2">The hardest part was the number of states, not the flow.</h2>
+    <p class="pg-p">A single user could be in seven distinct states, each with different copy, different calls to action and different settings screens. I mapped every one and designed them all.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <ul class="pg-cards pg-cards-8" aria-label="The seven account states">
+      <li class="pg-card"><b>Migrated</b><span>In the notice period.</span></li>
+      <li class="pg-card"><b>Migrated</b><span>In the grace period.</span></li>
+      <li class="pg-card"><b>Migrated</b><span>Once billing started.</span></li>
+      <li class="pg-card"><b>Premium</b><span>Cancelled.</span></li>
+      <li class="pg-card"><b>Starter</b><span>Force opt-in.</span></li>
+      <li class="pg-card"><b>Starter</b><span>Explicit opt-in.</span></li>
+      <li class="pg-card"><b>Basic</b><span>Limited access.</span></li>
+    </ul>
+    <div class="pg-gallery pg-gap">
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s6.webp" width="1024" height="576" loading="lazy" decoding="async" alt="Dashboard 2.0 on the left, annotated with no delight and repeating information, beside the new Premium membership dashboard on the right."></div><p class="pg-cap">Dashboard 2.0 was confusing and inconvenient to understand and act on. Annotated: no delight, repeating information.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s3.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The Bright Membership dashboard in three states: Premium, Starter with a 30 days free banner, and Starter."></div><p class="pg-cap">All membership dashboard states: Premium, Starter with 30 days free, Starter.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s8.webp" width="1024" height="576" loading="lazy" decoding="async" alt="The Starter dashboard in the middle, with the Premium upsell card on the left and the Starter benefits list on the right."></div><p class="pg-cap">Starter dashboard, with the Premium upsell and the Starter benefits.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/monet-cancellation/s7.webp" width="1024" height="576" loading="lazy" decoding="async" alt="Two close views: the Starter dashboard, and the Get Premium for $14 upsell."></div><p class="pg-cap">Starter dashboard and the Premium upsell, up close.</p></figure>
+    </div>
+  </div>
+</section>
+
+<section class="pg-sec" id="outcome">
+  <div class="pg-narrow">
+    <p class="pg-label">Where it landed</p>
+    <h2 class="pg-h2">One flow signed off, one in final review.</h2>
+    <p class="pg-p">The Premium cancellation flow is closed and signed off. The Starter cancellation flow had feedback implemented, with final review pending at handoff. The full settings states and wireframe set were delivered and are with engineering.</p>
+    <p class="pg-p">No results are reported here yet, because the flow had not been through a live test at handoff.</p>
+  </div>
+</section>
+
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What I would do differently.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Map all user states before touching the design.</strong> Seven states across three user types is a known complexity for a tiered subscription product. I found the full scope through iteration instead of up front.</span></li>
+      <li><span><strong>Get data before locking the offer timing.</strong> The mid-flow versus post-cancellation decision needed data I did not have. I would push for prior A/B test results from a comparable product first. We chose right based on reasoning, but data would have made it faster.</span></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="pg-foot">
+  <div>
+    <p>Shreyo Debnath · Product Designer</p>
+    <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
+  </div>
+  <a class="pg-next" href="id-protection.html"><small>Next project</small><span>ID Protection →</span></a>
+</footer>
+
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
+
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
+
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
+
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
+
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
+
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
+
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
+
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
+
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
+
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
+
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
+
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        var lbl = m.getAttribute('aria-label') || 'Diagram'; clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', lbl);
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
+
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
+
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
+
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
+</body>
+</html>

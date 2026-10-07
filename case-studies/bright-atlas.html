@@ -1,561 +1,595 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atlas · Shreyo Debnath</title>
+<meta name="description" content="Atlas: an AI-tagged, searchable platform for fintech competitor research. Designed and built end to end. A reference now takes about two minutes instead of about an hour.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
-
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
-
-  h2 {
-    font-family: var(--ff);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
-
-  h3:first-child { margin-top: 0; }
-
-  h4 {
-    font-family: var(--ff);
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
-
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  strong { color: var(--text); font-weight: 500; }
-
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
-
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
-
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
-
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #286d2b;
-    margin-top: 4px;
-  }
-
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
-
-  /* QUERY CARDS */
-  .query-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .query-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 20px 18px;
-  }
-
-  .query-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .query-card p {
-    font-size: 0.83rem;
-    color: var(--dim);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* ARCHITECTURE STEPS */
-  .arch-steps {
-    margin: 28px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .arch-step {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 24px;
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-    align-items: start;
-  }
-
-  .arch-step-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-top: 2px;
-  }
-
-  .arch-step p {
-    font-size: 0.875rem;
-    margin: 0;
-    line-height: 1.65;
-  }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-item {
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .screen-item img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px;
-  }
-
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* CODE BLOCK */
-  .code-block {
-    background: var(--chosen-bg);
-    border-radius: 8px;
-    padding: 20px 24px;
-    margin: 20px 0;
-    font-family: var(--ff-mono);
-    font-size: 0.8125rem;
-    color: rgba(240,240,238,0.7);
-    line-height: 1.8;
-  }
-
-  .code-block .cmd { color: #f0f0ee; }
-
-  /* FAILURE CARDS */
-  .failure-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .failure-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
-
-  .failure-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-
-  .failure-mine {
-    font-size: 0.8125rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .failure-body {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* REFLECTION */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p { font-size: 0.875rem; color: var(--muted); }
-  .cta a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .screen-item { min-height: 160px; }
-    h2, h3 { page-break-after: avoid; }
-    .query-cards, .failure-cards, .arch-steps { page-break-inside: avoid; }
-  }
-
-  @page { margin: 20mm 18mm; size: A4; }
-
-  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
-  .stat-strip { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 0 0 56px; }
-  .stat { background: var(--card-bg); border-radius: 8px; padding: 16px 14px; }
-  .stat-val { display: block; font-family: var(--ff-display); font-size: 1.5rem; line-height: 1.15; color: var(--text); }
-  .stat-lbl { display: block; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
-  .arch-diagram { margin: 28px 0; color: var(--dim); }
-  .arch-diagram svg { width: 100%; height: auto; display: block; }
-  @media (max-width: 640px) { .stat-strip { grid-template-columns: repeat(2, 1fr); } }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
 
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#problem" data-sec="problem"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><span data-t="Problem">Problem</span></a></li>
+      <li><a href="#goal" data-sec="goal"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span data-t="Goal">Goal</span></a></li>
+      <li><a href="#options" data-sec="options"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg><span data-t="Options">Options</span></a></li>
+      <li><a href="#approach" data-sec="approach"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span data-t="Approach">Approach</span></a></li>
+      <li><a href="#design" data-sec="design"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg><span data-t="Design">Design</span></a></li>
+      <li><a href="#build" data-sec="build"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg><span data-t="Build">Build</span></a></li>
+      <li><a href="#shipped" data-sec="shipped"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg><span data-t="What shipped">What shipped</span></a></li>
+      <li><a href="#setback" data-sec="setback"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span data-t="A setback">A setback</span></a></li>
+      <li><a href="#impact" data-sec="impact"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Impact">Impact</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
 
-<span class="wordmark">Shreyo Debnath</span>
+<main>
 
-<h1>Atlas</h1>
-
-<p class="outcome-line">Finding a competitor reference used to take about an hour. It now takes about two minutes, and 12 of the 17 priority users (about 71%) adopted it.</p>
-
-<div class="meta-block">
-  <div class="meta-item">
-    <span class="meta-label">Role</span>
-    <span class="meta-value">Product designer: product definition, AI tagging pipeline, build, deployment</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Timeline</span>
-    <span class="meta-value">[CONFIRM: timeline]</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Stack</span>
-    <span class="meta-value">Claude · Next.js · AWS (S3, RDS, EC2)</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Team</span>
-    <span class="meta-value">Design director · Senior designer · Fellow designer · Frontend engineer</span>
-  </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
-    <span class="meta-label">Status</span>
-    <span class="meta-value">Live, internal</span>
-    <span class="status-tag">Shipped</span>
-  </div>
-</div>
-
-<div class="stat-strip">
-  <div class="stat"><span class="stat-val">40</span><span class="stat-lbl">Competitors</span></div>
-  <div class="stat"><span class="stat-val">1,000+</span><span class="stat-lbl">Screenshots</span></div>
-  <div class="stat"><span class="stat-val">1 hr → 2 min</span><span class="stat-lbl">Reference lookup</span></div>
-  <div class="stat"><span class="stat-val">~71%</span><span class="stat-lbl">Adoption, 12 of 17 priority users</span></div>
-</div>
-
-<!-- PROBLEM -->
-<h2>Problem</h2>
-<h3>Our competitor research was trapped inside Figma.</h3>
-
-<p>The apps we compete with are fintech products that need accounts, onboarding and real bank connections before the interesting screens appear, so they are not on Mobbin or AppShots. Researchers had captured hundreds of flows and pasted them into Figma boards with no search.</p>
-
-<p>A PM asking "how does this app handle payroll?" got a Slack message and a wait. We had the research. We had no way to surface it.</p>
-
-<hr class="section-rule">
-
-<!-- WHAT WE NEEDED -->
-<h2>Goal</h2>
-<h3>What we needed</h3>
-
-<p>One private, searchable product for three kinds of questions.</p>
-
-<div class="query-cards">
-  <div class="query-card">
-    <span class="query-label">Designer</span>
-    <p>What does this app's payroll screen and disclosure copy look like?</p>
-  </div>
-  <div class="query-card">
-    <span class="query-label">PM</span>
-    <p>What pricing and onboarding does a competitor show in week two?</p>
-  </div>
-  <div class="query-card">
-    <span class="query-label">Exec</span>
-    <p>What is their full credit-building flow, and how do they pitch the upgrade?</p>
-  </div>
-</div>
-
-<hr class="section-rule">
-
-<!-- OPTIONS -->
-<h2>Options considered</h2>
-<h3>Three ways to get there</h3>
-
-<div class="failure-cards">
-  <div class="failure-card">
-    <div class="failure-title">Build on a public screenshot library</div>
-    <p class="failure-body">Rejected. The flows we needed sit behind accounts, so they are not in any public library.</p>
-  </div>
-  <div class="failure-card">
-    <div class="failure-title">Organize the Figma boards better</div>
-    <p class="failure-body">Rejected. Still no search, and it does not scale past a few hundred screens.</p>
-  </div>
-  <div class="failure-card" style="grid-column: 1 / -1;">
-    <div class="failure-title">A private, AI-tagged product <span class="failure-mine">· chosen</span></div>
-    <p class="failure-body">You cannot search pixels, so I needed metadata for every image.</p>
-  </div>
-</div>
-
-<hr class="section-rule">
-
-<!-- APPROACH -->
-<h2>Approach</h2>
-<h3>Two weeks of thinking before any building</h3>
-
-<p>I spent the first two weeks not building, working out whether this was possible. The answer was to teach Claude to look at each screenshot and mark it: which flow, which feature, what copy, which partner. Every image goes through that pipeline and comes out as structured data.</p>
-
-<p>Then the infrastructure was straightforward: images in private storage, metadata in a database, and a web app in a private network that queries the data and serves the images.</p>
-
-<figure class="arch-diagram">
-  <svg viewBox="0 0 640 150" role="img" aria-label="Architecture: screenshots go through an AI tagging pipeline into a metadata database; a private-network app queries the database and serves images from private storage.">
-    <defs>
-      <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker>
-    </defs>
-    <g fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.85">
-      <rect x="8" y="50" width="120" height="50" rx="8"/>
-      <rect x="170" y="50" width="120" height="50" rx="8"/>
-      <rect x="332" y="10" width="130" height="50" rx="8"/>
-      <rect x="332" y="90" width="130" height="50" rx="8"/>
-      <rect x="504" y="50" width="128" height="50" rx="8"/>
-      <path d="M128 75H166" marker-end="url(#arr)"/>
-      <path d="M290 75L328 40" marker-end="url(#arr)"/>
-      <path d="M290 75L328 115" marker-end="url(#arr)"/>
-      <path d="M462 35L500 70" marker-end="url(#arr)"/>
-      <path d="M462 115L500 80" marker-end="url(#arr)"/>
-    </g>
-    <g fill="currentColor" font-size="12" font-family="DM Sans, sans-serif" text-anchor="middle">
-      <text x="68" y="71">Screenshots</text><text x="68" y="87" opacity="0.6">private storage</text>
-      <text x="230" y="71">AI tagging</text><text x="230" y="87" opacity="0.6">Claude pipeline</text>
-      <text x="397" y="31">Metadata</text><text x="397" y="47" opacity="0.6">database</text>
-      <text x="397" y="111">Images</text><text x="397" y="127" opacity="0.6">private storage</text>
-      <text x="568" y="71">Search app</text><text x="568" y="87" opacity="0.6">private network</text>
-    </g>
-  </svg>
-</figure>
-
-<hr class="section-rule">
-
-<!-- BUILD -->
-<h2>What shipped</h2>
-<h3>A private product, then three releases</h3>
-
-<p>V1 went live in [CONFIRM: timeline]. Three releases followed: more apps, an AI inspiration tab, then making Atlas queryable from an AI coding assistant through an internal plugin. It now covers 40 competitors and is updated weekly.</p>
-
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/shots/atlas-home.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="Atlas home screen: the dark interface with the leaf wordmark, a scrollable row of competitor app icons, a New in site block with the latest flow and new apps added.">
-    <figcaption>Atlas Home</figcaption>
+<header class="pg-hero">
+  <div class="pg-kicker"><span>Internal tool</span><span>Web app</span></div>
+  <h1 class="pg-title">Atlas</h1>
+  <p class="pg-sub">To solve the problem of research being more accessible, I was able to ship a complete independent software with the help of knowledge of design and AI.</p>
+  <figure class="pg-media">
+    <video autoplay muted loop playsinline preload="auto" poster="../assets/case-studies/bright-atlas/clip1-poster.webp" width="1920" height="1080" aria-label="Atlas home screen: a row of competitor app icons, a New in site block with the latest flow, and a search bar.">
+      <source src="../assets/case-studies/bright-atlas/clip1.mp4" type="video/mp4">
+    </video>
   </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/bright-atlas/shot02-2000.webp" width="2000" height="1250" loading="lazy" decoding="async" alt="Aura app detail page: app icon with Identity Protection and Credit Monitoring label, a Find in Figma button, store ratings, and 159 screens across 11 flows in the All Screens tab.">
-    <figcaption>App Detail View</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/shots/atlas-app.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="Atlas search in action: a query for Push Notifications typed in the search bar, with competitor screens filtered to matching results across apps.">
-    <figcaption>Search Results</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/shots/atlas-inspiration.jpg" width="2000" height="1250" loading="lazy" decoding="async" alt="AI Inspiration tab: How the world builds AI Native headline with Web and Mobile toggle, Cofounder's replay card expanded, and three tagged session cards for Riffle, Exa and Cloudflare below.">
-    <figcaption>AI Inspiration Tab</figcaption>
-  </figure>
+</header>
+
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Development &amp; Product Design</dd></div>
+  <div><dt>Timeline</dt><dd>4 weeks</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#D97757;--m:url(../assets/logos/tools/claude.svg)" aria-hidden="true"></i>Claude Code</span><span class="pg-tool"><i style="--c:#111111;--m:url(../assets/logos/tools/nextdotjs.svg)" aria-hidden="true"></i>Next.js</span><span class="pg-tool"><i style="--c:#FF9900;--m:url(../assets/logos/tools/amazonwebservices.svg)" aria-hidden="true"></i>AWS</span></dd></div>
+  <div><dt>Status</dt><dd>Live</dd></div>
+</dl>
+
+<div class="pg-stats">
+  <div class="pg-stat"><b>40</b><span>Competitors</span></div>
+  <div class="pg-stat"><b>1,000+</b><span>Screenshots</span></div>
+  <div class="pg-stat"><b>1 hr → 2 min</b><span>Reference lookup</span></div>
+  <div class="pg-stat"><b>~71%</b><span>Adoption, 12 of 17 priority users</span></div>
 </div>
 
-<hr class="section-rule">
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">A designer built the tool that made research searchable.</h2>
+  <div class="pg-three">
+    <div><h3>Problem</h3><p class="pg-p">Competitor research sat in Figma boards with no search. A PM asking how an app handles payroll got a Slack message and a wait.</p></div>
+    <div><h3>My part</h3><p class="pg-p">I defined the product, designed it, and built the AI tagging pipeline, the web app and the deployment, end to end.</p></div>
+    <div><h3>Result</h3><p class="pg-p">A reference now takes about two minutes instead of about an hour. 12 of the 17 priority users adopted it.</p></div>
+  </div>
+</section>
 
-<!-- SETBACK -->
-<h2>A setback</h2>
-<h3>The site went down three weeks after launch</h3>
+<section class="pg-sec" id="problem">
+  <div class="pg-narrow">
+    <p class="pg-label">Problem</p>
+    <h2 class="pg-h2">Our competitor research was trapped inside Figma.</h2>
+    <p class="pg-p">The apps we compete with are fintech products that need accounts, onboarding and real bank connections before the interesting screens appear, so they are not on Mobbin or AppShots. Researchers had captured hundreds of flows and pasted them into Figma boards with no search.</p>
+    <p class="pg-p">A PM asking "how does this app handle payroll?" got a Slack message and a wait. We had the research. We had no way to surface it.</p>
+  </div>
+</section>
 
-<p>A routine credential rotation broke image access, because I had made the app depend on a key shared in a setup guide. I fixed it with engineering: secrets moved to environment variables, and a fallback added.</p>
+<section class="pg-sec pg-wide" id="goal">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Goal</p>
+      <h2 class="pg-h2">One private, searchable product for three kinds of questions.</h2>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">Designer</span><span>What does this app's payroll screen and disclosure copy look like?</span></div>
+      <div class="pg-row"><span class="pg-row-k">PM</span><span>What pricing and onboarding does a competitor show in week two?</span></div>
+      <div class="pg-row"><span class="pg-row-k">Exec</span><span>What is their full credit-building flow, and how do they pitch the upgrade?</span></div>
+    </div>
+  </div>
 
-<p>The lesson: any credential in a shared file is a dependency.</p>
+  <div class="pg-panel pg-gap">
+    <div class="pg-tabs" role="tablist" aria-label="User flows by role">
+      <button class="pg-tab" role="tab" id="tab-designer" aria-controls="flow-designer" aria-selected="true">Designer</button>
+      <button class="pg-tab" role="tab" id="tab-pm" aria-controls="flow-pm" aria-selected="false" tabindex="-1">PM</button>
+      <button class="pg-tab" role="tab" id="tab-exec" aria-controls="flow-exec" aria-selected="false" tabindex="-1">Exec</button>
+      <span class="pg-tab-ink" aria-hidden="true"></span>
+    </div>
 
-<hr class="section-rule">
+    <div class="pg-flow pg-flowmap" id="flow-designer" role="tabpanel" aria-labelledby="tab-designer">
+      <div class="pg-ia" role="region" aria-label="Designer user flows" tabindex="0"><svg viewBox="0 0 996 646" role="img" aria-label="Designer user flows" font-family="inherit"><defs><marker id="fm-a-Designeruserflows" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#8a8a86" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect class="fm-start" x="1" y="56" width="154" height="38" rx="10"/><text class="fm-start-t" x="78" y="78.96" text-anchor="middle">Wants inspiration</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M159 75H187"/><rect class="fm-node" x="191" y="47" width="162" height="56" rx="10"/><text class="fm-node-t" x="272" y="69.96" text-anchor="middle">Opens the site and</text><text class="fm-node-t" x="272" y="87.96" text-anchor="middle">browses</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M357 75H385"/><rect class="fm-node" x="389" y="47" width="162" height="56" rx="10"/><text class="fm-node-t" x="470" y="69.96" text-anchor="middle">Finds patterns and</text><text class="fm-node-t" x="470" y="87.96" text-anchor="middle">screens they like</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M555 75H583"/><rect class="fm-fork" x="587" y="0" width="196" height="150" rx="14"/><rect class="fm-node" x="597" y="10" width="176" height="38" rx="10"/><text class="fm-node-t" x="685" y="32.96" text-anchor="middle">Saves it</text><rect class="fm-node" x="597" y="56" width="176" height="38" rx="10"/><text class="fm-node-t" x="685" y="78.96" text-anchor="middle">Adds to a collection</text><rect class="fm-node" x="597" y="102" width="176" height="38" rx="10"/><text class="fm-node-t" x="685" y="124.96" text-anchor="middle">Copies the link</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M787 75H815"/><rect class="fm-node" x="819" y="56" width="176" height="38" rx="10"/><text class="fm-node-t" x="907" y="78.96" text-anchor="middle">Shares for reference</text><path class="fm-sep" d="M0 172H996"/><rect class="fm-start" x="1" y="277" width="117" height="38" rx="10"/><text class="fm-start-t" x="59.5" y="299.96" text-anchor="middle">Wants to see</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M122 296H150"/><rect class="fm-fork" x="154" y="194" width="182" height="204" rx="14"/><rect class="fm-node" x="164" y="204" width="162" height="56" rx="10"/><text class="fm-node-t" x="245" y="226.96" text-anchor="middle">A specific screen</text><text class="fm-node-t" x="245" y="244.96" text-anchor="middle">type</text><rect class="fm-node" x="164" y="268" width="162" height="56" rx="10"/><text class="fm-node-t" x="245" y="290.96" text-anchor="middle">A specific product</text><text class="fm-node-t" x="245" y="308.96" text-anchor="middle">pitch</text><rect class="fm-node" x="164" y="332" width="162" height="56" rx="10"/><text class="fm-node-t" x="245" y="354.96" text-anchor="middle">A specific</text><text class="fm-node-t" x="245" y="372.96" text-anchor="middle">competitor screen</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M340 296H368"/><rect class="fm-node" x="372" y="277" width="88" height="38" rx="10"/><text class="fm-node-t" x="416" y="299.96" text-anchor="middle">Searches</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M464 296H492"/><rect class="fm-node" x="496" y="268" width="154" height="56" rx="10"/><text class="fm-node-t" x="573" y="290.96" text-anchor="middle">Adds a filter for</text><text class="fm-node-t" x="573" y="308.96" text-anchor="middle">the need</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M654 296H682"/><rect class="fm-node" x="686" y="268" width="154" height="56" rx="10"/><text class="fm-node-t" x="763" y="290.96" text-anchor="middle">Gets a screen for</text><text class="fm-node-t" x="763" y="308.96" text-anchor="middle">reference</text><path class="fm-sep" d="M0 420H996"/><rect class="fm-start" x="1" y="466" width="139" height="56" rx="10"/><text class="fm-start-t" x="70.5" y="488.96" text-anchor="middle">Wants to make a</text><text class="fm-start-t" x="70.5" y="506.96" text-anchor="middle">moodboard</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M144 494H172"/><rect class="fm-node" x="176" y="466" width="176" height="56" rx="10"/><text class="fm-node-t" x="264" y="488.96" text-anchor="middle">Browses to find</text><text class="fm-node-t" x="264" y="506.96" text-anchor="middle">interesting patterns</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M356 494H384"/><rect class="fm-fork" x="388" y="442" width="196" height="104" rx="14"/><rect class="fm-node" x="398" y="452" width="176" height="38" rx="10"/><text class="fm-node-t" x="486" y="474.96" text-anchor="middle">Saves it</text><rect class="fm-node" x="398" y="498" width="176" height="38" rx="10"/><text class="fm-node-t" x="486" y="520.96" text-anchor="middle">Adds to a collection</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M588 494H616"/><rect class="fm-node" x="620" y="466" width="169" height="56" rx="10"/><text class="fm-node-t" x="704.5" y="488.96" text-anchor="middle">Adds to their board</text><text class="fm-node-t" x="704.5" y="506.96" text-anchor="middle">for work</text><path class="fm-sep" d="M0 568H996"/><rect class="fm-start" x="1" y="590" width="191" height="56" rx="10"/><text class="fm-start-t" x="96.5" y="612.96" text-anchor="middle">Wants to compare pitch</text><text class="fm-start-t" x="96.5" y="630.96" text-anchor="middle">flows</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M196 618H224"/><rect class="fm-node" x="228" y="590" width="132" height="56" rx="10"/><text class="fm-node-t" x="294" y="612.96" text-anchor="middle">Searches for a</text><text class="fm-node-t" x="294" y="630.96" text-anchor="middle">product pitch</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M364 618H392"/><rect class="fm-node" x="396" y="599" width="147" height="38" rx="10"/><text class="fm-node-t" x="469.5" y="621.96" text-anchor="middle">Adds competitors</text><path class="fm-line" marker-end="url(#fm-a-Designeruserflows)" d="M547 618H575"/><rect class="fm-node" x="579" y="599" width="88" height="38" rx="10"/><text class="fm-node-t" x="623" y="621.96" text-anchor="middle">Compares</text></svg></div>
+      <p class="pg-cap">Designer user flows, one journey per row.</p>
+    </div>
 
-<!-- IMPACT -->
-<h2>Impact</h2>
-<h3>From an hour to two minutes</h3>
+    <div class="pg-flow pg-flowmap" id="flow-pm" role="tabpanel" aria-labelledby="tab-pm" hidden>
+      <div class="pg-ia" role="region" aria-label="PM user flows" tabindex="0"><svg viewBox="0 0 1391 460" role="img" aria-label="PM user flows" font-family="inherit"><defs><marker id="fm-a-PMuserflows" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#8a8a86" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect class="fm-start" x="1" y="51" width="199" height="38" rx="10"/><text class="fm-start-t" x="100.5" y="73.96" text-anchor="middle">Is making a new product</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M204 70H232"/><rect class="fm-node" x="236" y="42" width="176" height="56" rx="10"/><text class="fm-node-t" x="324" y="64.96" text-anchor="middle">Wants to see screens</text><text class="fm-node-t" x="324" y="82.96" text-anchor="middle">for the competitor</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M416 70H444"/><rect class="fm-node" x="448" y="51" width="154" height="38" rx="10"/><text class="fm-node-t" x="525" y="73.96" text-anchor="middle">Opens the website</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M606 70H634"/><rect class="fm-fork" x="638" y="0" width="189" height="140" rx="14"/><rect class="fm-node" x="648" y="10" width="169" height="56" rx="10"/><text class="fm-node-t" x="732.5" y="32.96" text-anchor="middle">Searches for the</text><text class="fm-node-t" x="732.5" y="50.96" text-anchor="middle">product</text><rect class="fm-node" x="648" y="74" width="169" height="56" rx="10"/><text class="fm-node-t" x="732.5" y="96.96" text-anchor="middle">Chooses the product</text><text class="fm-node-t" x="732.5" y="114.96" text-anchor="middle">from a dropdown</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M831 70H859"/><rect class="fm-node" x="863" y="42" width="154" height="56" rx="10"/><text class="fm-node-t" x="940" y="64.96" text-anchor="middle">Checks across all</text><text class="fm-node-t" x="940" y="82.96" text-anchor="middle">competitors</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M1021 70H1049"/><rect class="fm-node" x="1053" y="42" width="154" height="56" rx="10"/><text class="fm-node-t" x="1130" y="64.96" text-anchor="middle">Finds multiple</text><text class="fm-node-t" x="1130" y="82.96" text-anchor="middle">screens they like</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M1211 70H1239"/><rect class="fm-node" x="1243" y="51" width="147" height="38" rx="10"/><text class="fm-node-t" x="1316.5" y="73.96" text-anchor="middle">Copies to system</text><path class="fm-sep" d="M0 162H1391"/><rect class="fm-start" x="1" y="244" width="154" height="38" rx="10"/><text class="fm-start-t" x="78" y="266.96" text-anchor="middle">Wants inspiration</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M159 263H187"/><rect class="fm-node" x="191" y="226" width="176" height="74" rx="10"/><text class="fm-node-t" x="279" y="248.96" text-anchor="middle">Opens the hub to see</text><text class="fm-node-t" x="279" y="266.96" text-anchor="middle">a specific</text><text class="fm-node-t" x="279" y="284.96" text-anchor="middle">competitor</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M371 263H399"/><rect class="fm-fork" x="403" y="184" width="189" height="158" rx="14"/><rect class="fm-node" x="413" y="194" width="169" height="74" rx="10"/><text class="fm-node-t" x="497.5" y="216.96" text-anchor="middle">Wants to see it</text><text class="fm-node-t" x="497.5" y="234.96" text-anchor="middle">against another</text><text class="fm-node-t" x="497.5" y="252.96" text-anchor="middle">competitor</text><rect class="fm-node" x="413" y="276" width="169" height="56" rx="10"/><text class="fm-node-t" x="497.5" y="298.96" text-anchor="middle">Wants to see it</text><text class="fm-node-t" x="497.5" y="316.96" text-anchor="middle">against our own app</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M596 263H624"/><rect class="fm-node" x="628" y="244" width="154" height="38" rx="10"/><text class="fm-node-t" x="705" y="266.96" text-anchor="middle">Gets the learning</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M786 263H814"/><rect class="fm-node" x="818" y="235" width="176" height="56" rx="10"/><text class="fm-node-t" x="906" y="257.96" text-anchor="middle">Copies or downloads</text><text class="fm-node-t" x="906" y="275.96" text-anchor="middle">the screen to system</text><path class="fm-sep" d="M0 364H1391"/><rect class="fm-start" x="1" y="395" width="206" height="56" rx="10"/><text class="fm-start-t" x="104" y="417.96" text-anchor="middle">Wants to search only for</text><text class="fm-start-t" x="104" y="435.96" text-anchor="middle">insurance research</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M211 423H239"/><rect class="fm-node" x="243" y="386" width="176" height="74" rx="10"/><text class="fm-node-t" x="331" y="408.96" text-anchor="middle">Opens the website to</text><text class="fm-node-t" x="331" y="426.96" text-anchor="middle">find relevant</text><text class="fm-node-t" x="331" y="444.96" text-anchor="middle">screens</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M423 423H451"/><rect class="fm-node" x="455" y="395" width="176" height="56" rx="10"/><text class="fm-node-t" x="543" y="417.96" text-anchor="middle">Bookmarks and</text><text class="fm-node-t" x="543" y="435.96" text-anchor="middle">creates a collection</text><path class="fm-line" marker-end="url(#fm-a-PMuserflows)" d="M635 423H663"/><rect class="fm-node" x="667" y="386" width="154" height="74" rx="10"/><text class="fm-node-t" x="744" y="408.96" text-anchor="middle">Shares the</text><text class="fm-node-t" x="744" y="426.96" text-anchor="middle">collection with a</text><text class="fm-node-t" x="744" y="444.96" text-anchor="middle">designer</text></svg></div>
+      <p class="pg-cap">PM user flows, one journey per row.</p>
+    </div>
 
-<p>Finding a reference went from about an hour to about two minutes, measured as average time to complete the task. 12 of the 17 priority users (about 71%) adopted it. Research that was trapped in boards became searchable by flow, feature, screen type, copy and pricing.</p>
+    <div class="pg-flow pg-flowmap" id="flow-exec" role="tabpanel" aria-labelledby="tab-exec" hidden>
+      <div class="pg-ia" role="region" aria-label="Exec user flows" tabindex="0"><svg viewBox="0 0 851 392" role="img" aria-label="Exec user flows" font-family="inherit"><defs><marker id="fm-a-Execuserflows" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#8a8a86" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs><rect class="fm-start" x="1" y="9" width="162" height="56" rx="10"/><text class="fm-start-t" x="82" y="31.96" text-anchor="middle">Wants a particular</text><text class="fm-start-t" x="82" y="49.96" text-anchor="middle">screen</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M167 37H195"/><rect class="fm-node" x="199" y="18" width="132" height="38" rx="10"/><text class="fm-node-t" x="265" y="40.96" text-anchor="middle">Goes to search</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M335 37H363"/><rect class="fm-node" x="367" y="0" width="110" height="74" rx="10"/><text class="fm-node-t" x="422" y="22.96" text-anchor="middle">Looks up a</text><text class="fm-node-t" x="422" y="40.96" text-anchor="middle">competitor</text><text class="fm-node-t" x="422" y="58.96" text-anchor="middle">(MoneyLion)</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M481 37H509"/><rect class="fm-node" x="513" y="18" width="132" height="38" rx="10"/><text class="fm-node-t" x="579" y="40.96" text-anchor="middle">Copies screens</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M649 37H677"/><rect class="fm-node" x="681" y="9" width="169" height="56" rx="10"/><text class="fm-node-t" x="765.5" y="31.96" text-anchor="middle">Shares with a PM or</text><text class="fm-node-t" x="765.5" y="49.96" text-anchor="middle">in a deck</text><path class="fm-sep" d="M0 96H851"/><rect class="fm-start" x="1" y="118" width="154" height="56" rx="10"/><text class="fm-start-t" x="78" y="140.96" text-anchor="middle">Wants to see some</text><text class="fm-start-t" x="78" y="158.96" text-anchor="middle">disclosure</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M159 146H187"/><rect class="fm-node" x="191" y="127" width="176" height="38" rx="10"/><text class="fm-node-t" x="279" y="149.96" text-anchor="middle">Searches the product</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M371 146H399"/><rect class="fm-node" x="403" y="127" width="132" height="38" rx="10"/><text class="fm-node-t" x="469" y="149.96" text-anchor="middle">Reads the copy</text><path class="fm-sep" d="M0 196H851"/><rect class="fm-start" x="1" y="218" width="169" height="56" rx="10"/><text class="fm-start-t" x="85.5" y="240.96" text-anchor="middle">Wants a new product</text><text class="fm-start-t" x="85.5" y="258.96" text-anchor="middle">learning</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M174 246H202"/><rect class="fm-node" x="206" y="227" width="125" height="38" rx="10"/><text class="fm-node-t" x="268.5" y="249.96" text-anchor="middle">Finds screens</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M335 246H363"/><rect class="fm-node" x="367" y="227" width="176" height="38" rx="10"/><text class="fm-node-t" x="455" y="249.96" text-anchor="middle">Creates a collection</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M547 246H575"/><rect class="fm-node" x="579" y="227" width="147" height="38" rx="10"/><text class="fm-node-t" x="652.5" y="249.96" text-anchor="middle">Shares with a PM</text><path class="fm-sep" d="M0 296H851"/><rect class="fm-start" x="1" y="318" width="176" height="74" rx="10"/><text class="fm-start-t" x="89" y="340.96" text-anchor="middle">Wants to see a</text><text class="fm-start-t" x="89" y="358.96" text-anchor="middle">competitor's product</text><text class="fm-start-t" x="89" y="376.96" text-anchor="middle">growth</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M181 355H209"/><rect class="fm-node" x="213" y="336" width="162" height="38" rx="10"/><text class="fm-node-t" x="294" y="358.96" text-anchor="middle">Opens a competitor</text><path class="fm-line" marker-end="url(#fm-a-Execuserflows)" d="M379 355H407"/><rect class="fm-node" x="411" y="327" width="154" height="56" rx="10"/><text class="fm-node-t" x="488" y="349.96" text-anchor="middle">Compares now with</text><text class="fm-node-t" x="488" y="367.96" text-anchor="middle">old</text></svg></div>
+      <p class="pg-cap">Exec user flows, one journey per row.</p>
+    </div>
 
-<hr class="section-rule">
+    <ul class="pg-notes">
+      <li>One journey mapped per person, not per feature.</li>
+      <li>Every path ends in the same place: a screen they can use.</li>
+    </ul>
+  </div>
+</section>
 
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What I would do differently</h3>
+<section class="pg-sec pg-wide" id="options">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Options</p>
+      <h2 class="pg-h2">Three ways to get there, and why two lost.</h2>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span><span class="pg-chip">Rejected</span></span><span><b>Build on a public screenshot library</b>The flows we needed sit behind accounts, so they are not in any public library.</span></div>
+      <div class="pg-row"><span><span class="pg-chip">Rejected</span></span><span><b>Organize the Figma boards better</b>Still no search, and it does not scale past a few hundred screens.</span></div>
+      <div class="pg-row"><span><span class="pg-chip yes">Chosen</span></span><span><b>A private, AI-tagged product</b>You cannot search pixels, so I needed metadata for every image.</span></div>
+    </div>
+  </div>
+</section>
 
-<ul class="reflection-list">
-  <li>Environment variables from day one.</li>
-  <li>Invest more in the tagging model before ingesting at scale, since search quality is tagging quality.</li>
-  <li>Keep the two-week think, two-week build split for anything this undefined.</li>
-</ul>
+<section class="pg-sec" id="approach">
+  <div class="pg-narrow">
+    <p class="pg-label">Approach</p>
+    <h2 class="pg-h2">Two weeks of thinking came before any building.</h2>
+    <p class="pg-p">I spent the first two weeks working out whether this was possible. The answer was to teach Claude to look at each screenshot and mark it: which flow, which feature, what copy, which partner. Every image goes through that pipeline and comes out as structured data.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <ol class="pg-steps" aria-label="The tagging pipeline">
+      <li class="pg-step"><b>Raw screenshots</b><span>Hundreds of captured flows</span></li>
+      <li class="pg-step"><b>Claude tags each image</b><span>It looks at every screenshot and marks it</span></li>
+      <li class="pg-step"><b>Flow, feature, copy, partner</b><span>The four marks on every image</span></li>
+      <li class="pg-step"><b>Structured dataset</b><span>Every image comes out as data</span></li>
+      <li class="pg-step"><b>Searchable</b><span>By flow, feature, screen type, copy and pricing</span></li>
+    </ol>
+    <p class="pg-cap">You cannot search pixels. So the first two weeks went on how to make thousands of screenshots searchable.</p>
+  </div>
+</section>
 
-<!-- CREDITS -->
-<h2>Credits</h2>
-<p>Design director, senior designer, fellow designer, frontend engineer.</p>
+<section class="pg-sec" id="design">
+  <div class="pg-narrow">
+    <p class="pg-label">Design</p>
+    <h2 class="pg-h2">Search first, filters second, results grouped per competitor.</h2>
+    <p class="pg-p">The structure is shallow. A visitor lands, explores, browses or searches, reaches screens, and opens a company.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <div class="pg-ia" role="region" aria-label="Information architecture diagram" tabindex="0">
+      <svg viewBox="0 0 1140 340" role="img" aria-labelledby="ia-title ia-desc">
+        <title id="ia-title">Information architecture</title>
+        <desc id="ia-desc">A visitor goes to the website and lands on Home, then Explore, then the Explore page. From there they choose All apps or Most popular. All apps leads to Browse or Search. Both reach Screens, and Search can also add a filter before reaching Screens. Screens lead to a Company view, which can also be reached straight from Search. Cancel or back from a Company view returns to Browse.</desc>
+        <defs><marker id="ia-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1 1L9 5L1 9" fill="none" stroke="#8a8a86" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+        <g>
+          <path class="ia-line" d="M102 190H147"/>
+          <path class="ia-line" d="M221 190H260"/>
+          <path class="ia-line" d="M346 190H396"/>
+          <path class="ia-line" d="M482 190H513V120H542"/>
+          <path class="ia-line" d="M482 190H513V270H533"/>
+          <path class="ia-line" d="M636 120H667V70H696"/>
+          <path class="ia-line" d="M636 120H667V190H696"/>
+          <path class="ia-line" d="M782 70H816V130H848"/>
+          <path class="ia-line" d="M782 190H816V130H848"/>
+          <path class="ia-line" d="M740 208V250H848"/>
+          <path class="ia-line" d="M900 230V150"/>
+          <path class="ia-line" d="M950 130H998"/>
+          <path class="ia-line" d="M722 208V318H1060V150"/>
+          <path class="ia-line" d="M1060 110V28H740V50"/>
+        </g>
+        <text class="ia-s" x="900" y="20">cancel / back</text>
+        <circle class="ia-purple" cx="60" cy="190" r="42"/><text class="ia-t w" x="60" y="183">User goes</text><text class="ia-t w" x="60" y="198">to website</text>
+        <circle class="ia-green" cx="185" cy="190" r="36"/><text class="ia-t w" x="185" y="190">Home</text>
+        <rect class="ia-pill" x="262" y="172" width="84" height="36" rx="18"/><text class="ia-t" x="304" y="190">Explore</text>
+        <circle class="ia-green" cx="440" cy="190" r="42"/><text class="ia-t w" x="440" y="183">Explore</text><text class="ia-t w" x="440" y="198">page</text>
+        <rect class="ia-pill" x="544" y="102" width="92" height="36" rx="18"/><text class="ia-t" x="590" y="120">All apps</text>
+        <rect class="ia-pill" x="535" y="252" width="110" height="36" rx="18"/><text class="ia-t" x="590" y="270">Most popular</text>
+        <rect class="ia-pill" x="698" y="52" width="84" height="36" rx="18"/><text class="ia-t" x="740" y="70">Browse</text>
+        <rect class="ia-pill" x="698" y="172" width="84" height="36" rx="18"/><text class="ia-t" x="740" y="190">Search</text>
+        <rect class="ia-mint" x="850" y="112" width="100" height="36" rx="6"/><text class="ia-t" x="900" y="130">Screens</text>
+        <rect class="ia-pill" x="850" y="232" width="100" height="36" rx="18"/><text class="ia-t" x="900" y="250">Add filter</text>
+        <rect class="ia-mint" x="1000" y="112" width="120" height="36" rx="6"/><text class="ia-t" x="1060" y="130">Company view</text>
+      </svg>
+    </div>
+    <p class="pg-cap">Information architecture. I considered a landing page with an Explore call to action.</p>
 
-<!-- CTA -->
-<div class="cta">
-  <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
-</div>
+    <div class="pg-gallery pg-gap">
+      <figure>
+        <div class="pg-media"><img src="../assets/case-studies/bright-atlas/wireframe-home.webp" width="1440" height="1282" loading="lazy" decoding="async" alt="Wireframe of the home screen: a carousel of screen-type categories above a dense grid of all screens, with a menu and search at the top."></div>
+        <p class="pg-cap">Home: screen-type categories above a dense grid of all screens.</p>
+      </figure>
+      <figure>
+        <div class="pg-media"><img src="../assets/case-studies/bright-atlas/wireframe-filters.webp" width="1440" height="1282" loading="lazy" decoding="async" alt="Wireframe with the filter menu open: quick select chips, then competitors, screen types and screen flows, beside the grid of screens."></div>
+        <p class="pg-cap">Filters: quick select, competitors, screen types and screen flows.</p>
+      </figure>
+      <figure>
+        <div class="pg-media"><img src="../assets/case-studies/bright-atlas/wireframe-grouped.webp" width="1440" height="1282" loading="lazy" decoding="async" alt="Wireframe of the Competitors tab: screens grouped in a row per competitor, each row labelled with the competitor and its products."></div>
+        <p class="pg-cap">Competitors tab: grouped per competitor, so a flow reads in sequence.</p>
+      </figure>
+      <figure>
+        <div class="pg-media"><img src="../assets/case-studies/bright-atlas/wireframe-flows.webp" width="1440" height="1282" loading="lazy" decoding="async" alt="Wireframe of one competitor's page on its Flows tab, with screens grouped by flow."></div>
+        <p class="pg-cap">A competitor's page, with a Flows tab beside All screens.</p>
+      </figure>
+    </div>
+  </div>
+</section>
 
+<section class="pg-sec" id="build">
+  <div class="pg-narrow">
+    <p class="pg-label">Build</p>
+    <h2 class="pg-h2">Private storage, a database, and one app in front.</h2>
+    <p class="pg-p">The infrastructure was straightforward: images in private storage, metadata in a database, and a web app in a private network that queries the data and serves the images.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <ul class="pg-cards">
+      <li class="pg-card"><b>S3: images</b><span>Every competitor screenshot in a private, VPN-gated bucket.</span></li>
+      <li class="pg-card"><b>RDS: metadata</b><span>Flow tags, feature labels, extracted copy, ratings, bureau mentions.</span></li>
+      <li class="pg-card"><b>EC2: the app</b><span>A Next.js front and back end inside a private VPC.</span></li>
+      <li class="pg-card"><b>Search</b><span>Query the metadata, get the images, side by side across apps.</span></li>
+    </ul>
+    <p class="pg-cap">Private bucket, private network, VPN required. Images never leave.</p>
+  </div>
+</section>
+
+<section class="pg-sec" id="shipped">
+  <div class="pg-narrow">
+    <p class="pg-label">What shipped</p>
+    <h2 class="pg-h2">A private product first, then three releases.</h2>
+    <p class="pg-p">V1 went live after four weeks. Three releases followed:</p>
+    <ol class="pg-list">
+      <li>More apps.</li>
+      <li>An AI inspiration tab.</li>
+      <li>Atlas made queryable from an AI coding assistant through an internal plugin.</li>
+    </ol>
+    <p class="pg-p">It now covers 40 competitors and is updated weekly.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media">
+      <video muted loop playsinline preload="none" data-src="../assets/case-studies/bright-atlas/clip2.mp4" data-click poster="../assets/case-studies/bright-atlas/clip2-poster.webp" width="1920" height="1080" aria-label="Clicking into an app detail page: a grid of categorised screens with flow labels beneath each, filtering by onboarding to narrow to that journey."></video>
+      <button class="pg-play" type="button" aria-label="Play the app detail walkthrough"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Play walkthrough</span></button>
+    </figure>
+    <p class="pg-cap">App detail: every screen grouped by flow, filtered to one journey.</p>
+    <div class="pg-pair pg-gap">
+      <div>
+        <figure class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/bright-atlas/v1.mp4" poster="../assets/case-studies/bright-atlas/v1-poster.webp" width="1274" height="722" aria-label="A screen recording of Atlas answering a research question: How does SoFi onboard, with a wall of captured competitor screens filling the frame."></video></figure>
+        <p class="pg-cap">Search: asking how a competitor onboards.</p>
+      </div>
+      <div>
+        <figure class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/bright-atlas/clip3.mp4" poster="../assets/case-studies/bright-atlas/clip3-poster.webp" width="1920" height="1080" aria-label="The AI Inspiration tab: How the world builds AI Native, with tagged video cards for Riffle, Exa and Cloudflare."></video></figure>
+        <p class="pg-cap">AI Inspiration tab.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pg-sec" id="setback">
+  <div class="pg-narrow">
+    <p class="pg-label">A setback</p>
+    <h2 class="pg-h2">The site went down three weeks after launch.</h2>
+    <div class="pg-note">
+      <b>A routine credential rotation broke image access <span class="mine">· mine</span></b>
+      <span>I had made the app depend on a key shared in a setup guide. I fixed it with engineering: secrets moved to environment variables, and a fallback added.</span>
+    </div>
+    <p class="pg-p">The lesson: any credential in a shared file is a dependency.</p>
+  </div>
+</section>
+
+<section class="pg-sec" id="impact">
+  <div class="pg-narrow">
+    <p class="pg-label">Impact</p>
+    <h2 class="pg-h2">A reference went from an hour to two minutes.</h2>
+    <p class="pg-p">Finding a reference went from about an hour to about two minutes, measured as average time to complete the task. 12 of the 17 priority users (about 71%) adopted it.</p>
+    <p class="pg-p">Research that was trapped in boards became searchable by flow, feature, screen type, copy and pricing.</p>
+  </div>
+</section>
+
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What I would do differently.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Use environment variables from day one.</strong></span></li>
+      <li><span><strong>Invest in the tagging model before ingesting at scale.</strong> Search quality is tagging quality.</span></li>
+      <li><span><strong>Keep the two-week think, two-week build split</strong> for anything this undefined.</span></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="pg-foot">
+  <a class="pg-next pg-prev" href="jupiter-tvc.html"><small>Previous project</small><span>← Jupiter Banking TVC</span></a>
+  <a class="pg-next" href="monet-cancellation.html"><small>Next project</small><span>Monet Cancellation →</span></a>
+</footer>
+
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="smooth-scroll.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
+
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
+
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
+
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
+
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
+
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
+
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
+
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
+
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
+
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
+
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
+
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        var lbl = m.getAttribute('aria-label') || 'Diagram'; clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', lbl);
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
+
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
+
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
+
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
 </body>
 </html>

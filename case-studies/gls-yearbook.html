@@ -1,497 +1,464 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GLS Annual Yearbook · Shreyo Debnath</title>
+<meta name="description" content="A printed annual yearbook and digital archive for GLS Institute of Design, with an augmented reality layer that opens extended content from the page.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
-
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
-
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
-
-  h3:first-child { margin-top: 0; }
-
-  h4 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
-
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  strong { color: var(--text); font-weight: 500; }
-
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
-
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
-
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
-
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #145fb4;
-    margin-top: 4px;
-  }
-
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-item {
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-  .screen-item img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px;
-  }
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
-
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
-
-  /* FAILURE CARDS */
-  .failure-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .failure-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
-
-  .failure-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-
-  .failure-mine {
-    font-size: 0.8125rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .failure-body {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* REFLECTION */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* IMAGE PLACEHOLDER */
-  .image-placeholder {
-    width: 100%;
-    min-height: 280px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-    gap: 8px;
-  }
-
-  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
-     the placeholder it replaces, so the page does not reflow around it. */
-  .case-figure { margin: 28px 0; }
-  .case-figure img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px; border: 1px solid var(--border);
-  }
-  .case-figure figcaption {
-    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); font-weight: 500; margin-top: 10px;
-  }
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder, .screen-item { min-height: 160px; }
-    h2, h3 { page-break-after: avoid; }
-    .failure-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
 
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#context" data-sec="context"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span data-t="Context">Context</span></a></li>
+      <li><a href="#system" data-sec="system"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg><span data-t="Design system">Design system</span></a></li>
+      <li><a href="#grid" data-sec="grid"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg><span data-t="Grid">Grid</span></a></li>
+      <li><a href="#spreads" data-sec="spreads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg><span data-t="Spreads">Spreads</span></a></li>
+      <li><a href="#ar" data-sec="ar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872"/><path d="M21 7.5 12 2 3 7.5v9L12 22l9-5.5z"/><path d="m3 7.5 9 5.5 9-5.5"/></svg><span data-t="AR layer">AR layer</span></a></li>
+      <li><a href="#outcome" data-sec="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Outcome">Outcome</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
 
-<span class="wordmark">Shreyo Debnath</span>
+<main>
 
-<h1>GLS Annual Yearbook</h1>
+<header class="pg-hero">
+  <div class="pg-kicker"><span>Conceptual project</span><span>Printed</span><span>Publication</span></div>
+  <h1 class="pg-title">GLS Annual Yearbook</h1>
+  <p class="pg-sub">A printed annual yearbook and digital archive for GLS Institute of Design, with an augmented reality layer that opens extended content from the page.</p>
+  <figure class="pg-media">
+    <img src="../assets/case-studies/gls-yearbook/01-2000.webp" width="2000" height="1126" loading="eager" decoding="async" alt="The closed yearbook at an angle on a raw concrete plinth under hard sidelight, its oversized charcoal ANNUAL DESIGN YEAR[BOOK] cover type cropping off the edge.">
+  </figure>
+</header>
 
-<div class="meta-block">
-  <div class="meta-item">
-    <span class="meta-label">Role</span>
-    <span class="meta-value">Art Director, Content Editor, Print Production</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">4 weeks</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Team</span>
-    <span class="meta-value">Art Direction &amp; Production by Shreyo</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Tools</span>
-    <span class="meta-value">Adobe InDesign, Illustrator, Artvive AR</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Guides</span>
-    <span class="meta-value">Prof. Hardik Shiroya, Prof. Xavier D'Silva</span>
-  </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
-    <span class="meta-label">Status</span>
-    <span class="meta-value">Academic Project · Printed · GLS Institute of Design</span>
-    <span class="status-tag">Academic Project · Printed</span>
-  </div>
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Art director, content editor, print production</dd></div>
+  <div><dt>Timeline</dt><dd>4 weeks</dd></div>
+  <div><dt>Guides</dt><dd>Prof. Hardik Shiroya · Prof. Xavier D'Silva</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#FF3366;--m:url(../assets/logos/tools/adobeindesign.svg)" aria-hidden="true"></i>InDesign</span><span class="pg-tool"><i style="--c:#FF9A00;--m:url(../assets/logos/tools/adobeillustrator.svg)" aria-hidden="true"></i>Illustrator</span><span class="pg-tool">Artvive AR</span></dd></div>
+</dl>
+
+<div class="pg-stats">
+  <div class="pg-stat"><b>28 × 20 cm</b><span>Trim size</span></div>
+  <div class="pg-stat"><b>100 GSM</b><span>Standard paper</span></div>
+  <div class="pg-stat"><b>Offset</b><span>Printing, perfect bound</span></div>
+  <div class="pg-stat"><b>4 weeks</b><span>Brief to print</span></div>
 </div>
 
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>How can a book build meaning?</h3>
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">A book that frames the students' work and stays out of its way.</h2>
+  <div class="pg-three">
+    <div><h3>Brief</h3><p class="pg-p">The institute had no space, physical or digital, to showcase student and alumni achievements each year. That absence was the brief.</p></div>
+    <div><h3>My part</h3><p class="pg-p">Art direction, content editing and print production, all three at once.</p></div>
+    <div><h3>Result</h3><p class="pg-p">A printed yearbook distributed within the institute, documenting the full year's creative output across all departments.</p></div>
+  </div>
+</section>
 
-<p>GLS Institute of Design lacked a dedicated space, physical or digital, to showcase student and alumni achievements annually. There was no cohesive platform to document patents, publications, awards, or the creative work produced across disciplines each year. That absence was the brief.</p>
+<section class="pg-sec" id="context">
+  <div class="pg-narrow">
+    <p class="pg-label">Context</p>
+    <h2 class="pg-h2">How can a book build meaning?</h2>
+    <p class="pg-p">GLS Institute of Design lacked a dedicated space, physical or digital, to showcase student and alumni achievements annually. There was no cohesive platform to document patents, publications, awards, or the creative work produced across disciplines each year. That absence was the brief.</p>
+    <p class="pg-p">The project was to create an engaging and visually compelling annual yearbook and digital archive platform to capture, celebrate, document, and showcase the creative journey and accomplishments of GLS Institute of Design throughout the year. The book needed to serve as both a keepsake and a repository, a record that students and faculty could refer back to.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/gls-yearbook/02-2000.webp" width="2000" height="1006" loading="lazy" decoding="async" alt="The contents spread: Graphic Design, Animation Film Design, Digital Film Making and Combined Courses as four stepped bands over faded student work, each listing its courses and page numbers."></figure>
+    <p class="pg-cap">The contents spread: four disciplines as stepped bands.</p>
+  </div>
+</section>
 
-<p>The project was to create an engaging and visually compelling annual yearbook and digital archive platform to capture, celebrate, document, and showcase the creative journey and accomplishments of GLS Institute of Design throughout the year. The book needed to serve as both a keepsake and a repository, a record that students and faculty could refer back to.</p>
+<section class="pg-sec pg-wide" id="system">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Design system</p>
+      <h2 class="pg-h2">The design system stayed quiet so the students' work could be loudest.</h2>
+      <p class="pg-p">The visual language was built to be minimal, concise, and clean. The design system needed to stay quiet enough that the students' own work could be the loudest thing on every spread.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">Type</span><span><b>Avenir Next LT Pro</b>Chosen as the primary typeface for its neutrality and legibility at small sizes.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Colour</span><span><b>Neutral structure, vibrant panels</b>Black, white, and warm grays for the structure, with vibrant colored panels reserved for the students' work.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Motif</span><span><b>Brackets []</b>Used throughout as a recurring motif, assigning symbolic meaning to each discipline category.</span></div>
+    </div>
+  </div>
+</section>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/gls-yearbook/01-1200.webp"
-       width="1200" height="676" loading="lazy" decoding="async"
-       alt="The closed yearbook at an angle on a raw concrete plinth under hard sidelight, its oversized charcoal ANNUAL DESIGN YEAR[BOOK] cover type cropping off the edge.">
-  <figcaption>Yearbook Cover</figcaption>
-</figure>
+<section class="pg-sec pg-wide" id="grid">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Grid</p>
+      <h2 class="pg-h2">One grid that changes with the page.</h2>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">Layout</span><span>The layout alternated between a column grid for text-heavy pages and a modular grid for portfolio spreads. This gave the book a consistent rhythm while accommodating the variety of student work, from photography to product design to illustration.</span></div>
+    </div>
+  </div>
+  <div class="pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/gls-yearbook/03-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="Two wireframe diagrams of the 40 by 28 cm spread grid on black, a column grid and a modular grid, beside a tight crop of the softbound cover and its heavy grey ANNUAL DESIGN YEAR lockup."></figure>
+    <p class="pg-cap">The two grids on a 40 × 28 cm spread, and the cover lockup.</p>
+  </div>
+</section>
 
-<hr class="section-rule">
+<section class="pg-sec" id="spreads">
+  <div class="pg-narrow">
+    <p class="pg-label">Spreads</p>
+    <h2 class="pg-h2">A frame for work from every discipline.</h2>
+    <p class="pg-p">Every spread was proofed and color-corrected before the final print run.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <div class="pg-gallery">
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/04-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="An Illustration spread: Semester 3, 2 weeks, with watercolour and mixed-media crab and fish studies, a framed collage, and a digital illustration of a blue creature."></div><p class="pg-cap">Illustration: a course spread on the modular grid.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/07-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="A book cover design spread: The Curse of the Chameleon, How the Rhino Got His Skin, and The Seal Catcher, each with a short rationale."></div><p class="pg-cap">Book cover design: three covers with their rationale.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/06-2000.webp" width="2000" height="1654" loading="lazy" decoding="async" alt="A spread on the film Qala: teal butterfly-mask illustrations and stills on the left, and a page of text above an arrangement of moths on the right."></div><p class="pg-cap">Qala: a film study across a full spread.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/05-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="A deep-red animation film spread: frames of a forest scene, an owl, an open book and storyboard thumbnails, with a QR code at the lower left."></div><p class="pg-cap">Animation film: stills and storyboards, with a QR code to the film.</p></figure>
+    </div>
+    <div class="pg-pair pg-gap">
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/09-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="A black digital film spread: stills of a paper bird and nest, a rotary telephone, and a leaf-and-bird set, with a QR code at the lower left."></div><p class="pg-cap">Digital film: stills on black, with a QR code.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/gls-yearbook/08-2000.webp" width="2000" height="1126" loading="lazy" decoding="async" alt="The faculty spread for Visual Communication Design: a black-and-white group photograph above the names and roles of professors."></div><p class="pg-cap">The faculty spread.</p></figure>
+    </div>
+  </div>
+</section>
 
-<!-- APPROACH -->
-<h2>Approach</h2>
-<h3>Building a visual language for the institute</h3>
+<section class="pg-sec" id="ar">
+  <div class="pg-narrow">
+    <p class="pg-label">AR layer</p>
+    <h2 class="pg-h2">Scan a page, and the book keeps going.</h2>
+    <p class="pg-p">An augmented reality layer was built using Artvive, allowing readers to scan specific pages and access additional content, video walkthroughs, process documentation, and extended project narratives, through their phone. This bridged the physical book with a digital archive.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <div class="pg-pair">
+      <figure><div class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/gls-yearbook/v2.mp4" poster="../assets/case-studies/gls-yearbook/v2-poster.webp" width="1400" height="934" aria-label="A phone held over the printed cover, the live camera view framing the ANNUAL DESIGN YEAR{BOOK lockup as tracked AR artwork blooms in from the top of the screen."></video></div><p class="pg-cap">Scanning the cover: the AR artwork blooms in.</p></figure>
+      <figure><div class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/gls-yearbook/v1.mp4" poster="../assets/case-studies/gls-yearbook/v1-poster.webp" width="1400" height="788" aria-label="The book easing open on black to its half-title spread, paper sweeping across the gutter to settle on a four-line title stack and a small block of imprint credits."></video></div><p class="pg-cap">The book opening to its half-title spread.</p></figure>
+    </div>
+  </div>
+</section>
 
-<p>The visual language was built to be minimal, concise, and clean. The design system needed to stay quiet enough that the students' own work could be the loudest thing on every spread.</p>
+<section class="pg-sec" id="outcome">
+  <div class="pg-narrow">
+    <p class="pg-label">Outcome</p>
+    <h2 class="pg-h2">A printed record.</h2>
+    <p class="pg-p">The yearbook was printed and distributed within the institute. It documented the full year's creative output across all departments, serving as both a reference and a celebration of the work produced.</p>
+    <div class="pg-pair">
+      <div class="pg-note"><b>"The book felt like a visual journal for all the work done within the institute."</b><span>Foundation student</span></div>
+      <div class="pg-note"><b>"The AR introduction felt very new and fascinating to look at!"</b><span>Faculty review</span></div>
+    </div>
+    <p class="pg-p">The AR layer gave the book a second life beyond print, allowing viewers to access extended content without adding page count. Studying Josef Müller-Brockmann's "Grid Systems" during the project deepened my understanding of how structure and white space work together to give content room to breathe.</p>
+  </div>
+</section>
 
-<h4>Typography and Color</h4>
-<p>Avenir Next LT Pro was chosen as the primary typeface for its neutrality and legibility at small sizes. The color scheme was deliberately neutral: black, white, and warm grays for the structure, with vibrant colored panels reserved for the students' work. Brackets [] were used throughout as a recurring motif, assigning symbolic meaning to each discipline category.</p>
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What I took away.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Print needs a different kind of restraint than screen.</strong> The book's job was to frame the students' work, not compete with it. Neutral typography and a quiet color system made the vibrant portfolio pieces feel intentional, not chaotic.</span></li>
+      <li><span><strong>Grid discipline makes a 100-page book feel like one object</strong> instead of a collection of unrelated spreads. The column-to-modular grid switch gave the layout flexibility without breaking consistency.</span></li>
+      <li><span><strong>AR added a digital layer without complicating the physical experience.</strong> The technology was invisible until the reader chose to engage with it.</span></li>
+      <li><span><strong>Decisions cascade across domains.</strong> Managing art direction, content editing, and print production simultaneously built a working understanding of that. A type change on page 12 can break the grid on page 40.</span></li>
+    </ol>
+  </div>
+</section>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/gls-yearbook/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Typography and Color System">
-  <figcaption>Typography &amp; Color System</figcaption>
-</figure>
+</main>
 
-<h4>Grid System</h4>
-<p>The layout alternated between a column grid for text-heavy pages and a modular grid for portfolio spreads. This gave the book a consistent rhythm while accommodating the variety of student work, from photography to product design to illustration.</p>
+<footer class="pg-foot">
+  <a class="pg-next pg-prev" href="metro-wayfinding.html"><small>Previous project</small><span>← Metro Wayfinding</span></a>
+  <a class="pg-next" href="everest-packaging.html"><small>Next project</small><span>Everest Spices →</span></a>
+</footer>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/gls-yearbook/03-1200.webp"
-       width="1200" height="676" loading="lazy" decoding="async"
-       alt="Two wireframe diagrams of the 40 by 28 cm spread grid on black, beside a tight crop of the softbound cover and its heavy grey ANNUAL DESIGN YEAR lockup.">
-  <figcaption>Grid System &amp; Spread Layouts</figcaption>
-</figure>
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
 
-<h4>AR Integration</h4>
-<p>An augmented reality layer was built using Artvive, allowing readers to scan specific pages and access additional content, video walkthroughs, process documentation, and extended project narratives, through their phone. This bridged the physical book with a digital archive.</p>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="smooth-scroll.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
 
-<h4>Print Specifications</h4>
-<p>The final book was produced at 28 cm x 20 cm, perfect bound, printed on 100 GSM standard paper using offset printing. Every spread was proofed and color-corrected before the final print run.</p>
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
 
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Cover Design">
-    <figcaption>Cover Design</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Table of Contents">
-    <figcaption>Table of Contents</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/04-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Discipline Spread">
-    <figcaption>Discipline Spread</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Student Portfolio Page">
-    <figcaption>Student Portfolio Page</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="AR Interaction">
-    <figcaption>AR Interaction</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/gls-yearbook/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Awards and Patents Section">
-    <figcaption>Awards &amp; Patents Section</figcaption>
-  </figure>
-</div>
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
 
-<hr class="section-rule">
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
 
-<!-- OUTCOME -->
-<h2>Outcome</h2>
-<h3>A printed record</h3>
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
 
-<p>The yearbook was printed and distributed within the institute. It documented the full year's creative output across all departments, serving as both a reference and a celebration of the work produced.</p>
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
 
-<div class="pull-quote">
-  <blockquote>"The book felt like a visual journal for all the work done within the institute."</blockquote>
-  <cite>Foundation Student</cite>
-</div>
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
 
-<div class="pull-quote">
-  <blockquote>"The AR introduction felt very new and fascinating to look at!"</blockquote>
-  <cite>Faculty Review</cite>
-</div>
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
 
-<p>The AR layer gave the book a second life beyond print, allowing viewers to access extended content without adding page count. Studying Josef Müller-Brockmann's "Grid Systems" during the project deepened my understanding of how structure and white space work together to give content room to breathe.</p>
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
 
-<hr class="section-rule">
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
 
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What I took away</h3>
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
 
-<ul class="reflection-list">
-  <li>Art direction for print requires a different kind of restraint than screen design. The book's job was to frame the students' work, not compete with it. Neutral typography and a quiet color system made the vibrant portfolio pieces feel intentional, not chaotic.</li>
-  <li>Grid discipline is what makes a 100-page book feel like one object instead of a collection of unrelated spreads. The column-to-modular grid switch gave the layout flexibility without breaking consistency.</li>
-  <li>AR integration added a digital layer without complicating the physical experience. The technology was invisible until the reader chose to engage with it.</li>
-  <li>Managing art direction, content editing, and print production simultaneously built a working understanding of how decisions in one domain cascade into the others. A type change on page 12 can break the grid on page 40.</li>
-</ul>
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 
-<!-- CTA -->
-<div class="cta">
-  <p>Shreyo Debnath · Designer</p>
-  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
-</div>
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', 'Information architecture');
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
 
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
+
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
+
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
 </body>
 </html>
