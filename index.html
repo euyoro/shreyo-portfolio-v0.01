@@ -47,47 +47,48 @@
 <title>Shreyo | Product Designer</title>
 <!-- PNG first, SVG second: browsers that understand both prefer the later
      declaration, and the ones that do not simply never see it. -->
-<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DotGothic16&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
 
 <style>
   :root {
     /* Lazim-derived warm neutral system */
-    --bg:         #fbfbfa;
+    --bg:         #f6f6f4;
     --pl-ink:     19,19,19;
     --surface:    #ffffff;
     --border:     rgba(19,19,19,0.09);
-    --text:       #131313;
-    --muted:      #6f6f6f;
-    --dim:        #565656;
-    /* Two greens, because one cannot do both jobs. --neon is a FILL: at a
-       relative luminance of 0.89 it scores 1.1:1 on white, so it can carry
-       dark text but can never be text. --accent is its text-safe sibling,
-       measured at 4.8:1 on --bg, and it is what the focus rings and the
-       accented numerals use. Swapping the neon into those would have made
-       every focus outline on the site invisible. */
-    --accent:     #4c7a00;
-    --accent-dim: rgba(76,122,0,0.07);
-    --neon:       #edfe34;
-    --neon-ink:   #131313;
+    --text:       #0f1330;
+    --muted:      #6c7088;
+    --dim:        #4a4f6a;
+    /* One cobalt blue for the whole site. --accent is the text and line blue (about 6:1 on --bg),
+       and --neon, the name kept from the old palette, is the same blue as a FILL: buttons and
+       chips, with --neon-ink (white) on top at 6:1. Cool greys and pale blue tints carry the rest. */
+    --accent:     #2d4fe3;
+    --accent-dim: rgba(45,79,227,0.08);
+    --neon:       #2d4fe3;
+    --neon-ink:   #ffffff;
     --glare:      rgba(255,255,255,0.58);
-    --nav-bg:     rgba(251,251,250,0.90);
-    /* Heatmap: warm neutral ramp */
-    /* Density now runs through the accent. On paper it has to get DARKER as
-       it climbs: the neon is lighter than the empty cell, so ending on it
-       would read as less activity, not more. It tops out at --accent. */
-    --h0: #ebebe8; --h1: #dcecb4; --h2: #bcdd63; --h3: #86af1e; --h4: #4c7a00;
+    --nav-bg:     rgba(246,246,244,0.90);
+    /* Heatmap: a pale-to-full cobalt ramp. On paper it gets DARKER as it climbs, topping out at --accent. */
+    --h0: #e9eaee; --h1: #d3dcfb; --h2: #a3b5f7; --h3: #6585ef; --h4: #2d4fe3;
     /* Fonts */
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-inst:    'Instrument Sans', system-ui, sans-serif;
+    --ff-display: 'DM Sans', system-ui, -apple-system, sans-serif;   /* one family site-wide: no Instrument faces */
     --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
     --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    /* Big section headings (the hero headline sets its own): the pixel face with one
+       dial for tracking and leading. -0.0625em is one pixel of the font's 16px grid;
+       sizes step in multiples of 16px (4rem / 3rem / 2rem). */
+    --ff-pixel:      'DotGothic16', var(--ff);
+    --display-track: -0.0625em;
+    --display-lead:  0.9;
     /* Squared terminals on a grotesque skeleton: the CTA only. */
     --gutter:     clamp(1.5rem, 5vw, 4rem);
-    --max:        1100px;
+    /* One vertical step for every homepage section: this much above and below, so two neighbours sit 2x apart. */
+    --sec-y:      48px;
+    --max:        1280px;
     /* Motion: one scale, so sibling interactions cannot drift apart.
        Five deliberate one-offs stay literal below: the story fade (0.45s),
        the stage fade (0.55s), the scrim (0.6s), the greeting crossfade
@@ -108,42 +109,49 @@
     :root:not([data-theme="light"]) {
       --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
       --pl-ink: 240,240,237;
-      --text: #f0f0ee; --muted: #838383; --dim: #9d9d9d;
-      /* On near-black the neon clears 18:1, so here it can be the text colour
-         as well as the fill and the two tokens converge. */
-      --accent: #edfe34; --accent-dim: rgba(237,254,52,0.10); --glare: rgba(255,255,255,0.11);
-      --neon: #edfe34; --neon-ink: #131313;
+      --text: #eceef8; --muted: #8084a0; --dim: #a1a5bf;
+      /* On near-black a lighter periwinkle blue (about 8:1) works as text and as fill, with dark ink on it. */
+      --accent: #8ea2ff; --accent-dim: rgba(142,162,255,0.12); --glare: rgba(255,255,255,0.11);
+      --neon: #8ea2ff; --neon-ink: #0a0f2e;
       --nav-bg: rgba(14,14,13,0.88);
-      /* inverted on dark: here it climbs toward the neon */
-      --h0: #1f201d; --h1: #37451c; --h2: #5f7d20; --h3: #a5cf2c; --h4: #edfe34;
+      /* inverted on dark: here it climbs toward the light blue */
+      --h0: #1f2024; --h1: #252f66; --h2: #3a52c4; --h3: #6c86f4; --h4: #a9b8ff;
     }
   }
   :root[data-theme="dark"] {
     --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
     --pl-ink: 240,240,237;
-    --text: #f0f0ee; --muted: #838383; --dim: #9d9d9d;
-    --accent: #edfe34; --accent-dim: rgba(237,254,52,0.10); --glare: rgba(255,255,255,0.11);
-    --neon: #edfe34; --neon-ink: #131313;
+    --text: #eceef8; --muted: #8084a0; --dim: #a1a5bf;
+    --accent: #8ea2ff; --accent-dim: rgba(142,162,255,0.12); --glare: rgba(255,255,255,0.11);
+    --neon: #8ea2ff; --neon-ink: #0a0f2e;
     --nav-bg: rgba(14,14,13,0.88);
     /* inverted on dark: here it climbs toward the neon */
-      --h0: #1f201d; --h1: #37451c; --h2: #5f7d20; --h3: #a5cf2c; --h4: #edfe34;
+      --h0: #1f2024; --h1: #252f66; --h2: #3a52c4; --h3: #6c86f4; --h4: #a9b8ff;
   }
 
+  /* Background grain: one soft noise tile laid over the page colour, replacing the old dot grid.
+     Dark specks on light, light specks on dark, at a few percent so it reads as paper, not pattern. */
+  :root { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.045; }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) body {
-      background-image: radial-gradient(circle, rgba(251,251,250,0.06) 1px, transparent 1px);
-    }
+    :root:not([data-theme="light"]) { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.035; }
   }
-  :root[data-theme="dark"] body {
-    background-image: radial-gradient(circle, rgba(251,251,250,0.06) 1px, transparent 1px);
-  }
+  :root[data-theme="dark"] { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.035; }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Lenis (smooth scroll) needs native smooth-scroll off while it is running */
+  html.lenis, html.lenis body { height: auto; }
+  .lenis.lenis-smooth { scroll-behavior: auto !important; }
+  .lenis.lenis-stopped { overflow: clip; }
+  .lenis.lenis-smooth iframe { pointer-events: none; }
   html { background: var(--bg); color: var(--text); font-family: var(--ff); -webkit-font-smoothing: antialiased; }
   body {
     min-height: 100vh; overflow-x: hidden; background: var(--bg);
-    background-image: radial-gradient(circle, rgba(19,19,19,0.09) 1px, transparent 1px);
-    background-size: 22px 22px;
+  }
+  /* Fixed, so it sits over every section's own background (sticky bars, bands) and the page keeps one
+     continuous texture. Below the nav's overlays and the case study sheet, and never takes a click. */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 70; pointer-events: none;
+    background-image: var(--grain); background-size: 220px 220px; opacity: var(--grain-op);
   }
   a { color: inherit; text-decoration: none; }
 
@@ -235,8 +243,13 @@
   }
   .tip-text { font-size: 0.8125rem; color: var(--text); line-height: 1.58; letter-spacing: -0.008em; }
 
-  /* Hide below the point where there's no room */
-  @media (max-width: 1100px) { .fobj { display: none; } }
+  /* Laptop and up only: below 1280px the margins are too narrow for them */
+  @media (max-width: 1479px) { .fobj { display: none; } }
+  /* Laptop widths (1480 to 1599px): the edge objects are 30% smaller, so they sit in the margins instead of crowding the content */
+  @media (max-width: 1599px) {
+    .fobj-img { font-size: calc(var(--sz, 100px) * 0.7); }
+    .fobj-img img { width: calc(var(--sz, 96px) * 0.7); }
+  }
   @media (prefers-reduced-motion: reduce) { .fobj-img { animation: none !important; } }
 
   /* ── Nav ── */
@@ -258,19 +271,19 @@
     text-decoration: none; cursor: default;
     position: relative; z-index: 3;
   }
+  /* Both halves are 16px: euyoro quiet in the grey, shreyo in the pixel face (a 16px grid, so it stays crisp) */
   .nav-word-a {
-    font-family: var(--ff-display); font-style: italic;
-    font-size: 1.3125rem; font-weight: 400;
-    color: var(--text); letter-spacing: -0.015em;
+    font-family: var(--ff); font-style: italic;
+    font-size: 1rem; font-weight: 400;
+    color: var(--muted); letter-spacing: -0.01em;
   }
   .nav-word-sep {
     font-family: var(--ff); font-size: 1rem;
     color: var(--muted); margin: 0 5px;
   }
   .nav-word-b {
-    font-family: var(--ff); font-size: 1rem; font-weight: 400;
-    color: var(--text); letter-spacing: -0.01em;
-    transition: opacity var(--t-micro) ease;
+    font-family: 'DotGothic16', 'Noto Sans Bengali', var(--ff); font-size: 1rem; font-weight: 400;
+    color: var(--text); letter-spacing: 0;
     cursor: default;
   }
   /* Right controls */
@@ -454,13 +467,17 @@
   .divider { border: none; border-top: 1px solid var(--border); }
 
   /* ── Hero ── */
-  .hero { padding-top: 116px; padding-bottom: 80px; }
-  .hero-grid { display: grid; grid-template-columns: 320px 1fr; gap: 60px; align-items: start; }
+  .hero { padding-top: 116px; padding-bottom: var(--sec-y); }
+  /* One column: portrait, then the intro and bio stacked beneath it. It fills
+     the same container as the sections below, so the left and right edges
+     line up with the divider, heatmap and work grid. Text stays left-aligned. */
+  /* TRY-OUT: centred. To go back to left-aligned: justify-items: start, drop text-align, and drop margin-inline/max-width on .hero-p below. */
+  .hero-grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start; justify-items: center; text-align: center; }
   .hero-left { display: flex; flex-direction: column; gap: 22px; }
   .hero-ident { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
   .hero-name { font-family: var(--ff); font-size: clamp(0.9375rem, 1.6vw, 1.125rem); font-weight: 400; letter-spacing: -0.01em; line-height: 1.3; color: var(--text); }
   .hero-role { font-family: var(--ff); font-size: clamp(0.875rem, 1.4vw, 1rem); font-weight: 400; letter-spacing: -0.01em; color: var(--muted); }
-  .portrait { width: 100%; max-width: 320px; aspect-ratio: 1/1; border-radius: 0; overflow: hidden; clip-path: url(#squircle-clip); position: relative; background: #dedad6; transform: rotate(2deg); }
+  .portrait { width: 100%; max-width: 220px; aspect-ratio: 1/1; border-radius: 0; overflow: hidden; clip-path: url(#squircle-clip); position: relative; background: #dedad6; transform: rotate(2deg); }
   .portrait.appear { transform: rotate(2deg) translateY(24px); }
   .portrait.appear.in { transform: rotate(2deg); }
   .portrait::before { display: none; }
@@ -473,27 +490,55 @@
   .portrait-grain { position: absolute; inset: 0; width: 100%; height: 100%; mix-blend-mode: overlay; opacity: 0.55; pointer-events: none; z-index: 3; }
   .portrait-hint { position:absolute; inset:0; display:flex; align-items:flex-end; padding:14px 16px; font-family:var(--ff-mono); font-size: 0.75rem; letter-spacing:0.12em; color:rgba(255,255,255,0.28); text-transform:uppercase; }
   .hero-right { display: flex; flex-direction: column; padding-top: 0; }
-  .hero-intro-line { font-family: var(--ff); font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; color: var(--text); margin-bottom: 32px; }
-  .hero-intro-line strong { font-weight: 700; }
+  /* Headline in DotGothic16, a pixel font with one weight, drawn on a 16px grid,
+     so the sizes below are multiples of 16px to keep the dots crisp. Also tried:
+     'Pixelify Sans' (variable 400-700, bold, proportional) and 'Outfit' (700,
+     clamp(1.75rem, calc(6vw - 20px), 3.75rem), letter-spacing -0.05em).
+     To restore a plain sans: font-family var(--ff). */
+  .hero-intro-line { font-family: 'DotGothic16', var(--ff); font-size: 4rem; font-weight: 400; letter-spacing: 0; line-height: 1; color: var(--text); margin-bottom: 32px; }
+  @media (max-width: 1100px) { .hero-intro-line { font-size: 3rem; } }
+  @media (max-width: 640px)  { .hero-intro-line { font-size: 2rem; } }
+  /* The cycling word always sits on its own line under "I work across", so the
+     headline is two lines for every word and the bio below never jumps when
+     the word changes. */
+  .hero-intro-line strong { font-weight: 400; display: block; }
   /* overflow was hidden to mask the old slide-out. The word now dissolves in
      place instead, and a blurred blob needs to bleed past the line box: with
      the clip still on, every blob would be sliced flat top and bottom. */
-  .hero-cycle-wrap { display: inline-block; overflow: visible; height: 1.05em; vertical-align: baseline; white-space: nowrap; }
+  .hero-cycle-wrap { display: block; overflow: visible; height: 1.05em; vertical-align: baseline; white-space: nowrap; }
   .hero-cycle { display: inline-block; }
+  /* CRT glitch (see the "CRT glitch" script): while .glitch is on, an element with
+     .crt shows red and cyan copies of its text, sliced into random bands and
+     nudged sideways. */
+  .crt { position: relative; white-space: pre; }
+  .crt.glitch { text-shadow: -2px 0 rgba(255, 40, 90, 0.7), 2px 0 rgba(0, 200, 255, 0.7); }
+  .crt.glitch::before,
+  .crt.glitch::after { content: attr(data-text); position: absolute; left: 0; top: 0; white-space: pre; pointer-events: none; }
+  .crt.glitch::before { color: rgb(255, 40, 90); transform: translateX(var(--gx1, -4px)); clip-path: inset(var(--gc1, 10% 0 60% 0)); }
+  .crt.glitch::after  { color: rgb(0, 200, 255); transform: translateX(var(--gx2, 4px)); clip-path: inset(var(--gc2, 55% 0 15% 0)); }
+  @media (prefers-reduced-motion: reduce) { .crt.glitch { text-shadow: none; } }
   .hero-body { display: flex; flex-direction: column; gap: 16px; }
   .hero-hl { color: var(--dim); font-style: normal; }
   /* Body copy: muted by default, <em> switches color not weight: Lazim's trick */
-  .hero-p { font-family: var(--ff); font-size: 1.0625rem; color: var(--muted); line-height: 1.65; letter-spacing: -0.02em; max-width: 50ch; }
+  .hero-p { font-family: var(--ff); font-size: 1.0625rem; color: var(--muted); line-height: 1.65; letter-spacing: -0.02em; margin-inline: auto; max-width: 72ch; text-wrap: balance; }
   .hero-p em { font-style: normal; color: var(--text); }
+  /* Links in the bio: same colour and weight as the text, with a thin, faint underline sitting a little below it (darkens on hover) */
+  .hero-p a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); white-space: nowrap; transition: text-decoration-color var(--t-hover, 0.2s) ease; }
+  .hero-p a:hover { text-decoration-color: currentColor; }
 
   /* ── Section head ── */
   .section-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 20px; }
   .section-title { font-family: var(--ff); font-size: 0.8125rem; font-weight: 500; letter-spacing: -0.01em; color: var(--text); }
-  h2.section-title { font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; line-height: 1; margin: 0; }
+  /* Blue is kept for the About page only: its big hello, and the small overlines (Design, Tools, Languages, Accolades).
+     Every other heading stays in the ink. */
+  html .about-heading, html .about-skills-label { color: var(--accent); }
+  h2.section-title { font-family: var(--ff-pixel); font-size: 4rem; font-weight: 400; letter-spacing: var(--display-track); line-height: var(--display-lead); margin: 0; }
+  @media (max-width: 1100px) { h2.section-title { font-size: 3rem; } }
+  @media (max-width: 640px)  { h2.section-title { font-size: 2rem; } }
   .section-meta { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.06em; color: var(--dim); text-transform: uppercase; }
 
   /* ── Activity ── */
-  .activity { padding: 40px 0 60px; }
+  .activity { padding: var(--sec-y) 0; }
 
   .heatmap-grid { display: grid; grid-template-columns: minmax(0,1fr); width: 100%; position: relative; }
   .day-col {
@@ -532,18 +577,6 @@
   .legend-cell:nth-child(5) { background: var(--h4); }
 
   /* ── Experience ── */
-  /* ── Experience ──
-     One set of rows serves both states. Collapsed they stand side by side
-     along a horizontal rail; expanded the same rows stack under a vertical
-     one. Nothing is duplicated, so the logo, company name and date a reader
-     sees collapsed are literally the nodes that travel into the open list. */
-  .exp-section { padding: 40px 0 80px; --exp-dur: 620ms; --exp-ease: cubic-bezier(0.4, 0, 0.2, 1); }
-  /* The title sets at line-height 1, so it carries no descender room of its
-     own: the rail needs the gap given to it explicitly. */
-  .exp-section .section-head { margin-bottom: 48px; }
-  .exp-toggle { display: inline-flex; align-items: center; gap: 5px; font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.05em; color: var(--muted); background: none; border: none; cursor: pointer; padding: 0; transition: color var(--t-hover); text-transform: uppercase; }
-  .exp-toggle:hover { color: var(--text); }
-
   /* Company logo badges */
   .co-logo {
     display: grid; place-items: center; flex-shrink: 0; overflow: hidden;
@@ -562,82 +595,15 @@
   .logo-io { background: #fff; border: 1px solid #e8e8e6; }
   .logo-cs { background: #fff; border: 1px solid #e8e8e6; }
 
-  /* ── Collapsed: six columns hanging off a horizontal rail ── */
-  /* No CSS transitions on the layout itself: the morph is driven by the Web
-     Animations API, so these rules describe two resting states and applying
-     one gives an immediately-measurable final layout. */
-  .exp-list { overflow: hidden; }
-  .exp-list-inner {
-    position: relative;
-    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0 18px;
-  }
-  .exp-list-inner::before {
-    content: ''; position: absolute; left: 0; right: 0; top: 3px; height: 1px;
-    background: var(--border); transition: opacity 200ms ease;
-  }
-  .exp-item { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; }
-  .exp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
-  .exp-item.now .exp-dot { background: var(--text); }
-  .exp-body { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
-  .exp-row1 { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
-  .exp-company { font-family: var(--ff); font-size: 0.9375rem; font-weight: 500; letter-spacing: -0.02em; color: var(--text); line-height: 1.3; }
-  .exp-when { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.02em; color: var(--muted); }
-  /* The trailing half of a name or a date is detail, not identity: it joins
-     the role and the bullets on expand rather than crowding the rail. */
-  .exp-co-sub, .exp-where { display: none; }
-  .exp-detail { display: none; }
-  .exp-role { font-family: var(--ff); font-size: 0.8125rem; color: var(--muted); letter-spacing: -0.01em; margin-bottom: 12px; }
-  .exp-bullets { display: flex; flex-direction: column; gap: 8px; list-style: none; }
-  .exp-bullets li { font-family: var(--ff); font-size: 0.875rem; color: var(--muted); line-height: 1.62; letter-spacing: -0.015em; padding-left: 14px; position: relative; }
-  .exp-bullets li::before { content: "·"; position: absolute; left: 0; color: var(--dim); font-size: 1.125rem; line-height: 1.1; }
-
-  /* ── Vertical rail: when expanded, and at every width too narrow for six
-     columns (where .stacked is set from JS). ── */
-  .exp-section.expanded .exp-list-inner,
-  .exp-section.stacked .exp-list-inner { display: flex; flex-direction: column; gap: 0; }
-  .exp-section.expanded .exp-list-inner::before,
-  .exp-section.stacked .exp-list-inner::before { opacity: 0; }
-  .exp-section.expanded .exp-item,
-  .exp-section.stacked .exp-item {
-    display: grid; grid-template-columns: 7px 40px minmax(0, 1fr);
-    align-items: start; gap: 0 18px;
-    /* No rules between rows: the rail and the dots already say where one entry
-       ends and the next begins, and a divider on top of that is noise. */
-    padding: 30px 0;
-  }
-  .exp-section.expanded .exp-item:first-child,
-  .exp-section.stacked .exp-item:first-child { padding-top: 0; }
-  .exp-section.expanded .exp-item:last-child,
-  .exp-section.stacked .exp-item:last-child { padding-bottom: 0; }
-  /* Each row draws the rail below its own dot, so the line stops at the last
-     one instead of trailing past it. */
-  .exp-section.expanded .exp-item::before,
-  .exp-section.stacked .exp-item::before {
-    content: ''; position: absolute; left: 3px; top: 44px; bottom: 0;
-    width: 1px; background: var(--border);
-  }
-  .exp-section.expanded .exp-item:first-child::before,
-  .exp-section.stacked .exp-item:first-child::before { top: 14px; }
-  .exp-section.expanded .exp-item:last-child::before,
-  .exp-section.stacked .exp-item:last-child::before { display: none; }
-  .exp-section.expanded .exp-dot,
-  .exp-section.stacked .exp-dot { margin-top: 4px; }
-  .exp-section.expanded .exp-row1,
-  .exp-section.stacked .exp-row1 { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-  .exp-section.expanded .exp-when,
-  .exp-section.stacked .exp-when { white-space: nowrap; flex-shrink: 0; }
-  .exp-section.expanded .exp-co-sub,
-  .exp-section.expanded .exp-where { display: inline; }
-  .exp-section.expanded .exp-detail { display: block; padding-top: 8px; }
-  .exp-section.stacked .exp-item { padding: 24px 0; gap: 0 14px; }
 
   /* ── Awards Section ── */
-  .awards-section { padding: 80px 0 120px; position: relative; }
+  .awards-section { padding: var(--sec-y) 0; position: relative; }
   .awards-heading { display: flex; align-items: flex-start; gap: 24px; margin-bottom: 72px; }
-  .awards-amp { font-weight: 700; letter-spacing: -0.05em; }
-  .awards-title-block { display: flex; flex-direction: column; line-height: 0.88; }
-  .awards-title-line { font-family: var(--ff); font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700; letter-spacing: -0.05em; color: var(--text); }
+  .awards-amp { font-weight: 400; letter-spacing: var(--display-track); }
+  .awards-title-block { display: flex; flex-direction: column; line-height: var(--display-lead); }
+  .awards-title-line { font-family: var(--ff-pixel); font-size: 4rem; font-weight: 400; letter-spacing: var(--display-track); color: var(--text); }
+  @media (max-width: 1100px) { .awards-title-line { font-size: 3rem; } }
+  @media (max-width: 640px)  { .awards-title-line { font-size: 2rem; } }
   .awards-title-line:last-child { margin-left: 1.1em; }
   .awards-table { border-top: 1px solid var(--border); }
   .award-row {
@@ -752,198 +718,151 @@
     .hm-cell, .hm-tooltip { transition: none; }
   }
 
-  /* ── Selected Works ── */
-  .works-section {
-    padding: 80px 0 100px;
-    background-color: var(--bg);
-    background-image: radial-gradient(circle, rgba(19,19,19,0.09) 1px, transparent 1px);
-    background-size: 22px 22px;
-    /* section sits outside the inner wrap so dots go edge-to-edge */
-  }
-  .works-header {
-    text-align: center;
-    margin-bottom: 52px;
-  }
-  .works-eyebrow {
-    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted);
-    display: block; margin-bottom: 12px;
-  }
+  /* ── Selected Works: a profile feed ── */
+  .works-section { padding: var(--sec-y) 0; background: var(--bg); }
+  .works-layout { display: grid; grid-template-columns: minmax(0, 1fr) 280px; align-items: start; }
+  .works-main { padding-right: 48px; min-width: 0; }
+  /* Title and tabs stay pinned under the nav while the feed scrolls beneath them */
+  .works-sticky { position: sticky; top: 56px; z-index: 5; background: var(--bg); padding-top: 24px; }
+  .works-header { margin-bottom: 36px; }
+  /* Same pixel face and sizes as the hero headline (DotGothic16 is drawn on a
+     16px grid, so sizes step in multiples of 16px). The title glitches via .crt. */
   .works-title {
-    font-family: var(--ff); font-style: normal;
-    font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700;
-    letter-spacing: -0.05em; color: var(--text);
+    font-family: var(--ff-pixel); font-style: normal;
+    font-size: 4rem; font-weight: 400;
+    letter-spacing: var(--display-track); line-height: var(--display-lead); color: var(--text);
     cursor: default;
   }
-  .works-title-line { display: block; }
-  .works-title-indent { margin-left: 1.1em; }
-  /* single line now: share the stack's line-height so "Case" and the
-     swapping word sit on the same baseline */
-  .wt-layout { display: flex; align-items: flex-start; justify-content: center; line-height: 0.92; }
-  .wt-prefix { flex-shrink: 0; }
-  .wt-stack { display: flex; flex-direction: column; line-height: 0.92; }
-  .wt-swap { position: relative; display: inline-block; }
-  /* relative so the dark-mode rule below can lift the word above the
-     highlight; no offsets, so light mode is untouched. */
-  .wt-word { display: inline-block; position: relative; }
-  .wt-stories { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; pointer-events: none; }
-  .wt-strike {
-    position: absolute; left: -3px; top: 50%;
-    transform: translateY(-55%);
-    height: 0.26em; width: 0;
-    background: #FFE34D;
-    border-radius: 3px;
-    mix-blend-mode: multiply;
-    pointer-events: none; z-index: 2;
-  }
-  /* Dark mode cannot use multiply. The word is near-white here, and white
-     multiplied by yellow is just yellow, so the bar swallowed the text
-     instead of marking it. Behind the word instead, at a fraction of the
-     alpha, which is what a highlighter looks like on a dark page. */
-  [data-theme="dark"] .wt-word { z-index: 1; }
-  [data-theme="dark"] .wt-strike {
-    mix-blend-mode: normal;
-    background: rgba(255, 227, 77, 0.30);
-    z-index: 0;
-  }
-  .works-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  .work-card:last-child { grid-column: 1 / -1; }
-  .works-divider {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 32px 0 12px;
-  }
-  .works-divider span {
-    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--muted);
-  }
+  @media (max-width: 1100px) { .works-title { font-size: 3rem; } }
+  @media (max-width: 640px)  { .works-title { font-size: 2rem; } }
+  .glitch-title { display: inline-block; }
 
-  .work-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    cursor: pointer;
-    text-decoration: none;
-    /* No lift and no will-change: nothing here transforms any more, and
-       holding a compositor layer for fourteen cards that never move is rent
-       paid for nothing. The glare below is the whole hover. */
-    transition: border-color var(--t-hover) ease;
-  }
-  .work-card:hover {
-    border-color: rgba(19,19,19,0.16);
-  }
-
-  /* A band of light crossing the card on hover: the card already clips to
-     its radius, so the sweep stays inside the rounded corners. It runs once
-     per hover rather than looping, so it reads as a glare catching the
-     surface and not as a loading shimmer. */
-  .work-card::after {
-    content: '';
-    position: absolute;
-    top: -60%; bottom: -60%; left: 0; width: 42%;
-    background: linear-gradient(to right, transparent, var(--glare), transparent);
-    transform: translateX(-180%) rotate(18deg);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 3;
-  }
-  .work-card:hover::after { animation: card-glare 968ms cubic-bezier(0.3, 0, 0.2, 1); }
-  @keyframes card-glare {
-    0%   { opacity: 0; transform: translateX(-180%) rotate(18deg); }
-    14%  { opacity: 1; }
-    86%  { opacity: 1; }
-    100% { opacity: 0; transform: translateX(320%) rotate(18deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .work-card:hover::after { animation: none; }
-  }
-
-  /* Image area */
-  .work-img {
-    width: 100%; aspect-ratio: 16/9;
-    position: relative; overflow: hidden;
-    background: var(--surface);
-    flex-shrink: 0;
-  }
-  /* Full-width last card gets wider aspect */
-  .work-card:last-child .work-img { aspect-ratio: 32/9; }
-
-  /* Placeholder visuals: colored gradient fields */
-  .work-img-fill {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  /* A real cover render, where one exists, fills the same 16/9 well */
-  .work-img-photo {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover; display: block;
-  }
-  .work-img-label {
-    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: rgba(19,19,19,0.22);
-    position: absolute; bottom: 14px; left: 18px;
-  }
-  /* Fake UI chrome hints */
-  .work-chrome {
-    position: absolute; inset: 24px;
-    border: 1px solid rgba(255,255,255,0.45);
-    border-radius: 10px;
-    pointer-events: none;
-    opacity: 0.7;
-  }
-  .work-chrome::before {
-    content: '';
-    display: block; height: 28px;
-    border-bottom: 1px solid rgba(255,255,255,0.35);
-  }
-
-  /* Body */
-  .work-body {
-    padding: 16px 20px 20px;
-    display: flex; flex-direction: column; gap: 5px;
-    flex: 1;
-  }
-  .work-title-row {
+  /* Tabs: plain text with an underline on the active one */
+  .works-tabs { display: flex; gap: 32px; }
+  .works-tab {
     font-family: var(--ff); font-size: 0.9375rem; letter-spacing: -0.01em;
-    line-height: 1.3; color: var(--text);
+    color: var(--muted); background: none; border: 0; cursor: pointer;
+    padding: 0 0 14px; margin-bottom: 0; border-bottom: 1px solid transparent;
+    transition: color var(--t-hover);
   }
-  .work-project { font-weight: 600; }
-  .work-sep { color: var(--muted); font-weight: 400; margin: 0 5px; }
-  .work-cat { color: var(--dim); font-weight: 400; }
-  .work-sub {
-    font-family: var(--ff); font-size: 0.875rem;
-    color: var(--dim); letter-spacing: -0.01em; line-height: 1.45;
+  .works-tab:hover { color: var(--text); }
+  .works-tab.is-active { color: var(--text); border-bottom-color: var(--text); }
+  .works-tab:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 4px; }
+
+  /* Feed rows: company and reading time, the problem, the numbers, then chips;
+     the cover sits on the right. */
+  .work-card.feed-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 8px 48px; align-items: start;
+    padding: 28px 0; border-bottom: 1px solid var(--border);
+    color: var(--text); text-decoration: none; cursor: pointer;
   }
+  .feed-row[hidden] { display: none; }
+  .feed-main { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .feed-meta { display: flex; align-items: center; gap: 8px; font-family: var(--ff); font-size: 0.8125rem; color: var(--muted); letter-spacing: -0.005em; }
+  .feed-co { color: var(--text); font-weight: 500; }
+  .feed-dot { font-size: 0.7rem; }
+  .feed-title { font-family: var(--ff); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.025em; line-height: 1.25; color: var(--text); text-wrap: balance; }
+  .feed-metrics { font-family: var(--ff); font-size: 1rem; color: var(--muted); line-height: 1.5; letter-spacing: -0.01em; }
+  .feed-chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin-top: 6px; }
+  .chip { font-family: var(--ff); font-size: 0.75rem; color: var(--dim); background: var(--border); border-radius: 999px; padding: 5px 12px; line-height: 1.2; }
+  .feed-row:hover .feed-title { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 
+  /* Cover */
+  .work-img { width: 100%; aspect-ratio: 3/2; position: relative; overflow: hidden; border-radius: 6px; background: var(--border); }
+  .work-img-fill { position: absolute; inset: 0; }
+  .work-chrome { display: none; }
+  .work-img-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  @media (max-width: 760px) {
-    .works-grid { grid-template-columns: 1fr; }
-    .work-card:last-child { grid-column: 1; }
-    .work-card:last-child .work-img { aspect-ratio: 16/9; }
+  /* Profile column */
+  .works-side { padding-left: 32px; position: sticky; top: 96px; }
+  .side-portrait { max-width: 120px; margin-bottom: 20px; }
+  .side-name { font-family: var(--ff); font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); line-height: 1.3; }
+  .side-role { font-family: var(--ff); font-size: 0.9375rem; color: var(--muted); letter-spacing: -0.01em; margin-top: 2px; }
+  .side-desc { font-family: var(--ff); font-size: 0.9375rem; color: var(--muted); line-height: 1.6; letter-spacing: -0.01em; margin-top: 16px; }
+  .side-head { font-family: var(--ff); font-size: 1rem; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin: 36px 0 16px; }
+  .side-exp { list-style: none; display: flex; flex-direction: column; gap: 18px; }
+  .side-exp-item { display: flex; align-items: center; gap: 12px; }
+  .side-exp .co-logo { width: 28px; height: 28px; border-radius: 50%; }
+  .side-exp-co { flex: 1; min-width: 0; font-family: var(--ff); font-size: 0.875rem; font-weight: 400; letter-spacing: -0.01em; color: var(--dim); line-height: 1.3; }
+  /* A company with a link: logo and name are one target; hover draws a soft grey underline under the name */
+  .side-exp-link { flex: 1; min-width: 0; display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+  .side-exp-link .side-exp-co { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: transparent; transition: text-decoration-color 0.2s ease; }
+  .side-exp-link:hover .side-exp-co, .side-exp-link:focus-visible .side-exp-co { text-decoration-color: color-mix(in srgb, var(--muted) 65%, transparent); }
+  .side-exp-link:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; border-radius: 6px; }
+  .side-exp-when { flex-shrink: 0; font-family: var(--ff); font-size: 0.75rem; color: var(--muted); letter-spacing: -0.005em; white-space: nowrap; }
+
+  /* The profile column only shows once the section has scrolled fully into place
+     (see "Profile column reveal"). Without JS, or when it drops under the feed,
+     it is simply there. */
+  @media (min-width: 901px) {
+    .works-section.side-armed .works-side { opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity 400ms ease, transform 400ms ease; }
+    .works-section.side-armed.side-on .works-side { opacity: 1; transform: none; pointer-events: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) { .works-section.side-armed .works-side { transition: none; transform: none; } }
+
+  /* Narrower than a profile page wants: the profile drops under the feed */
+  @media (max-width: 900px) {
+    .works-layout { grid-template-columns: minmax(0, 1fr); }
+    .works-main { padding-right: 0; border-right: 0; }
+    .works-side { position: static; padding: 48px 0 0; margin-top: 16px; border-top: 1px solid var(--border); }
+  }
+  @media (max-width: 560px) {
+    /* Phone: the cover goes on top, full width, with the text beneath it */
+    .work-card.feed-row { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 24px 0 28px; align-items: start; }
+    .feed-row .work-img { order: -1; aspect-ratio: 16/10; }
+    .feed-title br { display: none; }
+    .feed-title { font-size: 1.125rem; }
+    .feed-metrics { font-size: 0.875rem; }
+    .works-tabs { gap: 24px; }
   }
 
   /* ── Extras / Collage ── */
   .extras-section {
-    padding: 80px 0 120px;
+    padding: var(--sec-y) 0;
     background: var(--bg);
   }
   .extras-header {
     text-align: center; margin-bottom: 56px;
   }
   .extras-title {
-    font-family: var(--ff); font-style: normal;
-    font-size: clamp(2.25rem, 6vw, 5rem); font-weight: 700;
-    color: var(--text); letter-spacing: -0.05em; line-height: 1; display: block;
+    font-family: var(--ff-pixel); font-style: normal;
+    font-size: 4rem; font-weight: 400;
+    color: var(--text); letter-spacing: var(--display-track); line-height: var(--display-lead); display: block;
     margin-bottom: 10px;
   }
+  @media (max-width: 1100px) { .extras-title { font-size: 3rem; } }
+  @media (max-width: 640px)  { .extras-title { font-size: 2rem; } }
+
+  /* ── Phone: one section rhythm, and a shorter page ──
+     The section step drops to 32px (two neighbours sit 64px apart). The AI heatmap and the profile photo and
+     bio are desktop details: on a phone the page goes straight from the intro
+     to the work, and the profile column keeps only the experience list. */
+  @media (max-width: 640px) {
+    :root { --sec-y: 32px; }
+    section.hero { padding-top: 104px; }
+    /* The intro, sized for a phone: a smaller portrait blob and a bio that sets at 15px, not 17px */
+    .hero .portrait { max-width: 148px; }
+    .hero-p { font-size: 0.9375rem; line-height: 1.6; letter-spacing: -0.015em; }
+    .hero-intro-line { margin-bottom: 24px; }
+    section.activity { display: none; }
+    .works-header { margin-bottom: 24px; }
+    .extras-header { margin-bottom: 40px; }
+    .works-side { margin-top: 0; padding-top: 48px; }
+    .works-side .side-portrait, .works-side .side-name, .works-side .side-role, .works-side .side-desc { display: none; }
+    .works-side .side-head { margin-top: 0; }
+  }
+  /* "Last played" pill: the newest YouTube Music track (see "Now playing" script) */
+  .np { display: inline-flex; align-items: center; gap: 14px; margin-top: 22px; max-width: min(100%, 340px);
+        padding: 8px 22px 8px 8px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border);
+        color: var(--text); text-decoration: none; text-align: left; transition: border-color var(--t-hover, 0.2s) ease; }
+  .np[hidden] { display: none; }
+  .np:hover { border-color: color-mix(in srgb, var(--muted) 55%, transparent); }
+  .np-cover { flex: none; width: 48px; height: 48px; border-radius: 50%; overflow: hidden; background: var(--border); }
+  .np-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .np-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+  .np-when { font-family: var(--ff); font-size: 0.75rem; color: var(--muted); }
+  .np-title { font-family: var(--ff); font-size: 0.9375rem; font-weight: 600; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .np-artist { font-family: var(--ff); font-size: 0.8125rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .extras-sub {
     font-family: var(--ff); font-size: 0.9375rem;
     color: var(--muted); letter-spacing: -0.01em;
@@ -969,6 +888,40 @@
   .extra-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.13); z-index: 10; }
   .extra-card:active { cursor: grabbing; }
   .extra-card.dragging { box-shadow: 0 20px 60px rgba(0,0,0,0.18); z-index: 20; transition: none; }
+
+  /* Photo cards as polaroids: a white print frame (thin sides, deep bottom edge), a slightly vignetted photo and a
+     paper-thin shadow. The photo is still each card's inline background, so the frame is the card's border and the
+     background is clipped to inside it. Cards overlap and tilt a little off square, as if dropped on a table. */
+  .extra-card[role="img"] {
+    border: 10px solid #fcfcfa !important; border-bottom-width: 40px !important; border-radius: 2px !important;
+    background-clip: padding-box !important; background-origin: padding-box !important; background-color: #dcdde3 !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 12px 22px -8px rgba(0,0,0,0.30);
+  }
+  .extra-card[role="img"]::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.07), inset 0 0 16px rgba(0,0,0,0.10);
+  }
+  .extra-card[role="img"]:hover { box-shadow: 0 2px 3px rgba(0,0,0,0.16), 0 22px 34px -10px rgba(0,0,0,0.36); }
+
+  /* The quote card: a sticky note held to the board by a strip of tape. Square-cornered pale yellow
+     paper with a darker lower edge, so it reads as paper rather than another photo card. The tape is
+     a translucent strip with notched ends, tilted a few degrees against the note. */
+  .extra-card.ec-sticky {
+    overflow: visible; border: 0; border-radius: 2px 2px 14px 2px;
+    background: linear-gradient(172deg, #fbf4bd 0%, #f6ea9f 100%);
+    box-shadow: 0 1px 1px rgba(60,50,0,0.10), 0 14px 18px -10px rgba(60,50,0,0.30), 0 4px 16px rgba(0,0,0,0.06);
+  }
+  .extra-card.ec-sticky:hover { box-shadow: 0 1px 1px rgba(60,50,0,0.10), 0 20px 26px -12px rgba(60,50,0,0.34), 0 6px 22px rgba(0,0,0,0.08); }
+  .ec-sticky::before {
+    content: ""; position: absolute; z-index: 2; pointer-events: none;
+    top: -13px; left: 50%; width: 84px; height: 28px; margin-left: -42px;
+    transform: rotate(-4deg);
+    background: linear-gradient(180deg, rgba(226,230,242,0.78), rgba(205,212,232,0.66));
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+    backdrop-filter: blur(1.5px);
+    clip-path: polygon(0 0, 100% 0, 97% 12%, 100% 25%, 97% 38%, 100% 50%, 97% 62%, 100% 75%, 97% 88%, 100% 100%, 0 100%, 3% 88%, 0 75%, 3% 62%, 0 50%, 3% 38%, 0 25%, 3% 12%);
+  }
+  .ec-sticky .ec-quote { font-family: var(--ff-display); font-style: italic; font-weight: 500; font-size: 20px; line-height: 1.22; letter-spacing: -0.02em; color: #2a2610; text-align: center; }
 
   /* Card inner content types */
   .ec-fill {
@@ -1145,7 +1098,7 @@
       scroll-snap-align: center; scroll-snap-stop: always;
       transform: none;
     }
-    .extra-card[role="img"] { aspect-ratio: 4 / 5; }
+    .extra-card[role="img"] { aspect-ratio: 5 / 6; }
     .ec-wide { aspect-ratio: 4 / 5; }
     .extra-card:hover { box-shadow: 0 10px 34px rgba(0,0,0,0.12); z-index: auto; }
 
@@ -1228,12 +1181,14 @@
   }
   .about-content::-webkit-scrollbar { display: none; }
   .about-heading {
-    font-family: var(--ff); font-size: clamp(2.375rem, 4.6vw, 4.125rem);
-    font-weight: 600; letter-spacing: -0.035em;
-    line-height: 1.04; color: var(--text);
+    font-family: var(--ff-pixel); font-size: 4rem;
+    font-weight: 400; letter-spacing: var(--display-track);
+    line-height: var(--display-lead); color: var(--text);
     margin-bottom: 32px; flex-shrink: 0;
     text-wrap: balance;
   }
+  @media (max-width: 1100px) { .about-heading { font-size: 3rem; } }
+  @media (max-width: 640px)  { .about-heading { font-size: 2rem; } }
   .about-bio {
     display: flex; flex-direction: column; gap: 16px;
     margin-bottom: auto; flex-shrink: 0;
@@ -1435,6 +1390,53 @@
     }
     .about-topbar .about-back { margin: 0; padding: 0; }
     .about-photo { min-height: 260px; flex: 0 0 auto; }
+  }
+
+  /* ── Page overlay: case studies built as their own page (case-studies/cs-page.css) ──
+     Two separate motions, as a modal should have: the scrim behind it fades in and out
+     and never moves, while the sheet slides up from the bottom on the site's stage
+     timing. The page itself sits in an iframe, so its styles and scripts stay isolated
+     from the homepage. */
+  .pgo {
+    position: fixed; inset: 0; z-index: 80;
+    visibility: hidden;
+    /* visibility waits out the slide on the way down, so the closed layer is never focusable */
+    transition: visibility 0s linear var(--t-stage);
+    overflow: hidden;
+  }
+  .pgo.open { visibility: visible; transition: visibility 0s; }
+  .pgo-scrim {
+    position: absolute; inset: 0; cursor: pointer;
+    background: linear-gradient(rgba(24,24,22,0.42), rgba(24,24,22,0.42)), rgba(244,244,242,0.85);
+    opacity: 0;
+    transition: opacity 0.4s ease-in;        /* leaving: a quick, soft fade */
+  }
+  .pgo.open .pgo-scrim { opacity: 1; transition: opacity 0.5s var(--e-out); }
+  .pgo-sheet {
+    position: absolute; z-index: 2;
+    left: 34px; right: 34px; bottom: 0; top: max(50px, calc(8vh - 30px));
+    background: #f6f6f4; border-radius: 14px 14px 0 0; overflow: hidden;
+    box-shadow: 0 -10px 44px rgba(0,0,0,0.14);
+    transform: translateY(100%);
+    transition: transform var(--t-stage) var(--e-inout),
+                left var(--t-sheet) var(--e-inout), right var(--t-sheet) var(--e-inout),
+                top var(--t-sheet) var(--e-inout), border-radius var(--t-sheet) var(--e-inout);
+  }
+  .pgo.open .pgo-sheet { transform: translateY(0); }
+  /* Once the reader scrolls the sheet grows to fill the screen, keeping a 2px rim of the
+     homepage on the left, right and top so it still reads as an overlay. */
+  .pgo.full .pgo-sheet { left: 2px; right: 2px; top: 2px; border-radius: 12px 12px 0 0; }
+  .pgo-frame {
+    display: block; width: 100%; height: 100%; border: 0; background: #f6f6f4;
+    opacity: 0; transition: opacity 0.45s var(--e-out);
+  }
+  .pgo-frame.ready { opacity: 1; }
+  html.pgo-lock, html.pgo-lock body { overflow: hidden; }
+  @media (max-width: 760px) {
+    .pgo-sheet { left: 14px; right: 14px; top: 56px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pgo, .pgo.open, .pgo-scrim, .pgo.open .pgo-scrim, .pgo-frame, .pgo-sheet { transition: none; }
   }
 
   /* ── Case Study Overlay ── */
@@ -1645,16 +1647,15 @@
     color: #5f5f5b; opacity: 0.7;
   }
   .cs-meta-icon svg { width: 100%; height: 100%; display: block; }
-  /* The literal green and not var(--accent): .cs-card is a hardcoded white
-     sheet with no dark-theme override, and --accent flips to the neon in dark
-     mode: which would leave these at 1.1:1 on white. Pinned to the light
-     green, measured 5.1:1 there. */
+  /* The literal blue and not var(--accent): .cs-card is a hardcoded white sheet with no dark-theme
+     override, and --accent flips to the light periwinkle in dark mode, which would leave these
+     faint on white. Pinned to the light-theme blue. */
   .cs-tag {
     font-family: var(--ff-mono); font-size: 0.875rem;
     letter-spacing: 0.04em; text-transform: uppercase;
-    color: #4c7a00;
-    background: rgba(76,122,0,0.07);
-    border: 1px solid rgba(76,122,0,0.28);
+    color: #2d4fe3;
+    background: rgba(45,79,227,0.07);
+    border: 1px solid rgba(45,79,227,0.28);
     border-radius: 5px; padding: 4px 10px;
     white-space: nowrap;
     display: inline-flex; align-items: center; gap: 5px;
@@ -1681,11 +1682,7 @@
     line-height: 1.3;
     white-space: nowrap;      /* overline never wraps, so values stay aligned */
   }
-  /* The site's own face, not the serif. Instrument Serif still carries the
-     wordmark and the pull quotes, where it is doing editorial work; on a
-     figure it was the only serif number anywhere and read as a stray.
-     500 because that is the heaviest DM Sans weight actually loaded: 600 here
-     would be synthetic bold, which falls apart at this size. */
+  /* The site's own face. 500 is the heaviest DM Sans weight actually loaded: 600 here would be synthetic bold. */
   .cs-metric-val {
     font-family: var(--ff);
     font-size: 1.875rem; font-weight: 500;
@@ -2309,7 +2306,7 @@
     justify-content: space-between; gap: 20px;
   }
   .footer-mood {
-    font-family: var(--ff-inst); font-size: 0.875rem;
+    font-family: var(--ff); font-size: 0.875rem;
     color: var(--muted); letter-spacing: -0.01em;
     margin: 0; max-width: 62ch;
   }
@@ -2471,9 +2468,9 @@
     </div>
   </div>
 
-  <!-- Think Like Da Vinci: left, experience zone -->
+  <!-- Think Like Da Vinci: left, works zone -->
   <div class="fobj tip-right" aria-hidden="true"
-       style="left:40px; top:1700px; --sz:120px; --r:4deg; --dur:5.5s; --delay:-0.8s;">
+       style="left:40px; top:2300px; --sz:120px; --r:4deg; --dur:5.5s; --delay:-0.8s;">
     <span class="fobj-img"><img src="assets/images/Think Like Davinci.jpg" alt="Think Like Da Vinci"></span>
     <div class="fobj-tip">
       <span class="tip-label">Think Like Da Vinci</span>
@@ -2483,7 +2480,7 @@
 
   <!-- Nothing 3A: right, works zone -->
   <div class="fobj tip-left" aria-hidden="true"
-       style="right:48px; top:3200px; --sz:144px; --r:-4deg; --dur:6.8s; --delay:-2.3s;">
+       style="right:48px; top:2100px; --sz:144px; --r:-4deg; --dur:6.8s; --delay:-2.3s;">
     <span class="fobj-img"><img src="assets/images/Phone 3a.webp" alt="Nothing 3A"></span>
     <div class="fobj-tip">
       <span class="tip-label">Nothing 3A</span>
@@ -2493,7 +2490,7 @@
 
   <!-- Ship of Thesus: left, extras zone -->
   <div class="fobj tip-right" aria-hidden="true"
-       style="left:44px; top:5200px; --sz:120px; --r:3deg; --dur:8s; --delay:-4.1s;">
+       style="left:44px; top:3450px; --sz:120px; --r:3deg; --dur:8s; --delay:-4.1s;">
     <span class="fobj-img"><img src="assets/images/Ship of Thesus.jpg" alt="Ship of Thesus"></span>
     <div class="fobj-tip">
       <span class="tip-label">Ship of Thesus</span>
@@ -2506,7 +2503,7 @@
     <a href="#" class="nav-wordmark">
       <span class="nav-word-a">euyoro</span>
       <span class="nav-word-sep">/</span>
-      <span class="nav-word-b" id="nav-name">shreyo</span>
+      <span class="nav-word-b crt" id="nav-name">shreyo</span>
     </a>
     <div class="nav-right">
       <button class="ec-wave-btn" id="ec-wave-btn" type="button" aria-pressed="false"
@@ -2575,10 +2572,11 @@
           <div class="hero-ident">
             <p class="hero-role">Hey, I'm Shreyo</p>
           </div>
-          <h1 class="hero-intro-line">I work across <strong><span class="hero-cycle-wrap"><span id="hero-cycle" class="hero-cycle">product design</span></span></strong></h1>
+          <h1 class="hero-intro-line">I work across <strong><span class="hero-cycle-wrap"><span id="hero-cycle" class="hero-cycle crt">product design</span></span></strong></h1>
           <div class="hero-body">
-            <p class="hero-p">A product designer from the Hills of North East India, with 3+ years of experience donning hats all the way from <span class="hero-hl">Product to Brand to Motion</span> and recently Development. I work with all the essence of design I absorb, driving performance, engagement, sales.</p>
-            <p class="hero-p">I make people tell great stories about the companies I work for. Design, for me, is poetry told through visuals. <em>I just happen to be a very good poet.</em></p>
+            <p class="hero-p">Currently a product designer working for fintech startups with an expertise in AI and Design taste. My working methods are based on <a href="https://en.wikipedia.org/wiki/Morphological_analysis_(problem-solving)" target="_blank" rel="noopener noreferrer">component variations</a> within systems to reengineer innovative solutions.</p>
+            <!-- TODO: link "Career Spark" once its official site URL is confirmed -->
+            <p class="hero-p">I've worked with teams like <a href="https://brightmoney.co" target="_blank" rel="noopener noreferrer">Bright Money</a>, <a href="https://ninecamp.com" target="_blank" rel="noopener noreferrer">Ninecamp Ventures</a> and previously as a visual designer at <a href="https://www.mobilab.in" target="_blank" rel="noopener noreferrer">Primary Healthtech</a> and Career Spark.</p>
           </div>
         </div>
       </div>
@@ -2590,7 +2588,7 @@
     <section class="activity">
       <div class="section-head appear">
         <span class="section-title">My AI Performance</span>
-        <span class="section-meta">GitHub · Sep 2024 – Sep 2025</span>
+        <span class="section-meta">GitHub · last 12 months</span>
       </div>
       <div class="heatmap-grid appear" style="transition-delay:0.1s">
         <div class="day-col" id="day-col"></div>
@@ -2613,335 +2611,260 @@
       </div>
     </section>
 
-    <!-- Experience -->
-    <section class="exp-section" id="exp-section">
-      <div class="section-head appear">
-        <h2 class="section-title">Experience</h2>
-        <button class="exp-toggle" id="exp-btn" aria-expanded="false" aria-controls="exp-list">
-          See more <span id="exp-chevron">↓</span>
-        </button>
-      </div>
-      <div class="exp-list" id="exp-list">
-        <div class="exp-list-inner">
-
-        <div class="exp-item now">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-bm"><img src="assets/logos/bright-money-mark.webp" alt="Bright Money" width="200" height="200"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">Bright Money</span>
-              <span class="exp-when">Jan 2025 – Sept 2026</span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Product Designer · Jul 2025 – Sept 2026 · Bangalore (Hybrid)</p>
-            <ul class="exp-bullets">
-              <li>Worked across ID Protection, Rent Reporting, Referral Flow 3.0, Freemium, and Bill Saver: research, wireframing, hi-fi, stakeholder presentations, and handoff</li>
-              <li>Built Atlas (S3, RDS, EC2), a competitor-intelligence platform replacing a locked FigJam; shipped 2 AI-powered Figma plugins; evaluated 4+ AI development tools</li>
-            </ul>
-            <p class="exp-role" style="margin-top:16px;">Visual Designer (Intern) · Jan – Jul 2025 · Bangalore (Hybrid)</p>
-            <ul class="exp-bullets">
-              <li>Redesigned employee onboarding and created new internal visual style for Bright Money 2025; mapped the complete in-app UX flow</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-nc"><img src="assets/logos/ninecamp.png" alt="Ninecamp"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">Ninecamp Ventures</span>
-              <span class="exp-when">May – Jul 2024<span class="exp-where"> · Delhi, India</span></span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Visual Design &amp; Strategy Intern · 3 months</p>
-            <ul class="exp-bullets">
-              <li>Designed the brand identity for Ninecamp Ventures, the mark and system, from scratch</li>
-              <li>Led the website launch covering IA, wireframes, and hi-fi; made marketing collaterals for Boha, Dirty Jungle, and Dear Donna</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-ph"><img src="assets/logos/primary-healthtech.png" alt="Primary Healthtech"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">Primary Healthtech<span class="exp-co-sub"> · IIT Guwahati</span></span>
-              <span class="exp-when">Nov 2021 – Sep 2022<span class="exp-where"> · On-site</span></span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Visual &amp; UI/UX Design Intern · 11 months</p>
-            <ul class="exp-bullets">
-              <li>Designed the INUP-I2I identity for a MeiTY India joint venture between IIT-G, IIT-B, and IISc Bangalore</li>
-              <li>Redesigned the Primary Healthtech website for their updated design language; print collaterals recognized by the Government of Assam</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-tg"><img src="assets/logos/the-grit.png" alt="The Grit"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">The Grit</span>
-              <span class="exp-when">Feb – May 2021<span class="exp-where"> · Mumbai, Remote</span></span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Graphic Design Intern · 4 months</p>
-            <ul class="exp-bullets">
-              <li>Made social media posts and marketing materials for the brand</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-io"><img src="assets/logos/inteluth.png" alt="Inteluth"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">Inteluth Official</span>
-              <span class="exp-when">Aug – Dec 2020<span class="exp-where"> · Guwahati, Hybrid</span></span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Marketing Graphic Designer · Freelance · 5 months</p>
-            <ul class="exp-bullets">
-              <li>Made marketing graphics and video content for social media campaigns</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="exp-item">
-          <span class="exp-dot"></span>
-          <span class="co-logo logo-cs"><img src="assets/logos/careerspark.png" alt="Career Spark"></span>
-          <div class="exp-body">
-            <div class="exp-row1">
-              <span class="exp-company">Career Spark</span>
-              <span class="exp-when">Jul 2019 – Feb 2020<span class="exp-where"> · Guwahati, On-site</span></span>
-            </div>
-            <div class="exp-detail">
-            <p class="exp-role">Social Media Designer · Intern · 8 months</p>
-            <ul class="exp-bullets">
-              <li>Video content creation and social media design for the brand's digital channels</li>
-            </ul>
-            </div>
-          </div>
-        </div>
-
-        </div><!-- /exp-list-inner -->
-      </div>
-    </section>
-
   </div><!-- /wrap -->
 
-  <!-- Selected Works -->
+  <!-- Selected Works: a profile page. The feed (tabs + rows) on the left, who made it and where they worked on the right. -->
   <section class="works-section" id="work">
     <div class="wrap">
+      <div class="works-layout">
 
-      <div class="works-header appear">
-        <span class="works-eyebrow">Selected work</span>
-        <h2 class="works-title">
-          <span class="wt-layout">
-            <span class="wt-prefix">Case&nbsp;</span>
-            <span class="wt-stack">
-              <span class="wt-swap"><span class="wt-word wt-studies">Studies</span><span class="wt-word wt-stories">Stories</span><span class="wt-strike"></span></span>
-            </span>
-          </span>
-        </h2>
-      </div>
+        <div class="works-main">
+          <div class="works-sticky">
+          <div class="works-header appear">
+            <h2 class="works-title"><span id="works-title-text" class="glitch-title crt">Case Studies</span></h2>
+          </div>
 
-      <div class="works-grid">
+          <div class="works-tabs" role="tablist" aria-label="Case study type">
+            <button class="works-tab is-active" role="tab" id="tab-p" aria-selected="true" aria-controls="works-feed" data-tab="p" type="button">Product Design</button>
+            <button class="works-tab" role="tab" id="tab-g" aria-selected="false" aria-controls="works-feed" data-tab="g" type="button" tabindex="-1">Graphic Design</button>
+          </div>
+          </div>
 
-        <!-- 1: Bright Atlas -->
-        <a class="work-card appear" style="transition-delay:0.05s" href="case-studies/bright-atlas.html">
+          <div class="works-feed" id="works-feed" role="tabpanel" aria-labelledby="tab-p">
+
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.05s" href="case-studies/bright-atlas.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>7 min read</span></p>
+            <h3 class="feed-title">Building an independent Internal <br>Mobbin for Bright with AI</h3>
+            <p class="feed-metrics">Reference lookup cut from ~1 hour to ~2 minutes.</p>
+            <ul class="feed-chips"><li class="chip">Webapp</li><li class="chip">Development</li><li class="chip">UI UX</li></ul>
+          </div>
           <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/bright-atlas-hero.webp"
-                 width="1536" height="1024" loading="lazy" decoding="async"
-                 alt="A widescreen monitor on a dark desk showing the Atlas AI Inspiration tab: a silver leaf mark beside an italic Atlas wordmark, a carousel of captured web sessions centred on a card called Cofounder's replay, then a dated headline reading 07 JUL 2026, How the world builds AI Native, with a Web and Mobile toggle above three tagged video cards for Riffle, Exa and Cloudflare and a search bar reading Search AI-native screens.">
+                      <img class="work-img-photo" src="assets/projects/bright-atlas-hero.webp"
+                           width="1536" height="1024" loading="lazy" decoding="async"
+                           alt="A widescreen monitor on a dark desk showing the Atlas AI Inspiration tab: a silver leaf mark beside an italic Atlas wordmark, a carousel of captured web sessions centred on a card called Cofounder's replay, then a dated headline reading 07 JUL 2026, How the world builds AI Native, with a Web and Mobile toggle above three tagged video cards for Riffle, Exa and Cloudflare and a search bar reading Search AI-native screens.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.25s" href="case-studies/monet-cancellation.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>5 min read</span></p>
+            <h3 class="feed-title">Leading the new offboarding funnel to improve retention and reduce drop off</h3>
+            <p class="feed-metrics">Premium flow signed off; $5 Starter option in final review.</p>
+            <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Atlas</strong><span class="work-sep">|</span><span class="work-cat">Built</span></p>
-            <p class="work-sub">A private, searchable competitor-intelligence platform I designed and built end to end. Finding a reference went from about an hour to about two minutes.</p>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/monet-cancellation-hero.webp"
+                           width="3840" height="2160" loading="lazy" decoding="async"
+                           alt="Four screens of the redesigned cancellation flow: the premium tools you would lose, a Before you go sheet, a reason survey, and a review of the plan ending.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.10s" href="case-studies/loangpt-bullet-funnel.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>8 min read</span></p>
+            <h3 class="feed-title">Helping in rebuilding a legacy onboarding funnel to improve conversion</h3>
+            <p class="feed-metrics">Conversion up from 40% to 45%, CPA down 10%.</p>
+            <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
+          <div class="work-img">
+                      <div class="work-img-fill" style="background:url('assets/case-studies/loangpt-bullet-funnel/11118.png') center/cover no-repeat">
+                        <div class="work-chrome"></div>
+                      </div>
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.20s" href="case-studies/id-protection.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>5 min read</span></p>
+            <h3 class="feed-title">Owning a new product pitch and positions end to end for Bright users</h3>
+            <p class="feed-metrics">Full pitch: business model, end-to-end UX, dispute flow.</p>
+            <ul class="feed-chips"><li class="chip">UI UX</li><li class="chip">User Research</li><li class="chip">Mobile App</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/id-protection-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="A hand holding an iPhone showing the Credit Protection dashboard: a 720 credit score beside an Irregular Activity alert, swipeable cards for a hard pull and a subscription price hike, and a Disputes Center reading 19 disputes and 0 resolved, over green hills, with an ID PROTECTION wordmark behind.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.30s" href="case-studies/referral-redesign.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>5 min read</span></p>
+            <h3 class="feed-title">A 2022 referral flow ignored why users actually refer.</h3>
+            <p class="feed-metrics">Signed off, with a modular offer card Growth can test.</p>
+            <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/referral-redesign-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="Two angled iPhones showing the referral offer: a confetti screen reading Give $25, Get $25 with You'll both get $25 and a shareable link, beside a limited period offer screen reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.05s" href="case-studies/scribbleship.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">On-demand stationery and print ordering for Ahmedabad, in one app.</h3>
+            <p class="feed-metrics">From market research to a full on-demand ordering app.</p>
+            <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/scribbleship-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="Three iPhones showing the ScribbleShip stationery app: a home screen searching pencil boxes under an Upto 60% Off banner, a ChromaGlide marker product page at ₹60, and a Print Job Lineup queueing three PDFs beside a Helvetica film poster.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.10s" href="case-studies/metro-wayfinding.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">Ahmedabad Metro signage needed rethinking, from wayfinding to spatial ergonomics.</h3>
+            <p class="feed-metrics">Redesigned signage in Gujarati, Hindi and English.</p>
+            <ul class="feed-chips"><li class="chip">User Study</li><li class="chip">UX Design</li><li class="chip">Wayfinding</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/metro-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="A ceiling-mounted metro wayfinding sign lit in a dark concourse: a black panel with red directional arrows reading Towards Motera to the left and Towards APMC to the right, set in Gujarati, Hindi and English.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.35s" href="case-studies/sauron.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>3 min read</span></p>
+            <h3 class="feed-title">Peer review catches the experience but misses the details.</h3>
+            <p class="feed-metrics">A Figma plugin that flags token, copy and spacing errors.</p>
+            <ul class="feed-chips"><li class="chip">Development</li><li class="chip">UI UX</li></ul>
+          </div>
+          <div class="work-img">
+                      <div class="work-img-fill" style="background:linear-gradient(140deg,#f5edd4 0%,#dfb86a 50%,#b8892a 100%)">
+                        <div class="work-chrome"></div>
+                      </div>
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="p" style="transition-delay:0.40s" href="case-studies/freemium-3-4.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Bright Money</span><span class="feed-dot" aria-hidden="true">•</span><span>5 min read</span></p>
+            <h3 class="feed-title">What should a cancelled Basic user see, lose and be offered?</h3>
+            <p class="feed-metrics">Defined what cancelled Basic users see, lose and are offered.</p>
+            <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
+          </div>
+          <div class="work-img">
+                      <div class="work-img-fill" style="background:linear-gradient(140deg,#dde5f0 0%,#a0b5ce 50%,#6a8aad 100%)">
+                        <div class="work-chrome"></div>
+                      </div>
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="g" style="transition-delay:0.10s" href="case-studies/gls-yearbook.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">GLS</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">Documenting a design institute's creative journey in a hardbound yearbook.</h3>
+            <p class="feed-metrics">Designed a 28cm hardbound yearbook for the institute.</p>
+            <ul class="feed-chips"><li class="chip">Publication</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/yearbook-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="The GLS Annual Design Yearbook resting at an angle on a rough concrete block under hard sidelight, its oversized charcoal cover type cropping off the edge with a single yellow bracket.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="g" style="transition-delay:0.20s" href="case-studies/everest-packaging.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">International packaging for India's best known spice brand.</h3>
+            <p class="feed-metrics">Featured on Packaging of the World.</p>
+            <ul class="feed-chips"><li class="chip">Branding</li><li class="chip">Packaging</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/everest-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="An Everest Korma Masala carton standing beside a bowl of korma on dark wood, with a small dish of turmeric and an ornate spoon alongside.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="g" style="transition-delay:0.25s" href="case-studies/baux-typeface.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">A futuristic display typeface with alien geometry and zero curves.</h3>
+            <p class="feed-metrics">A 30-character display typeface with zero curves.</p>
+            <ul class="feed-chips"><li class="chip">Type Design</li></ul>
+          </div>
+          <div class="work-img">
+                      <img class="work-img-photo" src="assets/projects/baux-hero.webp"
+                           width="1600" height="900" loading="lazy" decoding="async"
+                           alt="A street hoarding papered with repeated red posters for the film They Are Aliens, the title set in the blocky Baux typeface beneath a UFO, with a passer-by blurred across the frame.">
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="g" style="transition-delay:0.30s" href="case-studies/jupiter-tvc.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>4 min read</span></p>
+            <h3 class="feed-title">A slice-of-life TV commercial for a gen-z neobank.</h3>
+            <p class="feed-metrics">Directed and edited the full commercial.</p>
+            <ul class="feed-chips"><li class="chip">Advertising</li></ul>
+          </div>
+          <div class="work-img">
+                      <div class="work-img-fill" style="background:url('assets/projects/jupiter-hero.webp') center/cover no-repeat">
+                      </div>
+                    </div>
+        </a>
+        <a class="work-card feed-row appear" data-tab="g" style="transition-delay:0.35s" href="case-studies/logofolio.html">
+          <div class="feed-main">
+            <p class="feed-meta"><span class="feed-co">Conceptual</span><span class="feed-dot" aria-hidden="true">•</span><span>5 min read</span></p>
+            <h3 class="feed-title">Five years of brand identity work, each mark with its own story.</h3>
+            <p class="feed-metrics">Five years of marks across healthcare, education, esports and government.</p>
+            <ul class="feed-chips"><li class="chip">Branding</li></ul>
+          </div>
+          <div class="work-img">
+                      <div class="work-img-fill" style="background:url('assets/projects/logofolio-hero.webp') center/cover no-repeat">
+                      </div>
+                    </div>
         </a>
 
-        <!-- 2: LoanGPT & Bullet Funnel -->
-        <a class="work-card appear" style="transition-delay:0.1s" href="case-studies/loangpt-bullet-funnel.html">
-          <div class="work-img">
-            <div class="work-img-fill" style="background:url('assets/case-studies/loangpt-bullet-funnel/11118.png') center/cover no-repeat">
-              <div class="work-chrome"></div>
-            </div>
           </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Onboarding Funnel Revamp</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">A four-phase rebuild of a 2022 funnel, done with the design leads. I owned the narrative, the post-enroll screens and the LoanGPT surfaces. Conversion 40% to 45%, CPA down 10%.</p>
-          </div>
-        </a>
+        </div>
 
-        <!-- 5: Rent Reporting -->
-        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/rent-reporting.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/rent-reporting-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="Three angled iPhones showing the rent reporting funnel: build credit history with your rent payments, a RentCafe receipt reading a twelve month total payment record above Congrats! We have found your past rent payments, and a three-step explainer of how reporting rent improves a credit score.">
+        <aside class="works-side" aria-label="About Shreyo">
+          <div class="portrait side-portrait">
+            <video autoplay muted playsinline preload="auto" aria-label="Shreyo Debnath">
+              <source src="assets/images/hero-portrait.webm" type="video/webm">
+            </video>
           </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Rent Reporting</strong><span class="work-sep">|</span><span class="work-cat">Shipped</span></p>
-            <p class="work-sub">A credit-score path for thin-file renters. Application conversion 30% to 50%, related support tickets down 15%.</p>
-          </div>
-        </a>
+          <p class="side-name">Shreyo Debnath</p>
+          <p class="side-role">Product Designer</p>
+          <p class="side-desc">I can't look at something without wondering how it works and whether it could work better. My work is research intensive with users and the business in the center of it.</p>
 
-        <!-- 4: ID Protection -->
-        <a class="work-card appear" style="transition-delay:0.2s" href="case-studies/id-protection.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/id-protection-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="A hand holding an iPhone showing the Credit Protection dashboard: a 720 credit score beside an Irregular Activity alert, swipeable cards for a hard pull and a subscription price hike, and a Disputes Center reading 19 disputes and 0 resolved, over green hills, with an ID PROTECTION wordmark behind.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">ID Protection</strong><span class="work-sep">|</span><span class="work-cat">Concept</span></p>
-            <p class="work-sub">Researched and pitched an identity-protection product to fill a competitive gap: business model, full UX and a dispute flow.</p>
-          </div>
-        </a>
-
-        <!-- 6: Referral Redesign -->
-        <a class="work-card appear" style="transition-delay:0.3s" href="case-studies/referral-redesign.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/referral-redesign-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="Two angled iPhones showing the referral offer: a confetti screen reading Give $25, Get $25 with You'll both get $25 and a shareable link, beside a limited period offer screen reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Referral Redesign</strong><span class="work-sep">|</span><span class="work-cat">Designed</span></p>
-            <p class="work-sub">Rebuilt a 2022 referral flow around why users actually refer, with a modular offer card that Growth can test without a dev sprint. Hi-fi signed off, in the dev queue.</p>
-          </div>
-        </a>
-
-        <!-- 7: Sauron -->
-        <a class="work-card appear" style="transition-delay:0.35s" href="case-studies/sauron.html">
-          <div class="work-img">
-            <div class="work-img-fill" style="background:linear-gradient(140deg,#f5edd4 0%,#dfb86a 50%,#b8892a 100%)">
-              <div class="work-chrome"></div>
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Sauron</strong><span class="work-sep">|</span><span class="work-cat">Live</span></p>
-            <p class="work-sub">Figma plugin that flags token misuse, compliance copy, and spacing errors before they ship.</p>
-          </div>
-        </a>
-
-        <!-- 8: Freemium 3→4 -->
-        <a class="work-card appear" style="transition-delay:0.4s" href="case-studies/freemium-3-4.html">
-          <div class="work-img">
-            <div class="work-img-fill" style="background:linear-gradient(140deg,#dde5f0 0%,#a0b5ce 50%,#6a8aad 100%)">
-              <div class="work-chrome"></div>
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Freemium 3.0 → 4.0</strong><span class="work-sep">|</span><span class="work-cat">Closed</span></p>
-            <p class="work-sub">Experience layer controlling what cancelled Basic users see, locked, and what's offered.</p>
-          </div>
-        </a>
-
-        <div class="works-divider appear"><span>Academic &amp; Personal</span></div>
-
-        <!-- 8: ScribbleShip -->
-        <a class="work-card appear" style="transition-delay:0.05s" href="case-studies/scribbleship.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/scribbleship-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="Three iPhones showing the ScribbleShip stationery app: a home screen searching pencil boxes under an Upto 60% Off banner, a ChromaGlide marker product page at ₹60, and a Print Job Lineup queueing three PDFs beside a Helvetica film poster.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">ScribbleShip</strong><span class="work-sep">|</span><span class="work-cat">UI/UX</span></p>
-            <p class="work-sub">Mobile app for on-demand stationery and print ordering in Ahmedabad.</p>
-          </div>
-        </a>
-
-        <!-- 9: GLS Annual Yearbook -->
-        <a class="work-card appear" style="transition-delay:0.1s" href="case-studies/gls-yearbook.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/yearbook-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="The GLS Annual Design Yearbook resting at an angle on a rough concrete block under hard sidelight, its oversized charcoal cover type cropping off the edge with a single yellow bracket.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">GLS Annual Yearbook</strong><span class="work-sep">|</span><span class="work-cat">Publication</span></p>
-            <p class="work-sub">28cm hardbound yearbook documenting a design institute's creative journey.</p>
-          </div>
-        </a>
-
-        <!-- 10: Metro Wayfinding -->
-        <a class="work-card appear" style="transition-delay:0.15s" href="case-studies/metro-wayfinding.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/metro-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="A ceiling-mounted metro wayfinding sign lit in a dark concourse: a black panel with red directional arrows reading Towards Motera to the left and Towards APMC to the right, set in Gujarati, Hindi and English.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Metro Wayfinding</strong><span class="work-sep">|</span><span class="work-cat">Systems</span></p>
-            <p class="work-sub">Redesigned Ahmedabad Metro signage: wayfinding, typography, spatial ergonomics.</p>
-          </div>
-        </a>
-
-        <!-- 11: Everest Spices Packaging -->
-        <a class="work-card appear" style="transition-delay:0.2s" href="case-studies/everest-packaging.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/everest-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="An Everest Korma Masala carton standing beside a bowl of korma on dark wood, with a small dish of turmeric and an ornate spoon alongside.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Everest Spices</strong><span class="work-sep">|</span><span class="work-cat">Packaging</span></p>
-            <p class="work-sub">International packaging for India's iconic spice brand. Featured on Packaging of the World.</p>
-          </div>
-        </a>
-
-        <!-- 12: Baux Typeface -->
-        <a class="work-card appear" style="transition-delay:0.25s" href="case-studies/baux-typeface.html">
-          <div class="work-img">
-            <img class="work-img-photo" src="assets/projects/baux-hero.webp"
-                 width="1600" height="900" loading="lazy" decoding="async"
-                 alt="A street hoarding papered with repeated red posters for the film They Are Aliens, the title set in the blocky Baux typeface beneath a UFO, with a passer-by blurred across the frame.">
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Baux Typeface</strong><span class="work-sep">|</span><span class="work-cat">Type Design</span></p>
-            <p class="work-sub">Futuristic display typeface: 30 characters, alien geometry, zero curves.</p>
-          </div>
-        </a>
-
-        <!-- 13: Jupiter Banking TVC -->
-        <a class="work-card appear" style="transition-delay:0.3s" href="case-studies/jupiter-tvc.html">
-          <div class="work-img">
-            <div class="work-img-fill" style="background:url('assets/projects/jupiter-hero.webp') center/cover no-repeat">
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Jupiter Banking TVC</strong><span class="work-sep">|</span><span class="work-cat">Film</span></p>
-            <p class="work-sub">Slice-of-life TV commercial for a gen-z neobank, directed and edited.</p>
-          </div>
-        </a>
-
-        <!-- 14: Logofolio (full-width) -->
-        <a class="work-card appear" style="transition-delay:0.35s" href="case-studies/logofolio.html">
-          <div class="work-img">
-            <div class="work-img-fill" style="background:url('assets/projects/logofolio-hero.webp') center/cover no-repeat">
-            </div>
-          </div>
-          <div class="work-body">
-            <p class="work-title-row"><strong class="work-project">Logofolio &amp; Brand Marks</strong><span class="work-sep">|</span><span class="work-cat">Identity</span></p>
-            <p class="work-sub">Five years of brand identity work: healthcare, education, esports, government. Each mark with its own story.</p>
-          </div>
-        </a>
+          <h3 class="side-head">Experience</h3>
+          <ul class="side-exp">
+          <li class="side-exp-item">
+            <a class="side-exp-link" href="https://www.brightmoney.co" target="_blank" rel="noopener noreferrer"><span class="co-logo logo-bm"><img src="assets/logos/bright-money-mark.webp" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">Bright Money</span></a>
+            <span class="side-exp-when">1 yr 9 mos</span>
+          </li>
+          <li class="side-exp-item">
+            <a class="side-exp-link" href="https://www.ninecamp.com" target="_blank" rel="noopener noreferrer"><span class="co-logo logo-nc"><img src="assets/logos/ninecamp.png" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">Ninecamp Ventures</span></a>
+            <span class="side-exp-when">3 mos</span>
+          </li>
+          <li class="side-exp-item">
+            <a class="side-exp-link" href="https://www.mobilab.in" target="_blank" rel="noopener noreferrer"><span class="co-logo logo-ph"><img src="assets/logos/primary-healthtech.png" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">Primary Healthtech</span></a>
+            <span class="side-exp-when">11 mos</span>
+          </li>
+          <li class="side-exp-item">
+            <span class="co-logo logo-tg"><img src="assets/logos/the-grit.png" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">The Grit</span>
+            <span class="side-exp-when">4 mos</span>
+          </li>
+          <li class="side-exp-item">
+            <span class="co-logo logo-io"><img src="assets/logos/inteluth.png" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">Inteluth Official</span>
+            <span class="side-exp-when">5 mos</span>
+          </li>
+          <li class="side-exp-item">
+            <span class="co-logo logo-cs"><img src="assets/logos/careerspark.png" alt="" width="40" height="40" decoding="async"></span>
+            <span class="side-exp-co">Career Spark</span>
+            <span class="side-exp-when">8 mos</span>
+          </li>
+          </ul>
+        </aside>
 
       </div>
     </div>
   </section>
+
 
   <!-- Extras / Collage -->
   <section class="extras-section" id="extras">
@@ -2949,6 +2872,14 @@
       <div class="extras-header appear">
         <span class="extras-title">Xtras</span>
         <p class="extras-sub">More of me outside work</p>
+        <a class="np" id="np" hidden target="_blank" rel="noopener noreferrer" aria-label="Last played on YouTube Music">
+          <span class="np-cover"><img id="np-cover" alt="" width="48" height="48" decoding="async"></span>
+          <span class="np-text">
+            <span class="np-when" id="np-when"></span>
+            <span class="np-title" id="np-title"></span>
+            <span class="np-artist" id="np-artist"></span>
+          </span>
+        </a>
       </div>
     </div>
     <div class="extras-collage" id="extras-collage">
@@ -2982,41 +2913,34 @@
       </div>
 
       <div class="extra-card" role="img" aria-label="Sitting alone on a granite outcrop at the top of a hill, looking out over a town, a lake and scrubland under a wide blue sky."
-        style="left:392px;top:24px;width:330px;height:248px;transform:rotate(-2deg);background:url('assets/gallery/hilltop-view.webp') center/cover no-repeat;"></div>
+        style="left:340px;top:16px;width:250px;height:280px;transform:rotate(-4deg);background:url('assets/gallery/hilltop-view.webp') center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Mid-sentence in a black cap and varsity jacket, hands raised, talking to a room in the office."
-        style="left:726px;top:34px;width:189px;height:252px;transform:rotate(4deg);background:url('assets/gallery/presenting.webp') center/cover no-repeat;"></div>
+        style="left:650px;top:34px;width:218px;height:248px;transform:rotate(5deg);background:url('assets/gallery/presenting.webp') center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="A tan street dog with its eyes shut and head tilted into my hand, being scratched behind the ear."
-        style="left:150px;top:186px;width:187px;height:250px;transform:rotate(6deg);background:url('assets/gallery/street-dog.webp') center/cover no-repeat;"></div>
+        style="left:110px;top:196px;width:222px;height:252px;transform:rotate(7deg);background:url('assets/gallery/street-dog.webp') center/cover no-repeat;"></div>
 
       <!-- Central portrait -->
       <div class="extra-card" role="img" aria-label="Portrait at a table in a sunlit kitchen."
-        style="left:318px;top:196px;width:246px;height:330px;transform:rotate(3deg);background:url('assets/images/shreyo.webp') top center/cover no-repeat;"></div>
+        style="left:306px;top:226px;width:272px;height:302px;transform:rotate(3deg);background:url('assets/images/shreyo.webp') top center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Standing ankle-deep in water, looking across at a ruined Gothic church half-sunk in a reservoir, with other visitors on the far bank."
-        style="left:566px;top:208px;width:205px;height:273px;transform:rotate(-3deg);background:url('assets/gallery/submerged-church.webp') center/cover no-repeat;"></div>
+        style="left:548px;top:262px;width:228px;height:258px;transform:rotate(-6deg);background:url('assets/gallery/submerged-church.webp') center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="A tiled-roof cafe set back behind trees on a quiet street, scooters and bikes parked along the kerb under a bright sky."
-        style="left:792px;top:186px;width:165px;height:293px;transform:rotate(-6deg);background:url('assets/gallery/cafe-street.webp') center/cover no-repeat;"></div>
+        style="left:780px;top:214px;width:212px;height:242px;transform:rotate(5deg);background:url('assets/gallery/cafe-street.webp') center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Helmet selfie on the bike, visor up, tree-lined road behind."
-        style="left:236px;top:446px;width:216px;height:121px;transform:rotate(-4deg);background:url('assets/gallery/ride.webp') center/cover no-repeat;"></div>
+        style="left:214px;top:386px;width:216px;height:246px;transform:rotate(-8deg);background:url('assets/gallery/ride.webp') center/cover no-repeat;"></div>
 
       <!-- Quote card -->
-      <div class="extra-card ec-wide" style="left:616px;top:400px;width:185px;height:227px;transform:rotate(5deg);background:linear-gradient(145deg,#f5f0e8,#ede4d0);">
-        <div class="ec-fill" style="justify-content:center;padding:20px 18px;">
-          <div style="font-family:var(--ff-display);font-style:italic;font-size:21px;line-height:1.2;letter-spacing:-0.02em;color:rgba(19,19,19,0.85);text-align:center;">Design is empathy, not decoration.</div>
+      <div class="extra-card ec-wide ec-sticky" style="left:640px;top:412px;width:185px;height:222px;transform:rotate(6deg);">
+        <div class="ec-fill" style="justify-content:center;padding:26px 20px 20px;">
+          <div class="ec-quote">Design is empathy, not decoration.</div>
         </div>
       </div>
 
-      <!-- Playground note -->
-      <div class="extra-note playground-note" aria-hidden="true" style="position:absolute;left:810px;top:640px;transform:rotate(3deg);z-index:20;pointer-events:none;">
-        <span style="font-family:var(--ff-display);font-style:italic;font-size:14px;color:var(--muted);letter-spacing:-0.01em;white-space:nowrap;">playground time, please play!</span>
-        <svg width="100" height="40" viewBox="0 0 100 40" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;margin-top:2px;">
-          <path d="M5 8 C20 5, 40 3, 60 6 C75 8, 85 12, 95 10" stroke="var(--text)" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.4"/>
-        </svg>
-      </div>
 
     </div>
   </section>
@@ -3046,13 +2970,13 @@
       </a>
       <a class="award-row has-link"
         data-year="'24"
-        data-project="Everest Spices, International Packaging"
+        data-project="Everest International Packaging"
         data-detail="A packaging redesign project selected and published globally on packagingoftheworld.com."
         data-img="assets/awards/everest-packaging.jpg"
         data-href="https://packagingoftheworld.com/2024/03/everest-spices-international-packaging.html"
         data-link-label="packagingoftheworld.com ↗" href="https://packagingoftheworld.com/2024/03/everest-spices-international-packaging.html" target="_blank" rel="noopener">
         <span class="award-year">'24</span>
-        <span class="award-project">Everest Spices, International Packaging</span>
+        <span class="award-project">Everest International Packaging</span>
         <span class="award-body">Packaging of the World</span>
         <span class="award-type">Featured</span>
       </a>
@@ -3089,7 +3013,7 @@
         <span class="footer-col-head">Pages</span>
         <a class="footer-link" href="#work">Work</a>
         <a class="footer-link" href="#" id="footer-about">About</a>
-        <a class="footer-link" href="https://www.behance.net/gallery/194317909/Graphic-Design-Portfolio-2024" target="_blank" rel="noopener noreferrer">Graphic design archive (Behance) <span class="arr">&#8599;</span></a>
+        <a class="footer-link" href="https://www.behance.net/gallery/194317909/Graphic-Design-Portfolio-2024" target="_blank" rel="noopener noreferrer">Graphic Portfolio 2024 <span class="arr">&#8599;</span></a>
       </div>
       <div class="footer-col">
         <span class="footer-col-head">Say hi</span>
@@ -3125,7 +3049,7 @@
       </svg>
       Figma and the indomitable human spirit
     </span>
-    <a href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="Back to top">Back to top ↑</a>
+    <a href="#" onclick="window.__lenis ? __lenis.scrollTo(0) : window.scrollTo({top:0,behavior:'smooth'});return false;" aria-label="Back to top">Back to top ↑</a>
   </div>
 
   <!-- Hover card: image only -->
@@ -3134,6 +3058,14 @@
   </div>
 
 </div><!-- /page-stage -->
+
+<!-- Page overlay: hosts case studies that are their own page -->
+<div class="pgo" id="pgo" role="dialog" aria-modal="true" aria-label="Case study" aria-hidden="true">
+  <div class="pgo-scrim" id="pgo-scrim"></div>
+  <div class="pgo-sheet">
+    <iframe class="pgo-frame" id="pgo-frame" title="Case study"></iframe>
+  </div>
+</div>
 
 <!-- Case Study Overlay -->
 <div class="cs-overlay" id="cs-overlay" role="dialog" aria-modal="true">
@@ -3245,7 +3177,7 @@
           </div>
           <div class="accolade-item">
             <span class="accolade-name">Featured · Packaging of the World</span>
-            <span class="accolade-detail">Academic packaging redesign selected & featured on packagingoftheworld.com · 2024</span>
+            <span class="accolade-detail">Conceptual packaging redesign selected & featured on packagingoftheworld.com · 2024</span>
           </div>
           <div class="accolade-item">
             <span class="accolade-name">National Science Exhibition Representee</span>
@@ -3307,6 +3239,27 @@
 
 <!-- Heatmap tooltip -->
 <div class="hm-tooltip" id="hm-tip"></div>
+
+<!-- Smooth, inertial page scroll (Lenis, the same library behind shivanimatlapudi.com) -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script>
+(function () {
+  // Wheel scrolling glides to a stop instead of stepping. Touch stays native, and
+  // anyone who asks for reduced motion keeps ordinary scrolling.
+  if (typeof Lenis === 'undefined' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const html = document.documentElement;
+  const lenis = new Lenis({
+    lerp: 0.085,                       // lower is floatier: 0.1 is Lenis's default
+    wheelMultiplier: 1,
+    anchors: { offset: -56 },          // in-page links land under the fixed nav
+    // An open overlay (case study, About, lightbox, project page) locks the body and
+    // scrolls inside its own panel: leave the wheel to the browser while one is open.
+    prevent: () => document.body.style.overflow === 'hidden' || html.classList.contains('pgo-lock'),
+  });
+  window.__lenis = lenis;
+  (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+})();
+</script>
 
 <script>
 // ── Goo: shared blob-resolve primitives ───────────────────
@@ -3547,6 +3500,81 @@ const Goo = (function () {
   setTimeout(onCounterDone, duration + 420);
 })();
 
+// ── CRT glitch ────────────────────────────────────────────
+// A TV flicking channels, for text. A few characters tear and scramble, the old
+// text melts into the new through noise, one frame squeezes flat like a CRT,
+// and it settles with a fading red/cyan split (about 0.6s). Used by the hero's
+// cycling word and the "Case Studies" title. The element needs the .crt class
+// (see the CSS). With reduced motion the text is simply swapped.
+const Glitch = (function () {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const POOL = '#$%&*+=<>?@/\\|~^_-0123456789abcdefxyz';
+  const rnd = n => Math.floor(Math.random() * n);
+  const between = (a, b) => a + Math.random() * (b - a);
+  const noise = () => POOL[rnd(POOL.length)];
+  // centre-pad so the letters that stay put while the length changes
+  const pad = (str, len) => { const t = len - str.length, l = Math.floor(t / 2); return ' '.repeat(l) + str + ' '.repeat(t - l); };
+  // [share of letters already on the new text, letters corrupted, glitch power, ms]
+  const FRAMES = [
+    [0.00, 2, 0.6, 55], [0.00, 3, 0.9, 55], [0.00, 3, 1.0, 55],
+    [0.25, 3, 1.0, 60], [0.50, 2, 1.0, 60], [0.75, 2, 0.9, 60], [0.92, 1, 0.7, 60],
+  ];
+  const running = new WeakMap();   // element -> its pending timers
+
+  // Stop whatever is running on el; optionally leave it showing finalText.
+  function stop(el, finalText) {
+    (running.get(el) || []).forEach(clearTimeout);
+    running.delete(el);
+    el.classList.remove('glitch');
+    el.style.transform = ''; el.style.opacity = '';
+    el.removeAttribute('data-text');
+    if (finalText !== undefined) el.textContent = finalText;
+  }
+
+  // One frame: the text, plus a fresh random tear and colour split.
+  function paint(el, text, power, squeeze) {
+    el.textContent = text; el.dataset.text = text;
+    const band = () => { const top = between(0, 70), h = between(10, 28); return top.toFixed(0) + '% 0 ' + (100 - top - h).toFixed(0) + '% 0'; };
+    el.style.setProperty('--gx1', (-between(2, 9) * power).toFixed(1) + 'px');
+    el.style.setProperty('--gx2', (between(2, 9) * power).toFixed(1) + 'px');
+    el.style.setProperty('--gc1', band());
+    el.style.setProperty('--gc2', band());
+    el.style.transform = squeeze
+      ? 'scale(1.05, 0.1)'
+      : 'translateX(' + (between(-6, 6) * power).toFixed(1) + 'px) skewX(' + (between(-9, 9) * power).toFixed(1) + 'deg)';
+    el.style.opacity = squeeze ? '0.85' : between(0.72, 1).toFixed(2);
+  }
+
+  // Morph el from one text to another. from === to gives a hover-style twitch.
+  function run(el, from, to) {
+    stop(el);
+    if (reduce.matches) { el.textContent = to; return; }
+    const len = Math.max(from.length, to.length);
+    const a = pad(from, len), b = pad(to, len);
+    const timers = []; running.set(el, timers);
+    el.dataset.text = a;
+    el.classList.add('glitch');
+    let at = 0;
+    FRAMES.forEach(([share, bad, power, ms]) => {
+      timers.push(setTimeout(() => {
+        const chars = [...a].map((c, i) => Math.random() < share ? b[i] : c);
+        for (let k = 0; k < bad; k++) { const i = rnd(len); if (chars[i] !== ' ') chars[i] = noise(); }
+        paint(el, chars.join(''), power, false);
+      }, at));
+      at += ms;
+    });
+    timers.push(setTimeout(() => paint(el, b, 1, true), at));     at += 50;   // the squeeze
+    timers.push(setTimeout(() => paint(el, b, 0.35, false), at)); at += 55;   // settle
+    timers.push(setTimeout(() => paint(el, b, 0.15, false), at)); at += 55;
+    timers.push(setTimeout(() => stop(el, to), at));
+  }
+
+  const busy = el => running.has(el);
+  // noise the length of text, spaces kept: a title that is "not there yet"
+  const scramble = text => [...text].map(c => c === ' ' ? ' ' : noise()).join('');
+  return { run, stop, busy, scramble };
+})();
+
 // ── Hero cycling text ─────────────────────────────────────
 (function () {
   const items = [
@@ -3567,62 +3595,25 @@ const Goo = (function () {
   const el = document.getElementById('hero-cycle');
   if (!el) return;
 
-  // Each word holds long enough to be read and then forgotten about. The
-  // swap itself is unhurried too: a fast flick in the corner of the eye is
-  // what makes this kind of thing nag.
-  const HOLD = 5000;   // ms a word stays before the next one comes up
-  const OUT  = 360;    // ms the outgoing word takes to clear
+  // Each word holds long enough to be read before the next one comes up.
+  const HOLD = 3500;   // ms from one swap starting to the next (the glitch itself is ~0.57s of that)
 
-  // Two ways to swap the word. Where the goo is available the word melts into
-  // a blob, is replaced while illegible, and resolves back: so the change of
-  // word happens inside the blur and you never see a hard cut. Everywhere else
-  // (touch, narrow, reduced motion) the original slide is kept.
-  let cancel = null;
-
-  function swapGoo() {
-    if (cancel) cancel();
-    cancel = Goo.dissolveOut(el, OUT, () => {
-      idx = (idx + 1) % items.length;
-      el.textContent = items[idx];
-      // Hold the blob across the swap: the new word is already at full blur, so
-      // there is no frame where the old and new words are both legible.
-      Goo.set(el, Goo.peakOf(el));
-      cancel = Goo.resolveIn(el, 640, () => { cancel = null; });
-    });
+  // Each swap runs the shared CRT glitch (see Glitch above).
+  function swapGlitch() {
+    const from = items[idx];
+    idx = (idx + 1) % items.length;
+    Glitch.run(el, from, items[idx]);
   }
 
-  function swapSlide() {
-    el.style.transition = 'transform ' + OUT + 'ms cubic-bezier(0.4,0,1,1), opacity 280ms ease';
-    el.style.transform = 'translateY(-110%)';
-    el.style.opacity = '0';
-    setTimeout(() => {
-      idx = (idx + 1) % items.length;
-      el.textContent = items[idx];
-      el.style.transition = 'none';
-      el.style.transform = 'translateY(110%)';
-      el.style.opacity = '0';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        el.style.transition = 'transform 440ms var(--e-out), opacity 300ms ease';
-        el.style.transform = 'translateY(0)';
-        el.style.opacity = '1';
-      }));
-    }, OUT);
-  }
-
-  const swap = Goo.ok ? swapGoo : swapSlide;
-
-  // Only cycle while the line is actually on screen. This runs forever, and a
-  // reference filter repaints on the main thread every frame: burning that on
-  // a heading nobody is looking at is pure waste.
-  let timer = setInterval(swap, HOLD);
+  // Only cycle while the line is actually on screen: no point animating a
+  // heading nobody is looking at. Leaving mid-swap finishes on the new word.
+  let timer = setInterval(swapGlitch, HOLD);
   if ('IntersectionObserver' in window) {
     new IntersectionObserver((entries) => {
       entries.forEach(e => {
         clearInterval(timer);
-        if (e.isIntersecting) {
-          timer = setInterval(swap, HOLD);
-          if (Goo.ok) { if (cancel) cancel(); cancel = Goo.resolveIn(el, 640, () => { cancel = null; }); }
-        } else if (cancel) { cancel(); cancel = null; Goo.clear(el); }
+        if (e.isIntersecting) timer = setInterval(swapGlitch, HOLD);
+        else Glitch.stop(el, items[idx]);
       });
     }, { threshold: 0.2 }).observe(el);
   }
@@ -3648,12 +3639,30 @@ const Goo = (function () {
   // level → approximate count weight for merging
   const lvlToCount = l => [0,2,5,10,20][l]||0;
 
-  // fetch euyoro (all public, API is accurate)
+  // A calendar date as YYYY-MM-DD in the visitor's own timezone. Not
+  // toISOString(): that converts to UTC, so for anyone ahead of UTC (India
+  // included) local midnight lands on the previous day and every cell showed
+  // the day before's contributions.
+  const ymd = d => d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+
+  // fetch euyoro (all public, API is accurate). Fetched live on every load.
+  // The last good response is kept in localStorage so a slow or unreachable
+  // API shows the last known graph instead of an empty section.
+  const CACHE_KEY = 'gh-heatmap-euyoro-v1';
   let euyoroData = [];
   try {
-    const res=await fetch('https://github-contributions-api.jogruber.de/v4/euyoro?y=last');
-    if(res.ok){ const j=await res.json(); euyoroData=j.contributions||[]; }
+    const ctl=new AbortController();
+    const timer=setTimeout(()=>ctl.abort(), 8000);
+    const res=await fetch('https://github-contributions-api.jogruber.de/v4/euyoro?y=last',{signal:ctl.signal});
+    clearTimeout(timer);
+    if(res.ok){
+      const j=await res.json(); euyoroData=j.contributions||[];
+      if(euyoroData.length){ try{ localStorage.setItem(CACHE_KEY, JSON.stringify(euyoroData)); }catch(e){} }
+    }
   } catch(e){}
+  if(!euyoroData.length){
+    try{ euyoroData=JSON.parse(localStorage.getItem(CACHE_KEY)||'[]'); }catch(e){}
+  }
 
   if(!euyoroData.length){ return; }
 
@@ -3705,7 +3714,7 @@ const Goo = (function () {
     const row=document.createElement('div'); row.className='cell-row';
     for(let w=0;w<WEEKS;w++){
       const dt=new Date(startDate); dt.setDate(startDate.getDate()+w*7+d);
-      const key=dt.toISOString().split('T')[0];
+      const key=ymd(dt);
       const entry=map[key]||{count:0,level:0};
       const cell=document.createElement('div'); cell.className='hm-cell';
       if(entry.level>0) cell.setAttribute('data-v',entry.level);
@@ -3739,100 +3748,128 @@ const Goo = (function () {
   cal.addEventListener('mouseleave',()=>tip.classList.remove('show'));
 })();
 
-// ── Experience ───────────────────────────────────────────
+// ── Profile column reveal ───────────────────────────────
+// The profile column fades in once the Case Studies section has scrolled fully
+// into place (its top at the nav, its bottom still below the middle of the
+// screen) and fades out again when you scroll past it or back above it.
 (function () {
-  // Collapsed and expanded are the same six rows in two layouts, so opening
-  // the list is a FLIP over one set of nodes rather than a hand-off between
-  // two. Because the type and the logos are now identical in both states the
-  // travel is pure translation: nothing scales, nothing cross-fades.
-  const section = document.getElementById('exp-section');
-  const btn = document.getElementById('exp-btn');
-  const list = document.getElementById('exp-list');
-  const chev = document.getElementById('exp-chevron');
-
-  const EXP_DUR = 620;
-  const EXP_EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
-
-  // read live: the setting can change mid-session, and a value sampled once
-  // at load would keep animating for the rest of the visit
-  const reducedQuery = matchMedia('(prefers-reduced-motion: reduce)');
-  let reduced = reducedQuery.matches;
-  reducedQuery.addEventListener('change', e => { reduced = e.matches; });
-
-  // Six columns need room. Below that the rail is vertical in both states and
-  // the toggle only adds the detail, so there is no layout to animate.
-  const narrowQuery = matchMedia('(max-width: 860px)');
-  const syncNarrow = () => section.classList.toggle('stacked', narrowQuery.matches);
-  narrowQuery.addEventListener('change', syncNarrow);
-  syncNarrow();
-
-  const itemEls = [...list.querySelectorAll('.exp-item')];
-  // Only the leaves travel. Their rows re-flow instantly underneath, which is
-  // invisible: a row has no fill of its own: and it keeps the FLIP honest:
-  // measure absolute positions, translate absolute deltas, no parent to
-  // subtract because no ancestor is being animated.
-  const movers = [...list.querySelectorAll('.exp-dot, .co-logo, .exp-company, .exp-when')];
-  const fades = [
-    ...itemEls.map(it => it.querySelector('.exp-detail')),
-    ...list.querySelectorAll('.exp-co-sub, .exp-where'),
-  ].filter(Boolean);
-
-  const rectOf = el => el.getBoundingClientRect();
-  let running = [];   // the in-flight morph, cancelled if another starts
-
-  function applyState(open) {
-    section.classList.toggle('expanded', open);
-    btn.setAttribute('aria-expanded', String(open));
-    chev.textContent = open ? '↑' : '↓';
-    btn.childNodes[0].textContent = open ? 'See less ' : 'See more ';
+  const sec = document.getElementById('work');
+  if (!sec) return;
+  function update() {
+    const r = sec.getBoundingClientRect();
+    sec.classList.toggle('side-on', r.top <= 120 && r.bottom >= innerHeight * 0.6);
   }
+  sec.classList.add('side-armed');
+  addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', update);
+  update();
+})();
 
-  function morph(open) {
-    if (reduced || narrowQuery.matches) { applyState(open); return; }
+// ── Now playing ──────────────────────────────────────────
+// A pill showing the newest track from YouTube Music. YouTube has no public feed, so
+// a small serverless function (see /now-playing) reads the history with a login held
+// in secret on its host and returns just the latest track. Leave NOW_PLAYING_URL empty
+// and the pill stays hidden; it also hides itself if the feed is ever unavailable.
+(function () {
+  const NOW_PLAYING_URL = '';   // e.g. 'https://your-project.vercel.app/api/now-playing'
+  const el = document.getElementById('np');
+  if (!el) return;
+  const nice = w => !w ? '' : (/^(today|yesterday)$/i.test(w) ? w : w.toLowerCase());
+  function show(t) {
+    if (!t || !t.title) { el.hidden = true; return; }
+    document.getElementById('np-title').textContent = t.title;
+    document.getElementById('np-artist').textContent = t.artist || '';
+    document.getElementById('np-when').textContent = 'Last played' + (t.when ? ' · ' + nice(t.when) : '');
+    const img = document.getElementById('np-cover');
+    if (t.cover) { img.src = t.cover; img.hidden = false; } else { img.removeAttribute('src'); img.hidden = true; }
+    if (t.url) el.href = t.url; else el.removeAttribute('href');
+    el.hidden = false;
+  }
+  async function load(url) {
+    try {
+      const ctl = new AbortController(); const to = setTimeout(() => ctl.abort(), 6000);
+      const r = await fetch(url, { signal: ctl.signal }); clearTimeout(to);
+      if (!r.ok) throw new Error(r.status);
+      show(await r.json());
+    } catch (e) { el.hidden = true; }
+  }
+  window.NowPlaying = { load, show };
+  if (!NOW_PLAYING_URL) return;
+  load(NOW_PLAYING_URL);
+  setInterval(() => { if (!document.hidden) load(NOW_PLAYING_URL); }, 120000);
+})();
 
-    // FIRST: measured while any previous morph is still running, so an
-    // interrupted toggle picks up from wherever things visually are
-    const first = movers.map(rectOf);
-    const listH0 = list.offsetHeight;
-
-    running.forEach(a => a.cancel());
-    running = [];
-
-    // LAST: the resting states carry no transitions, so applying the end
-    // state lands the real final layout in this same frame, ready to measure
-    applyState(open);
-    const last = movers.map(rectOf);
-    const listH1 = list.offsetHeight;
-
-    const opts = { duration: EXP_DUR, easing: EXP_EASE };
-    const anims = [list.animate(
-      [{ height: listH0 + 'px' }, { height: listH1 + 'px' }], opts)];
-
-    // INVERT + PLAY: each leaf starts life at the position it just left and
-    // travels home.
-    movers.forEach((el, i) => {
-      const dx = first[i].left - last[i].left, dy = first[i].top - last[i].top;
-      if (!dx && !dy) return;
-      anims.push(el.animate([
-        { transform: `translate(${dx}px, ${dy}px)` },
-        { transform: 'none' }
-      ], opts));
+// ── Case study tabs ──────────────────────────────────────
+// Product Design / Graphic Design: the same cards, filtered by data-tab. A card
+// that was hidden when the page first revealed never got its reveal, so it is
+// given it as it comes in.
+(function () {
+  const tabs = [...document.querySelectorAll('.works-tab')];
+  const feed = document.getElementById('works-feed');
+  if (!tabs.length || !feed) return;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let current = null, anims = [], swapTimer = 0;
+  // Switching blurs the feed out, swaps the rows while it is clear of sight, and
+  // blurs the new ones in.
+  function show(key, focus) {
+    if (key === current) { if (focus) tabs.find(t => t.dataset.tab === key).focus(); return; }
+    const first = current === null;
+    current = key;
+    mark(key, focus);
+    anims.forEach(a => a.cancel()); anims = [];
+    clearTimeout(swapTimer);
+    const out = (first || reduce.matches) ? null : feed.animate(
+      [{ opacity: 1, filter: 'blur(0px)' }, { opacity: 0, filter: 'blur(10px)' }],
+      { duration: 160, easing: 'ease-in', fill: 'forwards' });
+    if (out) { anims.push(out); swapTimer = setTimeout(() => { out.cancel(); swap(key); settle(); }, 160); }
+    else swap(key);
+  }
+  function settle() {
+    anims = [feed.animate(
+      [{ opacity: 0, filter: 'blur(10px)', transform: 'translateY(8px)' }, { opacity: 1, filter: 'blur(0px)', transform: 'none' }],
+      { duration: 380, easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)' })];
+  }
+  function mark(key, focus) {
+    tabs.forEach(t => {
+      const on = t.dataset.tab === key;
+      t.classList.toggle('is-active', on);
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on && focus) t.focus();
     });
-
-    // The role, the bullets and the trailing halves of the name and date have
-    // no collapsed counterpart, so they fade in behind the travel rather than
-    // trying to come from somewhere.
-    fades.forEach((el, i) => anims.push(el.animate(
-      open ? [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }]
-           : [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'translateY(6px)' }],
-      open ? { duration: 340, easing: 'ease', delay: 150 + Math.min(i, 10) * 25, fill: 'backwards' }
-           : { duration: 200, easing: 'ease' }
-    )));
-
-    running = anims;
   }
-
-  btn.addEventListener('click', () => morph(!section.classList.contains('expanded')));
+  function swap(key) {
+    feed.setAttribute('aria-labelledby', 'tab-' + key);
+    feed.querySelectorAll('.feed-row').forEach(r => {
+      const on = r.dataset.tab === key;
+      r.hidden = !on;
+      if (on) r.classList.add('in');
+    });
+    toTop();
+    setTimeout(toTop, 0);   // once the new rows have laid out and the page has settled
+  }
+  // If the reader is part-way down the list, the other tab opens at its first card, not at the
+  // same depth (which would land mid-list, half hidden under the sticky tabs). A reader still above
+  // the list is left where they are.
+  function toTop() {
+    const bar = document.querySelector('.works-sticky');
+    if (!bar) return;
+    const barBottom = bar.getBoundingClientRect().bottom;
+    const feedTop = feed.getBoundingClientRect().top;
+    if (feedTop >= barBottom - 1) return;
+    const y = Math.max(0, window.scrollY + feedTop - barBottom);
+    if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true, force: true });
+    else window.scrollTo(0, y);
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => show(t.dataset.tab));
+    t.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      e.preventDefault();
+      show(tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length].dataset.tab, true);
+    });
+  });
+  show('p');
 })();
 
 // ── Case Study ───────────────────────────────────────────
@@ -3840,7 +3877,7 @@ const Goo = (function () {
   const cs = {
     'rent-reporting': {
       company: 'US fintech app', title: 'Rent Reporting',
-      tags: ['Shipped', 'Mobile', 'Product Design'],
+      tags: ['Live', 'Mobile', 'Product Design'],
       desc: "Rent is the largest monthly expense most people have, and for thin-file renters it never reaches a credit report. I designed the end-to-end funnel that closes that gap: portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. A three-week build with a long tail of refinements through 2026.",
       role: 'Design owner, kickoff to sign-off', year: 'Dec 2025 – Mar 2026',
       metrics: [{val:'30 → 50%',lbl:'Conversion'},{val:'−15%',lbl:'Support tickets'},{val:'2',lbl:'Bureaus supported'}],
@@ -3870,7 +3907,7 @@ const Goo = (function () {
       ]
     },
     'bright-atlas': {
-      company: 'US fintech app', title: 'Atlas',
+      company: 'Internal tool', title: 'Atlas',
       tags: ['Built', 'Full-stack', 'Design Engineering'],
       desc: "Our competitor research was trapped inside Figma boards with no search. I designed and built an AI-powered platform that indexes every screenshot from rival fintechs by flow, feature and screen type, from product definition through the AI tagging pipeline to build and deployment. Finding a reference went from about an hour to about two minutes.",
       role: 'Design and build, end to end', year: 'Jun 2026',
@@ -3952,8 +3989,8 @@ const Goo = (function () {
       ]
     },
     'loangpt-bullet-funnel': {
-      company: 'US fintech app', title: 'Onboarding Funnel Revamp',
-      tags: ['Shipped', 'Mobile', 'Funnel Design'],
+      company: 'US fintech app', title: 'Funnel Revamp',
+      tags: ['Live', 'Mobile', 'Funnel Design'],
       desc: "The onboarding funnel hadn't been rebuilt since 2022. Four years of product had been bolted onto a structure that still argued like a 2022 product: two parallel paths, consents before the user ever saw a price, and a pitch that said the same thing three times. I supported the design leads on the revamp, owning the narrative, the post-enroll screens, the LoanGPT surfaces inside the funnel and copy through to production. Conversion 40% to 45%, CPA down 10%, about $200K per month saved on acquisition.",
       role: 'Supporting Designer', year: 'Oct 2025 – Sep 2026',
       metrics: [{val:'40→45%',lbl:'Conversion'},{val:'−10%',lbl:'CPA'},{val:'$3→3.6M',lbl:'ARR contribution'}],
@@ -3999,9 +4036,9 @@ const Goo = (function () {
       ]
     },
     'scribbleship': {
-      company: 'Academic', title: 'ScribbleShip',
-      tags: ['UI/UX', 'Mobile', 'Academic'],
-      desc: "Can we deliver stationery and prints on demand? A mobile app for Ahmedabad taken from sector research through to a working prototype: onboarding, catalogue, print job upload, ordering and delivery tracking. Three weeks of academic work at GLS, giving a category nobody had designed for a complete mobile experience.",
+      company: 'Conceptual', title: 'ScribbleShip',
+      tags: ['UI/UX', 'Mobile', 'Conceptual'],
+      desc: "Can we deliver stationery and prints on demand? A mobile app for Ahmedabad taken from sector research through to a working prototype: onboarding, catalogue, print job upload, ordering and delivery tracking. Three weeks of conceptual work at GLS, giving a category nobody had designed for a complete mobile experience.",
       role: 'UX Design, solo', year: '2023',
       metrics: [{val:'E2E',lbl:'App flows'},{val:'Mobile',lbl:'Platform'},{val:'Full',lbl:'UX coverage'}],
       href: 'case-studies/scribbleship.html',
@@ -4015,7 +4052,7 @@ const Goo = (function () {
       ]
     },
     'gls-yearbook': {
-      company: 'Academic', title: 'GLS Annual Yearbook',
+      company: 'Conceptual', title: 'GLS Annual Yearbook',
       tags: ['Publication', 'Editorial', 'Print'],
       desc: "How can a book build meaning? A 28cm hardbound yearbook recording a design institute's year: art direction, layout, content editing and print production across a full compendium. I built a visual language minimal enough that student work stayed the loudest thing on every spread, with an AR layer opening the printed page into motion.",
       role: 'Art direction and layout', year: '2022',
@@ -4036,8 +4073,8 @@ const Goo = (function () {
       ]
     },
     'metro-wayfinding': {
-      company: 'Academic', title: 'Metro Wayfinding',
-      tags: ['Systems', 'Wayfinding', 'Typography'],
+      company: 'Conceptual', title: 'Metro Wayfinding',
+      tags: ['User Study', 'UX Design', 'Wayfinding'],
       desc: "How do you navigate a metro without ever feeling lost? A research-driven redesign of the Ahmedabad Metro's signage: wayfinding hierarchy, bilingual typography, iconography, and the spatial ergonomics of where a sign has to sit to be read at speed. Four weeks building a system that answers before a commuter has to ask.",
       role: 'Systems design, solo', year: '2022',
       metrics: [{val:'Full',lbl:'System design'},{val:'Transit',lbl:'Scale'},{val:'3',lbl:'Design phases'}],
@@ -4058,7 +4095,7 @@ const Goo = (function () {
       ]
     },
     'everest-packaging': {
-      company: 'Academic', title: 'Everest Spices',
+      company: 'Conceptual', title: 'Everest International Packaging',
       tags: ['Packaging', 'Brand', 'Print'],
       desc: "Will spice packaging feel authentically Indian, abroad? An international redesign for India's most recognised spice brand, built on surveys of kitchens outside the country. Consumer research, illustration, 3D rendering and a colour-coded system for the export range across five weeks. Featured on Packaging of the World.",
       role: 'Packaging design, solo', year: '2022',
@@ -4089,7 +4126,7 @@ const Goo = (function () {
       ]
     },
     'jupiter-tvc': {
-      company: 'Personal', title: 'Jupiter Banking TVC',
+      company: 'Conceptual', title: 'Jupiter Banking TVC',
       tags: ['Film', 'Direction', 'Editing'],
       desc: "Can neo banking be advertised to feel human? A two-minute slice-of-life commercial for a gen-z neobank that opens on a person, not a product: written, storyboarded, directed, shot, edited and coloured in two weeks. Built around the ordinary anxiety of money decisions rather than the features meant to solve them.",
       role: 'Director and editor', year: '2021',
@@ -4112,11 +4149,11 @@ const Goo = (function () {
       slides: [
         {set:'assets/case-studies/logofolio/01',w:2000,h:1126,alt:"Five-panel One Shot eSports mockup grid on red: white team jersey front/back with sponsor marks over repeating JERSEY lettering…"},
         {set:'assets/case-studies/logofolio/02',w:2000,h:1126,alt:"Project title card: 'Project 07/ Logofolio & Brand Marks', 2019-24 x Brand Identity Design, with two columns of intro copy about branding on white; bottom third is an image band…"},
-        {set:'assets/case-studies/logofolio/03',w:2000,h:1212,alt:"Svasthik Hospital logo specimen: large circular peacock/sunrise emblem with SVASTHIK HOSPITAL wordmark centered at top, [Academic] / {Healthcare} tags…"},
+        {set:'assets/case-studies/logofolio/03',w:2000,h:1212,alt:"Svasthik Hospital logo specimen: large circular peacock/sunrise emblem with SVASTHIK HOSPITAL wordmark centered at top."},
         {set:'assets/case-studies/logofolio/04',w:2000,h:1126,alt:"Five-panel full-bleed mockup grid for Svasthik Hospital: green branded scrubs with cap and mask on grey, letterhead + notebook + business cards + patterned envelope on navy…"},
-        {set:'assets/case-studies/logofolio/05',w:2000,h:1212,alt:"Sigma Voice logo specimen: bold orange feather/flame mark with navy SIGMA + orange italic VOICE wordmark, [Commercial] / {College Club} tags, concept copy in two columns…"},
-        {set:'assets/case-studies/logofolio/06',w:2000,h:1212,alt:"INUP i2i logo specimen: green-and-navy interlocking humanoid figures forming an 'N' beside the INUP i2i wordmark, [IIT Guwahati, Internship] / {Government} tags, concept copy…"},
-        {set:'assets/case-studies/logofolio/07',w:2000,h:1212,alt:"One Shot eSports logo specimen: large red crosshair replacing the 'O' in a heavy black 'ne SHOT' wordmark, [Academic] / {Gaming} tags, concept copy…"},
+        {set:'assets/case-studies/logofolio/05',w:2000,h:1212,alt:"Sigma Voice logo specimen: bold orange feather/flame mark with navy SIGMA + orange italic VOICE wordmark."},
+        {set:'assets/case-studies/logofolio/06',w:2000,h:1212,alt:"INUP i2i logo specimen: green-and-navy interlocking humanoid figures forming an 'N' beside the INUP i2i wordmark."},
+        {set:'assets/case-studies/logofolio/07',w:2000,h:1212,alt:"One Shot eSports logo specimen: large red crosshair replacing the 'O' in a heavy black 'ne SHOT' wordmark."},
       ]
     },
   };
@@ -4129,6 +4166,7 @@ const Goo = (function () {
   const HELD_BACK = [
     'freemium-3-4',
     'sauron',
+    'logofolio',
   ];
 
   const slugOf = card =>
@@ -4273,9 +4311,9 @@ const Goo = (function () {
     'Mobile': IC.phone, 'Full-stack': IC.layers, 'Product Design': IC.pen,
     'Design Engineering': IC.tool, 'Figma Plugin': IC.plug, 'Dev Tooling': IC.tool,
     'Retention Design': IC.trend, 'Research': IC.search, 'Strategy': IC.search,
-    'UI/UX': IC.pen, 'Academic': IC.book, 'Publication': IC.book,
+    'UI/UX': IC.pen, 'Conceptual': IC.book, 'Publication': IC.book,
     'Editorial': IC.book, 'Print': IC.box, 'Systems': IC.map,
-    'Wayfinding': IC.map, 'Typography': IC.type, 'Packaging': IC.box,
+    'Wayfinding': IC.map, 'User Study': IC.search, 'UX Design': IC.pen, 'Typography': IC.type, 'Packaging': IC.box,
     'Brand': IC.stamp, 'Type Design': IC.type, 'Lettering': IC.type,
     'Display': IC.type, 'Film': IC.film, 'Direction': IC.film,
     'Editing': IC.film, 'Identity': IC.stamp, 'Logo Design': IC.stamp,
@@ -4819,8 +4857,88 @@ const Goo = (function () {
   // Keyed off the card's own href, not its position: a held-back project
   // shifts every card after it, and an index-based lookup would quietly open
   // the wrong case study.
+  // Case studies built as their own page (case-studies/cs-page.css) open in a sheet
+  // over the homepage, like the overlay above, and are also real URLs: the address
+  // bar and the browser's Back button follow along, and opening the link directly
+  // gives the standalone page. Take a slug off this list and it goes back to
+  // opening in the overlay.
+  const OWN_PAGE = ['bright-atlas', 'loangpt-bullet-funnel', 'monet-cancellation', 'id-protection', 'referral-redesign', 'scribbleship', 'metro-wayfinding', 'everest-packaging', 'baux-typeface', 'jupiter-tvc', 'gls-yearbook'];
+
+  const pgo = document.getElementById('pgo');
+  const pgoFrame = document.getElementById('pgo-frame');
+  let pgoOpener = null, pgoHref = null, pgoPushed = false, pgoUnloadTimer = null;
+
+  // location.replace, not src: setting src would add a history entry of its own and
+  // Back would then take two presses to leave.
+  function pgoLoad(href) { pgoFrame.contentWindow.location.replace(href); }
+
+  function pgoOpen(card, push = true) {
+    const href = card.getAttribute('href');
+    clearTimeout(pgoUnloadTimer);
+    pgoOpener = card;
+    if (pgoHref !== href) { pgoFrame.classList.remove('ready'); pgo.classList.remove('full'); pgoHref = href; pgoLoad(href); }
+    else pgoFrame.classList.add('ready');
+    pgo.classList.add('open'); pgo.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('pgo-lock');   // a class, not body.style: other handlers reset that on any click
+    if (push) history.pushState({ pgo: slugOf(card) }, '', href);
+    pgoPushed = true;
+  }
+
+  function pgoClose(fromHistory) {
+    if (!pgo.classList.contains('open')) return;
+    pgo.classList.remove('open'); pgo.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('pgo-lock');
+    if (pgoPushed && !fromHistory) { pgoPushed = false; history.back(); }
+    pgoPushed = false;
+    // unload once the slide is done, so the next open starts clean and any video stops
+    pgoUnloadTimer = setTimeout(() => {
+      // the sheet is off screen by now, so resetting its size can't be seen
+      pgoHref = null; pgo.classList.remove('full'); pgoFrame.classList.remove('ready'); pgoLoad('about:blank');
+    }, 1000);
+    if (pgoOpener) pgoOpener.focus({ preventScroll: true });
+  }
+
+  pgoFrame.addEventListener('load', () => {
+    if (!pgo.classList.contains('open') || !pgoHref) return;
+    pgoFrame.classList.add('ready');
+    try {
+      const fw = pgoFrame.contentWindow;
+      // Grow the sheet to the 2px frame as soon as the reader scrolls. Read straight from the page's own
+      // scroll (same origin) rather than waiting for a message, so the two can never disagree.
+      const sync = () => pgo.classList.toggle('full', fw.scrollY > 16);
+      fw.addEventListener('scroll', sync, { passive: true });
+      sync();
+      fw.focus();
+    } catch (err) { /* keep going: both are conveniences */ }
+  });
+  document.getElementById('pgo-scrim').addEventListener('click', () => pgoClose());
+  // The page's own cross asks the homepage to close it.
+  window.addEventListener('message', e => {
+    if (e.source !== pgoFrame.contentWindow || !e.data) return;
+    if (e.data.type === 'pg-close') pgoClose();
+  });
+  // Back and Forward walk the sheet open and shut.
+  window.addEventListener('popstate', e => {
+    if (pgo.classList.contains('open')) { pgoClose(true); return; }
+    const slug = e.state && e.state.pgo;
+    const card = slug && document.querySelector('.work-card[href$="' + slug + '.html"]');
+    if (card) pgoOpen(card, false);
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && pgo.classList.contains('open')) pgoClose();
+  });
+
   document.querySelectorAll('.work-card').forEach(card => {
     const key = slugOf(card);
+    if (OWN_PAGE.includes(key)) {
+      card.addEventListener('click', e => {
+        // let new-tab gestures through: it is still a real link
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return;
+        e.preventDefault();
+        pgoOpen(card);
+      });
+      return;
+    }
     card.addEventListener('click', e => {
       e.preventDefault();
       open(key);
@@ -4851,7 +4969,7 @@ const Goo = (function () {
     '.hero-name', '.hero-tagline', '.hero-body', '.hero-cta',
     // the about photo layers and the lightbox run their own transitions:
     // folding them into the scroll reveal would fight both
-    'img:not(.nav *):not(.fobj *):not(.footer-logo):not(.about-photo *):not(.cs-lb-img):not(.cs-slide *)',
+    'img:not(.nav *):not(.fobj *):not(.footer-logo):not(.about-photo *):not(.cs-lb-img):not(.cs-slide *):not(.side-exp *)',
     'hr', 'blockquote', '.pull-quote',
     '.failure-card', '.reflection-list li',
     '.meta-block', '.meta-item',
@@ -4907,14 +5025,12 @@ const Goo = (function () {
 (function () {
   const el = document.getElementById('nav-name');
   if (!el) return;
-  el.addEventListener('mouseenter', () => {
-    el.style.opacity = '0';
-    setTimeout(() => { el.textContent = 'শ্রেয়ো'; el.style.opacity = '1'; }, 130);
-  });
-  el.addEventListener('mouseleave', () => {
-    el.style.opacity = '0';
-    setTimeout(() => { el.textContent = 'shreyo'; el.style.opacity = '1'; }, 130);
-  });
+  // The same CRT glitch as the hero word: the name tears and resolves into the other script.
+  const EN = 'shreyo', BN = 'শ্রেয়ো';
+  let shown = EN;
+  const swapTo = to => { if (to === shown) return; Glitch.run(el, shown, to); shown = to; };
+  el.addEventListener('mouseenter', () => swapTo(BN));
+  el.addEventListener('mouseleave', () => swapTo(EN));
 })();
 
 // ── Nav: Menu dropdown ────────────────────────────────────
@@ -5081,11 +5197,8 @@ const Goo = (function () {
   // Large display type only. .section-title is deliberately qualified with
   // h2: the same class is on a 13px "Performance" label, which this would
   // dissolve into an unreadable smudge.
-  // .wt-prefix and .wt-studies rather than .works-title: a filter on the title
-  // creates a stacking context, and .wt-strike blends multiply against it: the
-  // highlighter would flatten into an opaque yellow slab.
   const TARGETS = [
-    'h2.section-title', '.wt-prefix', '.wt-studies', '.extras-title',
+    'h2.section-title', '.extras-title',
     '.awards-amp', '.awards-title-line', '.about-heading'
   ].join(',');
 
@@ -5241,30 +5354,22 @@ const Goo = (function () {
   document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
 })();
 
-// ── Works title one-time swap ─────────────────────────────
+// ── Works title: CRT glitch ───────────────────────────────
+// "Case Studies" glitches in from noise each time it scrolls into view, and
+// twitches again on hover. Same animation as the hero's cycling word.
 (function () {
-  const title = document.querySelector('.works-title');
-  if (!title) return;
-  function doSwap() {
-    title.removeEventListener('mouseenter', doSwap);
-    const strike  = title.querySelector('.wt-strike');
-    const studies = title.querySelector('.wt-studies');
-    const stories = title.querySelector('.wt-stories');
-    // 1. Draw highlighter line across "Studies"
-    strike.style.transition = 'width 0.44s cubic-bezier(0.4,0,0.2,1)';
-    strike.style.width = 'calc(100% + 6px)';
-    // 2. Fade Studies out after strike finishes
-    setTimeout(() => {
-      studies.style.transition = 'opacity 0.3s ease';
-      studies.style.opacity = '0';
-    }, 420);
-    // 3. Slowly fade Stories in
-    setTimeout(() => {
-      stories.style.transition = 'opacity 0.55s ease';
-      stories.style.opacity = '1';
-    }, 600);
+  const el = document.getElementById('works-title-text');
+  if (!el) return;
+  const TEXT = el.textContent.trim();
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) Glitch.run(el, Glitch.scramble(TEXT), TEXT);
+        else Glitch.stop(el, TEXT);
+      });
+    }, { threshold: 0.4 }).observe(el);
   }
-  title.addEventListener('mouseenter', doSwap);
+  el.addEventListener('mouseenter', () => { if (!Glitch.busy(el)) Glitch.run(el, TEXT, TEXT); });
 })();
 
 // ── About: company logo reel ──────────────────────────────

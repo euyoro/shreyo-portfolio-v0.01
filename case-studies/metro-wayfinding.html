@@ -1,510 +1,465 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Metro Wayfinding System · Shreyo Debnath</title>
+<meta name="description" content="A signage system for Ahmedabad Metro, tested with metro officials and commuters. It reached a 6:1 contrast ratio, above the WCAG AA minimum of 4.5:1.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
-
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
-
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
-
-  h3:first-child { margin-top: 0; }
-
-  h4 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
-
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  strong { color: var(--text); font-weight: 500; }
-
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
-
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
-
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
-
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #145fb4;
-    margin-top: 4px;
-  }
-
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
-
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .screen-item {
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-  }
-  .screen-item img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px;
-  }
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-    margin-top: 8px;
-  }
-
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
-
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
-
-  /* FAILURE CARDS */
-  .failure-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .failure-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
-
-  .failure-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-
-  .failure-mine {
-    font-size: 0.8125rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .failure-body {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* REFLECTION */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* IMAGE PLACEHOLDER */
-  .image-placeholder {
-    width: 100%;
-    min-height: 280px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-    gap: 8px;
-  }
-
-  /* A filled figure, where a dashed placeholder used to be. Same rhythm as
-     the placeholder it replaces, so the page does not reflow around it. */
-  .case-figure { margin: 28px 0; }
-  .case-figure img {
-    width: 100%; height: auto; display: block;
-    border-radius: 8px; border: 1px solid var(--border);
-  }
-  .case-figure figcaption {
-    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--muted); font-weight: 500; margin-top: 10px;
-  }
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder, .screen-item { min-height: 160px; }
-    h2, h3 { page-break-after: avoid; }
-    .failure-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
 
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#context" data-sec="context"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span data-t="Context">Context</span></a></li>
+      <li><a href="#research" data-sec="research"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg><span data-t="Research">Research</span></a></li>
+      <li><a href="#legibility" data-sec="legibility"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg><span data-t="Legibility">Legibility</span></a></li>
+      <li><a href="#system" data-sec="system"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg><span data-t="The system">The system</span></a></li>
+      <li><a href="#outcome" data-sec="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Outcome">Outcome</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
 
-<span class="wordmark">Shreyo Debnath</span>
+<main>
 
-<h1>Metro Wayfinding System</h1>
+<header class="pg-hero">
+  <div class="pg-kicker"><span>Conceptual project</span><span>GLS Institute of Design</span><span>Signage</span></div>
+  <h1 class="pg-title">Metro Wayfinding System</h1>
+  <p class="pg-sub">A signage system for Ahmedabad Metro, tested with metro officials and commuters. It reached a 6:1 contrast ratio, above the WCAG AA minimum of 4.5:1.</p>
+  <figure class="pg-media">
+    <img src="../assets/case-studies/metro-wayfinding/01-2000.webp" width="2000" height="1244" loading="eager" decoding="async" alt="A black hanging directional sign in a bright concourse: trilingual Towards APMC on the left and Towards Motera on the right, each with a red arrow, split by a red divider.">
+  </figure>
+</header>
 
-<div class="meta-block">
-  <div class="meta-item">
-    <span class="meta-label">Type</span>
-    <span class="meta-value">System Design, Environmental Design</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">4 weeks</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Role</span>
-    <span class="meta-value">Signage Designer, Systems Researcher, Iconographer, Service Designer, Information Architect</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Guides</span>
-    <span class="meta-value">Dr. Anil Sinha, Prof. Saurabh Vyas, Prof. Hardik Shiroya</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Tools</span>
-    <span class="meta-value">Adobe Illustrator, AutoCAD</span>
-  </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
-    <span class="meta-label">Status</span>
-    <span class="meta-value">Academic Project &middot; GLS Institute of Design</span>
-    <span class="status-tag">Academic</span>
-  </div>
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Signage designer, systems researcher, iconographer, service designer, information architect</dd></div>
+  <div><dt>Timeline</dt><dd>4 weeks</dd></div>
+  <div><dt>Guides</dt><dd>Dr. Anil Sinha · Prof. Saurabh Vyas · Prof. Hardik Shiroya</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#FF9A00;--m:url(../assets/logos/tools/adobeillustrator.svg)" aria-hidden="true"></i>Illustrator</span><span class="pg-tool"><i style="--c:#E51050;--m:url(../assets/logos/tools/autocad.svg)" aria-hidden="true"></i>AutoCAD</span></dd></div>
+  <div><dt>Status</dt><dd>Conceptual project · GLS Institute of Design</dd></div>
+</dl>
+
+<div class="pg-stats">
+  <div class="pg-stat"><b>6:1</b><span>Contrast ratio (WCAG AA minimum 4.5:1)</span></div>
+  <div class="pg-stat"><b>88%</b><span>H value</span></div>
+  <div class="pg-stat"><b>3</b><span>Colour-blindness conditions validated</span></div>
+  <div class="pg-stat"><b>3</b><span>Languages on every sign</span></div>
 </div>
 
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>How can you navigate a metro without ever feeling lost?</h3>
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">A system that speaks before you need to ask.</h2>
+  <div class="pg-three">
+    <div><h3>Brief</h3><p class="pg-p">Ahmedabad Metro's wayfinding and ticketing left riders anxious. This project focused on wayfinding: visual design, signage placement and orientation.</p></div>
+    <div><h3>My part</h3><p class="pg-p">Signage designer, systems researcher, iconographer, service designer and information architect.</p></div>
+    <div><h3>Result</h3><p class="pg-p">A signage system tested with metro officials and commuters, validated for three colour-blindness conditions.</p></div>
+  </div>
+</section>
 
-<p>Ahmedabad Metro by GMRC Limited aims to revolutionize urban transportation. Following extensive studies and site visits, challenges were pinpointed in the wayfinding and ticketing systems. The focus of this project was on enhancing the wayfinding experience through improved visual design, strategic signage placement, and orientation, aiming to minimize user anxiety and streamline navigation.</p>
+<section class="pg-sec" id="context">
+  <div class="pg-narrow">
+    <p class="pg-label">Context</p>
+    <h2 class="pg-h2">How can you navigate a metro without ever feeling lost?</h2>
+    <p class="pg-p">Ahmedabad Metro by GMRC Limited aims to revolutionize urban transportation. Following extensive studies and site visits, challenges were pinpointed in the wayfinding and ticketing systems. The focus of this project was on enhancing the wayfinding experience through improved visual design, strategic signage placement, and orientation, aiming to minimize user anxiety and streamline navigation.</p>
+    <p class="pg-p"><strong>Signage is graphic communications in the built world,</strong> which conveys information from one entity (the external environment) to another (people) in a visual mode. It tells a story as they walk through that space.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/metro-wayfinding/02-2000.webp" width="2000" height="1602" loading="lazy" decoding="async" alt="Eight field photographs of Ahmedabad's existing metro signage under a Site Visit heading: green exit signs, an orange LED destination board and a blue trilingual interchange panel."></figure>
+    <p class="pg-cap">Site visit: the existing wayfinding audit.</p>
+  </div>
+</section>
 
-<p><strong>Signage is graphic communications in the built world,</strong> which conveys information from one entity (the external environment) to another (people) in a visual mode. It tells a story as they walk through that space.</p>
+<section class="pg-sec pg-wide" id="research">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Research</p>
+      <h2 class="pg-h2">Three languages drove every typographic and layout decision.</h2>
+      <p class="pg-p">Research began with site visits, footfall mapping, shadowing, and participatory action research. A comparative case study covered metro stations around the world and across India. User journey mapping broke the experience into three scopes: <strong>Access Scope, Transfer Scope, and Egress Scope.</strong></p>
+      <p class="pg-p">Surveys indicated the language riders use most. This multilingual reality drove every typographic and layout decision that followed.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">53%</span><span><b>English</b>The language most riders use.</span></div>
+      <div class="pg-row"><span class="pg-row-k">34%</span><span><b>Gujarati</b></span></div>
+      <div class="pg-row"><span class="pg-row-k">13%</span><span><b>Hindi</b></span></div>
+      <div class="pg-row"><span class="pg-row-k">Persona</span><span><b>Chaitanya Singh, student, 20s, Delhi.</b>Frustrations: less information available online, no designated app, doesn't like standing in queues, doesn't want to carry two different metro cards.</span></div>
+    </div>
+  </div>
+  <div class="pg-narrow pg-gap">
+    <div class="pg-note">
+      <b>"I always keep getting lost and get anxious while using the metro! It needs a redesign!"</b>
+      <span>Anonymous user</span>
+    </div>
+  </div>
+</section>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/metro-wayfinding/02-1200.webp"
-       width="1200" height="960" loading="lazy" decoding="async"
-       alt="Eight field photographs of Ahmedabad's existing metro signage under a Site Visit heading: green exit signs, an orange LED destination board and a blue trilingual interchange panel.">
-  <figcaption>Metro Station: Existing Wayfinding Audit</figcaption>
-</figure>
+<section class="pg-sec" id="legibility">
+  <div class="pg-narrow">
+    <p class="pg-label">Legibility</p>
+    <h2 class="pg-h2">Visual ergonomics decided the type.</h2>
+    <p class="pg-p">The typeface chosen was <strong>Anek Sans</strong>, selected for its native support of Devanagari and Gujarati scripts alongside Latin. Contrast values followed Arthur and Passini's research, targeting <strong>70% contrast</strong> for legibility. Letter body width-to-height ratio was maintained between 0.6 and 1.0 across all signage.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <div class="pg-pair">
+      <figure><div class="pg-media"><img src="../assets/case-studies/metro-wayfinding/07-2000.webp" width="2000" height="1484" loading="lazy" decoding="async" alt="The Typography slide: survey findings on English, Gujarati and Hindi, and the Anek and Baloo Bhai 2 type families shown in Latin, Devanagari and Gujarati."></div><p class="pg-cap">Typography: Anek, tested against Baloo Bhai 2.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/metro-wayfinding/08-2000.webp" width="2000" height="1096" loading="lazy" decoding="async" alt="Sabarmati Railway Station set in Latin, Devanagari and Gujarati across six rows of increasing blur, simulating low vision."></div><p class="pg-cap">Legibility under visual impairment: the same line at increasing blur.</p></figure>
+    </div>
+  </div>
+</section>
 
-<hr class="section-rule">
+<section class="pg-sec" id="system">
+  <div class="pg-narrow">
+    <p class="pg-label">The system</p>
+    <h2 class="pg-h2">Three sign types, sized and colour coded by place.</h2>
+    <p class="pg-p">A color coding system was developed to distinguish sign types. Signage was classified into three categories: <strong>Guidance Signs</strong> (directional), <strong>Normative Signs</strong> (regulatory), and <strong>Indication Signs</strong> (informational).</p>
+    <p class="pg-p">Physical sign dimensions were specified for each placement context, from A1 (2x10 ft) and A2 (2x12 ft) overhead signs to B1 (1x4 ft) and B3 (0.5x1 ft) counter signs, C1 (2x6 ft) and C2 (2x2 ft) plates, and D2 (12x8 ft) station pylons. Each size was mapped to a specific location within the station architecture.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/metro-wayfinding/04-2000.webp" width="2000" height="1040" loading="lazy" decoding="async" alt="A Signage Typology diagram in which a grey human silhouette stands beside every sign format, each drawn to relative size and hung at its real height."></figure>
+    <p class="pg-cap">Signage typology: every format drawn to relative size beside a person.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/metro-wayfinding/05-2000.webp" width="2000" height="1102" loading="lazy" decoding="async" alt="Four directional sign variants on black: Towards Platform in red and in blue, Towards Gate 1 with a green EXIT cap, and Towards Motera in coral, each in Gujarati, Hindi and English."></figure>
+    <p class="pg-cap">Colour-coded directional signs, trilingual.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/metro-wayfinding/03-2000.webp" width="2000" height="1102" loading="lazy" decoding="async" alt="An existing green exit sign beside the new black exit sign with a green EXIT cap and arrow, with notes on a new set of signs in the interchange and a new platform numbering system."></figure>
+    <p class="pg-cap">Before and after, with two further changes: a new set of signs in the interchange that uses the metro track colour to show the direction of travel, and a new platform numbering system that numbers Uptown as Platform 1 and Downtown as Platform 2. Both reduce the number of signs and ease the flow of crowds.</p>
+    <div class="pg-pair pg-gap">
+      <figure><div class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/metro-wayfinding/v2.mp4" poster="../assets/case-studies/metro-wayfinding/v2-poster.webp" width="1200" height="1200" aria-label="Animated anatomy of a C1 2x6 ft directional plate, resolving into its proportional zones: 10% secondary info, 60% primary trilingual text, 30% wayfinding arrow."></video></div><p class="pg-cap">Anatomy of a C1 plate: 10% secondary information, 60% primary trilingual text, 30% wayfinding arrow.</p></figure>
+      <figure><div class="pg-media"><video muted loop playsinline preload="none" data-src="../assets/case-studies/metro-wayfinding/v1.mp4" poster="../assets/case-studies/metro-wayfinding/v1-poster.webp" width="1200" height="1200" aria-label="The finished C1 directional plate animating into place: a red platform-number cap, trilingual Towards Vastal Gam and a red hook arrow sweeping right."></video></div><p class="pg-cap">The finished C1 plate.</p></figure>
+    </div>
+  </div>
+</section>
 
-<!-- APPROACH -->
-<h2>Approach</h2>
-<h3>Research-driven signage redesign</h3>
+<section class="pg-sec" id="outcome">
+  <div class="pg-narrow">
+    <p class="pg-label">Outcome</p>
+    <h2 class="pg-h2">A system that speaks before you need to ask.</h2>
+    <p class="pg-p">The redesigned signage system was tested with metro officials and commuters. Accessibility was validated for <strong>Tritanopia, Protanopia, and Deuteranopia</strong> color blindness conditions. The system achieved an <strong>88% H Value</strong> and reached a <strong>6:1 contrast ratio</strong>, above the WCAG AA minimum of 4.5:1.</p>
+    <div class="pg-note">
+      <b>"This new signage works a lot better than the current ones at the stations."</b>
+      <span>Metro official</span>
+    </div>
+  </div>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/metro-wayfinding/09-2000.webp" width="2000" height="1504" loading="lazy" decoding="async" alt="The black pylon with its red cap on a kerb outside Motera Stadium in daylight, its Gujarati and English station panel and neighbourhood map rising above the pavement."></figure>
+    <p class="pg-cap">The pylon in situ outside Motera Stadium.</p>
+    <div class="pg-pair pg-gap">
+      <figure><div class="pg-media"><img src="../assets/case-studies/metro-wayfinding/06-2000.webp" width="2000" height="1308" loading="lazy" decoding="async" alt="Three views of the black station pylon with a red cap, a Motera Stadium panel in Gujarati and English with a map, and a red metro emblem at the base."></div><p class="pg-cap">The station pylon, three views.</p></figure>
+      <figure><div class="pg-media"><img src="../assets/case-studies/metro-wayfinding/10-2000.webp" width="2000" height="1164" loading="lazy" decoding="async" alt="A black hanging sign in a dark concourse: Towards Motera on the left and Towards APMC on the right, each with a red arrow, split by a red line."></div><p class="pg-cap">A hanging directional sign in a dark concourse.</p></figure>
+    </div>
+  </div>
+</section>
 
-<h4>Understanding the ground</h4>
-<p>Research began with site visits, footfall mapping, shadowing, and participatory action research. A comparative case study covered metro stations around the world and across India. User journey mapping broke the experience into three scopes: <strong>Access Scope, Transfer Scope, and Egress Scope.</strong></p>
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What this project built.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Wayfinding psychology and environmental design</strong> as lived disciplines, not textbook ones. Understanding how anxiety compounds when a sign is placed two meters too late.</span></li>
+      <li><span><strong>Systems thinking</strong> applied to physical space. Every sign exists in a network. Moving one changes the load on every other.</span></li>
+      <li><span><strong>Universal design</strong> as a constraint that improves the outcome for everyone, not just edge cases. The color blindness testing changed the palette for all users, not a subset.</span></li>
+      <li><span><strong>Material know-how, iconography, spatial awareness and UX design</strong> working together across a single deliverable.</span></li>
+      <li><span>Deepened comprehension through reading <em>Signage &amp; Wayfinding Design</em> by Chris Calori.</span></li>
+    </ol>
+  </div>
+</section>
 
-<p>Surveys indicated that <strong>English (53%)</strong> is the predominant language among metro riders, followed by <strong>Gujarati (34%)</strong> and <strong>Hindi (13%)</strong>. This multilingual reality drove every typographic and layout decision that followed.</p>
+</main>
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/metro-wayfinding/01-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Footfall Mapping and User Journey Map">
-  <figcaption>Footfall Mapping &amp; User Journey Map</figcaption>
-</figure>
+<footer class="pg-foot">
+  <a class="pg-next pg-prev" href="scribbleship.html"><small>Previous project</small><span>← ScribbleShip</span></a>
+  <a class="pg-next" href="gls-yearbook.html"><small>Next project</small><span>GLS Annual Yearbook →</span></a>
+</footer>
 
-<h4>Visual ergonomics</h4>
-<p>The typeface chosen was <strong>Anek Sans</strong>, selected for its native support of Devanagari and Gujarati scripts alongside Latin. Contrast values followed Arthur and Passini's research, targeting <strong>70% contrast</strong> for legibility. Letter body width-to-height ratio was maintained between 0.6 and 1.0 across all signage.</p>
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
 
-<p>A color coding system was developed to distinguish sign types. Signage was classified into three categories: <strong>Guidance Signs</strong> (directional), <strong>Normative Signs</strong> (regulatory), and <strong>Indication Signs</strong> (informational).</p>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="smooth-scroll.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/metro-wayfinding/04-1200.webp"
-       width="1200" height="624" loading="lazy" decoding="async"
-       alt="A Signage Typology diagram in which a grey human silhouette stands beside every sign format, each drawn to relative size and hung at its real height.">
-  <figcaption>Signage Taxonomy &amp; Color Coding System</figcaption>
-</figure>
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
 
-<h4>Signage typology and sizing</h4>
-<p>Physical sign dimensions were specified for each placement context: A1 (2x10ft), A2 (2x4ft), A3 (2x6ft), B1 (0.5x1ft), B3 (2x12ft), C1 (2x2ft), C2, and D2 (12x8ft). Each size was mapped to a specific location within the station architecture.</p>
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
 
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/02-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A1: Platform Guidance signage">
-    <figcaption>A1: Platform Guidance</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/03-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A2: Corridor Directional signage">
-    <figcaption>A2: Corridor Directional</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/05-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="A3: Concourse Overhead signage">
-    <figcaption>A3: Concourse Overhead</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/06-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="B1: Counter Indicator signage">
-    <figcaption>B1: Counter Indicator</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/07-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="C1: Normative Signage">
-    <figcaption>C1: Normative Signage</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/metro-wayfinding/08-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="D2: External Station ID signage">
-    <figcaption>D2: External Station ID</figcaption>
-  </figure>
-</div>
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
 
-<h4>User persona</h4>
-<p><strong>Chaitanya Singh, Student, 20s, Delhi.</strong> Frustrations: less information available online, no designated app, doesn't like standing in queues, doesn't want to carry two different metro cards.</p>
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
 
-<div class="pull-quote">
-  <blockquote>"I always keep getting lost and get anxious while using the metro! It needs a redesign!"</blockquote>
-  <cite>Anonymous User</cite>
-</div>
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
 
-<hr class="section-rule">
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
 
-<!-- OUTCOME -->
-<h2>Outcome</h2>
-<h3>A system that speaks before you need to ask</h3>
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
 
-<p>The redesigned signage system was tested with metro officials and commuters. Accessibility was validated for <strong>Tritanopia, Protanopia, and Deuteranopia</strong> color blindness conditions. The system achieved an <strong>88% H Value</strong> and reached a <strong>6:1 contrast ratio</strong>, above the WCAG AA minimum of 4.5:1.</p>
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
 
-<div class="pull-quote">
-  <blockquote>"This new signage works a lot better than the current ones at the stations."</blockquote>
-  <cite>Metro Official</cite>
-</div>
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/metro-wayfinding/09-1200.webp"
-       width="1200" height="902" loading="lazy" decoding="async"
-       alt="The black pylon with its red cap on a kerb outside Motera Stadium in daylight, its Gujarati and English station panel and neighbourhood map rising above the pavement.">
-  <figcaption>Final Signage System: In-Situ Mockups</figcaption>
-</figure>
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
 
-<figure class="case-figure">
-  <img src="../assets/case-studies/metro-wayfinding/10-1200.webp" width="1200" height="675" loading="lazy" decoding="async" alt="Accessibility Testing: Color Blindness Simulation">
-  <figcaption>Accessibility Testing: Color Blindness Simulation</figcaption>
-</figure>
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
 
-<hr class="section-rule">
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', 'Information architecture');
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
 
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What this project built</h3>
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
 
-<ul class="reflection-list">
-  <li><strong>Wayfinding Psychology</strong> and <strong>Environmental Design</strong> as lived disciplines, not textbook ones. Understanding how anxiety compounds when a sign is placed two meters too late.</li>
-  <li><strong>Systems Thinking</strong> applied to physical space. Every sign exists in a network. Moving one changes the load on every other.</li>
-  <li><strong>Universal Design</strong> as a constraint that improves the outcome for everyone, not just edge cases. The color blindness testing changed the palette for all users, not a subset.</li>
-  <li><strong>Material Know-How, Iconography, Spatial Awareness, UX Design</strong> working together across a single deliverable.</li>
-  <li>Deepened comprehension through reading <em>Signage &amp; Wayfinding Design</em> by Chris Calori.</li>
-</ul>
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
 
-<!-- CTA -->
-<div class="cta">
-  <p>Shreyo Debnath &middot; Designer</p>
-  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
-</div>
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
 
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
 </body>
 </html>

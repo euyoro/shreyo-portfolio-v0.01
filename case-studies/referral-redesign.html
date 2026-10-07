@@ -1,807 +1,503 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Referral Redesign · Shreyo Debnath</title>
+<meta name="description" content="Rebuilt the referral flow and made the offer card testable by Growth without engineering. Not shipped yet, so no conversion data.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
-
-  /* ── TYPOGRAPHY ── */
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
-
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
-
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
-
-  p + p { margin-top: 0; }
-
-  ul {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    padding-left: 20px;
-    margin-bottom: 16px;
-  }
-
-  li { margin-bottom: 6px; }
-
-  strong { color: var(--text); font-weight: 500; }
-
-  em { color: var(--text); font-style: normal; }
-
-  /* ── META BLOCK ── */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
-
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) {
-    border-bottom: none;
-  }
-
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
-
-  .status-open {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-top: 4px;
-  }
-
-  /* ── SECTION DIVIDER ── */
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
-
-  /* ── INSIGHT CARDS ── */
-  .insight-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .insight-card {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 18px 16px;
-    font-size: 0.825rem;
-    color: var(--dim);
-    line-height: 1.6;
-  }
-
-  .insight-card strong {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  /* ── SPLIT GOALS ── */
-  .goals-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .goals-col {
-    background: var(--card-bg);
-    border-radius: 8px;
-    padding: 24px 20px;
-  }
-
-  .goals-col h4 {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-
-  .goals-col ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .goals-col li {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.55;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border);
-    margin: 0;
-  }
-
-  .goals-col li:last-child { border-bottom: none; }
-
-  /* ── PHASE BLOCK ── */
-  .phases {
-    margin: 28px 0;
-  }
-
-  .phase {
-    padding: 20px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .phase:first-child { border-top: 1px solid var(--border); }
-
-  .phase-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-
-  .phase p {
-    margin: 0;
-    font-size: 0.875rem;
-  }
-
-  /* ── DECISION CARD ── */
-  .decision-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .decision-card {
-    border-radius: 8px;
-    padding: 24px 20px;
-    background: var(--card-bg);
-  }
-
-  .decision-card.chosen {
-    background: var(--chosen-bg);
-  }
-
-  .decision-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  .decision-card.chosen .decision-tag {
-    color: rgba(240,240,238,0.4);
-  }
-
-  .decision-title {
-    font-family: var(--ff-display);
-    font-size: 1.05rem;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-
-  .decision-card.chosen .decision-title {
-    color: var(--chosen-text);
-  }
-
-  .decision-desc {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.6;
-  }
-
-  .decision-card.chosen .decision-desc {
-    color: rgba(240,240,238,0.55);
-  }
-
-  /* ── FAILURE CARDS ── */
-  .failure-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .failure-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
-
-  .failure-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-
-  .failure-mine {
-    font-size: 0.8125rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .failure-body {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* ── PULL QUOTE ── */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
-
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
-
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
-
-  /* ── IMAGE PLACEHOLDER ── */
-  .image-placeholder {
-    width: 100%;
-    min-height: 320px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-    gap: 8px;
-  }
-
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  .image-placeholder small {
-    font-size: 0.8125rem;
-    color: var(--border);
-  }
-
-  /* ── SCREEN GRID PLACEHOLDER ── */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 36px 22px;
-    margin: 32px 0;
-  }
-
-  .screen-item {
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
-  }
-
-  .screen-item span,
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  /* Filled wells drop the dashed container: the screen is the object, and its
-     label sits underneath. Empty wells keep the dashed box so anything still
-     unshot reads as pending. */
-  figure.screen-item,
-  figure.ba-side,
-  figure.image-placeholder {
-    border: none;
-    background: none;
-    padding: 0;
-    gap: 0;
-    min-height: 0;
-    justify-content: flex-start;
-  }
-
-  figure.screen-item img,
-  figure.ba-side img,
-  figure.image-placeholder img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 10px;
-  }
-
-  figure.screen-item figcaption,
-  figure.ba-side figcaption,
-  figure.image-placeholder figcaption {
-    padding: 14px 0 0;
-    text-align: center;
-    width: 100%;
-  }
-
-  /* ── BEFORE / AFTER ── */
-  .before-after {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 22px;
-    margin: 32px 0;
-    align-items: end;
-  }
-
-  .ba-side {
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    min-height: 260px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px;
-  }
-
-  .ba-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  /* ── REFLECTION LIST ── */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* ── CTA ── */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* ── WORDMARK ── */
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
-
-  /* ── PRINT ── */
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder, .screen-item, .ba-side { min-height: 200px; }
-    h3 { page-break-after: avoid; }
-    .failure-cards, .decision-cards, .goals-grid, .insight-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
-  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cs-page.css">
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
+<a class="pg-close" href="../index.html" aria-label="Close case study"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></a>
 
+<nav class="pg-toc" aria-label="On this page">
+  <ol>
+      <li><a href="#overview" data-sec="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg><span data-t="Overview">Overview</span></a></li>
+      <li><a href="#context" data-sec="context"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg><span data-t="Context">Context</span></a></li>
+      <li><a href="#problem" data-sec="problem"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg><span data-t="Problem">Problem</span></a></li>
+      <li><a href="#goals" data-sec="goals"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg><span data-t="Goals">Goals</span></a></li>
+      <li><a href="#process" data-sec="process"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span data-t="Process">Process</span></a></li>
+      <li><a href="#decision" data-sec="decision"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M12 22v-8.3a4 4 0 0 0-1.172-2.872L3 3"/><path d="m15 9 6-6"/></svg><span data-t="Key decision">Key decision</span></a></li>
+      <li><a href="#solution" data-sec="solution"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></svg><span data-t="Solution">Solution</span></a></li>
+      <li><a href="#outcome" data-sec="outcome"><svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span data-t="Outcome">Outcome</span></a></li>
+      <li><a href="#hindsight" data-sec="hindsight"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg><span data-t="In hindsight">In hindsight</span></a></li>
+      <li><a href="#takeaways" data-sec="takeaways"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></svg><span data-t="Takeaways">Takeaways</span></a></li>
+  </ol>
+</nav>
 
-<span class="wordmark">Shreyo Debnath</span>
+<main>
 
-<h1>Referral Redesign</h1>
+<header class="pg-hero">
+  <div class="pg-kicker"><span>US fintech app</span><span>Growth</span></div>
+  <h1 class="pg-title">Referral Redesign</h1>
+  <p class="pg-sub">Rebuilt the referral flow and made the offer card testable by Growth without engineering. Not shipped yet, so no conversion data.</p>
+  <figure class="pg-media">
+    <img src="../assets/case-studies/referral-redesign/curated/c23.webp" width="3840" height="2160" loading="eager" decoding="async" alt="The redesigned referral flow in four screens: Refer 3 friends, Get $500 with an invite link, a congratulations screen after a friend joins, an Allow access to contacts prompt, and Win Assured $120 with reward cards.">
+  </figure>
+</header>
 
-<p class="outcome-line">Rebuilt the referral flow and made the offer card testable by Growth without engineering. Not shipped yet, so no conversion data.</p>
+<dl class="pg-meta">
+  <div><dt>Role</dt><dd>Product Designer, sole owner</dd></div>
+  <div><dt>Timeline</dt><dd>13 months · 3 phases</dd></div>
+  <div><dt>Tools</dt><dd class="pg-tools"><span class="pg-tool"><i style="--c:#F24E1E;--m:url(../assets/logos/tools/figma.svg)" aria-hidden="true"></i>Figma</span></dd></div>
+  <div><dt>Status</dt><dd>Designed. Hi-fi signed off. Referral templates in the dev queue.</dd></div>
+</dl>
 
-<div class="meta-block">
-  <div class="meta-item">
-    <span class="meta-label">Role</span>
-    <span class="meta-value">Product Designer: sole owner</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">Aug 2025 → Aug 2026 · 13 months · 3 phases</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Team</span>
-    <span class="meta-value">Design director · Design lead · Illustrator · Growth · Product</span>
-  </div>
-  <div class="meta-item">
-    <span class="meta-label">Tools</span>
-    <span class="meta-value">Figma</span>
-  </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
-    <span class="meta-label">Status</span>
-    <span class="meta-value">Designed. Hi-fi signed off. Referral templates in the dev queue.</span>
-    <span class="status-open">Designed</span>
-  </div>
+<div class="pg-stats">
+  <div class="pg-stat"><b>13 mo</b><span>Project length</span></div>
+  <div class="pg-stat"><b>3</b><span>Phases</span></div>
+  <div class="pg-stat"><b>$25</b><span>Standing reward ceiling</span></div>
+  <div class="pg-stat"><b>1 week</b><span>Phase 3 hi-fi, after a one-day wireframe</span></div>
 </div>
 
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>Who tells a friend about an app they barely use?</h3>
-<p>That was the real question. Not how to clean up the flow. Whether anyone actually wanted to refer the app, and whether the screen helped them do it.</p>
-<p>The company is a US fintech app. It helps people manage credit card debt, pay bills, save, and build credit. The referral programme is one of the only organic growth levers the product has. A $25 reward for every friend who signs up and completes a qualifying transaction.</p>
-<p>I owned this project for 13 months, across three separate phases, each revived when Growth had bandwidth. The brief when it started: Referral 2.0 → 3.0. Nothing else.</p>
-
-<hr class="section-rule">
-
-<!-- PROBLEM -->
-<h2>Problem</h2>
-<h3>The 2022 UI was doing the asking. Not the selling.</h3>
-<p>The referral flow had not been touched since 2022. The reward rules had changed. New qualifying actions, a $25 ceiling, a $10 minimum transaction, a five-referral monthly cap with no carry-over. The screens showed none of it.</p>
-<p>Three things were broken:</p>
-<ul>
-  <li>The reward structure was buried in copy. Users couldn't skim what they'd actually earn.</li>
-  <li>The PLU (the in-app card surfacing the referral offer) was static. Growth couldn't vary messaging without a dev sprint.</li>
-  <li>The visual system had moved. The old screens were built on a design language the product had since replaced.</li>
-</ul>
-
-<div class="insight-cards">
-  <div class="insight-card">
-    <strong>Finding 01</strong>
-    Reward ceiling and qualifying conditions were unreadable at a glance
+<section class="pg-sec pg-wide" id="overview">
+  <p class="pg-label">Overview</p>
+  <h2 class="pg-h2">A referral flow Growth can test without a dev sprint.</h2>
+  <div class="pg-three">
+    <div><h3>Problem</h3><p class="pg-p">The 2022 referral screens showed none of the new reward rules, and Growth needed a full dev sprint for every messaging test on the offer card.</p></div>
+    <div><h3>My part</h3><p class="pg-p">Sole owner across three phases and 13 months: the UX flows, the offer card rebuilt as a modular component Growth controls, and the hi-fi screens.</p></div>
+    <div><h3>Result</h3><p class="pg-p">Hi-fi signed off and aligned with Growth and product, waiting on a dev sprint. Not shipped, so there is no conversion data yet.</p></div>
   </div>
-  <div class="insight-card">
-    <strong>Finding 02</strong>
-    Every PLU messaging test cost Growth a full dev sprint
-  </div>
-  <div class="insight-card">
-    <strong>Finding 03</strong>
-    The 2022 illustration style no longer matched the product
-  </div>
-</div>
+</section>
 
-<hr class="section-rule">
+<section class="pg-sec" id="context">
+  <div class="pg-narrow">
+    <p class="pg-label">Context</p>
+    <h2 class="pg-h2">Who tells a friend about an app they barely use?</h2>
+    <p class="pg-p">That was the real question. Not how to clean up the flow, but whether anyone actually wanted to refer the app, and whether the screen helped them do it.</p>
+    <p class="pg-p">The company is a US fintech app. It helps people manage credit card debt, pay bills, save, and build credit. The referral programme is one of the only organic growth levers the product has: a $25 reward for every friend who signs up and completes a qualifying transaction.</p>
+    <p class="pg-p">I owned this project for 13 months, across three separate phases, each revived when Growth had bandwidth. The brief when it started: Referral 2.0 → 3.0. Nothing else.</p>
+  </div>
+</section>
 
-<!-- GOALS -->
-<h2>Goals</h2>
-<div class="goals-grid">
-  <div class="goals-col">
-    <h4>User</h4>
-    <ul>
-      <li>Understand the reward without hunting for fine print</li>
-      <li>Get to sharing in one action</li>
-      <li>Trust the offer is worth passing on</li>
+<section class="pg-sec" id="problem">
+  <div class="pg-narrow">
+    <p class="pg-label">Problem</p>
+    <h2 class="pg-h2">The 2022 UI was doing the asking, not the selling.</h2>
+    <p class="pg-p">The referral flow had not been touched since 2022. The reward rules had changed: new qualifying actions, a $25 ceiling, a $10 minimum transaction, a five-referral monthly cap with no carry-over. The screens showed none of it.</p>
+  </div>
+  <div class="pg-wide pg-gap">
+    <ul class="pg-cards pg-cards-3" aria-label="What was wrong">
+      <li class="pg-card"><b>Unreadable reward rules</b><span>The reward ceiling and qualifying conditions were buried in copy. Users couldn't skim what they would actually earn.</span></li>
+      <li class="pg-card"><b>A sprint per test</b><span>Every PLU messaging test cost Growth a full dev sprint. The PLU, the in-app card surfacing the referral offer, was static.</span></li>
+      <li class="pg-card"><b>An outdated style</b><span>The old screens were built on a design language the product had since replaced.</span></li>
     </ul>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/referral-redesign/curated/c24.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The older 2.0 referral screens: Your Referral Rewards with a 2 of 2 awards gauge and a friends list, and a Pending list with Send reminder buttons, annotated that the real action screen is hidden behind several clicks and that the core screen is non-interactive."></figure>
+    <p class="pg-cap">Older 2.0: extremely mixed-up flows, making it harder for the user to reach the dashboard. The real action screen sat behind several clicks, and the core screen was non-interactive information.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/referral-redesign/curated/c26.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The older 2.0 UI: a Thank you screen with a heart, a green Refer 3 friends, Get $500 screen with an invite link, and a Get $125 $500 when you refer 3 friends screen with an invites-sent track."></figure>
+    <p class="pg-cap">Older 2.0 UI.</p>
   </div>
-  <div class="goals-col">
-    <h4>Business</h4>
-    <ul>
-      <li>Higher referral conversion, no backend changes</li>
-      <li>Growth-controlled PLU: testable without a dev sprint</li>
-      <li>Full visual alignment with Phoenix design system</li>
-    </ul>
+</section>
+
+<section class="pg-sec pg-wide" id="goals">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Goals</p>
+      <h2 class="pg-h2">Make the reward obvious, and put the offer in Growth's hands.</h2>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">User</span><span>Understand the reward without hunting for fine print. Get to sharing in one action. Trust the offer is worth passing on.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Business</span><span>Higher referral conversion, no backend changes. A Growth-controlled PLU, testable without a dev sprint. Full visual alignment with the Phoenix design system.</span></div>
+    </div>
   </div>
-</div>
+</section>
 
-<hr class="section-rule">
-
-<!-- PROCESS -->
-<h2>Process</h2>
-<h3>Three phases. Eight months between two of them.</h3>
-
-<div class="phases">
-  <div class="phase">
-    <div class="phase-label">Phase 1 · Aug to Sep 2025</div>
-    <p>UX from scratch. I mapped the full referral experience in FigJam, built the 3.0 UX flows, explored a scratch-card treatment for the referral card, ideated PLU screens, and locked the illustration direction with the design director.</p>
+<section class="pg-sec pg-wide" id="process">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Process</p>
+      <h2 class="pg-h2">Three phases, with eight months between two of them.</h2>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span class="pg-row-k">Phase 1<br>2 months</span><span>UX from scratch. I mapped the full referral experience in FigJam, built the 3.0 UX flows, explored a scratch-card treatment for the referral card, ideated PLU screens, and locked the illustration direction with the design director.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Phase 2<br>2 months</span><span>UI hygiene across all touchpoints. Illustration delivered by the illustrator. Screens ready, aligned with the design director, shared with Growth. Then deprioritised: the RMS track took Growth's bandwidth, and the screens sat for eight months.</span></div>
+      <div class="pg-row"><span class="pg-row-k">Phase 3<br>2 months</span><span>The design director revived it with one constraint: no backend involvement. Wireframes done in a day. Hi-fi closed in a week. Aligned with Growth and product. Closed.</span></div>
+    </div>
   </div>
-  <div class="phase">
-    <div class="phase-label">Phase 2 · Oct to Nov 2025</div>
-    <p>UI hygiene across all touchpoints. Illustration delivered by the illustrator. Screens ready, aligned with the design director, shared with Growth. Then: deprioritised. The RMS track took Growth's bandwidth. Screens sat for eight months.</p>
+  <div class="pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/referral-redesign/screens/figjam.webp" width="1400" height="1111" loading="lazy" decoding="async" alt="The referral flow indexing board: a legend defining the flow notation, a taxonomy splitting in-app from out-of-app touchpoints, a row of value propositions covering mutual reward, monthly cap and tiered offers, and the written conditions each party must meet to earn a reward."></figure>
+    <p class="pg-cap">FigJam: Referral Flow Indexing.</p>
   </div>
-  <div class="phase">
-    <div class="phase-label">Phase 3 · Jul to Aug 2026</div>
-    <p>The design director revived it with one constraint: no backend involvement. Wireframes done in a day. Hi-fi closed in a week. Aligned with Growth and product. Closed.</p>
+</section>
+
+<section class="pg-sec pg-wide" id="decision">
+  <div class="pg-split">
+    <div>
+      <p class="pg-label">Key decision</p>
+      <h2 class="pg-h2">The constraint that made Phase 3 faster.</h2>
+      <p class="pg-p">The design director's brief on revival: no backend involvement. I took that further than a refresh.</p>
+      <p class="pg-p">The real ask surfaced in the minutes of the meeting with Growth. Growth needed a PLU system they could control dynamically: vary the message, test the offer, swap the visual, with no dev sprint. That meant designing the PLU as a modular component, not a fixed screen.</p>
+      <p class="pg-p">The constraint forced the right outcome. A PLU Growth owns is more valuable than one that looks better.</p>
+    </div>
+    <div class="pg-rows">
+      <div class="pg-row"><span><span class="pg-chip">Ruled out</span></span><span><b>Static PLU screen</b>Single message, designed once. Every change needs engineering. Growth can't test without a dev sprint.</span></div>
+      <div class="pg-row"><span><span class="pg-chip yes">Chosen</span></span><span><b>Modular PLU component</b>Message, visual and CTA templated. Growth controls all three from BE + FE. Built to feed the RMS system Growth was building toward.</span></div>
+    </div>
   </div>
-</div>
-
-<figure class="image-placeholder">
-  <img src="../assets/case-studies/referral-redesign/screens/figjam.webp" width="1400" height="1111"
-       loading="lazy" decoding="async"
-       alt="The referral flow indexing board: a legend defining the flow notation, a taxonomy splitting in-app from out-of-app touchpoints, a row of value propositions covering mutual reward, monthly cap and tiered offers, and the written conditions each party must meet to earn a reward.">
-  <figcaption><span>FigJam: Referral Flow Indexing</span></figcaption>
-</figure>
-
-<hr class="section-rule">
-
-<!-- DECISION -->
-<h2>Key Decision</h2>
-<h3>The constraint that made Phase 3 faster</h3>
-<p>The design director's brief on revival: no backend involvement. I took that further than a refresh.</p>
-<p>The real ask surfaced in the minutes of the meeting with Growth. Growth needed a PLU system they could control dynamically. Vary the message, test the offer, swap the visual. No dev sprint. That meant designing the PLU as a modular component, not a fixed screen.</p>
-
-<div class="decision-cards">
-  <div class="decision-card">
-    <span class="decision-tag">Ruled out</span>
-    <div class="decision-title">Static PLU screen</div>
-    <div class="decision-desc">Single message, designed once. Every change needs engineering. Growth can't test without a dev sprint.</div>
+  <div class="pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/referral-redesign/curated/c25.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The How does our referral program work screen, before and after: the older 2.0 version as a plain checklist, and the new 3.0 version as a timeline with icons, a limited offer and a gift illustration."></figure>
+    <p class="pg-cap">Older 2.0 was inconsistent with the user experience, and the funnel and proposition were not consistent. New 3.0 retains the same UX so the new UI can be launched and tested quickly.</p>
   </div>
-  <div class="decision-card chosen">
-    <span class="decision-tag">Chosen</span>
-    <div class="decision-title">Modular PLU component</div>
-    <div class="decision-desc">Message, visual, and CTA templated. Growth controls all three from BE + FE. Built to feed the RMS system Growth was building toward.</div>
+</section>
+
+<section class="pg-sec" id="solution">
+  <div class="pg-narrow">
+    <p class="pg-label">Solution</p>
+    <h2 class="pg-h2">The redesigned referral, from home card to confirmation.</h2>
+    <p class="pg-p">The $120 shown in the redesigned screens is a limited-time promotional offer, not the standing reward.</p>
   </div>
-</div>
-
-<p>The constraint forced the right outcome. A PLU Growth owns is more valuable than one that looks better.</p>
-
-<hr class="section-rule">
-
-<!-- SOLUTION -->
-<h2>Solution</h2>
-
-<div class="before-after">
-  <div class="ba-side">
-    <span class="ba-label">Before · 2022</span>
+  <div class="pg-wide pg-gap">
+    <figure class="pg-media"><img src="../assets/case-studies/referral-redesign/curated/c27.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The improved 3.0 UI: a congratulations screen for a successful referral, a Give $25, Get $25 invite screen with a shareable link, and a Limited period offer screen, Get $125 $500 when you refer 3 friends, with an invites-sent track."></figure>
+    <p class="pg-cap">Improved 3.0 UI.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/referral-redesign/curated/c28.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The referral components: a green Refer 1 Friend to claim card, the Refer and Claim dashboard at $0 of $120 with reward cards and a friends list, a small home banner, a Earn up to $120 upsell card, and the $20, $40 and $60 reward cards."></figure>
+    <p class="pg-cap">The components: the Refer and Claim dashboard, the home banner and upsell card that Growth controls, and the $20, $40 and $60 reward cards.</p>
+    <figure class="pg-media pg-gap"><img src="../assets/case-studies/referral-redesign/curated/c22.webp" width="3840" height="2160" loading="lazy" decoding="async" alt="The How does our referral program work screen on two phones: share your referral, wait for your friend to become eligible, get $25 deposited to your Bright Stash account, and a limited offer, ending on a Got it button."></figure>
+    <p class="pg-cap">How the referral program works: share, wait for eligibility, get paid.</p>
   </div>
-  <figure class="ba-side">
-    <img src="../assets/case-studies/referral-redesign/screens/after.webp" width="1400" height="788"
-         loading="lazy" decoding="async"
-         alt="Two angled phones showing the redesigned referral: a Give $25, Get $25 screen with a shareable link, and a limited period offer reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
-    <figcaption class="ba-label">After · Phoenix 2026</figcaption>
-  </figure>
-</div>
+</section>
 
-<p>The $120 shown in the redesigned screens is a limited-time promotional offer, not the standing reward.</p>
+<section class="pg-sec" id="outcome">
+  <div class="pg-narrow">
+    <p class="pg-label">Outcome</p>
+    <h2 class="pg-h2">Signed off and in the queue, not yet shipped.</h2>
+    <p class="pg-p">Hi-fi signed off by the design lead. Aligned with Growth and product. Waiting on dev sprint allocation.</p>
+    <p class="pg-p">Referral templates are P0 as of Aug 2026, blocked on compliance availability and Growth team leave. Not dropped, in queue.</p>
+    <p class="pg-p">No conversion data yet. The hi-fi hasn't shipped.</p>
+  </div>
+</section>
 
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/plu-card.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The Home screen carrying the referral card above the fold, reading Earn up to $120, invite 3 friends to the app, with a Refer Now button and an Earn $20 chip in the header.">
-    <figcaption>PLU Card</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/pitch.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The referral offer screen: swipeable $20 and $40 reward cards above Win Assured $120!, three ticked qualifying conditions, and an Invite and Get $20 button.">
-    <figcaption>Referral Pitch Screen</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/reward.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="Refer and Claim at money earned $0 of $120, with three reward tiers of $20, $60 and $40 sitting locked above an Unlock Your Rewards explainer.">
-    <figcaption>Reward Breakdown</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/share.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The same dashboard at $20 of $120 with the first tier unlocked in green, above a Get Unique Link row and a Share and Give $20 button.">
-    <figcaption>Share Flow</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/dashboard.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The dashboard at $120 of $120 with all three reward tiers unlocked in colour and the button changed to Invite Friends.">
-    <figcaption>Dashboard Tile</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/referral-redesign/screens/confirmation.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The referred friend's screen reading Congratulations, Get Your Reward!, a large twenty dollar mark, and three steps with the first two ticked, promising $20 in seven business days.">
-    <figcaption>Confirmation State</figcaption>
-  </figure>
-</div>
+<section class="pg-sec" id="hindsight">
+  <div class="pg-narrow">
+    <p class="pg-label">In hindsight</p>
+    <h2 class="pg-h2">Three things I would challenge in my own work.</h2>
+    <div class="pg-note">
+      <b>I waited for full bandwidth <span class="mine">· mine</span></b>
+      <span>I did not push a lightweight test, so the screens sat idle for eight months.</span>
+    </div>
+    <div class="pg-note">
+      <b>I flagged a compliance dependency late <span class="mine">· mine</span></b>
+      <span>I raised it at alignment, not at kickoff.</span>
+    </div>
+    <div class="pg-note">
+      <b>I left an illustration question untested <span class="mine">· mine</span></b>
+      <span>I raised it when I could have tested it myself.</span>
+    </div>
+    <div class="pg-note">
+      <b>"I kinda liked it, lets roll with it. We can of course change later depending on the performance."</b>
+      <span>Design director, on the illustration</span>
+    </div>
+  </div>
+</section>
 
-<hr class="section-rule">
+<section class="pg-sec" id="takeaways">
+  <div class="pg-narrow">
+    <p class="pg-label">Takeaways</p>
+    <h2 class="pg-h2">What I would do differently.</h2>
+    <ol class="pg-take">
+      <li><span><strong>Push for a lightweight PLU test as soon as Phase 2 ended.</strong> It would have closed the eight-month gap. I did not push for it, and that is the one I would take back.</span></li>
+      <li><span><strong>Treat the Phoenix constraint as a design tool.</strong> It felt like a limitation. It was not. Designing modular from the start (message, visual and CTA as independent variables) produces something Growth can actually run experiments on. I would apply that constraint deliberately next time.</span></li>
+      <li><span><strong>Prototype the illustration question</strong> instead of sending a Slack message.</span></li>
+    </ol>
+  </div>
+</section>
 
-<!-- FAILURES -->
-<h2>What I'd challenge in hindsight</h2>
+</main>
 
-<ul class="reflection-list">
-  <li>I waited for full bandwidth instead of pushing a lightweight test, so the screens sat idle for eight months.</li>
-  <li>I flagged a compliance dependency at alignment, not at kickoff.</li>
-  <li>I raised an illustration question I could have tested myself.</li>
-</ul>
+<footer class="pg-foot">
+  <a class="pg-next pg-prev" href="id-protection.html"><small>Previous project</small><span>← ID Protection</span></a>
+  <a class="pg-next" href="scribbleship.html"><small>Next project</small><span>ScribbleShip →</span></a>
+</footer>
 
-<div class="pull-quote">
-  <blockquote>"I kinda liked it, lets roll with it. We can of course change later depending on the performance."</blockquote>
-  <cite>Design director, on the illustration</cite>
-</div>
+<dialog class="pg-lb" id="pg-lb" aria-label="Media viewer">
+  <span class="pg-lb-count" aria-hidden="true"></span>
+  <button class="pg-lb-btn pg-lb-close" type="button" aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <button class="pg-lb-btn pg-lb-prev" type="button" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+  <button class="pg-lb-btn pg-lb-next" type="button" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+  <div class="pg-lb-stage"></div>
+  <p class="pg-lb-cap" aria-live="polite"></p>
+</dialog>
 
-<hr class="section-rule">
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="smooth-scroll.js"></script>
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vids = [].slice.call(document.querySelectorAll('video'));
 
-<!-- OUTCOME -->
-<h2>Outcome</h2>
-<h3>Where it landed</h3>
-<p>Hi-fi signed off by the design lead. Aligned with Growth and product. Waiting on dev sprint allocation.</p>
-<p>Referral Templates are P0 as of Aug 2026, blocked on compliance availability and Growth team leave. Not dropped. In queue.</p>
-<p>No conversion data yet. The hi-fi hasn't shipped.</p>
+  // Motion off: leave every video on its poster with native controls.
+  if (reduce) {
+    vids.forEach(function (v) { v.pause(); v.removeAttribute('autoplay'); v.controls = true; });
+  }
 
-<hr class="section-rule">
+  function load(v) { if (!v.getAttribute('src') && v.dataset.src) { v.src = v.dataset.src; v.load(); } }
 
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What I'd do differently</h3>
+  // Click-to-play for the heavy walkthrough (22 MB): nothing downloads until asked.
+  document.querySelectorAll('.pg-play').forEach(function (btn) {
+    var v = btn.parentNode.querySelector('video');
+    btn.addEventListener('click', function () {
+      load(v); v.controls = true; btn.hidden = true;
+      v.play().catch(function () {});
+    });
+  });
 
-<ul class="reflection-list">
-  <li>A lightweight PLU test in November 2025 would have closed the eight-month gap. I didn't push for it. That's the one I'd take back.</li>
-  <li>The Phoenix constraint felt like a limitation. It wasn't. Designing modular from the start (message, visual, CTA as independent variables) produces something Growth can actually run experiments on. I'd apply that constraint deliberately next time.</li>
-  <li>The illustration question deserved a prototype, not a Slack message.</li>
-</ul>
+  // Everything else loads when it nears the screen and pauses when it leaves.
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var v = e.target;
+        if (e.isIntersecting) { load(v); v.play().catch(function () {}); } else { v.pause(); }
+      });
+    }, { rootMargin: '240px 0px' });
+    vids.forEach(function (v) { if (!v.hasAttribute('data-click')) io.observe(v); });
+  }
 
-<!-- CTA -->
-<div class="cta">
-  <p>Shreyo Debnath · Product Designer</p>
-  <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
-</div>
+  // Role tabs: arrow keys move between them, Home/End jump.
+  document.querySelectorAll('[role="tablist"]').forEach(function (list) {
+    var tabs = [].slice.call(list.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      moveInk();
+    }
+    // The underline glides between tabs. The first placement is instant so it doesn't slide in on load.
+    var ink = list.querySelector('.pg-tab-ink');
+    function moveInk(instant) {
+      if (!ink) return;
+      var cur = tabs.filter(function (t) { return t.getAttribute('aria-selected') === 'true'; })[0] || tabs[0];
+      if (instant) ink.style.transition = 'none';
+      list.style.setProperty('--x', cur.offsetLeft + 'px');
+      list.style.setProperty('--w', cur.offsetWidth + 'px');
+      list.classList.add('has-ink');
+      if (instant) { void ink.offsetWidth; ink.style.transition = ''; }
+    }
+    moveInk(true);
+    window.addEventListener('resize', function () { moveInk(true); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { moveInk(true); });
+    tabs.forEach(function (t) { t.addEventListener('click', function () { select(t); }); });
+    list.addEventListener('keydown', function (e) {
+      var i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      var next = null;
+      if (e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      else if (e.key === 'ArrowLeft') next = tabs[(i - 1 + tabs.length) % tabs.length];
+      else if (e.key === 'Home') next = tabs[0];
+      else if (e.key === 'End') next = tabs[tabs.length - 1];
+      if (next) { e.preventDefault(); next.focus(); select(next); }
+    });
+  });
 
+  // Section rail: show it once the hero is behind us, and mark where the reader is.
+  (function () {
+    var toc = document.querySelector('.pg-toc');
+    if (!toc) return;
+    var links = [].slice.call(toc.querySelectorAll('a'));
+    var secs = links.map(function (a) { return document.getElementById(a.dataset.sec); });
+    function update() {
+      toc.classList.toggle('on', window.scrollY > 420);
+      var line = window.innerHeight * 0.35, current = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) current = i; });
+      // at the very bottom the last section may never reach the line
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = secs.length - 1;
+      links.forEach(function (a, i) {
+        if (i === current) a.setAttribute('aria-current', 'location'); else a.removeAttribute('aria-current');
+      });
+    }
+    // Sit 88px off the content column, not on the viewport margin. The numbers strip spans the
+    // full content width, so its left edge is the column edge at every viewport size.
+    var edgeRef = document.querySelector('.pg-stats');
+    function place() {
+      if (!edgeRef || getComputedStyle(toc).display === 'none') return;
+      // anchored by its right edge, so a late web-font swap can't change the gap
+      var edge = edgeRef.getBoundingClientRect().left;
+      toc.style.left = 'auto';
+      toc.style.right = (document.documentElement.clientWidth - (edge - 88)) + 'px';
+      // the close button sits in the same gutter, centred over the rail's icons, so nothing scrolls under it
+      document.documentElement.style.setProperty('--cross-x', (toc.offsetLeft - 12) + 'px');
+    }
+    // eleven rect reads per scroll: cheap enough to run directly, no frame throttle needed
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', function () { place(); update(); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);
+    place();
+    update();
+
+    // Rail clicks glide on an ease-in-out curve, longer for longer trips. Any wheel, touch or key press hands control back.
+    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+    var HANDBACK = ['wheel', 'touchstart', 'keydown', 'mousedown'];
+    function glide(toY) {
+      var root = document.documentElement, from = window.scrollY, dist = toY - from;
+      if (reduce || Math.abs(dist) < 2) { window.scrollTo(0, toY); return; }
+      if (window.__lenis) { window.__lenis.scrollTo(toY, { duration: Math.min(1.1, Math.max(0.45, Math.abs(dist) * 0.00032)) }); return; }
+      var dur = Math.min(1100, Math.max(450, Math.abs(dist) * 0.32)), start = null, stop = false;
+      function off() { stop = true; }
+      HANDBACK.forEach(function (n) { window.addEventListener(n, off, { passive: true, once: true }); });
+      root.style.scrollBehavior = 'auto';   // the CSS smooth-scroll would fight every frame
+      function step(ts) {
+        if (stop) { root.style.scrollBehavior = ''; return; }
+        if (start === null) start = ts;
+        var p = Math.min(1, (ts - start) / dur);
+        window.scrollTo(0, from + dist * ease(p));
+        if (p < 1) { requestAnimationFrame(step); return; }
+        root.style.scrollBehavior = '';
+        HANDBACK.forEach(function (n) { window.removeEventListener(n, off); });
+      }
+      requestAnimationFrame(step);
+    }
+    links.forEach(function (a, i) {
+      a.addEventListener('click', function (e) {
+        var s = secs[i];
+        if (!s) return;
+        e.preventDefault();
+        glide(Math.max(0, Math.round(s.getBoundingClientRect().top + window.scrollY - 16)));
+        if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+        s.setAttribute('tabindex', '-1'); s.focus({ preventScroll: true });
+      });
+    });
+  })();
+
+  // The cross: inside the homepage's sheet it asks the homepage to close; on its own URL it goes back.
+  (function () {
+    var x = document.querySelector('.pg-close');
+    if (!x) return;
+    var embedded = window.parent !== window;
+    if (embedded) document.documentElement.classList.add('is-embedded');
+
+    // Once the reader scrolls, the cross appears. (The homepage watches the same scroll to grow its sheet.)
+    var scrolled = false;
+    function onScrolled() {
+      var s = window.scrollY > 16;
+      if (s === scrolled) return;
+      scrolled = s;
+      document.documentElement.classList.toggle('is-scrolled', s);
+    }
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
+
+    function sameSiteReferrer() {
+      try { return !!document.referrer && new URL(document.referrer).origin === location.origin; } catch (err) { return false; }
+    }
+    x.addEventListener('click', function (e) {
+      if (embedded) { e.preventDefault(); window.parent.postMessage({ type: 'pg-close' }, '*'); }
+      else if (history.length > 1 && sameSiteReferrer()) { e.preventDefault(); history.back(); }
+    });
+    // Esc closes the sheet too, unless the focus view has it first.
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !embedded) return;
+      var lb = document.getElementById('pg-lb');
+      if (lb && lb.open) return;
+      window.parent.postMessage({ type: 'pg-close' }, '*');
+    });
+  })();
+
+  // Focus view: every video, image and diagram opens large, and the arrows step through all of them.
+  (function () {
+    var dlg = document.getElementById('pg-lb');
+    if (!dlg || !dlg.showModal) return;
+    var stage = dlg.querySelector('.pg-lb-stage'), cap = dlg.querySelector('.pg-lb-cap'), count = dlg.querySelector('.pg-lb-count');
+    var prev = dlg.querySelector('.pg-lb-prev'), next = dlg.querySelector('.pg-lb-next'), closeBtn = dlg.querySelector('.pg-lb-close');
+    var items = [].slice.call(document.querySelectorAll('.pg-media, .pg-ia')).filter(function (el) { return el.querySelector('img, video, svg'); });
+    var idx = 0, opener = null, resume = [];
+    var ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+
+    function show(i) {
+      idx = (i + items.length) % items.length;
+      var el = items[idx], m = el.querySelector('img, video, svg'), node;
+      stage.textContent = '';
+      // the focus copy takes over: pause whatever was playing inline and remember it
+      items.forEach(function (it) {
+        var v = it.querySelector('video');
+        if (v && !v.paused) { v.pause(); if (resume.indexOf(v) < 0) resume.push(v); }
+      });
+      if (m.tagName === 'VIDEO') {
+        node = document.createElement('video');
+        node.controls = true; node.loop = true; node.playsInline = true;
+        var src = m.currentSrc || m.getAttribute('src') || m.dataset.src || '';
+        if (!src) { var s = m.querySelector('source'); src = s ? s.src : ''; }
+        node.src = src;
+        if (m.poster) node.poster = m.poster;
+        node.setAttribute('aria-label', m.getAttribute('aria-label') || 'Video');
+        if (!reduce) node.play().catch(function () {});
+      } else if (m.tagName === 'IMG') {
+        node = document.createElement('img');
+        node.src = m.currentSrc || m.src; node.alt = m.alt;
+      } else {
+        node = document.createElement('div'); node.className = 'pg-lb-svg';
+        var clone = m.cloneNode(true);
+        clone.removeAttribute('aria-labelledby'); clone.setAttribute('aria-label', 'Information architecture');
+        node.appendChild(clone);
+      }
+      stage.appendChild(node);
+      var c = el.nextElementSibling && el.nextElementSibling.classList.contains('pg-cap') ? el.nextElementSibling.textContent : '';
+      cap.textContent = c || m.getAttribute('aria-label') || m.getAttribute('alt') || '';
+      count.textContent = (idx + 1) + ' / ' + items.length;
+    }
+
+    function open(i, trigger) {
+      opener = trigger; show(i);
+      document.body.classList.add('pg-lb-open');
+      dlg.showModal(); closeBtn.focus();
+    }
+
+    function cleanup() {
+      [].slice.call(stage.querySelectorAll('video')).forEach(function (v) { v.pause(); v.removeAttribute('src'); v.load(); });
+      stage.textContent = '';
+      document.body.classList.remove('pg-lb-open');
+      // give back only what was playing and is still on screen
+      resume.forEach(function (v) {
+        var r = v.getBoundingClientRect();
+        if (!reduce && r.bottom > 0 && r.top < window.innerHeight) v.play().catch(function () {});
+      });
+      resume = [];
+      if (opener && opener.focus) opener.focus();
+    }
+    // Esc closes the dialog natively and fires "close"; the buttons call shut() so cleanup never waits on an event.
+    dlg.addEventListener('close', cleanup);
+    var closing = false;
+    function shut() {
+      if (closing) return;
+      if (!dlg.open) { cleanup(); return; }
+      if (reduce) { dlg.close(); cleanup(); return; }
+      closing = true; dlg.classList.add('is-closing');
+      var done = false;
+      function finish() {
+        if (done) return;
+        done = true; closing = false;
+        dlg.classList.remove('is-closing'); dlg.close(); cleanup();
+      }
+      dlg.addEventListener('animationend', function (e) { if (e.target === dlg) finish(); });
+      setTimeout(finish, 340);   // safety net: never leave the viewer stuck if no animation event arrives
+    }
+    // Esc also eases out instead of vanishing.
+    dlg.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+
+    items.forEach(function (el, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pg-expand'; b.setAttribute('aria-label', 'View larger'); b.innerHTML = ICON;
+      b.addEventListener('click', function (e) { e.stopPropagation(); open(i, b); });
+      el.appendChild(b);
+      var img = el.querySelector('img');
+      if (img) img.addEventListener('click', function () { open(i, b); });
+    });
+
+    closeBtn.addEventListener('click', shut);
+    prev.addEventListener('click', function () { show(idx - 1); });
+    next.addEventListener('click', function () { show(idx + 1); });
+    prev.hidden = next.hidden = items.length < 2;
+    dlg.addEventListener('click', function (e) { if (e.target === dlg || e.target === stage) shut(); });
+    dlg.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+    });
+  })();
+})();
+</script>
 </body>
 </html>

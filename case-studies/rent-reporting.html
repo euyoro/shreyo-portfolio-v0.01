@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,380 +8,249 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
-    --ff-display: 'Instrument Serif', Georgia, serif;
-    --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-    --bg: #fbfbfa;
-    --surface: #ffffff;
-    --border: rgba(19,19,19,0.09);
-    --text: #131313;
-    --muted: #5f5f5b;
-    --dim: #4e4e4a;
-    --accent: #C01828;
-    --card-bg: #f4f4f2;
-    --chosen-bg: #131313;
-    --chosen-text: #f0f0ee;
-  }
+/* cs:begin: generated from tools/cs-style.css, do not edit here */
+/* Case study styles: single source of truth.
+   tools/apply-cs-style.js copies this block into every case-studies/*.html
+   between the cs:begin / cs:end markers. Edit here, then re-run the script.
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+   The homepage overlay (index.html) fetches each page, reads its inline <style>,
+   rescopes it under .cs-body, and strips body-level rules. It owns the header,
+   the metric tiles and the section bands. Pages ship their sections already
+   built with the overlay's own class names (.cs-sec / .cs-sec-head /
+   .cs-sec-body), so the overlay leaves them alone and a direct visit to a
+   page renders the same layout. Where the overlay sets the same property it
+   wins on specificity: the values below are the standalone fallback. */
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-weight: 400;
-    line-height: 1.65;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 72px 48px 120px;
-  }
+:root {
+  --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+  --ff-display: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --ff-mono:    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --bg: #f6f6f4;
+  --surface: #ffffff;
+  --border: rgba(15,19,48,0.09);
+  --text: #0f1330;
+  --muted: #5c6079;
+  --dim: #44486a;
+  --accent: #2d4fe3;
+  --good: #2d4fe3;
+  --card-bg: #eceef3;
+  --chosen-bg: #0f1330;
+  --chosen-text: #eceef8;
+}
 
-  h1 {
-    font-family: var(--ff-display);
-    font-size: 2.4rem;
-    font-weight: 400;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    color: var(--text);
-    margin-bottom: 32px;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  h2 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 64px;
-    margin-bottom: 20px;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff);
+  font-variation-settings: 'opsz' 16;
+  font-weight: 400;
+  line-height: 1.65;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 40px 120px;
+}
 
-  h3 {
-    font-family: var(--ff-display);
-    font-size: 1.4rem;
-    font-weight: 400;
-    line-height: 1.3;
-    color: var(--text);
-    margin-top: 48px;
-    margin-bottom: 16px;
-  }
+strong { color: var(--text); font-weight: 500; }
+a { color: var(--text); text-underline-offset: 2px; }
 
-  h3:first-child { margin-top: 0; }
+/* ── Page header (standalone only: the overlay draws its own and strips these) ── */
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; margin-bottom: 40px;
+  transition: color 0.2s ease;
+}
+.back-link:hover { color: var(--text); }
+.back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
-  h4 {
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-top: 36px;
-    margin-bottom: 12px;
-  }
+.wordmark { display: block; font-family: var(--ff-display); font-style: italic; font-size: 1rem; color: var(--dim); margin-bottom: 20px; }
 
-  p {
-    color: var(--dim);
-    font-size: 0.975rem;
-    line-height: 1.75;
-    margin-bottom: 16px;
-  }
+h1 {
+  font-family: var(--ff-display); font-size: 2.375rem; font-weight: 400;
+  line-height: 1.1; letter-spacing: -0.02em; color: var(--text); margin-bottom: 20px;
+}
 
-  strong { color: var(--text); font-weight: 500; }
+.outcome-line {
+  font-family: var(--ff-display); font-size: 1.4rem; line-height: 1.4;
+  color: var(--text); max-width: 46ch; margin: 0 0 40px;
+}
 
-  .wordmark {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--dim);
-    margin-bottom: 48px;
-    display: block;
-  }
+/* ── Scope box ── */
+.meta-block {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 28px 24px;
+  border: 1px solid rgba(19,19,19,0.12); border-radius: 10px;
+  padding: 28px 32px; margin: 0 0 24px; background: var(--surface);
+}
+.meta-item { display: flex; flex-direction: column; gap: 12px; padding: 0; border: none; }
+.meta-label {
+  font-family: var(--ff-mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); white-space: nowrap;
+}
+.meta-value { font-size: 0.875rem; color: var(--text); line-height: 1.45; }
+.status-tag {
+  font-family: var(--ff-mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--good);
+}
+.status-tag.open { color: var(--accent); }
 
-  /* META */
-  .meta-block {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 64px;
-    padding: 24px 0;
-  }
+/* ── Headline numbers: real, measured figures only ── */
+.stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 0 0 24px; }
+.stat { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; }
+.stat-val { display: block; font-family: var(--ff-display); font-size: 1.75rem; line-height: 1.15; color: var(--text); font-variant-numeric: tabular-nums; }
+.stat-lbl { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
-  .meta-item {
-    padding: 12px 0;
-    border-bottom: 1px solid var(--border);
-  }
+/* ── Section bands: label rail + body ── */
+.cs-sec {
+  display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 64px;
+  padding: 72px 0 64px; border-top: 1px solid var(--border);
+}
+.cs-sec-head > h2 {
+  font-family: var(--ff-mono); font-size: 0.875rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted);
+  line-height: 1.3; position: sticky; top: 24px;
+}
+.cs-sec-body { max-width: 660px; min-width: 0; }
+.cs-sec-body > h3 {
+  font-size: 1.75rem; font-weight: 400; letter-spacing: -0.025em;
+  line-height: 1.28; color: var(--text); margin: 0 0 26px;
+}
+.cs-sec-wide .cs-sec-body { max-width: none; }
+.cs-sec-body > *:last-child { margin-bottom: 0; }
 
-  .meta-item:nth-last-child(1),
-  .meta-item:nth-last-child(2) { border-bottom: none; }
+.cs-sec-body p { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); margin: 0 0 20px; max-width: 62ch; }
+.cs-sec-body h4 {
+  font-family: var(--ff-mono); font-size: 0.875rem; font-weight: 500;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin: 40px 0 14px;
+}
+.cs-sec-body ul, .cs-sec-body ol { margin: 0 0 22px; padding-left: 20px; max-width: 62ch; }
+.cs-sec-body li { font-size: 0.9375rem; color: var(--dim); line-height: 1.7; margin-bottom: 8px; }
 
-  .meta-label {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 4px;
-  }
+/* ── At a glance: the whole case in three lines ── */
+.glance { border-top: 1px solid var(--border); margin: 0; }
+.glance-row {
+  display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 24px;
+  padding: 16px 0; border-bottom: 1px solid var(--border);
+}
+.glance-k { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.glance-v { font-size: 0.9375rem; line-height: 1.65; color: var(--dim); }
 
-  .meta-value {
-    font-size: 0.875rem;
-    color: var(--text);
-    line-height: 1.5;
-  }
+/* ── Evidence: findings as short cards ── */
+.insight-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 28px 0; }
+.insight-card { background: var(--card-bg); border-radius: 8px; padding: 18px; }
+.insight-card strong { display: block; font-size: 0.9rem; line-height: 1.4; margin-bottom: 6px; }
+.insight-card span { display: block; font-size: 0.8125rem; line-height: 1.55; color: var(--dim); }
+.insight-card.us span { color: var(--accent); font-weight: 500; }
 
-  .status-tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #286d2b;
-    margin-top: 4px;
-  }
+/* ── Decisions: options with the verdict on the card ── */
+.decision-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 28px 0; }
+.decision-card { border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; background: var(--surface); }
+.decision-card.chosen { background: var(--chosen-bg); border-color: var(--chosen-bg); }
+.decision-tag { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.decision-title { display: block; font-size: 0.9375rem; font-weight: 500; line-height: 1.4; color: var(--text); margin-bottom: 8px; }
+.decision-desc { display: block; font-size: 0.8125rem; line-height: 1.6; color: var(--dim); }
+.decision-card.chosen .decision-tag { color: rgba(240,240,238,0.6); }
+.decision-card.chosen .decision-title { color: var(--chosen-text); }
+.decision-card.chosen .decision-desc { color: rgba(240,240,238,0.72); }
 
-  .section-rule {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 56px 0 0;
-  }
+/* ── Signal → decision: what we saw, what I did about it ── */
+.pair-list { margin: 28px 0; border-top: 1px solid var(--border); }
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); align-items: start; }
+.pair-signal { font-size: 0.875rem; line-height: 1.6; color: var(--muted); }
+.pair-arrow { font-size: 0.875rem; color: var(--muted); line-height: 1.6; text-align: center; }
+.pair-decision { font-size: 0.875rem; line-height: 1.6; color: var(--text); }
 
-  /* SCREEN GRID */
-  .screen-grid-placeholder {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 36px 22px;
-    margin: 32px 0;
-  }
+/* ── Phases: a project that ran in stages ── */
+.phases { margin: 28px 0; border-top: 1px solid var(--border); }
+.phase { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.phase-label { font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding-top: 4px; }
+.phase-text { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); }
 
-  /* Filled cells: the screen sits flush to the edges, its label beneath.
-     Empty cells keep the dashed well so unshot screens still read as pending. */
-  .screen-item {
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    gap: 8px;
-    text-align: center;
-  }
+.closing-line { font-family: var(--ff-display); font-size: 1.25rem; line-height: 1.45; color: var(--text); margin-top: 28px; }
 
-  figure.screen-item {
-    border: none;
-    background: none;
-    padding: 0;
-    gap: 0;
-    min-height: 0;
-    justify-content: flex-start;
-  }
+/* ── Goals ── */
+.split-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+.goals-col { border: 1px solid var(--border); border-radius: 8px; padding: 20px 18px; background: var(--surface); }
+.goals-title { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+.goals-col ul { list-style: none; padding: 0; margin: 0; max-width: none; }
+.goals-col li { font-size: 0.875rem; line-height: 1.55; color: var(--dim); padding: 6px 0; margin: 0; }
 
-  /* The screen is the object; nothing frames it but its own corner radius. */
-  figure.screen-item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 10px;
-  }
+/* ── Failures: one of them is mine ── */
+.failure-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 28px 0; }
+.failure-card { border: 1px solid var(--border); border-radius: 8px; padding: 22px 20px; background: var(--surface); }
+.failure-card.wide { grid-column: 1 / -1; }
+.failure-title { display: block; font-size: 0.9375rem; font-weight: 500; line-height: 1.4; color: var(--text); margin-bottom: 10px; }
+.failure-mine { font-size: 0.8125rem; color: var(--accent); font-weight: 500; }
+.failure-body { display: block; font-size: 0.875rem; line-height: 1.65; color: var(--dim); }
 
-  figure.screen-item figcaption {
-    padding: 14px 0 0;
-  }
+/* ── Quote: once per case study ── */
+.pull-quote { border-left: 2px solid var(--text); background: var(--card-bg); border-radius: 0 8px 8px 0; padding: 20px 24px; margin: 32px 0; }
+.quote-text { display: block; font-family: var(--ff-display); font-style: italic; font-size: 1.25rem; line-height: 1.45; color: var(--text); }
+.quote-src + .quote-text { margin-top: 22px; }
+.brand-tag { display: block; font-family: var(--ff-mono); font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: -10px 0 22px; }
+.quote-src { display: block; margin-top: 10px; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 
-  .screen-item span,
-  .screen-item figcaption {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
+/* ── Media ── */
+.screen-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 28px 0; }
+.screen-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.screen-item { margin: 0; }
+.screen-item img, .case-figure img { display: block; width: 100%; height: auto; border-radius: 8px; margin: 0; }
+.screen-item figcaption, .case-figure figcaption { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 500; margin-top: 8px; }
+.case-figure { margin: 28px 0; }
+.arch-diagram { margin: 28px 0; color: var(--dim); }
+.arch-diagram svg { display: block; width: 100%; height: auto; }
+.code-block { background: var(--chosen-bg); border-radius: 8px; padding: 20px 24px; margin: 20px 0; font-family: var(--ff-mono); font-size: 0.8125rem; line-height: 1.8; color: rgba(240,240,238,0.7); }
+.code-block .cmd { color: var(--chosen-text); }
 
-  /* PULL QUOTE */
-  .pull-quote {
-    border-left: 2px solid var(--text);
-    margin: 36px 0;
-    padding: 4px 0 4px 28px;
-  }
+/* ── Takeaways ── */
+.reflection-list { list-style: none; padding: 0; margin: 0; max-width: 62ch; }
+.reflection-list li { font-size: 0.9375rem; line-height: 1.7; color: var(--dim); padding: 6px 0 14px; margin: 0; border: none; }
 
-  .pull-quote blockquote {
-    font-family: var(--ff-display);
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--text);
-    line-height: 1.55;
-    margin-bottom: 12px;
-  }
+/* ── Close ── */
+.cta { margin-top: 0; padding-top: 40px; border-top: 1px solid var(--border); }
+.cta p { font-size: 0.875rem; color: var(--muted); margin: 0 0 4px; }
+.cta a { text-decoration: none; border-bottom: 1px solid var(--border); }
 
-  .pull-quote cite {
-    font-size: 0.8125rem;
-    color: var(--muted);
-    font-style: normal;
-    letter-spacing: 0.04em;
-  }
+/* ── Narrow ── */
+@media (max-width: 900px) {
+  body { padding: 28px 20px 96px; }
+  h1 { font-size: 1.775rem; }
+  .meta-block { grid-auto-flow: row; grid-template-columns: repeat(3, 1fr); gap: 24px 20px; padding: 24px; }
+  .cs-sec { grid-template-columns: 168px minmax(0, 1fr); gap: 32px; }
+}
+@media (max-width: 760px) {
+  .meta-block { grid-template-columns: 1fr 1fr; }
+  .cs-sec { grid-template-columns: 1fr; gap: 20px; padding: 48px 0 40px; }
+  .cs-sec-head > h2 { position: static; }
+  .cs-sec-body > h3 { font-size: 1.375rem; }
+  .glance-row { grid-template-columns: 1fr; gap: 4px; }
+  .pair { grid-template-columns: 1fr; gap: 6px; }
+  .phase { grid-template-columns: 1fr; gap: 4px; }
+  .pair-arrow { text-align: left; }
+  .split-goals, .failure-cards, .screen-grid { grid-template-columns: 1fr; }
+  .screen-grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
 
-  /* FAILURE CARDS */
-  .failure-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin: 28px 0;
-  }
-
-  .failure-card {
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 22px 20px;
-  }
-
-  .failure-title {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 10px;
-    line-height: 1.4;
-  }
-
-  .failure-mine {
-    font-size: 0.8125rem;
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .failure-body {
-    font-size: 0.875rem;
-    color: var(--dim);
-    line-height: 1.65;
-    margin: 0;
-  }
-
-  /* REFLECTION */
-  .reflection-list {
-    list-style: none;
-    padding: 0;
-    margin: 20px 0;
-  }
-
-  .reflection-list li {
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.925rem;
-    color: var(--dim);
-    line-height: 1.7;
-  }
-
-  .reflection-list li:first-child { border-top: 1px solid var(--border); }
-
-  /* CTA */
-  .cta {
-    margin-top: 80px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-  }
-
-  .cta p {
-    font-size: 0.875rem;
-    color: var(--muted);
-  }
-
-  .cta a {
-    color: var(--text);
-    text-decoration: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  /* IMAGE PLACEHOLDER */
-  .image-placeholder {
-    width: 100%;
-    min-height: 280px;
-    border: 1.5px dashed var(--border);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: 28px 0;
-    gap: 8px;
-  }
-
-  .image-placeholder span {
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
-
-  @media print {
-    body { padding: 0; max-width: 100%; }
-    .image-placeholder, .screen-item { min-height: 160px; }
-    h2, h3 { page-break-after: avoid; }
-    .failure-cards { page-break-inside: avoid; }
-  }
-
-  @page {
-    margin: 20mm 18mm;
-    size: A4;
-  }
-
-  .outcome-line { font-family: var(--ff-display); font-size: 1.35rem; line-height: 1.4; color: var(--text); margin: -8px 0 32px; }
-  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 0 0 56px; }
-  .stat { background: var(--card-bg); border-radius: 8px; padding: 16px 14px; }
-  .stat-val { display: block; font-family: var(--ff-display); font-size: 1.5rem; line-height: 1.15; color: var(--text); }
-  .stat-lbl { display: block; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
-  @media (max-width: 640px) { .stat-strip { grid-template-columns: 1fr; } }
-
-  /* BACK LINK */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--ff);
-    font-variation-settings: 'opsz' 16;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--muted);
-    text-decoration: none;
-    margin-bottom: 32px;
-    transition: color 0.2s ease;
-  }
-  .back-link:hover { color: var(--text); }
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
+@media print {
+  body { max-width: 100%; padding: 0; }
+  .cs-sec-head > h2 { position: static; }
+  .cs-sec { break-inside: avoid-page; }
+  .insight-cards, .decision-cards, .failure-cards, .pair-list { break-inside: avoid; }
+}
+@page { margin: 20mm 18mm; size: A4; }
+/* cs:end */
 </style>
 </head>
 <body>
 
-<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../Main Branch/shreyo-portfolio-v0.01-main/index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
-
+<a class="back-link" href="javascript:history.back()" onclick="if(!document.referrer){this.href='../index.html';}"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back</a>
 
 <span class="wordmark">Shreyo Debnath</span>
 
 <h1>Rent Reporting</h1>
 
-<p class="outcome-line">Redesigned the funnel that lets renters report rent to credit bureaus. Application conversion went from 30% to 50% and related support tickets fell 15%. [CONFIRM: measurement window]</p>
-
-<div class="stat-strip">
-  <div class="stat"><span class="stat-val">30% → 50%</span><span class="stat-lbl">Application conversion</span></div>
-  <div class="stat"><span class="stat-val">15%</span><span class="stat-lbl">Fewer related support tickets</span></div>
-  <div class="stat"><span class="stat-val">March 2026</span><span class="stat-lbl">Went live</span></div>
-</div>
+<p class="outcome-line">Redesigned the funnel that lets renters report rent to credit bureaus. Application conversion went from 30% to 50% and related support tickets fell 15%.</p>
 
 <div class="meta-block">
   <div class="meta-item">
@@ -389,8 +258,8 @@
     <span class="meta-value">Product Designer, design owner</span>
   </div>
   <div class="meta-item">
-    <span class="meta-label">Duration</span>
-    <span class="meta-value">3-week build + long tail through 2026</span>
+    <span class="meta-label">Timeline</span>
+    <span class="meta-value">3 weeks to build, then ongoing</span>
   </div>
   <div class="meta-item">
     <span class="meta-label">Team</span>
@@ -400,119 +269,155 @@
     <span class="meta-label">Tools</span>
     <span class="meta-value">Figma</span>
   </div>
-  <div class="meta-item" style="grid-column: 1 / -1;">
+  <div class="meta-item">
     <span class="meta-label">Status</span>
-    <span class="meta-value">Shipped. Disclosure update moved into the Credit Tab.</span>
-    <span class="status-tag">Shipped</span>
+    <span class="meta-value">Live</span>
   </div>
 </div>
 
-<!-- CONTEXT -->
-<h2>Context</h2>
-<h3>Can paying rent build your credit score?</h3>
-
-<p>For millions of renters with thin credit files, the answer used to be no. Rent is the largest monthly expense most people have, but it doesn't show up on a credit report unless someone actively reports it. That gap is what this project was built to close.</p>
-
-<p>Rent reporting lets users connect their rent portal and have their payment history reported to credit bureaus. For the target audience, users rebuilding or starting their credit, this is one of the fastest paths to a real score improvement.</p>
-
-<p>I designed the end-to-end funnel. Portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets, and the disclosure layer. The goal was clear: make it easy for users to start reporting, and make the value obvious before they commit.</p>
-
-<hr class="section-rule">
-
-<!-- WHAT I SET OUT TO BUILD -->
-<h2>Approach</h2>
-<h3>What I set out to build</h3>
-
-<p>Three layers to the funnel.</p>
-
-<h4>Get users in</h4>
-<p>The pitch screen needed to communicate one thing: your rent payments can count toward your credit score. No fine print first. Value first, then the steps.</p>
-
-<h4>Portal selection and bureau logic</h4>
-<p>Users pick their rent portal or indicate they don't have one. Reporting goes to two credit bureaus, each with different handling. The design needed to account for both paths, the transition between them, and what users see when one bureau is active and the other isn't.</p>
-
-<h4>Surface it everywhere it matters</h4>
-<p>Banners on the Home Tab. Widgets in the Credit Tab. Opt-out users seeing a path back in. Each touchpoint with its own state logic based on the user's reporting status.</p>
-
-<div class="screen-grid-placeholder">
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/pitch.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="How can reporting Rent improve credit history? listing four reasons: we find your rent payments, we report to the credit bureaus, rent counts as credit history up to 40% of your score, and your score can improve.">
-    <figcaption>Pitch Screen</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/portal.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The Select your Rent portal sheet, listing Rent Cafe, Rent Manager, RentPortal, Resident Center, ResMan, Domuso and AppFolio above a disabled Confirm button.">
-    <figcaption>Portal Selection</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/bureau.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="Congrats! Your Rent is now reporting to a credit bureau, with Application Submitted ticked and a second step offering to report to the second bureau at no cost.">
-    <figcaption>Bureau Reporting Flow</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/banner.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="The Home screen with a dark green Report your Rent Payments banner above a credit score dial reading 590.">
-    <figcaption>Home Tab Banner</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/widget.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="A Rent reporting widget on Home marked Under Review, showing Application submitted ticked and Verifying details in progress.">
-    <figcaption>Credit Tab Widget</figcaption>
-  </figure>
-  <figure class="screen-item">
-    <img src="../assets/case-studies/rent-reporting/screens/optout.webp" width="560" height="1213"
-         loading="lazy" decoding="async"
-         alt="A sheet over the dimmed rent details form reading Continue building your credit score, with a Continue setup button and a Skip link.">
-    <figcaption>Opt-in / Opt-out State</figcaption>
-  </figure>
+<div class="stat-strip">
+  <div class="stat"><span class="stat-val">30% → 50%</span><span class="stat-lbl">Application conversion</span></div>
+  <div class="stat"><span class="stat-val">15%</span><span class="stat-lbl">Fewer related support tickets</span></div>
+  <div class="stat"><span class="stat-val">March 2026</span><span class="stat-lbl">Went live</span></div>
 </div>
 
-<hr class="section-rule">
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>At a glance</h2></div>
+  <div class="cs-sec-body">
+    <h3>The funnel that puts rent on a credit report.</h3>
+    <div class="glance">
+      <div class="glance-row">
+        <span class="glance-k">Problem</span>
+        <div class="glance-v">Rent is the largest monthly expense most people have, and for renters with thin credit files it never reaches a credit report.</div>
+      </div>
+      <div class="glance-row">
+        <span class="glance-k">My part</span>
+        <div class="glance-v">Design owner for the end-to-end funnel: portal selection, bureau reporting logic, opt-in and opt-out states, banners, widgets and the disclosure layer.</div>
+      </div>
+      <div class="glance-row">
+        <span class="glance-k">Result</span>
+        <div class="glance-v">Application conversion 30% to 50% and 15% fewer related support tickets, live since March 2026.</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- WHAT SHIPPED -->
-<h2>Outcome</h2>
-<h3>What shipped</h3>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Context</h2></div>
+  <div class="cs-sec-body">
+    <h3>Can paying rent build your credit score?</h3>
+    <p>For millions of renters with thin credit files, the answer used to be no. Rent is the largest monthly expense most people have, but it doesn't show up on a credit report unless someone actively reports it. That gap is what this project was built to close.</p>
+    <p>Rent reporting lets users connect their rent portal and have their payment history reported to credit bureaus. For the target audience, users rebuilding or starting their credit, this is one of the fastest paths to a real score improvement.</p>
+    <p>I designed the end-to-end funnel. The goal was clear: make it easy for users to start reporting, and make the value obvious before they commit.</p>
+  </div>
+</section>
 
-<p>The full funnel: sign-up through reporting, with all bureau paths, portal selection, edge cases for users without a portal, and the widget and banner system surfacing the feature across the app.</p>
+<section class="cs-sec cs-sec-wide">
+  <div class="cs-sec-head"><h2>Approach</h2></div>
+  <div class="cs-sec-body">
+    <h3>Three layers, and the value came before the steps.</h3>
+    <h4>Get users in</h4>
+    <p>The pitch screen needed to communicate one thing: your rent payments can count toward your credit score. No fine print first. Value first, then the steps.</p>
+    <h4>Portal selection and bureau logic</h4>
+    <p>Users pick their rent portal or indicate they don't have one. Reporting goes to two credit bureaus, each with different handling. The design needed to account for both paths, the transition between them, and what users see when one bureau is active and the other isn't.</p>
+    <h4>Surface it everywhere it matters</h4>
+    <p>Banners on the Home Tab. Widgets in the Credit Tab. Opt-out users seeing a path back in. Each touchpoint with its own state logic based on the user's reporting status.</p>
+    <div class="screen-grid cols-3">
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/pitch.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="How can reporting Rent improve credit history? listing four reasons: we find your rent payments, we report to the credit bureaus, rent counts as credit history up to 40% of your score, and your score can improve.">
+        <figcaption>Pitch Screen</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/portal.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="The Select your Rent portal sheet, listing Rent Cafe, Rent Manager, RentPortal, Resident Center, ResMan, Domuso and AppFolio above a disabled Confirm button.">
+        <figcaption>Portal Selection</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/bureau.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="Congrats! Your Rent is now reporting to a credit bureau, with Application Submitted ticked and a second step offering to report to the second bureau at no cost.">
+        <figcaption>Bureau Reporting Flow</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/banner.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="The Home screen with a dark green Report your Rent Payments banner above a credit score dial reading 590.">
+        <figcaption>Home Tab Banner</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/widget.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="A Rent reporting widget on Home marked Under Review, showing Application submitted ticked and Verifying details in progress.">
+        <figcaption>Credit Tab Widget</figcaption>
+      </figure>
+      <figure class="screen-item">
+        <img src="../assets/case-studies/rent-reporting/screens/optout.webp" width="560" height="1213"
+             loading="lazy" decoding="async"
+             alt="A sheet over the dimmed rent details form reading Continue building your credit score, with a Continue setup button and a Skip link.">
+        <figcaption>Opt-in / Opt-out State</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
 
-<p>Later, support for the second bureau was added to the funnel. A disclosure update moved the compliance layer into the Credit Tab.</p>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Outcome</h2></div>
+  <div class="cs-sec-body">
+    <h3>Conversion went from 30% to 50%.</h3>
+    <p>What shipped was the full funnel: sign-up through reporting, with all bureau paths, portal selection, edge cases for users without a portal, and the widget and banner system surfacing the feature across the app.</p>
+    <p>Later, support for the second bureau was added to the funnel. A disclosure update moved the compliance layer into the Credit Tab.</p>
+  </div>
+</section>
 
-<p>Before signing off on the build, I held the design sign-off by a day. Frontend had unresolved issues. The PM was pushing to close the sprint. I flagged it to the Design Director and asked to sync with engineering the next morning before releasing.</p>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Decision</h2></div>
+  <div class="cs-sec-body">
+    <h3>I held design sign-off by a day.</h3>
+    <p>Frontend had unresolved issues. The PM was pushing to close the sprint. I flagged it to the Design Director and asked to sync with engineering the next morning before releasing.</p>
+    <div class="pull-quote">
+      <span class="quote-text">"Well done. Push for quality always."</span>
+      <span class="quote-src">Design Director</span>
+    </div>
+    <p>Sign-off is the last moment design has leverage over what ships. I'd rather delay by a day than approve something I know needs fixes.</p>
+  </div>
+</section>
 
-<div class="pull-quote">
-  <blockquote>"Well done. Push for quality always."</blockquote>
-  <cite>Design Director</cite>
-</div>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Setback</h2></div>
+  <div class="cs-sec-body">
+    <h3>Four to six days of work took close to three weeks.</h3>
+    <div class="failure-cards">
+      <div class="failure-card wide">
+        <span class="failure-title">The spec had gaps and the bureau logic changed three times</span>
+        <span class="failure-body">Missing copy and unmapped edge cases. That is what stretched a four to six day project to close to three weeks.</span>
+      </div>
+      <div class="failure-card">
+        <span class="failure-title">I designed around the gaps <span class="failure-mine">· mine</span></span>
+        <span class="failure-body">I should have pushed for the spec first. Starting early felt productive, and reworking the same screens three times was not.</span>
+      </div>
+      <div class="failure-card">
+        <span class="failure-title">I wrote the post-mortem at the end <span class="failure-mine">· mine</span></span>
+        <span class="failure-body">I should have written it at week two. The problems were visible earlier than I reported them.</span>
+      </div>
+    </div>
+  </div>
+</section>
 
-<p>Sign-off is the last moment design has leverage over what ships. I'd rather delay by a day than approve something I know needs fixes.</p>
+<section class="cs-sec">
+  <div class="cs-sec-head"><h2>Takeaways</h2></div>
+  <div class="cs-sec-body">
+    <h3>What I'd do differently.</h3>
+    <ul class="reflection-list">
+      <li><strong>When a spec has gaps, push for the answers first.</strong> Starting early feels productive. Reworking the same screens three times is not.</li>
+      <li><strong>The sign-off delay was right.</strong> Design sign-off is the last checkpoint before screens are locked. Using it as a quality gate is exactly what it's for.</li>
+      <li><strong>Write the post-mortem at week two, not week three.</strong> Flag problems mid-project.</li>
+    </ul>
+  </div>
+</section>
 
-<hr class="section-rule">
-
-<!-- WHAT DIDN'T GO AS PLANNED -->
-<h2>Process</h2>
-<h3>What didn't go as planned</h3>
-
-<p>The project should have taken four to six days and took close to three weeks, because the spec had gaps (missing copy, unmapped edge cases) and the bureau logic changed three times. I designed around the gaps instead of pushing for the spec first, and I wrote the post-mortem at the end, not at week two. Next time I will push for answers before designing, and flag problems mid-project.</p>
-
-<hr class="section-rule">
-
-<!-- REFLECTION -->
-<h2>Reflection</h2>
-<h3>What I'd do differently</h3>
-
-<ul class="reflection-list">
-  <li>When a spec has gaps, don't design around them. Push for the answers first. Starting early feels productive. Reworking the same screens three times is not.</li>
-  <li>The sign-off delay was right. Design sign-off is the last checkpoint before screens are locked. Using it as a quality gate is exactly what it's for.</li>
-  <li>Write the post-mortem at week two, not week three. The problems were visible earlier than I reported them.</li>
-</ul>
-
-<!-- CTA -->
 <div class="cta">
   <p>Shreyo Debnath · Product Designer</p>
   <p><a href="mailto:shreyoisonline@gmail.com">shreyoisonline@gmail.com</a></p>
