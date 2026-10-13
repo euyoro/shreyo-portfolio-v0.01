@@ -9,3 +9,7 @@ tools/slides/out/
 *.HEIC
 assets/**/IMG_*.jpg
 assets/**/IMG-*.jpg
+
+# {play}: raw originals waiting to be optimised
+assets/play/inbox/*
+!assets/play/inbox/README.md
