@@ -4,6 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Shreyo Debnath, Product Designer. Fintech product design, brand, and design engineering.">
+<link rel="canonical" href="https://shreyo.runs-on.dev/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Shreyo Debnath">
+<meta property="og:title" content="Shreyo | Product Designer">
+<meta property="og:description" content="Shreyo Debnath, Product Designer. Fintech product design, brand, and design engineering.">
+<meta property="og:url" content="https://shreyo.runs-on.dev/">
+<meta property="og:image" content="https://shreyo.runs-on.dev/assets/og/home.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Shreyo | Product Designer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shreyo | Product Designer">
+<meta name="twitter:description" content="Shreyo Debnath, Product Designer. Fintech product design, brand, and design engineering.">
+<meta name="twitter:image" content="https://shreyo.runs-on.dev/assets/og/home.jpg">
 <script>
 (function () {
   var root = document.documentElement;
@@ -49,10 +63,8 @@
      declaration, and the ones that do not simply never see it. -->
 <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DotGothic16&family=Noto+Sans:wght@300;400&family=Noto+Sans+Devanagari:wght@300;400&family=Noto+Sans+Kannada:wght@300;400&family=Noto+Sans+Bengali:wght@300;400&family=Noto+Sans+Gujarati:wght@300;400&family=Noto+Sans+Malayalam:wght@300;400&display=swap">
-
+<link rel="preload" href="assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <style>
   :root {
     /* Lazim-derived warm neutral system */
@@ -155,6 +167,13 @@
   }
   a { color: inherit; text-decoration: none; }
 
+  /* Skip link: off-screen until a keyboard user tabs to it */
+  .skip-link { position: absolute; left: 12px; top: -64px; z-index: 1000; padding: 10px 16px; border-radius: 8px;
+    background: var(--text, #0f1330); color: var(--bg, #f6f6f4); font: 500 0.875rem/1 var(--ff, system-ui, sans-serif);
+    text-decoration: none; transition: top 0.15s ease; }
+  .skip-link:focus { top: 12px; outline: 2px solid var(--accent, #2d4fe3); outline-offset: 2px; }
+  main:focus { outline: none; }
+
   /* ── Focus ── */
   /* Every interactive thing here is a real button or anchor, so the ring is
      driven off :focus-visible: it shows for keyboard and assistive input and
@@ -200,6 +219,13 @@
   .fobj:hover { z-index: 20; }
 
   .fobj.tugging .fobj-img { animation-play-state: paused; }
+  /* Under an overlay (see Covered in the script): nothing behind it needs to move or be textured. */
+  html.is-covered .fobj-img { animation-play-state: paused; }
+  /* opacity, not visibility, so the texture fades out under the scrim instead of blinking off; a
+     fully transparent layer is not composited at all */
+  body::after, .portrait-grain { transition: opacity 0.5s ease; }
+  html.is-covered body::after,
+  html.is-covered .portrait-grain { opacity: 0; }
   .fobj-img img { -webkit-user-drag: none; user-drag: none; }
   .fobj:hover .fobj-img {
     animation-play-state: paused;
@@ -839,7 +865,7 @@
      to the work, and the profile column keeps only the experience list. */
   @media (max-width: 640px) {
     :root { --sec-y: 32px; }
-    section.hero { padding-top: 104px; }
+    section.hero { padding-top: 32px; }
     /* The intro, sized for a phone: a smaller portrait blob and a bio that sets at 15px, not 17px */
     .hero .portrait { max-width: 148px; }
     .hero-p { font-size: 0.9375rem; line-height: 1.6; letter-spacing: -0.015em; }
@@ -872,6 +898,16 @@
     max-width: 1060px; margin: 0 auto;
     /* allow cards to bleed slightly */
     overflow: visible;
+  }
+  /* The wall is a fixed 1060x640 composition. Between the swipe layout (<=760px) and its natural width it
+     was cut off at the right edge, so here the whole thing is scaled to the column (--cs is set from the
+     column's width by script) and the box is given the scaled height so nothing below moves. */
+  @media (min-width: 761px) and (max-width: 1060px) {
+    .extras-collage {
+      width: 1060px; max-width: none; margin: 0;
+      height: calc(640px * var(--cs, 0.72));
+      transform: scale(var(--cs, 0.72)); transform-origin: 0 0;
+    }
   }
   .extra-card {
     position: absolute;
@@ -1415,7 +1451,8 @@
   .pgo-sheet {
     position: absolute; z-index: 2;
     left: 34px; right: 34px; bottom: 0; top: max(50px, calc(8vh - 30px));
-    background: #f6f6f4; border-radius: 14px 14px 0 0; overflow: hidden;
+    background: var(--bg); border-radius: 14px 14px 0 0; overflow: hidden;
+    contain: layout paint;
     box-shadow: 0 -10px 44px rgba(0,0,0,0.14);
     transform: translateY(100%);
     transition: transform var(--t-stage) var(--e-inout),
@@ -1427,9 +1464,13 @@
      homepage on the left, right and top so it still reads as an overlay. */
   .pgo.full .pgo-sheet { left: 2px; right: 2px; top: 2px; border-radius: 12px 12px 0 0; }
   .pgo-frame {
-    display: block; width: 100%; height: 100%; border: 0; background: #f6f6f4;
+    display: block; width: 100%; height: 100%; border: 0; background: var(--bg);
     opacity: 0; transition: opacity 0.45s var(--e-out);
   }
+  /* A black sheet over a black scrim has no edge, so in the dark the scrim goes light grey instead:
+     about the tone the paper theme's scrim lands on (#989896), which the black sheet then stands off. */
+  [data-theme="dark"] .pgo-scrim { background: rgba(152,152,148,0.88); }
+  [data-theme="dark"] .pgo-sheet { box-shadow: 0 -10px 44px rgba(0,0,0,0.38); }
   .pgo-frame.ready { opacity: 1; }
   html.pgo-lock, html.pgo-lock body { overflow: hidden; }
   @media (max-width: 760px) {
@@ -2373,8 +2414,39 @@
   .colophon-icon { width: auto; height: 11px; display: inline-block; vertical-align: middle; flex-shrink: 0; }
   @media (max-width: 700px) { .colophon { display: none; } }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Shreyo Debnath",
+  "jobTitle": "Product Designer",
+  "url": "https://shreyo.runs-on.dev/",
+  "image": "https://shreyo.runs-on.dev/assets/images/shreyo.webp",
+  "description": "Product designer working on fintech, brand and design engineering.",
+  "knowsAbout": [
+    "Product design",
+    "Brand design",
+    "Design systems",
+    "Fintech",
+    "Motion design"
+  ],
+  "sameAs": [
+    "https://www.linkedin.com/in/shreyodebnath/",
+    "https://www.instagram.com/_euyoro_/",
+    "https://github.com/euyoro",
+    "https://letterboxd.com/euyoro/"
+  ]
+}
+</script>
+<noscript><style>
+  .preloader { display: none !important; }
+  .page-stage { opacity: 1 !important; transition: none !important; }
+  .appear { opacity: 1 !important; transform: none !important; filter: none !important; }
+  .portrait video.appear { transform: scale(1.2) !important; filter: url(#portrait-stipple) !important; }
+</style></noscript>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 
 <!-- Topbar: local time + mood + quick links -->
 <div class="topbar" role="banner">
@@ -2451,7 +2523,7 @@
   <!-- ZHU: left, hero zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:48px; top:160px; --sz:120px; --r:-6deg; --dur:6s; --delay:-1.2s;">
-    <span class="fobj-img"><img src="assets/images/ZHU.jpg" alt="ZHU"></span>
+    <span class="fobj-img"><img src="assets/images/ZHU.jpg" alt="ZHU" loading="lazy" decoding="async"></span>
     <div class="fobj-tip">
       <span class="tip-label">ZHU</span>
       <p class="tip-text">A house artist. My go-to during work hours.</p>
@@ -2461,7 +2533,7 @@
   <!-- Witcher 3: right, hero zone -->
   <div class="fobj tip-left" aria-hidden="true"
        style="right:48px; top:280px; --sz:120px; --r:5deg; --dur:7s; --delay:-3.5s;">
-    <span class="fobj-img"><img src="assets/images/Witcher 3.jpg" alt="Witcher 3"></span>
+    <span class="fobj-img"><img src="assets/images/Witcher 3.jpg" alt="Witcher 3" loading="lazy" decoding="async"></span>
     <div class="fobj-tip">
       <span class="tip-label">Witcher 3</span>
       <p class="tip-text">One of my favorite narrative-driven games I've played till date.</p>
@@ -2471,7 +2543,7 @@
   <!-- Think Like Da Vinci: left, works zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:40px; top:2300px; --sz:120px; --r:4deg; --dur:5.5s; --delay:-0.8s;">
-    <span class="fobj-img"><img src="assets/images/Think Like Davinci.jpg" alt="Think Like Da Vinci"></span>
+    <span class="fobj-img"><img src="assets/images/Think Like Davinci.jpg" alt="Think Like Da Vinci" loading="lazy" decoding="async"></span>
     <div class="fobj-tip">
       <span class="tip-label">Think Like Da Vinci</span>
       <p class="tip-text">A gift that has taught me so much about approach in life.</p>
@@ -2481,7 +2553,7 @@
   <!-- Nothing 3A: right, works zone -->
   <div class="fobj tip-left" aria-hidden="true"
        style="right:48px; top:2100px; --sz:144px; --r:-4deg; --dur:6.8s; --delay:-2.3s;">
-    <span class="fobj-img"><img src="assets/images/Phone 3a.webp" alt="Nothing 3A"></span>
+    <span class="fobj-img"><img src="assets/images/Phone 3a.webp" alt="Nothing 3A" loading="lazy" decoding="async"></span>
     <div class="fobj-tip">
       <span class="tip-label">Nothing 3A</span>
       <p class="tip-text">I love the design language Nothing follows. Heavily influenced by it.</p>
@@ -2491,7 +2563,7 @@
   <!-- Ship of Thesus: left, extras zone -->
   <div class="fobj tip-right" aria-hidden="true"
        style="left:44px; top:3450px; --sz:120px; --r:3deg; --dur:8s; --delay:-4.1s;">
-    <span class="fobj-img"><img src="assets/images/Ship of Thesus.jpg" alt="Ship of Thesus"></span>
+    <span class="fobj-img"><img src="assets/images/Ship of Thesus.jpg" alt="Ship of Thesus" loading="lazy" decoding="async"></span>
     <div class="fobj-tip">
       <span class="tip-label">Ship of Thesus</span>
       <p class="tip-text">10/10 the most philosophically intriguing movie i have come across till date.</p>
@@ -2538,15 +2610,7 @@
         </button>
         <div class="nav-dropdown" id="nav-dropdown" role="menu">
           <a href="#work" class="nav-drop-link" role="menuitem">Work</a>
-          <!-- Playground: held back, same as the projects in HELD_BACK below.
-               fun.html is untouched in the repo and still loads if you go
-               straight to it; it just has no way in from the site. Uncomment
-               this line and it is back. Commented out rather than removed at
-               runtime on purpose: the nav is above the fold and renders
-               immediately on a return visit now the intro is skipped, so a
-               JS removal could flash the link before deleting it.
-          <a href="fun.html" class="nav-drop-link" role="menuitem">Playground</a>
-          -->
+          <a href="play.html" class="nav-drop-link" role="menuitem">{play}</a>
           <a href="#" class="nav-drop-link" id="nav-about" role="menuitem">About</a>
           <a href="https://drive.google.com/file/d/1XRCWsCn7CFS3KYMhP2i7--4ay9FmJaZd/view?usp=sharing" class="nav-drop-link" role="menuitem"
              target="_blank" rel="noopener noreferrer">Resume <span class="nav-arr" aria-hidden="true">&#8599;</span></a>
@@ -2556,6 +2620,7 @@
     </div>
   </nav>
 
+  <main id="main" tabindex="-1">
   <div class="wrap">
 
     <!-- Hero -->
@@ -2563,8 +2628,8 @@
       <div class="hero-grid">
         <div class="hero-left">
           <div class="portrait appear">
-            <video class="appear" autoplay muted playsinline preload="auto" aria-label="Shreyo Debnath">
-              <source src="assets/images/hero-portrait.webm" type="video/webm">
+            <video class="appear" autoplay muted playsinline preload="auto" poster="assets/images/hero-portrait-poster.webp" aria-label="Shreyo Debnath">
+              <source src="assets/images/hero-portrait-v2.webm" type="video/webm">
             </video>
           </div>
         </div>
@@ -2640,7 +2705,7 @@
             <ul class="feed-chips"><li class="chip">Webapp</li><li class="chip">Development</li><li class="chip">UI UX</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/bright-atlas-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/bright-atlas-hero-800.webp" srcset="assets/projects/bright-atlas-hero-480.webp 480w, assets/projects/bright-atlas-hero-800.webp 800w, assets/projects/bright-atlas-hero-1280.webp 1280w, assets/projects/bright-atlas-hero.webp 1536w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/bright-atlas-hero.webp"
                            width="1536" height="1024" loading="lazy" decoding="async"
                            alt="A widescreen monitor on a dark desk showing the Atlas AI Inspiration tab: a silver leaf mark beside an italic Atlas wordmark, a carousel of captured web sessions centred on a card called Cofounder's replay, then a dated headline reading 07 JUL 2026, How the world builds AI Native, with a Web and Mobile toggle above three tagged video cards for Riffle, Exa and Cloudflare and a search bar reading Search AI-native screens.">
                     </div>
@@ -2653,7 +2718,7 @@
             <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/monet-cancellation-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/monet-cancellation-hero-800.webp" srcset="assets/projects/monet-cancellation-hero-480.webp 480w, assets/projects/monet-cancellation-hero-800.webp 800w, assets/projects/monet-cancellation-hero-1280.webp 1280w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/monet-cancellation-hero.webp"
                            width="3840" height="2160" loading="lazy" decoding="async"
                            alt="Four screens of the redesigned cancellation flow: the premium tools you would lose, a Before you go sheet, a reason survey, and a review of the plan ending.">
                     </div>
@@ -2666,7 +2731,7 @@
             <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
           <div class="work-img">
-                      <div class="work-img-fill" style="background:url('assets/case-studies/loangpt-bullet-funnel/11118.png') center/cover no-repeat">
+                      <div class="work-img-fill" data-bg="assets/case-studies/loangpt-bullet-funnel/11118.png" style="background:center/cover no-repeat">
                         <div class="work-chrome"></div>
                       </div>
                     </div>
@@ -2679,7 +2744,7 @@
             <ul class="feed-chips"><li class="chip">UI UX</li><li class="chip">User Research</li><li class="chip">Mobile App</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/id-protection-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/id-protection-hero-800.webp" srcset="assets/projects/id-protection-hero-480.webp 480w, assets/projects/id-protection-hero-800.webp 800w, assets/projects/id-protection-hero-1280.webp 1280w, assets/projects/id-protection-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/id-protection-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="A hand holding an iPhone showing the Credit Protection dashboard: a 720 credit score beside an Irregular Activity alert, swipeable cards for a hard pull and a subscription price hike, and a Disputes Center reading 19 disputes and 0 resolved, over green hills, with an ID PROTECTION wordmark behind.">
                     </div>
@@ -2692,7 +2757,7 @@
             <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/referral-redesign-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/referral-redesign-hero-800.webp" srcset="assets/projects/referral-redesign-hero-480.webp 480w, assets/projects/referral-redesign-hero-800.webp 800w, assets/projects/referral-redesign-hero-1280.webp 1280w, assets/projects/referral-redesign-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/referral-redesign-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="Two angled iPhones showing the referral offer: a confetti screen reading Give $25, Get $25 with You'll both get $25 and a shareable link, beside a limited period offer screen reading Get $125, $500 when you refer 3 friends above an invites-sent progress track.">
                     </div>
@@ -2705,7 +2770,7 @@
             <ul class="feed-chips"><li class="chip">Mobile App</li><li class="chip">UI UX</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/scribbleship-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/scribbleship-hero-800.webp" srcset="assets/projects/scribbleship-hero-480.webp 480w, assets/projects/scribbleship-hero-800.webp 800w, assets/projects/scribbleship-hero-1280.webp 1280w, assets/projects/scribbleship-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/scribbleship-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="Three iPhones showing the ScribbleShip stationery app: a home screen searching pencil boxes under an Upto 60% Off banner, a ChromaGlide marker product page at ₹60, and a Print Job Lineup queueing three PDFs beside a Helvetica film poster.">
                     </div>
@@ -2718,7 +2783,7 @@
             <ul class="feed-chips"><li class="chip">User Study</li><li class="chip">UX Design</li><li class="chip">Wayfinding</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/metro-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/metro-hero-800.webp" srcset="assets/projects/metro-hero-480.webp 480w, assets/projects/metro-hero-800.webp 800w, assets/projects/metro-hero-1280.webp 1280w, assets/projects/metro-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/metro-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="A ceiling-mounted metro wayfinding sign lit in a dark concourse: a black panel with red directional arrows reading Towards Motera to the left and Towards APMC to the right, set in Gujarati, Hindi and English.">
                     </div>
@@ -2757,7 +2822,7 @@
             <ul class="feed-chips"><li class="chip">Publication</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/yearbook-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/yearbook-hero-800.webp" srcset="assets/projects/yearbook-hero-480.webp 480w, assets/projects/yearbook-hero-800.webp 800w, assets/projects/yearbook-hero-1280.webp 1280w, assets/projects/yearbook-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/yearbook-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="The GLS Annual Design Yearbook resting at an angle on a rough concrete block under hard sidelight, its oversized charcoal cover type cropping off the edge with a single yellow bracket.">
                     </div>
@@ -2770,7 +2835,7 @@
             <ul class="feed-chips"><li class="chip">Branding</li><li class="chip">Packaging</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/everest-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/everest-hero-800.webp" srcset="assets/projects/everest-hero-480.webp 480w, assets/projects/everest-hero-800.webp 800w, assets/projects/everest-hero-1280.webp 1280w, assets/projects/everest-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/everest-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="An Everest Korma Masala carton standing beside a bowl of korma on dark wood, with a small dish of turmeric and an ornate spoon alongside.">
                     </div>
@@ -2783,7 +2848,7 @@
             <ul class="feed-chips"><li class="chip">Type Design</li></ul>
           </div>
           <div class="work-img">
-                      <img class="work-img-photo" src="assets/projects/baux-hero.webp"
+                      <img class="work-img-photo" src="assets/projects/baux-hero-800.webp" srcset="assets/projects/baux-hero-480.webp 480w, assets/projects/baux-hero-800.webp 800w, assets/projects/baux-hero-1280.webp 1280w, assets/projects/baux-hero.webp 1600w" sizes="(max-width: 700px) calc(100vw - 32px), 280px" data-full="assets/projects/baux-hero.webp"
                            width="1600" height="900" loading="lazy" decoding="async"
                            alt="A street hoarding papered with repeated red posters for the film They Are Aliens, the title set in the blocky Baux typeface beneath a UFO, with a passer-by blurred across the frame.">
                     </div>
@@ -2796,7 +2861,7 @@
             <ul class="feed-chips"><li class="chip">Advertising</li></ul>
           </div>
           <div class="work-img">
-                      <div class="work-img-fill" style="background:url('assets/projects/jupiter-hero.webp') center/cover no-repeat">
+                      <div class="work-img-fill" data-bg="assets/projects/jupiter-hero.webp" style="background:center/cover no-repeat">
                       </div>
                     </div>
         </a>
@@ -2808,7 +2873,7 @@
             <ul class="feed-chips"><li class="chip">Branding</li></ul>
           </div>
           <div class="work-img">
-                      <div class="work-img-fill" style="background:url('assets/projects/logofolio-hero.webp') center/cover no-repeat">
+                      <div class="work-img-fill" data-bg="assets/projects/logofolio-hero.webp" style="background:center/cover no-repeat">
                       </div>
                     </div>
         </a>
@@ -2818,8 +2883,8 @@
 
         <aside class="works-side" aria-label="About Shreyo">
           <div class="portrait side-portrait">
-            <video autoplay muted playsinline preload="auto" aria-label="Shreyo Debnath">
-              <source src="assets/images/hero-portrait.webm" type="video/webm">
+            <video muted loop playsinline preload="metadata" poster="assets/images/hero-portrait-poster.webp" aria-label="Shreyo Debnath">
+              <source src="assets/images/hero-portrait-v2.webm" type="video/webm">
             </video>
           </div>
           <p class="side-name">Shreyo Debnath</p>
@@ -2913,26 +2978,26 @@
       </div>
 
       <div class="extra-card" role="img" aria-label="Sitting alone on a granite outcrop at the top of a hill, looking out over a town, a lake and scrubland under a wide blue sky."
-        style="left:340px;top:16px;width:250px;height:280px;transform:rotate(-4deg);background:url('assets/gallery/hilltop-view.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/hilltop-view.webp" style="left:340px;top:16px;width:250px;height:280px;transform:rotate(-4deg);background:center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Mid-sentence in a black cap and varsity jacket, hands raised, talking to a room in the office."
-        style="left:650px;top:34px;width:218px;height:248px;transform:rotate(5deg);background:url('assets/gallery/presenting.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/presenting.webp" style="left:650px;top:34px;width:218px;height:248px;transform:rotate(5deg);background:center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="A tan street dog with its eyes shut and head tilted into my hand, being scratched behind the ear."
-        style="left:110px;top:196px;width:222px;height:252px;transform:rotate(7deg);background:url('assets/gallery/street-dog.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/street-dog.webp" style="left:110px;top:196px;width:222px;height:252px;transform:rotate(7deg);background:center/cover no-repeat;"></div>
 
       <!-- Central portrait -->
       <div class="extra-card" role="img" aria-label="Portrait at a table in a sunlit kitchen."
-        style="left:306px;top:226px;width:272px;height:302px;transform:rotate(3deg);background:url('assets/images/shreyo.webp') top center/cover no-repeat;"></div>
+        data-bg="assets/images/shreyo.webp" style="left:306px;top:226px;width:272px;height:302px;transform:rotate(3deg);background:top center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Standing ankle-deep in water, looking across at a ruined Gothic church half-sunk in a reservoir, with other visitors on the far bank."
-        style="left:548px;top:262px;width:228px;height:258px;transform:rotate(-6deg);background:url('assets/gallery/submerged-church.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/submerged-church.webp" style="left:548px;top:262px;width:228px;height:258px;transform:rotate(-6deg);background:center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="A tiled-roof cafe set back behind trees on a quiet street, scooters and bikes parked along the kerb under a bright sky."
-        style="left:780px;top:214px;width:212px;height:242px;transform:rotate(5deg);background:url('assets/gallery/cafe-street.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/cafe-street.webp" style="left:780px;top:214px;width:212px;height:242px;transform:rotate(5deg);background:center/cover no-repeat;"></div>
 
       <div class="extra-card" role="img" aria-label="Helmet selfie on the bike, visor up, tree-lined road behind."
-        style="left:214px;top:386px;width:216px;height:246px;transform:rotate(-8deg);background:url('assets/gallery/ride.webp') center/cover no-repeat;"></div>
+        data-bg="assets/gallery/ride.webp" style="left:214px;top:386px;width:216px;height:246px;transform:rotate(-8deg);background:center/cover no-repeat;"></div>
 
       <!-- Quote card -->
       <div class="extra-card ec-wide ec-sticky" style="left:640px;top:412px;width:185px;height:222px;transform:rotate(6deg);">
@@ -3005,9 +3070,11 @@
    </div><!-- /wrap -->
   </section>
 
+  </main>
+
   <!-- Footer -->
   <footer class="site-footer">
-    <img class="footer-logo" src="assets/images/footer-image.png" alt="[PORTFOLIO], Shreyo Debnath">
+    <img class="footer-logo" src="assets/images/footer-image.png" width="2172" height="724" loading="lazy" decoding="async" alt="[PORTFOLIO], Shreyo Debnath">
     <nav class="footer-links" aria-label="Footer">
       <div class="footer-col">
         <span class="footer-col-head">Pages</span>
@@ -3020,6 +3087,7 @@
         <a class="footer-link" href="mailto:shreyoisonline@gmail.com" data-reach>Email</a>
         <a class="footer-link" href="https://www.linkedin.com/in/shreyodebnath/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arr">&#8599;</span></a>
         <a class="footer-link" href="https://www.instagram.com/_euyoro_/" target="_blank" rel="noopener noreferrer">Instagram <span class="arr">&#8599;</span></a>
+        <a class="footer-link" href="https://letterboxd.com/euyoro/" target="_blank" rel="noopener noreferrer">Letterboxd <span class="arr">&#8599;</span></a>
         <a class="footer-link" href="https://github.com/euyoro" target="_blank" rel="noopener noreferrer">GitHub <span class="arr">&#8599;</span></a>
       </div>
     </nav>
@@ -3116,10 +3184,11 @@
         <a class="about-social-link" href="mailto:shreyoisonline@gmail.com" data-reach>Email</a>
         <a class="about-social-link" href="https://www.linkedin.com/in/shreyodebnath/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a class="about-social-link" href="https://www.instagram.com/_euyoro_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a class="about-social-link" href="https://letterboxd.com/euyoro/" target="_blank" rel="noopener noreferrer">Letterboxd</a>
       </nav>
     </div>
     <div class="about-content">
-      <h1 class="about-heading">Hello there,<br>I'm Shreyo.</h1>
+      <h2 class="about-heading">Hello there,<br>I'm Shreyo.</h2>
       <p class="about-name-bn">{ শ্রেয়ো দেবনাথ }</p>
       <div class="about-bio">
         <p>I was supposed to be a scientist.</p>
@@ -3241,7 +3310,7 @@
 <div class="hm-tooltip" id="hm-tip"></div>
 
 <!-- Smooth, inertial page scroll (Lenis, the same library behind shivanimatlapudi.com) -->
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+<script src="assets/vendor/lenis-1.1.20.min.js"></script>
 <script>
 (function () {
   // Wheel scrolling glides to a stop instead of stepping. Touch stays native, and
@@ -3257,11 +3326,56 @@
     prevent: () => document.body.style.overflow === 'hidden' || html.classList.contains('pgo-lock'),
   });
   window.__lenis = lenis;
-  (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
+
+  // Lenis only needs a frame while a glide is under way. Left on a permanent requestAnimationFrame it wakes
+  // the CPU sixty times a second on a page nobody is touching, so the loop sleeps once the glide has settled
+  // and wakes on anything that could start one. The clock is zeroed on wake: Lenis advances by the time since
+  // its last frame, and a long gap would otherwise finish the first glide in a single step.
+  let id = 0, quiet = 0;
+  function tick(t) {
+    lenis.raf(t);
+    quiet = lenis.isScrolling === 'smooth' ? 0 : quiet + 1;
+    id = quiet > 12 ? 0 : requestAnimationFrame(tick);
+  }
+  function wake() {
+    quiet = 0;
+    if (!id) { lenis.time = 0; id = requestAnimationFrame(tick); }
+  }
+  ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown', 'resize'].forEach(type =>
+    window.addEventListener(type, wake, { passive: true, capture: true }));
+  lenis.on('scroll', wake);
+  const scrollTo = lenis.scrollTo.bind(lenis);
+  lenis.scrollTo = (...args) => { wake(); return scrollTo(...args); };
+  wake();
 })();
 </script>
 
 <script>
+// ── Covered: the homepage is under an overlay ─────────────
+// While the case study sheet (or any overlay that locks the body) is open, the page behind it is
+// veiled and cannot be scrolled, yet it kept animating: a grain canvas, a filtered video, the
+// bobbing objects and the headline glitch were all still being drawn underneath, competing with
+// the sheet for the same frame. Everything that runs by itself listens here and stands down.
+// Same test Lenis uses for "an overlay is open".
+const Covered = (function () {
+  const html = document.documentElement;
+  const subs = [];
+  let on = false;
+  const locked = () => html.classList.contains('pgo-lock') || document.body.style.overflow === 'hidden';
+  // Immediately, both ways: the slide-up is the busiest moment, so that is when the page behind
+  // should already have gone quiet. The grain fades under the scrim (see .is-covered in the CSS).
+  function check() {
+    const v = locked();
+    if (v === on) return;
+    on = v;
+    html.classList.toggle('is-covered', v);
+    subs.forEach(fn => fn(v));
+  }
+  new MutationObserver(check).observe(html, { attributes: true, attributeFilter: ['class'] });
+  new MutationObserver(check).observe(document.body, { attributes: true, attributeFilter: ['style'] });
+  return { get on() { return on; }, onChange: fn => { subs.push(fn); } };
+})();
+
 // ── Goo: shared blob-resolve primitives ───────────────────
 // One place for the filter maths, because three separate things now use it:
 // the section headings, the hero's cycling word, and the preloader name.
@@ -3322,16 +3436,19 @@ const Goo = (function () {
 
 // ── Portrait video visibility ──────────────────────────────
 (function () {
-  const video = document.querySelector('.portrait video');
-  if (!video) return;
-  const obs = new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  }, { threshold: 0.1 });
-  obs.observe(video);
+  const videos = [...document.querySelectorAll('.portrait video')];
+  if (!videos.length) return;
+  // Each plays only while it is on screen AND nothing is on top of it. The SVG stipple filter on these
+  // is repainted on the main thread every frame, which makes them the dearest thing on the page.
+  videos.forEach(video => {
+    let seen = false;
+    const sync = () => {
+      if (seen && !Covered.on) video.play().catch(() => {});
+      else video.pause();
+    };
+    new IntersectionObserver(([entry]) => { seen = entry.isIntersecting; sync(); }, { threshold: 0.1 }).observe(video);
+    Covered.onChange(sync);
+  });
 })();
 
 // ── Topbar scroll-hide ─────────────────────────────────────
@@ -3600,6 +3717,7 @@ const Glitch = (function () {
 
   // Each swap runs the shared CRT glitch (see Glitch above).
   function swapGlitch() {
+    if (Covered.on) return;      // nobody can see the headline under an overlay: hold the word
     const from = items[idx];
     idx = (idx + 1) % items.length;
     Glitch.run(el, from, items[idx]);
@@ -4872,6 +4990,18 @@ const Glitch = (function () {
   // Back would then take two presses to leave.
   function pgoLoad(href) { pgoFrame.contentWindow.location.replace(href); }
 
+  // pushState changes the address to /case-studies/..., and every relative URL resolved from then on (a
+  // lazy image that starts loading, a background set by script) would look in that folder. While the sheet
+  // is open a <base> pins resolution to the page's real address; it comes out again on close.
+  let baseEl = null;
+  function pinBase() {
+    if (baseEl) return;
+    baseEl = document.createElement('base');
+    baseEl.href = location.href.split('#')[0];
+    document.head.prepend(baseEl);
+  }
+  function unpinBase() { if (baseEl) { baseEl.remove(); baseEl = null; } }
+
   function pgoOpen(card, push = true) {
     const href = card.getAttribute('href');
     clearTimeout(pgoUnloadTimer);
@@ -4880,6 +5010,7 @@ const Glitch = (function () {
     else pgoFrame.classList.add('ready');
     pgo.classList.add('open'); pgo.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('pgo-lock');   // a class, not body.style: other handlers reset that on any click
+    pinBase();
     if (push) history.pushState({ pgo: slugOf(card) }, '', href);
     pgoPushed = true;
   }
@@ -4890,6 +5021,7 @@ const Glitch = (function () {
     document.documentElement.classList.remove('pgo-lock');
     if (pgoPushed && !fromHistory) { pgoPushed = false; history.back(); }
     pgoPushed = false;
+    if (fromHistory) unpinBase(); else setTimeout(() => { if (!pgo.classList.contains('open')) unpinBase(); }, 400);
     // unload once the slide is done, so the next open starts clean and any video stops
     pgoUnloadTimer = setTimeout(() => {
       // the sheet is off screen by now, so resetting its size can't be seen
@@ -5142,6 +5274,13 @@ const Glitch = (function () {
   });
 })();
 
+// ── Arriving from another page with #about (the {play} menu): open the About panel ──
+(function () {
+  if (location.hash !== '#about') return;
+  const open = () => { const b = document.getElementById('nav-about'); if (b) b.click(); };
+  if (document.readyState === 'complete') setTimeout(open, 400); else addEventListener('load', () => setTimeout(open, 900));
+})();
+
 // ── Awards hover card ─────────────────────────────────────
 (function(){
   const card  = document.getElementById('award-hover-card');
@@ -5273,23 +5412,58 @@ const Glitch = (function () {
   const ctx = cnv.getContext('2d');
 
   const INTENSITY = 0.22; // 0–1, higher = stronger grain
-  let tick = 0;
-
-  function draw() {
-    requestAnimationFrame(draw);
-    // Refresh every 6 frames (~10fps) for slow film-grain feel
-    if (++tick % 6 !== 0) return;
-    const imgData = ctx.createImageData(cnv.width, cnv.height);
-    const d = imgData.data;
-    for (var i = 0; i < d.length; i += 4) {
-      var v = ((Math.random() * 2 - 1) * INTENSITY * 255 + 128) | 0;
-      d[i] = d[i+1] = d[i+2] = v;
-      d[i+3] = 255;
+  // Noise frames are made once, on first use, then shuffled through. At ~10fps nobody can tell
+  // eight frames from endless fresh noise, and it stops generating 100k random pixels (and a new
+  // allocation) every sixth frame for as long as the tab is open.
+  let frames = null, last = -1, tick = 0, raf = 0, seen = false;
+  function make() {
+    frames = [];
+    for (let n = 0; n < 8; n++) {
+      const img = ctx.createImageData(cnv.width, cnv.height), d = img.data;
+      for (let i = 0; i < d.length; i += 4) {
+        const v = ((Math.random() * 2 - 1) * INTENSITY * 255 + 128) | 0;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = 255;
+      }
+      frames.push(img);
     }
-    ctx.putImageData(imgData, 0, 0);
   }
 
-  draw();
+  function draw() {
+    raf = requestAnimationFrame(draw);
+    // Refresh every 6 frames (~10fps) for slow film-grain feel
+    if (++tick % 6 !== 0) return;
+    let k;
+    do { k = (Math.random() * frames.length) | 0; } while (k === last);
+    last = k;
+    ctx.putImageData(frames[k], 0, 0);
+  }
+
+  // Runs only while the portrait is on screen, uncovered, in a visible tab.
+  function sync() {
+    const run = seen && !Covered.on && !document.hidden;
+    if (run && !raf) { if (!frames) make(); raf = requestAnimationFrame(draw); }
+    else if (!run && raf) { cancelAnimationFrame(raf); raf = 0; }
+  }
+  new IntersectionObserver(([e]) => { seen = e.isIntersecting; sync(); }).observe(portrait);
+  Covered.onChange(sync);
+  document.addEventListener('visibilitychange', sync);
+})();
+
+// ── Lazy backgrounds ──────────────────────────────────────
+// The extras photos are CSS backgrounds, which the browser fetches the moment the element is rendered,
+// wherever it sits on the page. They load when they come within a screen of the viewport instead.
+(function () {
+  const els = [...document.querySelectorAll('[data-bg]')];
+  if (!els.length) return;
+  // Resolved now, against the page's real address: opening a case study changes the address bar, and a
+  // relative URL resolved later would follow it into the wrong folder.
+  const urls = new Map(els.map(el => [el, 'url("' + new URL(el.dataset.bg, document.baseURI).href + '")']));
+  let io = null;
+  const set = el => { el.style.backgroundImage = urls.get(el); if (io) io.unobserve(el); };
+  if (!('IntersectionObserver' in window)) { els.forEach(set); return; }
+  io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) set(e.target); }), { rootMargin: '600px 0px' });
+  els.forEach(el => io.observe(el));
 })();
 
 
@@ -5558,6 +5732,20 @@ const Glitch = (function () {
 (function () {
   let topZ = 10;
 
+  // Fit the wall to its column when it is scaled down (see .extras-collage in the CSS). Drag distances
+  // are measured on screen, the cards live in the unscaled 1060px space, so they are divided by the scale.
+  const collage = document.getElementById('extras-collage');
+  const scaledMq = matchMedia('(min-width: 761px) and (max-width: 1060px)');
+  function fitCollage() {
+    if (!collage) return;
+    const host = collage.parentElement, cs = getComputedStyle(host);
+    const w = host.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    collage.style.setProperty('--cs', Math.min(1, w / 1060).toFixed(4));
+  }
+  const dragScale = () => (collage && scaledMq.matches) ? (parseFloat(collage.style.getPropertyValue('--cs')) || 1) : 1;
+  fitCollage();
+  addEventListener('resize', fitCollage);
+
   document.querySelectorAll('.extra-card').forEach((card, i) => {
     // The record outranks the photographs permanently. It is the only card
     // here that does anything, and a holiday snap landing on top of the play
@@ -5592,8 +5780,9 @@ const Glitch = (function () {
 
     card.addEventListener('pointermove', e => {
       if (!dragging) return;
-      x = ox + (e.clientX - sx);
-      y = oy + (e.clientY - sy);
+      const k = dragScale();
+      x = ox + (e.clientX - sx) / k;
+      y = oy + (e.clientY - sy) / k;
       card.style.transform = at(x, y);
     });
 

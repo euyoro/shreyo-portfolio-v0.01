@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{play} · Shreyo Debnath</title>
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="description" content="{play}: an endless canvas of everything Shreyo Debnath has made. Drag to move around.">
+<link rel="canonical" href="https://shreyo.runs-on.dev/play.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Shreyo Debnath">
+<meta property="og:title" content="{play} · Shreyo Debnath">
+<meta property="og:description" content="{play}: an endless canvas of everything Shreyo Debnath has made. Drag to move around.">
+<meta property="og:url" content="https://shreyo.runs-on.dev/play.html">
+<meta property="og:image" content="https://shreyo.runs-on.dev/assets/og/play.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{play} · Shreyo Debnath">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{play} · Shreyo Debnath">
+<meta name="twitter:description" content="{play}: an endless canvas of everything Shreyo Debnath has made. Drag to move around.">
+<meta name="twitter:image" content="https://shreyo.runs-on.dev/assets/og/play.jpg">
+<link rel="preload" href="assets/fonts/dm-sans-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<style>
+  /* Skip link: off-screen until a keyboard user tabs to it */
+  .skip-link { position: absolute; left: 12px; top: -64px; z-index: 1000; padding: 10px 16px; border-radius: 8px;
+    background: var(--text, #0f1330); color: var(--bg, #f6f6f4); font: 500 0.875rem/1 var(--ff, system-ui, sans-serif);
+    text-decoration: none; transition: top 0.15s ease; }
+  .skip-link:focus { top: 12px; outline: 2px solid var(--accent, #2d4fe3); outline-offset: 2px; }
+  main:focus { outline: none; }
+
+  /* Tokens mirror index.html so the page belongs to the same system. */
+  :root {
+    --bg:      #f6f6f4;
+    --surface: #ffffff;
+    --border:  rgba(19,19,19,0.09);
+    --text:    #0f1330;
+    --muted:   #6c7088;
+    --dim:     #4a4f6a;
+    --accent:  #2d4fe3;
+    --t1: #e9eaf0; --t2: #e6e9ef; --t3: #ecebf0; --t4: #e4e8f1; --t5: #eaeaee;
+    --ff-display: 'Instrument Serif', Georgia, serif;
+    --ff:         'DM Sans', system-ui, -apple-system, sans-serif;
+    --ff-pixel:   'DotGothic16', var(--ff);
+    --ff-mono:    'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+    --display-track: -0.0625em;
+    --display-lead:  0.9;
+    --e-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --gutter:     clamp(1.5rem, 5vw, 4rem);
+    --t-hover:    0.2s;
+    --neon-ink:   #ffffff;
+    --neon:       #2d4fe3;
+  }
+  /* Same tokens as the homepage. Opens light unless a theme was chosen on the site. */
+  :root[data-theme="dark"] {
+    --bg: #0e0e0d; --surface: #181816; --border: rgba(251,251,250,0.10);
+    --text: #eceef8; --muted: #8084a0; --dim: #a1a5bf;
+    --accent: #8ea2ff;
+    --neon-ink: #0a0f2e; --neon: #8ea2ff;
+    --t1: #1f2024; --t2: #1d2126; --t3: #211f26; --t4: #1c2028; --t5: #23232a;
+  }
+
+  /* Background grain: one soft noise tile laid over the page colour, replacing the old dot grid.
+     Dark specks on light, light specks on dark, at a few percent so it reads as paper, not pattern. */
+  :root { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.045; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.035; }
+  }
+  :root[data-theme="dark"] { --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .6 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); --grain-op: 0.035; }
+  /* Fixed over everything, like the homepage, so the canvas has the same paper texture. */
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: 40; pointer-events: none;
+    background-image: var(--grain); background-size: 220px 220px; opacity: var(--grain-op);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--ff);
+    overflow: hidden;              /* the canvas pans; the page never scrolls */
+    overscroll-behavior: none;
+    -webkit-font-smoothing: antialiased;
+    /* Nothing here is meant to be selected, and a stray selection makes
+       dragging feel like it snags. Kill it across the page. */
+    user-select: none; -webkit-user-select: none; -ms-user-select: none;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; height: 56px; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 var(--gutter);
+    background: var(--bg);
+    transition: top 0.22s ease;
+  }
+  .nav::before { display: none; }
+  /* Wordmark: left side */
+  .nav-wordmark {
+    position: relative; z-index: 2;   /* the panel slides under the bar */
+    display: flex; align-items: baseline; gap: 0;
+    text-decoration: none; cursor: default;
+    position: relative; z-index: 3;
+  }
+  /* Both halves are 16px: euyoro quiet in the grey, shreyo in the pixel face (a 16px grid, so it stays crisp) */
+  .nav-word-a {
+    font-family: var(--ff); font-style: italic;
+    font-size: 1rem; font-weight: 400;
+    color: var(--muted); letter-spacing: -0.01em;
+  }
+  .nav-word-sep {
+    font-family: var(--ff); font-size: 1rem;
+    color: var(--muted); margin: 0 5px;
+  }
+  .nav-word-b {
+    font-family: 'DotGothic16', 'Noto Sans Bengali', var(--ff); font-size: 1rem; font-weight: 400;
+    color: var(--text); letter-spacing: 0;
+    cursor: default;
+  }
+  /* Right controls */
+  .nav-right {
+    display: flex; align-items: center; gap: 18px;
+    position: relative; z-index: 2;
+  }
+  /* Menu button: three bars that fold into a cross.
+     On a phone the control belongs in the far corner, so it is ordered past
+     the theme toggle. On a desktop the same wrapper holds the inline row of
+     links, which belongs on the left: hence order, not markup order. */
+  .nav-menu-wrap { position: relative; }
+  .nav-theme-btn { position: relative; z-index: 2; margin-left: -10px; }
+  .nav-menu-btn {
+    position: relative; z-index: 2;
+    display: inline-grid; place-items: center;
+    width: 32px; height: 27px; padding: 0;
+    background: none; border: none; cursor: pointer;
+    color: var(--text);
+  }
+  .nav-menu-btn:focus-visible { outline: 2px solid var(--dim); outline-offset: 2px; border-radius: 6px; }
+  .nav-burger { position: relative; display: block; }
+  .nav-burger,
+  .nav-burger::before,
+  .nav-burger::after {
+    width: 19px; height: 1.6px; border-radius: 2px; background: currentColor;
+    transition: transform 0.34s var(--e-out), opacity 0.16s ease, background 0.16s ease;
+  }
+  .nav-burger::before,
+  .nav-burger::after { content: ''; position: absolute; left: 0; display: block; }
+  .nav-burger::before { top: -6px; }
+  .nav-burger::after { top: 6px; }
+  /* open: the middle bar goes, the outer two meet in its place */
+  .nav-menu-btn.active .nav-burger { background: transparent; }
+  .nav-menu-btn.active .nav-burger::before { transform: translateY(6px) rotate(45deg); }
+  .nav-menu-btn.active .nav-burger::after { transform: translateY(-6px) rotate(-45deg); }
+
+  /* ── The menu itself ──
+     On a phone every link, plus the CTA, lives behind that one control, so
+     the panel takes the whole screen rather than dropping a list under the
+     bar. The stack sits low on purpose: that is where the thumb already is,
+     and the empty field above it is what makes the panel read as a place you
+     arrived at instead of a menu that appeared. The bar stays lit above it,
+     so the wordmark, the theme toggle and the cross are all still reachable. */
+  .nav-dropdown {
+    position: fixed; inset: 0; z-index: 1;
+    background: var(--bg);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 92px var(--gutter) calc(var(--gutter) + 6px);
+    opacity: 0; pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.44s var(--e-out);
+  }
+  .nav-dropdown.open { opacity: 1; pointer-events: auto; transform: none; }
+  .nav-drop-link {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 15px 0;
+    font-family: var(--ff);
+    font-size: clamp(2rem, 10.5vw, 3.375rem); font-weight: 600;
+    letter-spacing: -0.04em; line-height: 1.02;
+    color: var(--text); text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.44s var(--e-out), color var(--t-hover);
+  }
+  .nav-drop-link:first-child { border-top: 1px solid var(--border); }
+  .nav-dropdown.open .nav-drop-link { opacity: 1; transform: none; }
+  /* Counted from the END so the sequence runs bottom to top, and so it stays
+     correct whether the CTA is in the panel or up in the bar: a hidden child
+     still counts, which is exactly what keeps the two cases in step. */
+  .nav-dropdown.open .nav-drop-link:nth-last-child(1) { transition-delay: 0.06s; }
+  .nav-dropdown.open .nav-drop-link:nth-last-child(2) { transition-delay: 0.12s; }
+  .nav-dropdown.open .nav-drop-link:nth-last-child(3) { transition-delay: 0.18s; }
+  .nav-dropdown.open .nav-drop-link:nth-last-child(4) { transition-delay: 0.24s; }
+  .nav-dropdown.open .nav-drop-link:nth-last-child(5) { transition-delay: 0.30s; }
+  /* Theme is a control, not a destination: it gets the row treatment but
+     keeps its icon pair, which crossfades in place as before. */
+  .nav-drop-theme {
+    justify-content: space-between; width: 100%;
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; color: var(--text); text-align: left;
+  }
+  .nav-theme-swap { display: inline-grid; place-items: center; }
+  .nav-drop-theme .nav-theme-icon { width: 0.4em; height: 0.4em; }
+  .nav-drop-link:hover { color: var(--muted); }
+  /* Shape and colour are inherited from .nav-cta on purpose: this is the
+     same button, just sized for a thumb. Restating the radius here would put
+     it out of step the next time the CTA is restyled. */
+  /* The bar CTA blown up to the panel scale. Everything that makes it that
+     button: the neon fill, the dark ink, the radius, the grotesk: is
+     inherited from .nav-cta so the two never drift apart; the type size and
+     the padding here are the only difference, matched to the rows above so
+     the whole stack sits on one rhythm. */
+  .nav-dropdown .nav-drop-cta {
+    margin-top: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: clamp(2rem, 10.5vw, 3.375rem);
+    letter-spacing: -0.03em; line-height: 1.02;
+    padding: 15px 24px;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.3s ease 0.28s, transform 0.44s var(--e-out) 0.28s;
+  }
+  .nav-dropdown.open .nav-drop-cta { opacity: 1; transform: none; }
+  /* the bar's own CTA is a desktop affordance: on a phone it lives in the panel */
+  .nav-bar-cta { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-dropdown, .nav-drop-link, .nav-drop-cta { transition: opacity 0.2s ease; transform: none; }
+  }
+  /* Resume leaves the site for Google Drive: say so rather than letting the
+     tab switch be the first hint. */
+  .nav-arr { font-size: 0.75rem; opacity: 0.45; }
+  /* in the panel the label is ~54px; a 10px marker beside it disappears */
+  .nav-drop-link .nav-arr { font-size: 0.34em; opacity: 0.4; }
+
+  /* Above the fold on a real screen the links sit inline in the bar. The Menu
+     button and the whole dropdown apparatus below are the narrow-screen
+     fallback: four links plus the wordmark, the theme toggle and the CTA do
+     not fit across a phone. */
+  /* Desktop gets the same panel, not a row of links in the bar. It lands in
+     the bottom RIGHT: under the control that opened it rather than across
+     the screen from it: and the empty field above is what makes it read as
+     somewhere you arrived rather than a menu that dropped down. */
+  @media (min-width: 861px) {
+    .nav-dropdown { align-items: flex-end; }
+    .nav-drop-link {
+      width: min(42vw, 470px);
+      justify-content: flex-end; text-align: right;
+      font-size: clamp(2.375rem, 4.4vw, 3.875rem);
+    }
+    .nav-drop-theme { justify-content: flex-end; gap: 16px; }
+    /* up in the bar on desktop, in the panel on a phone */
+    .nav-drop-cta { display: none; }
+    .nav-bar-cta { display: inline-block; }
+  }
+  /* Theme toggle: a pill carrying whichever icon names the theme you are
+     currently in. Both icons are always in the DOM and stacked in one grid
+     cell, so the swap is a crossfade between two things already laid out
+     rather than a reflow. */
+  .nav-theme-btn {
+    display: inline-grid; place-items: center;
+    width: 44px; height: 27px; padding: 0;
+    background: none;
+    border: none;
+    color: var(--dim); cursor: pointer;
+    transition: color var(--t-hover);
+  }
+  .nav-theme-btn:hover { color: var(--text); }
+  .nav-theme-btn:focus-visible { outline: 2px solid var(--dim); outline-offset: 2px; }
+  .nav-theme-icon {
+    grid-area: 1 / 1; width: 15px; height: 15px; display: block;
+    fill: none; stroke: currentColor; stroke-width: 1.9;
+    stroke-linecap: round; stroke-linejoin: round;
+    transition: opacity 240ms ease, transform 320ms var(--e-out);
+  }
+  /* the icon for the theme you are NOT in waits off to one side */
+  .nav-theme-moon { opacity: 0; transform: rotate(-70deg) scale(0.55); }
+  [data-theme="dark"] .nav-theme-sun { opacity: 0; transform: rotate(70deg) scale(0.55); }
+  [data-theme="dark"] .nav-theme-moon { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-theme-icon { transition: opacity 240ms ease; transform: none; }
+    .nav-theme-moon,
+    [data-theme="dark"] .nav-theme-sun { transform: none; }
+  }
+  /* CTA */
+  /* Squared off rather than the pill it was, and filled with the neon.
+     --neon-ink and not --text: the ink has to stay dark in both themes,
+     because the fill does not flip with them. */
+  .nav-cta {
+    font-family: var(--ff); font-size: 0.90625rem; font-weight: 600;
+    color: var(--neon-ink); background: var(--neon);
+    padding: 7px 15px; border-radius: 5px;
+    letter-spacing: 0.005em; text-decoration: none;
+    transition: transform var(--t-hover);
+  }
+  /* No hover state by request: on neon this loud, a brightness shift read as
+     a flicker rather than as feedback. The press below still answers. */
+  .nav-cta:active { transform: translateY(1px); }
+
+
+  /* ── the pannable canvas ────────────────────────────── */
+  #field {
+    position: fixed; inset: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+  #field.dragging { cursor: grabbing; }
+
+  /* Items are absolutely placed and moved by transform every frame, so the
+     browser never reflows while panning. */
+  .item {
+    position: absolute; top: 0; left: 0;
+    transform-origin: 0 0;
+    will-change: transform;
+  }
+
+  .tile {
+    position: relative; width: 100%; height: 100%;
+    border-radius: 3px; overflow: hidden;
+    background: var(--t1);
+    display: flex; align-items: flex-end;
+    transition: box-shadow 0.3s var(--e-out);
+  }
+  .tile[data-tone="2"] { background: var(--t2); }
+  .tile[data-tone="3"] { background: var(--t3); }
+  .tile[data-tone="4"] { background: var(--t4); }
+  .tile[data-tone="5"] { background: var(--t5); }
+  .tile.empty { border: 1px solid var(--border); }
+
+  .tile img, .tile video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    /* Stop the browser's native image drag from hijacking a pan. */
+    -webkit-user-drag: none; user-drag: none;
+  }
+  .tile.contain img { object-fit: contain; }
+
+  .tile .slot {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-family: var(--ff-mono); font-size: 0.75rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted); opacity: 0.4;
+  }
+
+  .tile .cap {
+    position: relative; z-index: 2; width: 100%; padding: 14px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.34), rgba(0,0,0,0));
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.25s var(--e-out), transform 0.25s var(--e-out);
+  }
+  .tile:hover { box-shadow: 0 22px 50px -22px rgba(19,19,19,0.4); }
+  .tile[data-i] { cursor: pointer; }
+  .tile.focused .cap { opacity: 1; transform: translateY(0); }
+  .tile.focused { box-shadow: 0 30px 70px -26px rgba(15,19,48,0.5); }
+  .tile:hover .cap { opacity: 1; transform: translateY(0); }
+  .cap-name { display: block; font-size: 0.8125rem; font-weight: 500; color: #fff; line-height: 1.3; }
+  .cap-meta { display: block; font-family: var(--ff-mono); font-size: 0.75rem;
+    letter-spacing: 0.1em; color: rgba(255,255,255,0.72); margin-top: 3px; }
+
+  /* Big words living on the canvas, behind the pictures. */
+  .word {
+    font-family: var(--ff-pixel); font-weight: 400;
+    letter-spacing: var(--display-track); line-height: var(--display-lead);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .word.outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+  .word.alt { color: var(--text); }
+
+  /* ── chrome ─────────────────────────────────────────── */
+  .intro, .hint { transition: opacity 0.3s var(--e-out); }
+  .is-cluster .intro, .is-cluster .hint { opacity: 0; }
+  .intro { position: fixed; z-index: 30; left: 28px; bottom: 26px; max-width: 300px; pointer-events: none; }
+  .intro::before, .hint::before {
+    content: ''; position: absolute; z-index: -1;
+    background: radial-gradient(120% 120% at 0% 100%, var(--bg) 42%, transparent 78%);
+  }
+  .intro::before { left: -34px; right: -90px; top: -56px; bottom: -34px; }
+  .intro .eyebrow {
+    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px;
+  }
+  .intro h1 { font-family: var(--ff-pixel); font-weight: 400; font-size: 2rem; line-height: var(--display-lead); letter-spacing: var(--display-track); }
+  .intro p { font-size: 0.8125rem; line-height: 1.55; color: var(--muted); margin-top: 10px; }
+
+  .hint {
+    position: fixed; z-index: 30; right: 28px; bottom: 26px;
+    font-family: var(--ff-mono); font-size: 0.75rem; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--dim); opacity: 1;
+    pointer-events: none; transition: opacity 0.5s var(--e-out);
+  }
+  .hint::before {
+    left: -40px; right: -34px; top: -30px; bottom: -30px;
+    background: radial-gradient(120% 140% at 100% 100%, var(--bg) 45%, transparent 80%);
+  }
+  .hint.gone { opacity: 0; }
+
+  @media (max-width: 700px) {
+    .intro { max-width: 205px; bottom: 20px; left: 20px; }
+    .intro h1 { font-size: 1.5rem; }
+    .bar { padding: 16px 20px; }
+    .hint { right: 20px; bottom: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tile, .tile .cap, .hint { transition: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#field">Skip to the canvas</a>
+
+<nav class="nav">
+  <a href="index.html" class="nav-wordmark">
+    <span class="nav-word-a">euyoro</span>
+    <span class="nav-word-sep">/</span>
+    <span class="nav-word-b" id="nav-name">shreyo</span>
+  </a>
+  <div class="nav-right">
+    <button class="nav-theme-btn" id="theme-btn" type="button" aria-label="Switch theme">
+      <span class="nav-theme-swap" aria-hidden="true">
+        <svg class="nav-theme-icon nav-theme-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2.4v2.3M12 19.3v2.3M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.4 12h2.3M19.3 12h2.3M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/>
+        </svg>
+        <svg class="nav-theme-icon nav-theme-moon" viewBox="0 0 24 24">
+          <path d="M20.6 14.7A8.7 8.7 0 0 1 9.3 3.4a8.7 8.7 0 1 0 11.3 11.3Z"/>
+        </svg>
+      </span>
+    </button>
+    <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-bar-cta" data-reach>Let's Talk</a>
+    <div class="nav-menu-wrap">
+      <button class="nav-menu-btn" id="nav-menu-btn" type="button"
+              aria-expanded="false" aria-controls="nav-dropdown" aria-label="Open menu">
+        <span class="nav-burger" aria-hidden="true"></span>
+      </button>
+      <div class="nav-dropdown" id="nav-dropdown" role="menu">
+        <a href="index.html#work" class="nav-drop-link" role="menuitem">Work</a>
+        <a href="play.html" class="nav-drop-link" role="menuitem">{play}</a>
+        <a href="index.html#about" class="nav-drop-link" role="menuitem">About</a>
+        <a href="https://drive.google.com/file/d/1XRCWsCn7CFS3KYMhP2i7--4ay9FmJaZd/view?usp=sharing" class="nav-drop-link" role="menuitem"
+           target="_blank" rel="noopener noreferrer">Resume <span class="nav-arr" aria-hidden="true">&#8599;</span></a>
+        <a href="mailto:shreyoisonline@gmail.com" class="nav-cta nav-drop-cta" data-reach role="menuitem">Let's Talk</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="field" role="main" aria-label="An endless canvas of work. Drag to move around, or use the arrow keys." tabindex="0"></div>
+
+<div class="intro">
+  <span class="eyebrow">{play}</span>
+  <h1>Everything I&rsquo;ve made</h1>
+  <p>Shipped, shelved, and student. Keeps going in every direction.</p>
+</div>
+
+<noscript><p style="position:fixed;inset:auto 24px 24px;margin:0;font:500 15px system-ui;color:#0f1330">This canvas needs JavaScript. The work is also on <a href="index.html#work">the homepage</a>.</p></noscript>
+<div class="hint" id="hint">Drag to move</div>
+
+<script>
+/* ────────────────────────────────────────────────────────
+   An endless canvas.
+
+   The layout is ONE repeat, FIELD_W x FIELD_H. Every piece owns a home
+   position inside it and is drawn at home + pan, wrapped modulo the
+   field. A piece is drawn once per repeat that overlaps the window, so
+   the canvas reads as infinite in both axes and a seam never shows.
+
+   Panning is eased: the pan chases a target, so a wheel flick or a
+   release glides to a stop instead of halting. Near the edges of the
+   window, pieces split into red / cyan channels along the direction of
+   travel while the canvas moves.
+
+   Click a piece and it moves to the centre while every other piece packs
+   in around it. Scrub the canvas again and they all fly back to where
+   they live.
+   ──────────────────────────────────────────────────────── */
+
+const SIZE = 1.35;                 /* every piece's size, in one dial */
+const FIELD_W = 4786;
+const FIELD_H = 3682;
+
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const A = 'assets/fun/';
+/* Width variants of every webp piece. The browser picks by each piece's on-canvas size and the screen's density. */
+/* The src fallback is the mid-size variant, not the original: a browser prefers a candidate it already has,
+   so an original in src would be picked everywhere and the variants never used. */
+function pieceSrc(it) {
+  const set = SRCSET[it.src]; if (!set) return it.src;
+  const c = set.split(", "); return (c.find(x => /-1100.webp /.test(x)) || c[c.length - 1]).split(" ")[0];
+}
+const SRCSET = {
+ "assets/play/waqa-cover.webp": "assets/play/waqa-cover-640.webp 640w, assets/play/waqa-cover-1100.webp 1100w, assets/play/waqa-cover.webp 1800w",
+ "assets/play/waqa-world-1.webp": "assets/play/waqa-world-1-640.webp 640w, assets/play/waqa-world-1-1100.webp 1100w, assets/play/waqa-world-1.webp 1800w",
+ "assets/play/waqa-world-2.webp": "assets/play/waqa-world-2-640.webp 640w, assets/play/waqa-world-2-1100.webp 1100w, assets/play/waqa-world-2.webp 1800w",
+ "assets/play/waqa-world-3.webp": "assets/play/waqa-world-3-640.webp 640w, assets/play/waqa-world-3-1100.webp 1100w, assets/play/waqa-world-3.webp 1800w",
+ "assets/play/waqa-colour.webp": "assets/play/waqa-colour-640.webp 640w, assets/play/waqa-colour-1100.webp 1100w, assets/play/waqa-colour.webp 1800w",
+ "assets/play/waqa-world-4.webp": "assets/play/waqa-world-4-640.webp 640w, assets/play/waqa-world-4-1100.webp 1100w, assets/play/waqa-world-4.webp 1800w",
+ "assets/play/waqa-packaging.webp": "assets/play/waqa-packaging-640.webp 640w, assets/play/waqa-packaging-1100.webp 1100w, assets/play/waqa-packaging.webp 1800w",
+ "assets/play/waqa-card.webp": "assets/play/waqa-card-640.webp 640w, assets/play/waqa-card-1100.webp 1100w, assets/play/waqa-card.webp 1800w",
+ "assets/play/toysun-cover.webp": "assets/play/toysun-cover-640.webp 640w, assets/play/toysun-cover-1100.webp 1100w, assets/play/toysun-cover.webp 1800w",
+ "assets/play/toysun-logo.webp": "assets/play/toysun-logo-640.webp 640w, assets/play/toysun-logo-1100.webp 1100w, assets/play/toysun-logo.webp 1800w",
+ "assets/play/toysun-type.webp": "assets/play/toysun-type-640.webp 640w, assets/play/toysun-type-1100.webp 1100w, assets/play/toysun-type.webp 1800w",
+ "assets/play/toysun-merch.webp": "assets/play/toysun-merch-640.webp 640w, assets/play/toysun-merch-1100.webp 1100w, assets/play/toysun-merch.webp 1800w",
+ "assets/play/toysun-signage.webp": "assets/play/toysun-signage-640.webp 640w, assets/play/toysun-signage-1100.webp 1100w, assets/play/toysun-signage.webp 1800w",
+ "assets/play/toysun-bag.webp": "assets/play/toysun-bag-640.webp 640w, assets/play/toysun-bag-1100.webp 1100w, assets/play/toysun-bag.webp 1800w",
+ "assets/play/plusone-cover.webp": "assets/play/plusone-cover-640.webp 640w, assets/play/plusone-cover-1100.webp 1100w, assets/play/plusone-cover.webp 1800w",
+ "assets/play/plusone-phone.webp": "assets/play/plusone-phone-640.webp 640w, assets/play/plusone-phone-1100.webp 1100w, assets/play/plusone-phone.webp 1800w",
+ "assets/play/plusone-kitten.webp": "assets/play/plusone-kitten-640.webp 640w, assets/play/plusone-kitten-1100.webp 1100w, assets/play/plusone-kitten.webp 1230w",
+ "assets/play/plusone-dating.webp": "assets/play/plusone-dating-640.webp 640w, assets/play/plusone-dating-1100.webp 1100w, assets/play/plusone-dating.webp 1230w",
+ "assets/play/farewell-party.webp": "assets/play/farewell-party-640.webp 640w, assets/play/farewell-party.webp 1042w",
+ "assets/play/spotlight.webp": "assets/play/spotlight-640.webp 640w, assets/play/spotlight-1100.webp 1100w, assets/play/spotlight.webp 1800w",
+ "assets/play/chest-surgery-stationery.webp": "assets/play/chest-surgery-stationery-640.webp 640w, assets/play/chest-surgery-stationery-1100.webp 1100w, assets/play/chest-surgery-stationery.webp 1800w",
+ "assets/play/chest-surgery-card.webp": "assets/play/chest-surgery-card-640.webp 640w, assets/play/chest-surgery-card-1100.webp 1100w, assets/play/chest-surgery-card.webp 1800w",
+ "assets/play/search-technician.webp": "assets/play/search-technician-640.webp 640w, assets/play/search-technician-1100.webp 1100w, assets/play/search-technician.webp 1800w",
+ "assets/play/ranadip.webp": "assets/play/ranadip-640.webp 640w, assets/play/ranadip-1100.webp 1100w, assets/play/ranadip.webp 1800w",
+ "assets/fun/memoir.webp": "assets/fun/memoir-640.webp 640w, assets/fun/memoir.webp 900w",
+ "assets/fun/gramophone.webp": "assets/fun/gramophone-640.webp 640w, assets/fun/gramophone-1100.webp 1100w, assets/fun/gramophone.webp 1500w",
+ "assets/fun/bicycle.webp": "assets/fun/bicycle-640.webp 640w, assets/fun/bicycle.webp 900w"
+};
+
+/* Everything on the canvas. Add a piece here (a file in assets/play, a size,
+   a name) and it joins. Sizes vary on purpose. */
+const ITEMS = [
+  { x: 2754, y:  910, w: 559, h: 315, src: 'assets/play/waqa-cover.webp', name: 'Waqa Coffee', meta: 'Brand book' },
+  { x: 1246, y:  702, w: 301, h: 169, src: 'assets/play/waqa-world-1.webp', name: 'Waqa Coffee', meta: 'Direction 1 · Brand world' },
+  { x:  757, y:  759, w: 344, h: 194, src: 'assets/play/waqa-world-2.webp', name: 'Waqa Coffee', meta: 'Direction 2 · Brand world' },
+  { x: 4496, y: 1565, w: 323, h: 182, src: 'assets/play/waqa-world-3.webp', name: 'Waqa Coffee', meta: 'Direction 3 · Brand world' },
+  { x:   42, y:  873, w: 516, h: 290, src: 'assets/play/waqa-colour.webp', name: 'Waqa Coffee', meta: 'Direction 3 · Colour' },
+  { x: 3038, y:  397, w: 645, h: 363, src: 'assets/play/waqa-world-4.webp', name: 'Waqa Coffee', meta: 'Direction 4 · Brand world' },
+  { x: 4684, y:  372, w: 559, h: 360, src: 'assets/play/waqa-packaging.webp', name: 'Waqa Coffee', meta: 'Packaging' },
+  { x: 4118, y: 2469, w: 361, h: 271, src: 'assets/play/waqa-card.webp', name: 'Waqa Coffee', meta: 'Stationery' },
+  { x: 4134, y: 3069, w: 602, h: 339, src: 'assets/play/toysun-cover.webp', name: 'Toysun', meta: 'Brand book' },
+  { x: 2143, y:  598, w: 430, h: 242, src: 'assets/play/toysun-logo.webp', name: 'Toysun', meta: 'Logo direction' },
+  { x: 4060, y:  418, w: 452, h: 254, src: 'assets/play/toysun-type.webp', name: 'Toysun', meta: 'Colour and type' },
+  { x: 2357, y: 1983, w: 473, h: 266, src: 'assets/play/toysun-merch.webp', name: 'Toysun', meta: 'Merchandise' },
+  { x: 3586, y: 1420, w: 344, h: 194, src: 'assets/play/toysun-signage.webp', name: 'Toysun', meta: 'Signage' },
+  { x: 1668, y:  942, w: 366, h: 206, src: 'assets/play/toysun-bag.webp', name: 'Toysun', meta: 'Signage and bag' },
+  { x: 4078, y: 3580, w: 602, h: 339, src: 'assets/play/plusone-cover.webp', name: 'Plus One', meta: 'Brand identity' },
+  { x:  753, y: 1173, w: 430, h: 242, src: 'assets/play/plusone-phone.webp', name: 'Plus One', meta: 'App' },
+  { x: 3017, y: 1350, w: 408, h: 525, src: 'assets/play/plusone-kitten.webp', name: 'Plus One', meta: 'Campaign poster' },
+  { x: 3565, y: 2850, w: 408, h: 525, src: 'assets/play/plusone-dating.webp', name: 'Plus One', meta: 'Campaign poster' },
+  { x: 2410, y: 3414, w: 447, h: 630, src: 'assets/play/farewell-party.webp', name: 'Farewell Party', meta: 'Poster' },
+  { x: 1022, y:  457, w: 228, h: 171, src: 'assets/play/spotlight.webp', name: 'Spotlight', meta: 'Brochure and poster' },
+  { x:  164, y: 1282, w: 301, h: 198, src: 'assets/play/chest-surgery-stationery.webp', name: 'Chest Surgery Associates', meta: 'Stationery' },
+  { x:  181, y: 3206, w: 418, h: 314, src: 'assets/play/chest-surgery-card.webp', name: 'Chest Surgery Associates', meta: 'Visiting card' },
+  { x: 2550, y: 2849, w: 667, h: 408, src: 'assets/play/search-technician.webp', name: 'Search Technician', meta: 'Logo' },
+  { x:  762, y: 2880, w: 297, h: 297, src: 'assets/play/ranadip.webp', name: 'Ranadip', meta: 'Illustration' },
+  { x: 2500, y: 1591, w: 195, h: 276, src: A+'memoir.webp', name: 'What? / How?', meta: 'Poster · 2023' },
+  { x: 1105, y: 1516, w: 312, h: 229, src: A+'gramophone.webp', name: 'Gramophone', meta: 'Infographic · 2023' },
+  { x: 3341, y: 2079, w: 396, h: 560, src: A+'bicycle.webp', name: 'Bicycle Thieves', meta: 'Screening poster · 2022' },
+  { x: 1673, y: 3106, w: 527, h: 667, src: A+'ornate.svg', contain: true, tone: 3, name: 'Ornament study', meta: 'Vector · 2022' },
+];
+
+/* Words sit on the canvas with the pictures, behind them. */
+const WORDS = [
+  { x:  152, y: 2929, text: 'Shreyo', size: 110 },
+  { x: 4431, y: 1942, text: 'Debnath', size: 110, outline: true },
+  { x: 1094, y: 2573, text: 'Everything', size: 84 },
+  { x: 3176, y: 3459, text: 'so far', size: 72, alt: true },
+  { x:  871, y: 3562, text: 'and counting', size: 56, alt: true },
+];
+
+const field = document.getElementById('field');
+const hint  = document.getElementById('hint');
+const SVGNS = 'http://www.w3.org/2000/svg';
+const defs = document.createElementNS(SVGNS, 'svg');
+defs.setAttribute('width', '0'); defs.setAttribute('height', '0');
+defs.setAttribute('aria-hidden', 'true'); defs.style.cssText = 'position:absolute;width:0;height:0';
+document.body.appendChild(defs);
+
+const nodes = [];                  /* one per piece or word: its home and its on-screen copies */
+let copiesX = 1, copiesY = 1, kMinX = -1, kMinY = -1;
+
+function makeFilter(id) {
+  /* Isolate R and B, push them apart along the motion, add G back in: a chromatic split. */
+  const f = document.createElementNS(SVGNS, 'filter');
+  f.setAttribute('id', id); f.setAttribute('x', '-15%'); f.setAttribute('y', '-15%');
+  f.setAttribute('width', '130%'); f.setAttribute('height', '130%');
+  f.setAttribute('color-interpolation-filters', 'sRGB');
+  const ch = (rgb, res) => `<feColorMatrix in="SourceGraphic" type="matrix" values="${rgb}" result="${res}"/>`;
+  f.innerHTML =
+    ch('1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0', 'r') +
+    ch('0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0', 'g') +
+    ch('0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0', 'b') +
+    '<feOffset in="r" dx="0" dy="0" result="r2"/><feOffset in="b" dx="0" dy="0" result="b2"/>' +
+    '<feBlend in="r2" in2="g" mode="screen" result="rg"/><feBlend in="rg" in2="b2" mode="screen"/>';
+  defs.appendChild(f);
+  const [r, b] = f.querySelectorAll('feOffset');
+  return { r, b };
+}
+
+function build() {
+  field.textContent = ''; defs.textContent = ''; nodes.length = 0;
+  focusI = null;
+  document.body.classList.remove('is-cluster');
+  const vw = innerWidth, vh = innerHeight;
+  const specs = [
+    ...WORDS.map(w => ({ word: w })),
+    ...ITEMS.map((it, i) => ({ it, i })),
+  ];
+  let maxW = 0, maxH = 0;
+  const made = specs.map(sp => {
+    const el = document.createElement('div');
+    el.className = 'item';
+    if (sp.word) {
+      const w = sp.word;
+      el.className += ' word' + (w.outline ? ' outline' : '') + (w.alt ? ' alt' : '');
+      el.style.fontSize = Math.round(w.size * SIZE) + 'px';
+      el.textContent = w.text;
+    } else {
+      const it = sp.it;
+      el.style.width = Math.round(it.w * SIZE) + 'px';
+      el.style.height = Math.round(it.h * SIZE) + 'px';
+      const media = it.video
+        ? `<video src="${it.video}.mp4" poster="${it.video}-poster.webp" muted loop playsinline autoplay></video>`
+        : `<img src="${pieceSrc(it)}"${SRCSET[it.src] ? ` srcset="${SRCSET[it.src]}" sizes="${Math.round(it.w * SIZE)}px"` : ''} alt="${it.name}" loading="lazy" decoding="async" draggable="false">`;
+      el.innerHTML =
+        `<div class="tile${it.contain ? ' contain' : ''}" data-i="${sp.i}" data-tone="${it.tone || (sp.i % 5) + 1}">${media}` +
+        `<div class="cap"><span class="cap-name">${it.name}</span><span class="cap-meta">${it.meta}</span></div></div>`;
+    }
+    return { sp, el };
+  });
+  /* measure once so every size is known before the first frame */
+  made.forEach(m => { field.appendChild(m.el); });
+  made.forEach(m => {
+    m.w = m.el.offsetWidth; m.h = m.el.offsetHeight;
+    maxW = Math.max(maxW, m.w); maxH = Math.max(maxH, m.h);
+  });
+  kMinX = -Math.ceil(maxW / FIELD_W); kMinY = -Math.ceil(maxH / FIELD_H);
+  copiesX = -kMinX + Math.floor(vw / FIELD_W) + 1;
+  copiesY = -kMinY + Math.floor(vh / FIELD_H) + 1;
+  field.textContent = '';
+  let fid = 0;
+  made.forEach(m => {
+    const home = m.sp.word ? m.sp.word : m.sp.it;
+    const node = { x: home.x, y: home.y, w: m.w, h: m.h, i: m.sp.word ? -1 : m.sp.i, copies: [],
+                   p: 0, target: 0, wait: 0, pc: 0, slot: null, hid: false };
+    for (let cy = 0; cy < copiesY; cy++) for (let cx = 0; cx < copiesX; cx++) {
+      const el = (cx === 0 && cy === 0) ? m.el : m.el.cloneNode(true);
+      const c = { el, tile: el.querySelector('.tile'), kx: kMinX + cx, ky: kMinY + cy, x: 0, y: 0, w: m.w, h: m.h, seen: false, ca: false };
+      c.f = makeFilter('ca' + (fid++));
+      node.copies.push(c);
+      field.appendChild(el);
+    }
+    nodes.push(node);
+  });
+}
+
+/* ── pan state ─────────────────────────────────────────── */
+let panX = 0, panY = 0;          /* where the canvas is */
+let tx = 0, ty = 0;              /* where it is heading */
+let vx = 0, vy = 0;              /* smoothed speed, px per frame */
+let prevX = 0, prevY = 0;
+let dragging = false, lastX = 0, lastY = 0, lastDX = 0, lastDY = 0;
+let dirty = true;
+let focusI = null;               /* the piece in the middle, or null */
+let lastT = 0;
+
+const mod = (n, m) => ((n % m) + m) % m;
+const EDGE_FROM = 0.45;
+const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+const ease = p => 1 - Math.pow(1 - p, 3);          /* fast out, soft landing */
+
+/* ── focus: one piece to the middle, the rest packed round it ── */
+const GAP = 6;
+function fillRegion(list, R) {
+  /* Justified rows: every piece keeps its own shape; each row is stretched to the width of the region. */
+  if (!list.length) return [];
+  const asp = n => n.w / n.h;
+  let best = null;
+  for (let r = 1; r <= Math.min(list.length, 8); r++) {
+    const rows = []; let idx = 0;
+    for (let j = 0; j < r; j++) { const cnt = Math.round((list.length - idx) / (r - j)); rows.push(list.slice(idx, idx + cnt)); idx += cnt; }
+    let H = GAP * (r - 1); const hs = [];
+    for (const row of rows) {
+      const sumA = row.reduce((s, n) => s + asp(n), 0);
+      const h = (R.w - GAP * (row.length - 1)) / sumA;
+      hs.push(h); H += h;
+    }
+    const score = Math.abs(H - R.h) / R.h + (H > R.h ? 0.25 : 0);
+    if (!best || score < best.score) best = { rows, hs, H, score };
+  }
+  const f = Math.min(1, R.h / best.H);
+  const out = [];
+  let y = R.y + (R.h - best.H * f) / 2;
+  best.rows.forEach((row, j) => {
+    const h = best.hs[j] * f;
+    const rowW = row.reduce((s, n) => s + asp(n) * h, 0) + GAP * (row.length - 1);
+    let x = R.x + (R.w - rowW) / 2;
+    for (const n of row) { const w = asp(n) * h; out.push({ node: n, x, y, w, h }); x += w + GAP; }
+    y += h + GAP;
+  });
+  return out;
+}
+
+function layoutCluster(fi) {
+  const vw = innerWidth, vh = innerHeight, top = 66, pad = 10;
+  const pieces = nodes.filter(n => n.i >= 0);
+  const fnode = pieces.find(n => n.i === fi);
+  const maxW = Math.min(vw * 0.36, 640), maxH = (vh - top - pad) * 0.52;
+  const s = Math.min(maxW / fnode.w, maxH / fnode.h);
+  const fw = fnode.w * s, fh = fnode.h * s;
+  const fx = (vw - fw) / 2, fy = top + ((vh - top - pad) - fh) / 2;
+  fnode.slot = { x: fx, y: fy, w: fw, h: fh };
+  const regions = [
+    { x: pad, y: top, w: vw - pad * 2, h: fy - GAP - top },                         /* above */
+    { x: fx + fw + GAP, y: fy, w: vw - pad - (fx + fw + GAP), h: fh },              /* right */
+    { x: pad, y: fy + fh + GAP, w: vw - pad * 2, h: vh - pad - (fy + fh + GAP) },    /* below */
+    { x: pad, y: fy, w: fx - GAP - pad, h: fh },                                    /* left */
+  ].filter(r => r.w > 70 && r.h > 70);
+  /* the rest, nearest neighbours in the list first, so a project stays together */
+  const others = pieces.filter(n => n !== fnode).sort((a, b) => ((a.i - fi + 999) % 999) - ((b.i - fi + 999) % 999));
+  const areaSum = regions.reduce((s, r) => s + r.w * r.h, 0);
+  let left = others.length;
+  const counts = regions.map(r => Math.floor(others.length * r.w * r.h / areaSum));
+  left -= counts.reduce((s, c) => s + c, 0);
+  for (let k = 0; left > 0; k = (k + 1) % counts.length, left--) counts[k]++;
+  let at = 0, rank = 0;
+  regions.forEach((r, k) => {
+    const slice = others.slice(at, at + counts[k]); at += counts[k];
+    for (const sl of fillRegion(slice, r)) { sl.node.slot = { x: sl.x, y: sl.y, w: sl.w, h: sl.h }; sl.node.rank = rank++; }
+  });
+  fnode.rank = 0;
+  return fnode;
+}
+
+function focusPiece(i) {
+  if (reduced) { /* no flying: just centre it */ }
+  /* when switching focus from one piece to another, reset animation so the
+     rearrange plays from scratch rather than snapping to new slots */
+  const switching = focusI !== null && focusI !== i;
+  if (switching) { for (const n of nodes) { n.p = 0; n.target = 0; } }
+  const fnode = layoutCluster(i);
+  const vw = innerWidth, vh = innerHeight;
+  focusI = i;
+  document.body.classList.add('is-cluster');
+  tx = panX; ty = panY; vx = vy = 0;
+  for (const n of nodes) {
+    if (n.i < 0) { n.target = 1; n.wait = 0; continue; }
+    /* each piece travels from the copy of itself that is nearest the middle of the window */
+    let bi = 0, bd = Infinity;
+    n.copies.forEach((c, k) => { const d = Math.hypot(c.x + n.w / 2 - vw / 2, c.y + n.h / 2 - vh / 2); if (d < bd) { bd = d; bi = k; } });
+    n.pc = bi;
+    n.target = 1;
+    n.wait = reduced ? 0 : Math.min(80, (n.rank || 0) * 3);
+    if (reduced) n.p = 1;
+  }
+  dismissHint();
+  dirty = true;
+}
+
+function releaseFocus() {
+  if (focusI === null) return;
+  focusI = null;
+  document.body.classList.remove('is-cluster');
+  for (const n of nodes) { n.target = 0; n.wait = reduced ? 0 : Math.random() * 40; if (reduced) n.p = 0; }
+  dirty = true;
+}
+
+function stepFocus(dt) {
+  let active = false;
+  for (const n of nodes) {
+    if (n.p === n.target) continue;
+    active = true;
+    if (n.wait > 0) { n.wait -= dt; continue; }
+    const step = dt / (n.target ? 260 : 220);
+    n.p = n.target ? Math.min(1, n.p + step) : Math.max(0, n.p - step);
+  }
+  return active;
+}
+const clusterOn = () => nodes.some(n => n.p > 0 || n.target > 0);
+
+function draw() {
+  const vw = innerWidth, vh = innerHeight;
+  for (const n of nodes) {
+    const x0 = mod(n.x + panX, FIELD_W), y0 = mod(n.y + panY, FIELD_H);
+    for (const c of n.copies) {
+      c.x = x0 + c.kx * FIELD_W; c.y = y0 + c.ky * FIELD_H;
+      c.seen = c.x + n.w > 0 && c.x < vw && c.y + n.h > 0 && c.y < vh;
+    }
+    if (n.p > 0 && (n.i < 0 || n.slot)) {
+      const e = ease(n.p);
+      n.copies.forEach((c, k) => {
+        if (n.i < 0) { c.el.style.opacity = (1 - e).toFixed(3); c.el.style.transform = `translate3d(${c.x}px,${c.y}px,0)`; return; }
+        if (k !== n.pc) { if (!c.hid) { c.el.style.visibility = 'hidden'; c.hid = true; } return; }
+        const sc = 1 + (n.slot.w / n.w - 1) * e;
+        const x = c.x + (n.slot.x - c.x) * e, y = c.y + (n.slot.y - c.y) * e;
+        c.el.style.transform = `translate3d(${x}px,${y}px,0) scale(${sc})`;
+        c.el.style.zIndex = n.i === focusI ? 6 : 3;
+        c.seen = true;
+      });
+      n.live = true;
+      if (n.i === focusI && n.p > 0.85) n.copies[n.pc].tile && n.copies[n.pc].tile.classList.add('focused');
+    } else {
+      for (const c of n.copies) {
+        c.el.style.transform = `translate3d(${c.x}px,${c.y}px,0)`;
+        if (n.live) {
+          c.el.style.opacity = ''; c.el.style.zIndex = '';
+          if (c.hid) { c.el.style.visibility = ''; c.hid = false; }
+          if (c.tile) c.tile.classList.remove('focused');
+        }
+      }
+      n.live = false;
+    }
+  }
+}
+
+/* ── effects: chromatic split at the edges, while moving ── */
+function effects() {
+  if (reduced) return;
+  const vw = innerWidth, vh = innerHeight;
+  const speed = Math.hypot(vx, vy);
+  const off = clusterOn();
+  for (const n of nodes) for (const c of n.copies) {
+    if (off || !c.seen) { if (c.ca) { c.el.style.filter = ''; c.ca = false; } continue; }
+    /* how far toward the rim its centre is: 0 in the middle, 1 at the rim */
+    const d = Math.max(Math.abs(c.x + c.w / 2 - vw / 2) / (vw / 2), Math.abs(c.y + c.h / 2 - vh / 2) / (vh / 2));
+    const e = smooth(EDGE_FROM, 1.1, d);
+    if (speed > 0.5 && e > 0.02) {
+      const k = Math.min(16, speed * 0.55) * e * 1.4 / speed;
+      const ox = vx * k, oy = vy * k;
+      c.f.r.setAttribute('dx', ox.toFixed(2)); c.f.r.setAttribute('dy', oy.toFixed(2));
+      c.f.b.setAttribute('dx', (-ox).toFixed(2)); c.f.b.setAttribute('dy', (-oy).toFixed(2));
+      if (!c.ca) { c.el.style.filter = `url(#${c.f.r.parentNode.id})`; c.ca = true; }
+    } else if (c.ca) { c.el.style.filter = ''; c.ca = false; }
+  }
+}
+
+function frame(now) {
+  now = now || performance.now();
+  const dt = Math.min(50, lastT ? now - lastT : 16); lastT = now;
+  const focusMoving = stepFocus(dt);
+  if (!dragging) {
+    const k = reduced ? 1 : 0.1;
+    panX += (tx - panX) * k; panY += (ty - panY) * k;
+    if (Math.abs(tx - panX) < 0.05) panX = tx;
+    if (Math.abs(ty - panY) < 0.05) panY = ty;
+  }
+  const dx = panX - prevX, dy = panY - prevY;
+  prevX = panX; prevY = panY;
+  vx += (dx - vx) * 0.3; vy += (dy - vy) * 0.3;
+  if (Math.abs(vx) < 0.01) vx = 0;
+  if (Math.abs(vy) < 0.01) vy = 0;
+  if (dx || dy || dirty || focusMoving) { draw(); dirty = false; }
+  effects();
+  /* Nothing moving, nothing queued: stop asking for frames. A permanent loop wakes the CPU sixty times a
+     second to find out that nothing changed. Input wakes it again (see kick). */
+  const settled = !dragging && !focusMoving && !dirty && !dx && !dy && !vx && !vy && panX === tx && panY === ty;
+  if (settled) running = false; else requestAnimationFrame(frame);
+}
+let running = true;
+function kick() {
+  if (running) return;
+  running = true; lastT = 0;
+  requestAnimationFrame(frame);
+}
+/* everything that can start motion: capture phase, so the loop is awake before the handlers run */
+['pointerdown', 'wheel', 'keydown', 'resize'].forEach(t => addEventListener(t, kick, { capture: true, passive: true }));
+
+/* Open on the busiest patch of the canvas for this window size. */
+function pickStart() {
+  const vw = innerWidth, vh = innerHeight;
+  let best = -1, bx = 0, by = 0;
+  for (let py = 0; py < FIELD_H; py += 60) for (let px = 0; px < FIELD_W; px += 60) {
+    let seen = 0;
+    for (const n of nodes) {
+      const x0 = mod(n.x + px, FIELD_W), y0 = mod(n.y + py, FIELD_H);
+      for (const xx of [x0 - FIELD_W, x0, x0 + FIELD_W]) for (const yy of [y0 - FIELD_H, y0, y0 + FIELD_H]) {
+        const ox = Math.min(xx + n.w, vw) - Math.max(xx, 0), oy = Math.min(yy + n.h, vh) - Math.max(yy, 0);
+        if (ox > 0 && oy > 0) seen += (ox * oy) / (n.w * n.h);
+      }
+    }
+    if (seen > best) { best = seen; bx = px; by = py; }
+  }
+  panX = tx = prevX = bx; panY = ty = prevY = by;
+}
+
+/* ── input ─────────────────────────────────────────────── */
+let downX = 0, downY = 0, downTarget = null, scrubbed = false;
+field.addEventListener('pointerdown', e => {
+  downX = e.clientX; downY = e.clientY; downTarget = e.target.closest('.tile[data-i]'); scrubbed = false;
+  dragging = true; lastDX = lastDY = 0;
+  lastX = e.clientX; lastY = e.clientY;
+  field.classList.add('dragging');
+  try { field.setPointerCapture(e.pointerId); } catch {}
+});
+
+field.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  /* a press that has not travelled is a click, not a scrub */
+  if (!scrubbed && Math.hypot(e.clientX - downX, e.clientY - downY) < 6) return;
+  if (!scrubbed) { scrubbed = true; releaseFocus(); lastX = e.clientX; lastY = e.clientY; return; }
+  const dx = e.clientX - lastX, dy = e.clientY - lastY;
+  lastX = e.clientX; lastY = e.clientY;
+  panX += dx; panY += dy;
+  tx = panX; ty = panY;
+  lastDX = lastDX * 0.5 + dx * 0.5; lastDY = lastDY * 0.5 + dy * 0.5;
+  dismissHint();
+  dirty = true;
+});
+
+function endDrag(e) {
+  if (!dragging) return;
+  const clicked = e && e.type === 'pointerup' && !scrubbed;
+  dragging = false;
+  field.classList.remove('dragging');
+  if (e && e.pointerId != null && field.hasPointerCapture?.(e.pointerId)) field.releasePointerCapture(e.pointerId);
+  if (clicked) {
+    if (downTarget) focusPiece(Number(downTarget.dataset.i));
+    else releaseFocus();
+    tx = panX; ty = panY;
+    return;
+  }
+  /* let go and it keeps gliding, easing out */
+  if (!reduced) { tx = panX + lastDX * 14; ty = panY + lastDY * 14; } else { tx = panX; ty = panY; }
+}
+field.addEventListener('pointerup', endDrag);
+field.addEventListener('pointercancel', endDrag);
+
+/* Trackpads give both axes; a mouse wheel gives only deltaY, so let that
+   drift the canvas diagonally rather than only downward. The pan eases toward
+   the target, so every flick glides. */
+field.addEventListener('wheel', e => {
+  e.preventDefault();
+  dismissHint();
+  releaseFocus();
+  if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) { tx -= e.deltaX; ty -= e.deltaY; }
+  else if (e.shiftKey) { tx -= e.deltaY; }
+  else { tx -= e.deltaY * 0.6; ty -= e.deltaY * 0.45; }
+}, { passive: false });
+
+field.addEventListener('keydown', e => {
+  const step = e.shiftKey ? 300 : 100;
+  const map = { ArrowLeft: [step, 0], ArrowRight: [-step, 0], ArrowUp: [0, step], ArrowDown: [0, -step] };
+  const d = map[e.key];
+  if (!d) return;
+  e.preventDefault();
+  dismissHint();
+  releaseFocus();
+  tx += d[0]; ty += d[1];
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') releaseFocus(); });
+
+let hintGone = false;
+function dismissHint() { if (!hintGone) { hintGone = true; hint.classList.add('gone'); } }
+
+/* ── theme, shared with the main site ──────────────────── */
+const stored = (() => { try { return sessionStorage.getItem('theme'); } catch { return null; } })();
+const forced = new URLSearchParams(location.search).get('theme');
+if (forced === 'light' || forced === 'dark') document.documentElement.dataset.theme = forced;
+else document.documentElement.dataset.theme = stored || 'light';
+
+// ── Nav: Menu dropdown ────────────────────────────────────
+(function () {
+  const btn = document.getElementById('nav-menu-btn');
+  const drop = document.getElementById('nav-dropdown');
+  if (!btn || !drop) return;
+
+  // The panel covers the screen at every width now, so the page behind it
+  // must never scroll under the gesture and focus always belongs inside.
+
+  function open() {
+    drop.classList.add('open');
+    btn.classList.add('active');
+    btn.setAttribute('aria-expanded', 'true');
+    btn.setAttribute('aria-label', 'Close menu');
+    document.body.style.overflow = 'hidden';
+    const first = drop.querySelector('.nav-drop-link');
+    if (first) first.focus({ preventScroll: true });
+  }
+  function close(restoreFocus) {
+    const wasOpen = drop.classList.contains('open');
+    drop.classList.remove('open');
+    btn.classList.remove('active');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.setAttribute('aria-label', 'Open menu');
+    document.body.style.overflow = '';
+    if (wasOpen && restoreFocus) btn.focus({ preventScroll: true });
+  }
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    drop.classList.contains('open') ? close() : open();
+  });
+
+  // Close when anything inside is chosen: but not Theme. That one acts on
+  // the page behind the panel, and you want to see what it did.
+  drop.querySelectorAll('.nav-drop-link, .nav-drop-cta').forEach(link => {
+    if (link.id === 'theme-btn') return;
+    link.addEventListener('click', () => close());
+  });
+
+  // Close on outside click
+  document.addEventListener('click', () => close());
+  drop.addEventListener('click', e => e.stopPropagation());
+  // ...but switching the theme is not "outside". Closing the menu out from
+  // under someone who reached for the sun icon would be its own little bug.
+  const themeBtn = document.getElementById('theme-btn');
+  if (themeBtn) themeBtn.addEventListener('click', e => e.stopPropagation());
+
+  // Close on Esc
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(true); });
+})();
+
+// ── Nav: Reach Out ────────────────────────────────────────
+// Mail is right on a desktop and wrong on a phone, where the reply is going
+// to happen in WhatsApp anyway. The markup ships with the mailto: so the link
+// still works with JavaScript off, and the test is for a touch device rather
+// than a narrow one: a desktop window dragged small is still a desktop.
+(function () {
+  const WHATSAPP = 'https://wa.me/917002450469';
+  // Two of them now: one in the bar for desktop, one inside the mobile panel.
+  const ctas = [...document.querySelectorAll('[data-reach]')];
+  if (!ctas.length) return;
+  const mail = ctas[0].getAttribute('href');
+  const touch = matchMedia('(hover: none) and (pointer: coarse)');
+  const apply = () => {
+    const phone = touch.matches;
+    for (const cta of ctas) {
+      cta.setAttribute('href', phone ? WHATSAPP : mail);
+      cta.setAttribute('aria-label', phone ? 'Message Shreyo on WhatsApp' : 'Email Shreyo');
+      if (phone) {
+        cta.setAttribute('target', '_blank');
+        cta.setAttribute('rel', 'noopener noreferrer');
+      } else {
+        cta.removeAttribute('target');
+        cta.removeAttribute('rel');
+      }
+    }
+  };
+  apply();
+  touch.addEventListener('change', apply);
+})();
+
+// ── Nav: theme toggle ─────────────────────────────────────
+(function () {
+  const btn = document.getElementById('theme-btn');
+  if (!btn) return;
+  // The icon says where you are; the label has to say where the press goes,
+  // because a screen reader gets no icon at all.
+  const label = () => {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const text = dark ? 'Switch to light theme' : 'Switch to dark theme';
+    btn.setAttribute('aria-label', text);
+    btn.setAttribute('title', text);
+  };
+  label();
+  btn.addEventListener('click', () => {
+    const root = document.documentElement;
+    const cur = root.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    label();
+    // The choice died on every navigation before this. It was invisible only
+    // because the 2.8s intro covered the snap back to light; skipping the
+    // intro puts it on screen, so it has to actually persist now.
+    try { sessionStorage.setItem('theme', next); } catch (e) {}
+  });
+})();
+
+/* ── go ────────────────────────────────────────────────── */
+build();
+pickStart();
+function rebuild() { const px = panX, py = panY; build(); panX = tx = prevX = px; panY = ty = prevY = py; dirty = true; kick(); }
+let resizeT = 0;
+addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(rebuild, 120); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(rebuild);
+draw();
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>
