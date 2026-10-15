@@ -290,6 +290,15 @@
   .topbar { transition: transform 0.22s ease; }
   .topbar.tb-hidden { transform: translateY(-100%); }
   .nav.tb-hidden { top: 0; }
+  /* Phone: the topbar above is display:none, so there is nothing to sit under. The nav is pinned to the
+     very top from the first paint (it used to start 38px down and only jump up after the first scroll,
+     leaving a strip of page showing above it), and the hero below clears it. Once the page has moved,
+     a hairline marks the bar's edge so content does not just vanish under it. */
+  @media (max-width: 700px) {
+    .nav { top: 0; transition: border-color 0.22s ease; border-bottom: 1px solid transparent; }
+    .nav.tb-hidden { border-bottom-color: var(--border); }
+    section.hero { padding-top: 88px; }   /* 56px nav + 32px */
+  }
   /* Wordmark: left side */
   .nav-wordmark {
     position: relative; z-index: 2;   /* the panel slides under the bar */
@@ -865,7 +874,6 @@
      to the work, and the profile column keeps only the experience list. */
   @media (max-width: 640px) {
     :root { --sec-y: 32px; }
-    section.hero { padding-top: 32px; }
     /* The intro, sized for a phone: a smaller portrait blob and a bio that sets at 15px, not 17px */
     .hero .portrait { max-width: 148px; }
     .hero-p { font-size: 0.9375rem; line-height: 1.6; letter-spacing: -0.015em; }
