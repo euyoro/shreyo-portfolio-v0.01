@@ -185,6 +185,10 @@
 
   /* ── Page stage: objects are absolute children of this ── */
   .page-stage { position: relative; }
+  /* ASCII water (light theme): above the content and below the nav, never takes a click */
+  #ascii-water, #ascii-water-bg { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 15; pointer-events: none; }
+  html[data-theme="dark"] #ascii-water, html[data-theme="dark"] #ascii-water-bg { display: none; }
+  html.is-rippling body { -webkit-user-select: none; user-select: none; }
 
   /* ── Floating objects ── */
   @keyframes bob {
@@ -5448,6 +5452,144 @@ const Glitch = (function () {
   new IntersectionObserver(([e]) => { seen = e.isIntersecting; sync(); }).observe(portrait);
   Covered.onChange(sync);
   document.addEventListener('visibilitychange', sync);
+})();
+
+// ── ASCII water ───────────────────────────────────────────
+// Light theme only. A grid of characters that is nearly invisible at rest; click and drag drops energy into a
+// small wave field, and the ripples brighten the characters they pass through before dying away.
+// Two canvases: the faint resting layer is drawn once, and the ripple layer redraws only the cells that are
+// lit, at a fixed 30 Hz (a ripple needs no more, and it keeps a 144 Hz display from tripling the work).
+// The loop only runs while there is energy in the field, and it stands down under an overlay (see Covered).
+(function () {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mouse  = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (reduce || !mouse) return;
+  const html = document.documentElement;
+  const isDark = () => html.getAttribute('data-theme') === 'dark';
+
+  const CW = 9, CH = 15;                       // one cell, in CSS px
+  const GLYPHS = 'abcdefghijklmnopqrstuvwxyz0123456789#$%&*+=<>?@/|~^_-';
+  const LEVELS = 8;                            // alpha steps in the sprite sheet
+  const DAMP = 0.94, FLOOR = 0.07, TICK = 1000 / 30;
+  const INK = '45,79,227';                     // the site accent blue
+
+  const mk = id => { const c = document.createElement('canvas'); c.id = id; c.setAttribute('aria-hidden', 'true'); return c; };
+  const bg = mk('ascii-water-bg'), cvs = mk('ascii-water');
+  document.body.prepend(cvs); document.body.prepend(bg);
+  const bgx = bg.getContext('2d'), ctx = cvs.getContext('2d');
+
+  let dpr = 1, cols = 0, rows = 0, cur, prev, glyphOf, ambient, atlas, aw = 0, ah = 0;
+  let raf = 0, down = false, lx = 0, ly = 0, resizeT = 0, quiet = 0, last = 0;
+
+  function buildAtlas() {
+    aw = Math.round(CW * dpr); ah = Math.round(CH * dpr);
+    atlas = document.createElement('canvas');
+    atlas.width = aw * GLYPHS.length; atlas.height = ah * LEVELS;
+    const a = atlas.getContext('2d');
+    a.font = Math.round((CH - 3) * dpr) + 'px ui-monospace, "SF Mono", Menlo, Consolas, monospace';
+    a.textBaseline = 'middle'; a.textAlign = 'center';
+    for (let l = 0; l < LEVELS; l++) {
+      a.fillStyle = 'rgba(' + INK + ',' + ((l + 1) / LEVELS).toFixed(3) + ')';
+      for (let g = 0; g < GLYPHS.length; g++) a.fillText(GLYPHS[g], g * aw + aw / 2, l * ah + ah / 2 + 1);
+    }
+  }
+  const sprite = (c2d, i, c, r, a) => {
+    const lvl = Math.min(LEVELS - 1, Math.max(0, Math.round(a * LEVELS) - 1));
+    c2d.drawImage(atlas, glyphOf[i] * aw, lvl * ah, aw, ah, Math.round(c * CW * dpr), Math.round(r * CH * dpr), aw, ah);
+  };
+
+  function paintAmbient() {
+    bgx.clearRect(0, 0, bg.width, bg.height);
+    if (isDark()) return;
+    for (let r = 0, i = 0; r < rows; r++) for (let c = 0; c < cols; c++, i++) if (ambient[i] > 0) sprite(bgx, i, c, r, ambient[i]);
+  }
+  function paint() {
+    ctx.clearRect(0, 0, cvs.width, cvs.height);
+    if (isDark()) return;
+    for (let r = 0, i = 0; r < rows; r++) for (let c = 0; c < cols; c++, i++) {
+      const v = cur[i] < 0 ? -cur[i] : cur[i];
+      if (v > FLOOR) sprite(ctx, i, c, r, Math.min(0.5, 0.06 + v * 0.55));
+    }
+  }
+
+  function layout() {
+    dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const W = innerWidth, H = innerHeight;
+    for (const c of [bg, cvs]) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+    cols = Math.ceil(W / CW); rows = Math.ceil(H / CH);
+    cur = new Float32Array(cols * rows); prev = new Float32Array(cols * rows);
+    glyphOf = new Uint8Array(cols * rows); ambient = new Float32Array(cols * rows);
+    let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+      const i = r * cols + c; glyphOf[i] = (rnd() * GLYPHS.length) | 0;
+      // slow, blobby clusters of faint characters: the resting state of the field
+      const n = Math.sin(c * 0.071 + 1.3) * Math.sin(r * 0.113 + 0.4) + 0.6 * Math.sin(c * 0.031 + r * 0.047 + 2.1);
+      ambient[i] = n > 0.62 && rnd() > 0.35 ? 0.05 + rnd() * 0.07 : 0;
+    }
+    buildAtlas(); paintAmbient(); paint();
+  }
+
+  function step() {
+    let peak = 0;
+    for (let r = 1; r < rows - 1; r++) for (let c = 1; c < cols - 1; c++) {
+      const i = r * cols + c;
+      let n = (cur[i - 1] + cur[i + 1] + cur[i - cols] + cur[i + cols]) * 0.5 - prev[i];
+      n *= DAMP;
+      if (n > -0.01 && n < 0.01) n = 0;
+      prev[i] = n;
+      const m = n < 0 ? -n : n; if (m > peak) peak = m;
+    }
+    const t = cur; cur = prev; prev = t;
+    return peak;
+  }
+
+  function frame(t) {
+    raf = 0;
+    if (t - last >= TICK) {
+      last = t;
+      const peak = step();
+      paint();
+      quiet = peak < FLOOR ? quiet + 1 : 0;
+    }
+    if (down || quiet < 3) raf = requestAnimationFrame(frame);
+  }
+  const wake = () => { if (!raf && !isDark() && !Covered.on) { quiet = 0; raf = requestAnimationFrame(frame); } };
+
+  function drop(x, y, k) {
+    const cx = Math.floor(x / CW), cy = Math.floor(y / CH);
+    for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) {
+      const c = cx + dx, r = cy + dy; if (c < 1 || r < 1 || c >= cols - 1 || r >= rows - 1) continue;
+      const f = 1 - Math.hypot(dx, dy) / 3; if (f <= 0) continue;
+      cur[r * cols + c] += k * f * 0.8;
+    }
+  }
+  const SKIP = 'a, button, input, textarea, select, summary, video, img, canvas, iframe, .fobj, .extra-card, .nav, .topbar, .pgo, .about-overlay, [data-no-water]';
+  // A press on text is a text selection, not a ripple: only empty background starts one.
+  const TEXTY = 'p, h1, h2, h3, h4, h5, h6, li, blockquote, label, figcaption, dt, dd, td, th, pre, code';
+  const hasText = el => [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+
+  addEventListener('pointerdown', e => {
+    if (e.button !== 0 || e.pointerType === 'touch' || isDark() || Covered.on) return;
+    const t = e.target;
+    if (!t.closest || t.closest(SKIP) || t.closest(TEXTY) || hasText(t)) return;
+    down = true; html.classList.add('is-rippling'); lx = e.clientX; ly = e.clientY;
+    drop(lx, ly, 1.2); wake();
+  }, { passive: true });
+  addEventListener('pointermove', e => {
+    if (!down) return;
+    const dx = e.clientX - lx, dy = e.clientY - ly, d = Math.hypot(dx, dy);
+    if (d < 1) return;
+    const n = Math.min(12, Math.ceil(d / (CW * 0.8))), k = 0.35 + Math.min(d, 40) / 40 * 0.65;
+    for (let s = 1; s <= n; s++) drop(lx + dx * s / n, ly + dy * s / n, k * 0.7);
+    lx = e.clientX; ly = e.clientY; wake();
+  }, { passive: true });
+  const up = () => { down = false; html.classList.remove('is-rippling'); };
+  addEventListener('pointerup', up, { passive: true }); addEventListener('pointercancel', up, { passive: true }); addEventListener('blur', up);
+
+  addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(layout, 150); });
+  new MutationObserver(() => { cur.fill(0); prev.fill(0); paintAmbient(); paint(); }).observe(html, { attributes: true, attributeFilter: ['data-theme'] });
+  Covered.onChange(on => { if (on) { cur.fill(0); prev.fill(0); paint(); } });
+  layout();
 })();
 
 // ── Lazy backgrounds ──────────────────────────────────────
